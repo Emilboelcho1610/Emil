@@ -1,5 +1,5 @@
 {%- comment -%}
-  Custom Liquid: Pack + Subscription widget (V7)
+  Custom Liquid: Pack + Subscription widget (V7) - VIBE
   - Uses FORM SUBMISSION (bypasses Appstle)
   - Does NOT clear cart
   - Goes to checkout after adding
@@ -14,7 +14,7 @@
   #appstle_subscription_widget,
   .appstle_sub_widget,
   [id*="appstle"],
-  [class*="appstle"]:not(.bcw-wrap):not(.bcw-wrap *) {
+  [class*="appstle"]:not(.bcw-wrap-vibe):not(.bcw-wrap-vibe *) {
     display: none !important;
     visibility: hidden !important;
     height: 0 !important;
@@ -22,184 +22,193 @@
     pointer-events: none !important;
   }
 
-  :root{ --ink:#0C141B; --brand:#76b82a; --brand-soft:rgba(118,184,42,0.10); --border:rgba(12,20,27,0.14); --muted:rgba(12,20,27,0.62); --bg:#ffffff; --panel:#fbfcfa; --shadow:0 14px 34px rgba(12,20,27,0.10); --radius:16px; }
-  .bcw-wrap, .bcw-wrap *{ box-sizing:border-box; }
-  .bcw-wrap{ font-family:Inter, system-ui, -apple-system, sans-serif; color:var(--ink); margin:18px 0; text-align:left; }
-  .bcw-card{ border:1px solid var(--border); border-radius:var(--radius); background:var(--bg); overflow:hidden; }
-  .bcw-inner{ padding:16px; }
-  .bcw-topline{ display:flex; justify-content:space-between; margin-bottom:14px; }
-  .bcw-title{ font-size:15px; font-weight:850; letter-spacing:0.2px; }
-  .bcw-subtitle{ font-size:12px; color:var(--muted); margin-top:4px; }
+  :root{
+    --ink-vibe:#0C141B;
+    --brand-vibe:#EF7D00;
+    --brand-soft-vibe:rgba(239,125,0,0.10);
+    --border-vibe:rgba(12,20,27,0.14);
+    --muted-vibe:rgba(12,20,27,0.62);
+    --bg-vibe:#ffffff;
+    --panel-vibe:#FFE6CC;
+    --shadow-vibe:0 14px 34px rgba(12,20,27,0.10);
+    --radius-vibe:16px;
+  }
+  .bcw-wrap-vibe, .bcw-wrap-vibe *{ box-sizing:border-box; }
+  .bcw-wrap-vibe{ font-family:Inter, system-ui, -apple-system, sans-serif; color:var(--ink-vibe); margin:18px 0; text-align:left; }
+  .bcw-card-vibe{ border:1px solid var(--border-vibe); border-radius:var(--radius-vibe); background:var(--bg-vibe); overflow:hidden; }
+  .bcw-inner-vibe{ padding:16px; }
+  .bcw-topline-vibe{ display:flex; justify-content:space-between; margin-bottom:14px; }
+  .bcw-title-vibe{ font-size:15px; font-weight:850; letter-spacing:0.2px; }
+  .bcw-subtitle-vibe{ font-size:12px; color:var(--muted-vibe); margin-top:4px; }
 
-  .bcw-packs{ display:grid; grid-template-columns:repeat(2, 1fr); gap:12px; margin-bottom:14px; }
-  .bcw-pack{ border:1px solid rgba(12,20,27,0.14); border-radius:14px; padding:12px; cursor:pointer; background:linear-gradient(180deg, rgba(12,20,27,0.01), rgba(0,0,0,0)); position:relative; }
-  .bcw-pack.is-active{ border:2px solid var(--brand); background:var(--brand-soft); box-shadow:0 14px 28px rgba(118,184,42,0.14); }
-  .bcw-pack-name{ font-weight:950; font-size:16px; }
-  .bcw-pack-sub{ font-size:12px; color:var(--muted); margin-top:4px; }
-  .bcw-pack-per{ margin-top:10px; font-size:12px; font-weight:800; opacity:0.7; }
+  .bcw-packs-vibe{ display:grid; grid-template-columns:repeat(2, 1fr); gap:12px; margin-bottom:14px; }
+  .bcw-pack-vibe{ border:1px solid rgba(12,20,27,0.14); border-radius:14px; padding:12px; cursor:pointer; background:linear-gradient(180deg, rgba(12,20,27,0.01), rgba(0,0,0,0)); position:relative; }
+  .bcw-pack-vibe.is-active{ border:2px solid var(--brand-vibe); background:var(--brand-soft-vibe); box-shadow:0 14px 28px rgba(239,125,0,0.14); }
+  .bcw-pack-name-vibe{ font-weight:950; font-size:16px; }
+  .bcw-pack-sub-vibe{ font-size:12px; color:var(--muted-vibe); margin-top:4px; }
+  .bcw-pack-per-vibe{ margin-top:10px; font-size:12px; font-weight:800; opacity:0.7; }
 
-  .bcw-badge{ position:absolute; top:-10px; right:10px; display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:99px; font-size:11px; font-weight:900; background:var(--brand); color:#fff; box-shadow:0 8px 16px rgba(118,184,42,0.25); }
-  .bcw-badge .dot{ width:8px; height:8px; border-radius:50%; background:#fff; }
+  .bcw-badge-vibe{ position:absolute; top:-10px; right:10px; display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:99px; font-size:11px; font-weight:900; background:var(--brand-vibe); color:#fff; box-shadow:0 8px 16px rgba(239,125,0,0.25); }
+  .bcw-badge-vibe .dot{ width:8px; height:8px; border-radius:50%; background:#fff; }
 
-  .bcw-choice{ border:1px solid rgba(12,20,27,0.14); border-radius:var(--radius); background:var(--panel); padding:12px; }
-  .bcw-row{ background:var(--bg); border:1px solid rgba(12,20,27,0.10); border-radius:14px; padding:14px 14px 14px 46px; position:relative; cursor:pointer; margin-top:12px; }
-  .bcw-row:first-child{ margin-top:0; }
-  .bcw-row.is-selected{ border:2px solid var(--brand); background:var(--brand-soft); }
+  .bcw-choice-vibe{ border:1px solid rgba(12,20,27,0.14); border-radius:var(--radius-vibe); background:var(--panel-vibe); padding:12px; }
+  .bcw-row-vibe{ background:var(--bg-vibe); border:1px solid rgba(12,20,27,0.10); border-radius:14px; padding:14px 14px 14px 46px; position:relative; cursor:pointer; margin-top:12px; }
+  .bcw-row-vibe:first-child{ margin-top:0; }
+  .bcw-row-vibe.is-selected{ border:2px solid var(--brand-vibe); background:var(--brand-soft-vibe); }
 
-  .bcw-radio{ width:18px; height:18px; border-radius:50%; border:2px solid rgba(12,20,27,0.3); position:absolute; left:14px; top:16px; }
-  .bcw-row.is-selected .bcw-radio{ border-color:var(--brand); }
-  .bcw-row.is-selected .bcw-radio:after{ content:""; width:10px; height:10px; border-radius:50%; background:var(--brand); position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); }
+  .bcw-radio-vibe{ width:18px; height:18px; border-radius:50%; border:2px solid rgba(12,20,27,0.3); position:absolute; left:14px; top:16px; }
+  .bcw-row-vibe.is-selected .bcw-radio-vibe{ border-color:var(--brand-vibe); }
+  .bcw-row-vibe.is-selected .bcw-radio-vibe:after{ content:""; width:10px; height:10px; border-radius:50%; background:var(--brand-vibe); position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); }
 
-  .bcw-row-head{ display:grid; grid-template-columns:1fr auto; gap:12px; }
-  .bcw-row-title-wrap{ display:flex; justify-content:space-between; align-items:center; gap:12px; }
-  .bcw-row-title{ font-weight:950; font-size:14px; display:flex; align-items:center; gap:8px; }
-  .bcw-pill{ padding:4px 9px; border-radius:99px; background:var(--brand-soft); border:1px solid rgba(118,184,42,0.3); font-size:11px; font-weight:900; }
-  .bcw-row-sub{ font-size:12px; color:var(--muted); margin-top:4px; }
+  .bcw-row-head-vibe{ display:grid; grid-template-columns:1fr auto; gap:12px; }
+  .bcw-row-title-wrap-vibe{ display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .bcw-row-title-vibe{ font-weight:950; font-size:14px; display:flex; align-items:center; gap:8px; }
+  .bcw-pill-vibe{ padding:4px 9px; border-radius:99px; background:var(--brand-soft-vibe); border:1px solid rgba(239,125,0,0.3); font-size:11px; font-weight:900; }
+  .bcw-row-sub-vibe{ font-size:12px; color:var(--muted-vibe); margin-top:4px; }
 
-  .bcw-price{ margin-top:0; margin-bottom:0; }
-  .bcw-row-title-wrap .bcw-price{ margin-top:0; margin-bottom:0; }
-  .bcw-price-now{ font-size:15px; font-weight:950; }
-  .bcw-price-was{ font-size:12px; text-decoration:line-through; opacity:0.5; margin-right:6px; }
+  .bcw-price-vibe{ margin-top:0; margin-bottom:0; }
+  .bcw-row-title-wrap-vibe .bcw-price-vibe{ margin-top:0; margin-bottom:0; }
+  .bcw-price-now-vibe{ font-size:15px; font-weight:950; }
+  .bcw-price-was-vibe{ font-size:12px; text-decoration:line-through; opacity:0.5; margin-right:6px; }
 
-  .bcw-row-body{ display:none; margin-top:12px; padding-top:12px; border-top:1px solid rgba(0,0,0,0.06); margin-left:-46px; margin-right:-14px; padding-left:46px; padding-right:14px; }
-  .bcw-row.is-selected .bcw-row-body{ display:block; }
+  .bcw-row-body-vibe{ display:none; margin-top:12px; padding-top:12px; border-top:1px solid rgba(0,0,0,0.06); margin-left:-46px; margin-right:-14px; padding-left:46px; padding-right:14px; }
+  .bcw-row-vibe.is-selected .bcw-row-body-vibe{ display:block; }
 
-  .bcw-label{ font-size:13px; font-weight:700; margin-bottom:8px; }
-  .bcw-select{ width:100%; padding:10px; border-radius:10px; border:1px solid #ddd; margin-bottom:12px; font-size:14px; background:#fff; }
-  .bcw-bullets{ list-style:none; padding:0; margin:0; display:grid; gap:8px; }
-  .bcw-bullets li{ display:flex; gap:10px; font-size:12px; opacity:0.8; }
-  .bcw-check img{ width:14px; }
+  .bcw-label-vibe{ font-size:13px; font-weight:700; margin-bottom:8px; }
+  .bcw-select-vibe{ width:100%; padding:10px; border-radius:10px; border:1px solid #ddd; margin-bottom:12px; font-size:14px; background:#fff; }
+  .bcw-bullets-vibe{ list-style:none; padding:0; margin:0; display:grid; gap:8px; }
+  .bcw-bullets-vibe li{ display:flex; gap:10px; font-size:12px; opacity:0.8; }
+  .bcw-check-vibe img{ width:14px; }
 
-  .bcw-cta{ width:100%; border:none; border-radius:14px; background:var(--brand); color:#fff; font-weight:950; text-transform:uppercase; padding:16px; margin-top:14px; cursor:pointer; font-size:14px; }
-  .bcw-cta.is-loading{ opacity:0.7; cursor:wait; }
+  .bcw-cta-vibe{ width:100%; border:none; border-radius:14px; background:var(--brand-vibe); color:#fff; font-weight:950; text-transform:uppercase; padding:16px; margin-top:14px; cursor:pointer; font-size:14px; }
+  .bcw-cta-vibe.is-loading{ opacity:0.7; cursor:wait; }
 
-  .bcw-payments{ margin-top:8px; text-align:center; padding:0 4px; }
-  .bcw-payment-icons{ list-style:none; padding:0; display:flex; justify-content:center; align-items:center; gap:4px; flex-wrap:nowrap; width:100%; }
-  .bcw-payment-icons li{ flex:0 1 auto; display:flex; align-items:center; min-width:0; }
-  .bcw-payment-icons svg{ height:18px; width:auto; max-width:100%; display:block; }
-  .bcw-footnote{ font-size:11px; text-align:center; opacity:0.6; margin-top:10px; line-height:1.5; }
+  .bcw-payments-vibe{ margin-top:8px; text-align:center; padding:0 4px; }
+  .bcw-payment-icons-vibe{ list-style:none; padding:0; display:flex; justify-content:center; align-items:center; gap:4px; flex-wrap:nowrap; width:100%; }
+  .bcw-payment-icons-vibe li{ flex:0 1 auto; display:flex; align-items:center; min-width:0; }
+  .bcw-payment-icons-vibe svg{ height:18px; width:auto; max-width:100%; display:block; }
+  .bcw-footnote-vibe{ font-size:11px; text-align:center; opacity:0.6; margin-top:10px; line-height:1.5; }
 
   /* Debug Panel */
-  .bcw-debug{ background:#1a1a2e; color:#00ff88; font-family:monospace; font-size:11px; padding:12px; margin-top:12px; border-radius:8px; display:none; }
-  .bcw-debug.is-visible{ display:block; }
-  .bcw-debug-title{ color:#ff6b6b; font-weight:bold; margin-bottom:8px; }
-  .bcw-debug-row{ margin:4px 0; }
-  .bcw-debug-label{ color:#feca57; }
-  .bcw-debug-value{ color:#00ff88; }
-  .bcw-debug-toggle{ background:#333; color:#fff; border:none; padding:6px 12px; border-radius:4px; font-size:10px; cursor:pointer; margin-top:8px; }
+  .bcw-debug-vibe{ background:#1a1a2e; color:#00ff88; font-family:monospace; font-size:11px; padding:12px; margin-top:12px; border-radius:8px; display:none; }
+  .bcw-debug-vibe.is-visible{ display:block; }
+  .bcw-debug-title-vibe{ color:#ff6b6b; font-weight:bold; margin-bottom:8px; }
+  .bcw-debug-row-vibe{ margin:4px 0; }
+  .bcw-debug-label-vibe{ color:#feca57; }
+  .bcw-debug-value-vibe{ color:#00ff88; }
 
   /* ============================================ */
   /* MOBILE OPTIMIZATIONS */
   /* ============================================ */
   @media (max-width: 768px) {
     /* Increase overall spacing and padding */
-    .bcw-wrap{ margin:12px 0; }
-    .bcw-inner{ padding:14px; }
+    .bcw-wrap-vibe{ margin:12px 0; }
+    .bcw-inner-vibe{ padding:14px; }
 
     /* Larger, more readable title */
-    .bcw-title{ font-size:17px; line-height:1.3; }
-    .bcw-subtitle{ font-size:13px; line-height:1.4; margin-top:6px; }
-    .bcw-topline{ margin-bottom:16px; }
+    .bcw-title-vibe{ font-size:17px; line-height:1.3; }
+    .bcw-subtitle-vibe{ font-size:13px; line-height:1.4; margin-top:6px; }
+    .bcw-topline-vibe{ margin-bottom:16px; }
 
     /* Improve pack cards for touch */
-    .bcw-packs{ gap:10px; margin-bottom:16px; }
-    .bcw-pack{
+    .bcw-packs-vibe{ gap:10px; margin-bottom:16px; }
+    .bcw-pack-vibe{
       padding:14px 12px 12px;
       min-height:110px;
       display:flex;
       flex-direction:column;
       justify-content:space-between;
     }
-    .bcw-pack-name{ font-size:17px; line-height:1.2; }
-    .bcw-pack-sub{ font-size:13px; margin-top:6px; line-height:1.3; }
-    .bcw-pack-per{ margin-top:12px; font-size:13px; }
+    .bcw-pack-name-vibe{ font-size:17px; line-height:1.2; }
+    .bcw-pack-sub-vibe{ font-size:13px; margin-top:6px; line-height:1.3; }
+    .bcw-pack-per-vibe{ margin-top:12px; font-size:13px; }
 
     /* Better badge positioning */
-    .bcw-badge{
+    .bcw-badge-vibe{
       top:-8px;
       right:8px;
       padding:5px 9px;
       font-size:10px;
     }
-    .bcw-badge .dot{ width:7px; height:7px; }
+    .bcw-badge-vibe .dot{ width:7px; height:7px; }
 
     /* Improve choice section spacing */
-    .bcw-choice{ padding:14px; }
+    .bcw-choice-vibe{ padding:14px; }
 
     /* Better touch targets for rows */
-    .bcw-row{
+    .bcw-row-vibe{
       padding:16px 14px 16px 50px;
       margin-top:14px;
       min-height:64px;
     }
 
     /* Larger radio buttons */
-    .bcw-radio{
+    .bcw-radio-vibe{
       width:20px;
       height:20px;
       left:16px;
       top:20px;
     }
-    .bcw-row.is-selected .bcw-radio:after{
+    .bcw-row-vibe.is-selected .bcw-radio-vibe:after{
       width:12px;
       height:12px;
     }
 
     /* Improve row content layout on mobile */
-    .bcw-row-head{
+    .bcw-row-head-vibe{
       grid-template-columns:1fr;
       gap:8px;
     }
 
-    .bcw-row[data-type="sub"] .bcw-row-head{
+    .bcw-row-vibe[data-type="sub"] .bcw-row-head-vibe{
       display:flex;
       flex-direction:column;
       gap:0;
     }
 
-    .bcw-row[data-type="sub"] .bcw-row-head > div:first-child{
+    .bcw-row-vibe[data-type="sub"] .bcw-row-head-vibe > div:first-child{
       display:contents;
     }
 
-    .bcw-row[data-type="sub"] .bcw-row-head .bcw-row-title{
+    .bcw-row-vibe[data-type="sub"] .bcw-row-head-vibe .bcw-row-title-vibe{
       order:1;
     }
 
-    .bcw-row[data-type="sub"] .bcw-row-head .bcw-price{
+    .bcw-row-vibe[data-type="sub"] .bcw-row-head-vibe .bcw-price-vibe{
       order:2;
     }
 
-    .bcw-row[data-type="sub"] .bcw-row-head .bcw-row-sub{
+    .bcw-row-vibe[data-type="sub"] .bcw-row-head-vibe .bcw-row-sub-vibe{
       order:3;
     }
 
-    .bcw-row-title-wrap{
+    .bcw-row-title-wrap-vibe{
       display:flex;
       justify-content:space-between;
       align-items:center;
       gap:12px;
     }
 
-    .bcw-row-title{
+    .bcw-row-title-vibe{
       font-size:15px;
       flex-wrap:wrap;
       line-height:1.4;
     }
 
-    .bcw-pill{
+    .bcw-pill-vibe{
       padding:5px 10px;
       font-size:11px;
       white-space:nowrap;
     }
 
-    .bcw-row-sub{
+    .bcw-row-sub-vibe{
       font-size:13px;
       margin-top:5px;
       line-height:1.4;
     }
 
     /* Price positioning on mobile */
-    .bcw-row[data-type="sub"] .bcw-price{
+    .bcw-row-vibe[data-type="sub"] .bcw-price-vibe{
       display:flex;
       align-items:baseline;
       gap:8px;
@@ -207,16 +216,16 @@
       margin-bottom:6px;
     }
 
-    .bcw-row-title-wrap .bcw-price{
+    .bcw-row-title-wrap-vibe .bcw-price-vibe{
       margin-top:0;
       margin-bottom:0;
     }
 
-    .bcw-price-now{ font-size:17px; }
-    .bcw-price-was{ font-size:13px; }
+    .bcw-price-now-vibe{ font-size:17px; }
+    .bcw-price-was-vibe{ font-size:13px; }
 
     /* Improve expanded section */
-    .bcw-row-body{
+    .bcw-row-body-vibe{
       margin-top:14px;
       padding-top:14px;
       margin-left:-50px;
@@ -225,14 +234,14 @@
       padding-right:14px;
     }
 
-    .bcw-label{
+    .bcw-label-vibe{
       font-size:14px;
       margin-bottom:10px;
       text-align:left;
     }
 
     /* Better select dropdown for touch */
-    .bcw-select{
+    .bcw-select-vibe{
       padding:14px 12px;
       font-size:15px;
       margin-bottom:14px;
@@ -246,18 +255,18 @@
     }
 
     /* Improve bullet points */
-    .bcw-bullets{ gap:10px; text-align:left; }
-    .bcw-bullets li{
+    .bcw-bullets-vibe{ gap:10px; text-align:left; }
+    .bcw-bullets-vibe li{
       font-size:13px;
       line-height:1.5;
       gap:12px;
       text-align:left;
     }
-    .bcw-check{ flex-shrink:0; }
-    .bcw-check img{ width:16px; height:16px; }
+    .bcw-check-vibe{ flex-shrink:0; }
+    .bcw-check-vibe img{ width:16px; height:16px; }
 
     /* Larger CTA button for better touch target */
-    .bcw-cta{
+    .bcw-cta-vibe{
       padding:18px 16px;
       font-size:15px;
       margin-top:16px;
@@ -266,7 +275,7 @@
     }
 
     /* Better footnote readability */
-    .bcw-footnote{
+    .bcw-footnote-vibe{
       font-size:12px;
       line-height:1.5;
       margin-top:12px;
@@ -277,132 +286,128 @@
     }
 
     /* Improve payment icons */
-    .bcw-payments{ margin-top:10px; }
-    .bcw-payment-icons{ gap:8px; }
-    .bcw-payment-icons svg{ height:22px; }
+    .bcw-payments-vibe{ margin-top:10px; }
+    .bcw-payment-icons-vibe{ gap:8px; }
+    .bcw-payment-icons-vibe svg{ height:22px; }
   }
 
   /* Extra small screens (narrow phones) */
   @media (max-width: 380px) {
-    .bcw-inner{ padding:12px; }
-    .bcw-title{ font-size:16px; }
-    .bcw-pack-name{ font-size:16px; }
-    .bcw-pack-sub{ font-size:12px; }
-    .bcw-badge{ font-size:9px; padding:4px 8px; }
-    .bcw-row{ padding:14px 12px 14px 46px; }
-    .bcw-row-body{
+    .bcw-inner-vibe{ padding:12px; }
+    .bcw-title-vibe{ font-size:16px; }
+    .bcw-pack-name-vibe{ font-size:16px; }
+    .bcw-pack-sub-vibe{ font-size:12px; }
+    .bcw-badge-vibe{ font-size:9px; padding:4px 8px; }
+    .bcw-row-vibe{ padding:14px 12px 14px 46px; }
+    .bcw-row-body-vibe{
       margin-left:-46px;
       margin-right:-12px;
       padding-left:16px;
       padding-right:12px;
     }
-    .bcw-footnote{
+    .bcw-footnote-vibe{
       margin-left:0;
       margin-right:0;
       padding:0;
     }
-    .bcw-row-title{ font-size:14px; }
-    .bcw-price-now{ font-size:16px; }
+    .bcw-row-title-vibe{ font-size:14px; }
+    .bcw-price-now-vibe{ font-size:16px; }
   }
 </style>
 
-<div class="bcw-wrap" data-bcw>
-  <div class="bcw-card">
-    <div class="bcw-inner">
-      <div class="bcw-topline">
+<div class="bcw-wrap-vibe" data-bcw-vibe>
+  <div class="bcw-card-vibe">
+    <div class="bcw-inner-vibe">
+      <div class="bcw-topline-vibe">
         <div>
-          <div class="bcw-title">Wähle dein Paket</div>
-          <div class="bcw-subtitle">Wähle die Größe, dann Abo oder Einzelkauf.</div>
+          <div class="bcw-title-vibe">Wähle dein Paket</div>
+          <div class="bcw-subtitle-vibe">Wähle die Größe, dann Abo oder Einzelkauf.</div>
         </div>
       </div>
 
-      <div class="bcw-packs">
-        <div class="bcw-pack is-active" data-pack="24">
-          <div class="bcw-badge"><span class="dot"></span>Beliebt</div>
-          <div class="bcw-pack-name">24 Dosen</div>
-          <div class="bcw-pack-sub">Perfekter Nachschub</div>
-          <div class="bcw-pack-per" data-per-pack="24">...</div>
+      <div class="bcw-packs-vibe">
+        <div class="bcw-pack-vibe is-active" data-pack="24">
+          <div class="bcw-badge-vibe"><span class="dot"></span>Beliebt</div>
+          <div class="bcw-pack-name-vibe">24 Dosen</div>
+          <div class="bcw-pack-sub-vibe">Perfekter Nachschub</div>
+          <div class="bcw-pack-per-vibe" data-per-pack="24">...</div>
         </div>
-        <div class="bcw-pack" data-pack="36">
-          <div class="bcw-badge"><span class="dot"></span>Bester Preis</div>
-          <div class="bcw-pack-name">36 Dosen</div>
-          <div class="bcw-pack-sub">Günstiger pro Dose</div>
-          <div class="bcw-pack-per" data-per-pack="36">...</div>
+        <div class="bcw-pack-vibe" data-pack="36">
+          <div class="bcw-badge-vibe"><span class="dot"></span>Bester Preis</div>
+          <div class="bcw-pack-name-vibe">36 Dosen</div>
+          <div class="bcw-pack-sub-vibe">Günstiger pro Dose</div>
+          <div class="bcw-pack-per-vibe" data-per-pack="36">...</div>
         </div>
       </div>
 
-      <div class="bcw-choice">
-        <div class="bcw-row is-selected" data-type="sub">
-          <span class="bcw-radio"></span>
-          <div class="bcw-row-head">
+      <div class="bcw-choice-vibe">
+        <div class="bcw-row-vibe is-selected" data-type="sub">
+          <span class="bcw-radio-vibe"></span>
+          <div class="bcw-row-head-vibe">
             <div>
-              <div class="bcw-row-title">Abonnieren <span class="bcw-pill" data-save-pill>Sparen</span></div>
-              <div class="bcw-row-sub">Automatische Lieferung. Jederzeit pausieren.</div>
+              <div class="bcw-row-title-vibe">Abonnieren <span class="bcw-pill-vibe" data-save-pill>Sparen</span></div>
+              <div class="bcw-row-sub-vibe">Automatische Lieferung. Jederzeit pausieren.</div>
             </div>
-            <div class="bcw-price">
-              <span class="bcw-price-was" data-sub-was>...</span>
-              <span class="bcw-price-now" data-sub-now>...</span>
+            <div class="bcw-price-vibe">
+              <span class="bcw-price-was-vibe" data-sub-was>...</span>
+              <span class="bcw-price-now-vibe" data-sub-now>...</span>
             </div>
           </div>
-          <div class="bcw-row-body">
-            <div class="bcw-label">Lieferintervall</div>
-            <select class="bcw-select" data-freq>
+          <div class="bcw-row-body-vibe">
+            <div class="bcw-label-vibe">Lieferintervall</div>
+            <select class="bcw-select-vibe" data-freq>
               <option value="2">Alle 2 Wochen</option>
               <option value="4" selected>Alle 4 Wochen</option>
               <option value="6">Alle 6 Wochen</option>
               <option value="8">Alle 8 Wochen</option>
             </select>
-            <ul class="bcw-bullets" data-bullets></ul>
-            <div class="bcw-footnote" data-renew-note></div>
+            <ul class="bcw-bullets-vibe" data-bullets></ul>
+            <div class="bcw-footnote-vibe" data-renew-note></div>
           </div>
         </div>
 
-        <div class="bcw-row" data-type="otp">
-          <span class="bcw-radio"></span>
-          <div class="bcw-row-head">
+        <div class="bcw-row-vibe" data-type="otp">
+          <span class="bcw-radio-vibe"></span>
+          <div class="bcw-row-head-vibe">
             <div>
-              <div class="bcw-row-title-wrap">
-                <div class="bcw-row-title">Einmaliger Kauf</div>
-                <div class="bcw-price">
-                  <span class="bcw-price-now" data-otp-now>...</span>
+              <div class="bcw-row-title-wrap-vibe">
+                <div class="bcw-row-title-vibe">Einmaliger Kauf</div>
+                <div class="bcw-price-vibe">
+                  <span class="bcw-price-now-vibe" data-otp-now>...</span>
                 </div>
               </div>
-              <div class="bcw-row-sub">Einmalzahlung. Kein Abo.</div>
+              <div class="bcw-row-sub-vibe">Einmalzahlung. Kein Abo.</div>
             </div>
           </div>
-          <div class="bcw-row-body">
-            <ul class="bcw-bullets">
-              <li><span class="bcw-check"><img src="https://cdn.shopify.com/s/files/1/0904/7215/3424/files/Icons_1.png?v=1768136915"></span>Einmal bestellen, direkt geliefert</li>
-              <li><span class="bcw-check"><img src="https://cdn.shopify.com/s/files/1/0904/7215/3424/files/Icons_1.png?v=1768136915"></span>Ideal zum Testen</li>
+          <div class="bcw-row-body-vibe">
+            <ul class="bcw-bullets-vibe">
+              <li><span class="bcw-check-vibe"><img src="https://cdn.shopify.com/s/files/1/0904/7215/3424/files/Icons_1.png?v=1768136915"></span>Einmal bestellen, direkt geliefert</li>
+              <li><span class="bcw-check-vibe"><img src="https://cdn.shopify.com/s/files/1/0904/7215/3424/files/Icons_1.png?v=1768136915"></span>Ideal zum Testen</li>
             </ul>
           </div>
         </div>
 
-        <!-- HIDDEN FORM - Bypasses Appstle JavaScript completely -->
-        <form id="bcw-cart-form" action="/cart/add" method="POST" style="display:none !important;">
-          <input type="hidden" name="id" id="bcw-form-id" value="">
+        <form id="bcw-cart-form-vibe" action="/cart/add" method="POST" style="display:none !important;">
+          <input type="hidden" name="id" id="bcw-form-id-vibe" value="">
           <input type="hidden" name="quantity" value="1">
-          <input type="hidden" name="selling_plan" id="bcw-form-plan" value="">
+          <input type="hidden" name="selling_plan" id="bcw-form-plan-vibe" value="">
           <input type="hidden" name="return_to" value="/checkout">
         </form>
 
-        <button class="bcw-cta" type="button" data-cta>In den Warenkorb</button>
+        <button class="bcw-cta-vibe" type="button" data-cta>In den Warenkorb</button>
 
-
-
-        <!-- Debug Panel -->
-        <div class="bcw-debug" data-debug>
-          <div class="bcw-debug-title">🔍 DEBUG INFO (V7 - Form Submit, No Clear)</div>
-          <div class="bcw-debug-row"><span class="bcw-debug-label">Pack:</span> <span class="bcw-debug-value" data-debug-pack>-</span></div>
-          <div class="bcw-debug-row"><span class="bcw-debug-label">Type:</span> <span class="bcw-debug-value" data-debug-type>-</span></div>
-          <div class="bcw-debug-row"><span class="bcw-debug-label">Freq:</span> <span class="bcw-debug-value" data-debug-freq>-</span></div>
-          <div class="bcw-debug-row"><span class="bcw-debug-label">Variant ID:</span> <span class="bcw-debug-value" data-debug-variant>-</span></div>
-          <div class="bcw-debug-row"><span class="bcw-debug-label">Selling Plan ID:</span> <span class="bcw-debug-value" data-debug-plan>-</span></div>
-          <div class="bcw-debug-row"><span class="bcw-debug-label">Plan Name:</span> <span class="bcw-debug-value" data-debug-name>-</span></div>
+        <div class="bcw-debug-vibe" data-debug>
+          <div class="bcw-debug-title-vibe">🔍 DEBUG INFO (V7 VIBE - Form Submit, No Clear)</div>
+          <div class="bcw-debug-row-vibe"><span class="bcw-debug-label-vibe">Pack:</span> <span class="bcw-debug-value-vibe" data-debug-pack>-</span></div>
+          <div class="bcw-debug-row-vibe"><span class="bcw-debug-label-vibe">Type:</span> <span class="bcw-debug-value-vibe" data-debug-type>-</span></div>
+          <div class="bcw-debug-row-vibe"><span class="bcw-debug-label-vibe">Freq:</span> <span class="bcw-debug-value-vibe" data-debug-freq>-</span></div>
+          <div class="bcw-debug-row-vibe"><span class="bcw-debug-label-vibe">Variant ID:</span> <span class="bcw-debug-value-vibe" data-debug-variant>-</span></div>
+          <div class="bcw-debug-row-vibe"><span class="bcw-debug-label-vibe">Selling Plan ID:</span> <span class="bcw-debug-value-vibe" data-debug-plan>-</span></div>
+          <div class="bcw-debug-row-vibe"><span class="bcw-debug-label-vibe">Plan Name:</span> <span class="bcw-debug-value-vibe" data-debug-name>-</span></div>
         </div>
 
-        <div class="bcw-payments">
-          <ul class="bcw-payment-icons">
+        <div class="bcw-payments-vibe">
+          <ul class="bcw-payment-icons-vibe">
             {% for type in shop.enabled_payment_types %}
               {% unless 'unionpay,american_express,shop_pay' contains type %}
                 <li class="bcw-payment-icon">{{ type | payment_type_svg_tag }}</li>
@@ -417,7 +422,7 @@
 
 <script>
 (function(){
-  var root = document.querySelector('[data-bcw]');
+  var root = document.querySelector('[data-bcw-vibe]');
   if(!root) return;
 
   function isEnglishPath(){
@@ -430,35 +435,27 @@
       return {
         title: "Choose your pack",
         subtitle: "Pick the size, then subscription or one-time purchase.",
-
         badgePopular: "Popular",
         badgeBest: "Best value",
-
         pack24Name: "24 cans",
         pack24Sub: "Perfect restock",
         pack36Name: "36 cans",
         pack36Sub: "Lower cost per can",
-
         subTitle: "Subscribe",
         subPillPrefix: "Save ",
         subPillFallback: "Save",
         subSub: "Automatic delivery. Pause anytime.",
         intervalLabel: "Delivery interval",
-
         opt2: "Every 2 weeks",
         opt4: "Every 4 weeks",
         opt6: "Every 6 weeks",
         opt8: "Every 8 weeks",
-
         otpTitle: "One-time purchase",
         otpSub: "One payment. No subscription.",
         otpBullet1: "Order once, delivered to your door",
         otpBullet2: "Great for trying it out",
-
         ctaAdd: "Add to cart",
-
         perCan: "€ per can",
-
         bulletSaveA: "Save ",
         bulletSaveB: "% (",
         bulletSaveC: ") per delivery",
@@ -466,24 +463,18 @@
         bulletFreqB: " weeks)",
         bulletShip: "Free shipping",
         bulletCancel: "Pause or cancel anytime",
-
         renewNote: "You can manage your subscription in your account after purchase.",
-
         btnSubA: "Add to cart · ",
         btnSubB: " (Every ",
         btnSubC: " weeks)",
         btnOtpA: "Add to cart · ",
-
         processing: "Processing...",
-
         alertNoForm: "Error: form not found",
-
         debugPackSuffix: " cans",
         debugTypeSub: "Subscription",
         debugTypeOtp: "One-time",
         debugFreqSuffix: " weeks",
         debugPlanNameOtp: "One-time purchase",
-
         plan24_2: "24-pack - Every 2 weeks",
         plan24_4: "24-pack - Every 4 weeks",
         plan24_6: "24-pack - Every 6 weeks",
@@ -491,45 +482,34 @@
         plan36_2: "36-pack - Every 2 weeks",
         plan36_4: "36-pack - Every 4 weeks",
         plan36_6: "36-pack - Every 6 weeks",
-        plan36_8: "36-pack - Every 8 weeks",
-
-        debugShow: "🔧 Show debug",
-        debugHide: "🔧 Hide debug"
+        plan36_8: "36-pack - Every 8 weeks"
       };
     }
 
     return {
       title: "Wähle dein Paket",
       subtitle: "Wähle die Größe, dann Abo oder Einzelkauf.",
-
       badgePopular: "Beliebt",
       badgeBest: "Bester Preis",
-
       pack24Name: "24 Dosen",
       pack24Sub: "Perfekter Nachschub",
       pack36Name: "36 Dosen",
       pack36Sub: "Günstiger pro Dose",
-
       subTitle: "Abonnieren",
       subPillPrefix: "Spare ",
       subPillFallback: "Sparen",
       subSub: "Automatische Lieferung. Jederzeit pausieren.",
       intervalLabel: "Lieferintervall",
-
       opt2: "Alle 2 Wochen",
       opt4: "Alle 4 Wochen",
       opt6: "Alle 6 Wochen",
       opt8: "Alle 8 Wochen",
-
       otpTitle: "Einmaliger Kauf",
       otpSub: "Einmalzahlung. Kein Abo.",
       otpBullet1: "Einmal bestellen, direkt geliefert",
       otpBullet2: "Ideal zum Testen",
-
       ctaAdd: "In den Warenkorb",
-
       perCan: "€ pro Dose",
-
       bulletSaveA: "Spare ",
       bulletSaveB: "% (",
       bulletSaveC: ") pro Lieferung",
@@ -537,24 +517,18 @@
       bulletFreqB: " Wochen)",
       bulletShip: "Kostenloser Versand",
       bulletCancel: "Jederzeit pausieren oder kündigen",
-
       renewNote: "Du kannst dein Abo nach dem Kauf im Konto verwalten.",
-
       btnSubA: "In den Warenkorb · ",
       btnSubB: " (Alle ",
       btnSubC: " Wochen)",
       btnOtpA: "In den Warenkorb · ",
-
       processing: "Verarbeite...",
-
       alertNoForm: "Fehler: Formular nicht gefunden",
-
       debugPackSuffix: " Dosen",
       debugTypeSub: "Abo",
       debugTypeOtp: "Einmalkauf",
       debugFreqSuffix: " Wochen",
       debugPlanNameOtp: "Einmalkauf",
-
       plan24_2: "24er - Alle 2 Wochen",
       plan24_4: "24er - Alle 4 Wochen",
       plan24_6: "24er - Alle 6 Wochen",
@@ -562,42 +536,20 @@
       plan36_2: "36er - Alle 2 Wochen",
       plan36_4: "36er - Alle 4 Wochen",
       plan36_6: "36er - Alle 6 Wochen",
-      plan36_8: "36er - Alle 8 Wochen",
-
-      debugShow: "🔧 Debug anzeigen",
-      debugHide: "🔧 Debug ausblenden"
+      plan36_8: "36er - Alle 8 Wochen"
     };
   }
 
   var CONFIG = {
     currency: " €",
-
     variants: {
-      otp: {
-        24: 52558361755984,
-        36: 52558361788752
-      },
-      sub: {
-        24: 52558399635792,
-        36: 52518882640208
-      }
+      otp: { 24: 52518865994064, 36: 52518866026832 },
+      sub: { 24: 52518865994064, 36: 52518866026832 }
     },
-
     sellingPlans: {
-      24: {
-        2: 689905729872,
-        4: 689905762640,
-        6: 689905795408,
-        8: 689905828176
-      },
-      36: {
-        2: 689905860944,
-        4: 689905893712,
-        6: 689905926480,
-        8: 689905959248
-      }
+      24: { 2: 689905729872, 4: 689905762640, 6: 689905795408, 8: 689905828176 },
+      36: { 2: 689905860944, 4: 689905893712, 6: 689905926480, 8: 689905959248 }
     },
-
     sellingPlanNames: {
       689905729872: '24er - Alle 2 Wochen',
       689905762640: '24er - Alle 4 Wochen',
@@ -608,7 +560,6 @@
       689905926480: '36er - Alle 6 Wochen',
       689905959248: '36er - Alle 8 Wochen'
     },
-
     pricing: {
       otp: { 24: 6490, 36: 8990 },
       sub: {
@@ -620,20 +571,16 @@
 
   function applyStaticText(){
     var L = t();
-
-    var title = root.querySelector('.bcw-title');
+    var title = root.querySelector('.bcw-title-vibe');
     if(title) title.textContent = L.title;
-
-    var subtitle = root.querySelector('.bcw-subtitle');
+    var subtitle = root.querySelector('.bcw-subtitle-vibe');
     if(subtitle) subtitle.textContent = L.subtitle;
-
-    var packs = root.querySelectorAll('.bcw-pack');
+    var packs = root.querySelectorAll('.bcw-pack-vibe');
     packs.forEach(function(packEl){
       var p = Number(packEl.getAttribute('data-pack'));
-      var badge = packEl.querySelector('.bcw-badge');
-      var name = packEl.querySelector('.bcw-pack-name');
-      var sub = packEl.querySelector('.bcw-pack-sub');
-
+      var badge = packEl.querySelector('.bcw-badge-vibe');
+      var name = packEl.querySelector('.bcw-pack-name-vibe');
+      var sub = packEl.querySelector('.bcw-pack-sub-vibe');
       if(p === 24){
         if(badge) badge.innerHTML = '<span class="dot"></span>' + L.badgePopular;
         if(name) name.textContent = L.pack24Name;
@@ -645,19 +592,15 @@
         if(sub) sub.textContent = L.pack36Sub;
       }
     });
-
-    var subTitle = root.querySelector('.bcw-row[data-type="sub"] .bcw-row-title');
+    var subTitle = root.querySelector('.bcw-row-vibe[data-type="sub"] .bcw-row-title-vibe');
     if(subTitle){
-      var pillHtml = '<span class="bcw-pill" data-save-pill>' + L.subPillFallback + '</span>';
+      var pillHtml = '<span class="bcw-pill-vibe" data-save-pill>' + L.subPillFallback + '</span>';
       subTitle.innerHTML = L.subTitle + ' ' + pillHtml;
     }
-
-    var subSub = root.querySelector('.bcw-row[data-type="sub"] .bcw-row-sub');
+    var subSub = root.querySelector('.bcw-row-vibe[data-type="sub"] .bcw-row-sub-vibe');
     if(subSub) subSub.textContent = L.subSub;
-
-    var label = root.querySelector('.bcw-label');
+    var label = root.querySelector('.bcw-label-vibe');
     if(label) label.textContent = L.intervalLabel;
-
     var sel = root.querySelector('[data-freq]');
     if(sel){
       var opt2 = sel.querySelector('option[value="2"]');
@@ -669,24 +612,19 @@
       if(opt6) opt6.textContent = L.opt6;
       if(opt8) opt8.textContent = L.opt8;
     }
-
-    var otpTitle = root.querySelector('.bcw-row[data-type="otp"] .bcw-row-title');
+    var otpTitle = root.querySelector('.bcw-row-vibe[data-type="otp"] .bcw-row-title-vibe');
     if(otpTitle) otpTitle.textContent = L.otpTitle;
-
-    var otpSub = root.querySelector('.bcw-row[data-type="otp"] .bcw-row-sub');
+    var otpSub = root.querySelector('.bcw-row-vibe[data-type="otp"] .bcw-row-sub-vibe');
     if(otpSub) otpSub.textContent = L.otpSub;
-
-    var otpLis = root.querySelectorAll('.bcw-row[data-type="otp"] .bcw-row-body .bcw-bullets li');
+    var otpLis = root.querySelectorAll('.bcw-row-vibe[data-type="otp"] .bcw-row-body-vibe .bcw-bullets-vibe li');
     if(otpLis && otpLis.length >= 2){
       var li1Text = otpLis[0].childNodes[otpLis[0].childNodes.length - 1];
       var li2Text = otpLis[1].childNodes[otpLis[1].childNodes.length - 1];
       if(li1Text) li1Text.nodeValue = L.otpBullet1;
       if(li2Text) li2Text.nodeValue = L.otpBullet2;
     }
-
     var cta = root.querySelector('[data-cta]');
     if(cta) cta.textContent = L.ctaAdd;
-
     CONFIG.sellingPlanNames = {
       689905729872: L.plan24_2,
       689905762640: L.plan24_4,
@@ -700,17 +638,13 @@
   }
 
   applyStaticText();
-
   var state = { pack: 24, type: "sub", freq: 4 };
 
-  function formatMoney(c){
-    return (c/100).toFixed(2).replace('.',',') + CONFIG.currency;
-  }
+  function formatMoney(c){ return (c/100).toFixed(2).replace('.',',') + CONFIG.currency; }
 
   function updateDebug(){
     var L = t();
     var variantId, planId, planName;
-
     if(state.type === 'sub'){
       variantId = CONFIG.variants.sub[state.pack];
       planId = CONFIG.sellingPlans[state.pack][state.freq];
@@ -720,50 +654,40 @@
       planId = '';
       planName = L.debugPlanNameOtp;
     }
-
     var elPack = root.querySelector('[data-debug-pack]');
     var elType = root.querySelector('[data-debug-type]');
     var elFreq = root.querySelector('[data-debug-freq]');
     var elVariant = root.querySelector('[data-debug-variant]');
     var elPlan = root.querySelector('[data-debug-plan]');
     var elName = root.querySelector('[data-debug-name]');
-
     if(elPack) elPack.textContent = state.pack + L.debugPackSuffix;
     if(elType) elType.textContent = state.type === 'sub' ? L.debugTypeSub : L.debugTypeOtp;
     if(elFreq) elFreq.textContent = state.type === 'sub' ? state.freq + L.debugFreqSuffix : '-';
     if(elVariant) elVariant.textContent = variantId;
     if(elPlan) elPlan.textContent = planId || 'N/A';
     if(elName) elName.textContent = planName;
-
-    var formId = document.getElementById('bcw-form-id');
-    var formPlan = document.getElementById('bcw-form-plan');
-
+    var formId = document.getElementById('bcw-form-id-vibe');
+    var formPlan = document.getElementById('bcw-form-plan-vibe');
     if(formId) formId.value = variantId;
     if(formPlan) formPlan.value = planId || '';
   }
 
   function render(){
     var L = t();
-
-    root.querySelectorAll('.bcw-pack').forEach(function(el){
+    root.querySelectorAll('.bcw-pack-vibe').forEach(function(el){
       el.classList.toggle('is-active', Number(el.getAttribute('data-pack')) === state.pack);
     });
-
-    root.querySelectorAll('.bcw-row').forEach(function(el){
+    root.querySelectorAll('.bcw-row-vibe').forEach(function(el){
       el.classList.toggle('is-selected', el.getAttribute('data-type') === state.type);
     });
-
     var subP = CONFIG.pricing.sub[state.pack][state.freq];
     var otpP = CONFIG.pricing.otp[state.pack];
-
     var elSubNow = root.querySelector('[data-sub-now]');
     var elSubWas = root.querySelector('[data-sub-was]');
     var elOtpNow = root.querySelector('[data-otp-now]');
-
     if(elSubNow) elSubNow.textContent = formatMoney(subP);
     if(elSubWas) elSubWas.textContent = formatMoney(otpP);
     if(elOtpNow) elOtpNow.textContent = formatMoney(otpP);
-
     [24,36].forEach(function(p){
       var el = root.querySelector('[data-per-pack="'+p+'"]');
       if(el) {
@@ -771,7 +695,6 @@
         el.textContent = (cost/100/p).toFixed(2).replace('.',',') + " " + L.perCan;
       }
     });
-
     var ul = root.querySelector('[data-bullets]');
     if(ul){
       var savePct = Math.round((1 - (subP/otpP)) * 100);
@@ -782,16 +705,13 @@
         L.bulletShip,
         L.bulletCancel
       ].map(function(txt){
-        return '<li><span class="bcw-check"><img src="https://cdn.shopify.com/s/files/1/0904/7215/3424/files/Icons_1.png?v=1768136915"></span>'+txt+'</li>';
+        return '<li><span class="bcw-check-vibe"><img src="https://cdn.shopify.com/s/files/1/0904/7215/3424/files/Icons_1.png?v=1768136915"></span>'+txt+'</li>';
       }).join('');
-
       var pill = root.querySelector('[data-save-pill]');
       if(pill) pill.textContent = L.subPillPrefix + savePct + "%";
-
       var note = root.querySelector('[data-renew-note]');
       if(note) note.textContent = L.renewNote;
     }
-
     var btn = root.querySelector('[data-cta]');
     if(btn){
       if(state.type === 'sub') {
@@ -800,21 +720,17 @@
         btn.textContent = L.btnOtpA + formatMoney(otpP);
       }
     }
-
     updateDebug();
   }
 
   function add(){
     var L = t();
-
     var btn = root.querySelector('[data-cta]');
     if(btn) {
        btn.classList.add('is-loading');
        btn.textContent = L.processing;
     }
-
     var vid, planId;
-
     if(state.type === 'sub'){
       vid = CONFIG.variants.sub[state.pack];
       planId = CONFIG.sellingPlans[state.pack][state.freq];
@@ -822,21 +738,17 @@
       vid = CONFIG.variants.otp[state.pack];
       planId = null;
     }
-
-    console.log('%c=== BCW V7: FORM SUBMIT (NO CLEAR) ===', 'background:#76b82a;color:#fff;padding:4px 8px;font-weight:bold;');
+    console.log('%c=== BCW V7 VIBE: FORM SUBMIT (NO CLEAR) ===', 'background:#EF7D00;color:#fff;padding:4px 8px;font-weight:bold;');
     console.log('Pack:', state.pack);
     console.log('Type:', state.type);
     console.log('Freq:', state.freq);
     console.log('Variant ID:', vid);
     console.log('Selling Plan ID:', planId);
     console.log('Plan Name:', planId ? CONFIG.sellingPlanNames[planId] : 'N/A');
-
-    var formId = document.getElementById('bcw-form-id');
-    var formPlan = document.getElementById('bcw-form-plan');
-    var form = document.getElementById('bcw-cart-form');
-
+    var formId = document.getElementById('bcw-form-id-vibe');
+    var formPlan = document.getElementById('bcw-form-plan-vibe');
+    var form = document.getElementById('bcw-cart-form-vibe');
     if(formId) formId.value = vid;
-
     if(formPlan) {
       if(planId) {
         formPlan.value = planId;
@@ -848,9 +760,7 @@
         formPlan.removeAttribute('name');
       }
     }
-
     console.log('Form values - ID:', formId.value, '| Plan:', formPlan.value, '| Plan disabled:', formPlan.disabled);
-
     if(form) {
       form.submit();
     } else {
@@ -863,7 +773,7 @@
     }
   }
 
-  root.querySelectorAll('.bcw-pack').forEach(function(el){
+  root.querySelectorAll('.bcw-pack-vibe').forEach(function(el){
     el.addEventListener('click', function(e){
       e.preventDefault();
       e.stopPropagation();
@@ -871,8 +781,7 @@
       render();
     });
   });
-
-  root.querySelectorAll('.bcw-row').forEach(function(el){
+  root.querySelectorAll('.bcw-row-vibe').forEach(function(el){
     el.addEventListener('click', function(e){
       e.preventDefault();
       e.stopPropagation();
@@ -880,7 +789,6 @@
       render();
     });
   });
-
   var sel = root.querySelector('[data-freq]');
   if(sel) {
     sel.addEventListener('change', function(e){
@@ -892,7 +800,6 @@
       e.stopPropagation();
     });
   }
-
   var ctaBtn = root.querySelector('[data-cta]');
   if(ctaBtn) {
     ctaBtn.addEventListener('click', function(e){
@@ -902,28 +809,13 @@
       add();
     }, true);
   }
-
-  var debugToggle = root.querySelector('[data-debug-toggle]');
-  var debugPanel = root.querySelector('[data-debug]');
-  if(debugToggle && debugPanel){
-    debugToggle.addEventListener('click', function(e){
-      var L = t();
-      e.preventDefault();
-      e.stopPropagation();
-      debugPanel.classList.toggle('is-visible');
-      debugToggle.textContent = debugPanel.classList.contains('is-visible') ? L.debugHide : L.debugShow;
-    });
-  }
-
   if(window.getCurrentSellingPlanId) {
     window.getCurrentSellingPlanId = function(){ return ''; };
   }
   if(window.appstleSelectedSellingPlan) {
     window.appstleSelectedSellingPlan = null;
   }
-
   render();
-
-  console.log('%c=== BCW WIDGET V7 LOADED ===', 'background:#76b82a;color:#fff;padding:4px 8px;font-weight:bold;');
+  console.log('%c=== BCW WIDGET V7 VIBE LOADED ===', 'background:#EF7D00;color:#fff;padding:4px 8px;font-weight:bold;');
 })();
 </script>
