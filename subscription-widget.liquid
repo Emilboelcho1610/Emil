@@ -152,7 +152,25 @@
     }
 
     .bcw-row[data-type="sub"] .bcw-row-head{
-      display:block;
+      display:flex;
+      flex-direction:column;
+      gap:0;
+    }
+
+    .bcw-row[data-type="sub"] .bcw-row-head > div:first-child{
+      display:contents;
+    }
+
+    .bcw-row[data-type="sub"] .bcw-row-head .bcw-row-title{
+      order:1;
+    }
+
+    .bcw-row[data-type="sub"] .bcw-row-head .bcw-price{
+      order:2;
+    }
+
+    .bcw-row[data-type="sub"] .bcw-row-head .bcw-row-sub{
+      order:3;
     }
 
     .bcw-row-title-wrap{
