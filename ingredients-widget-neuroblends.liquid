@@ -1,64 +1,73 @@
 <style>
 /* === Container === */
-.nutri-widget-container {
+.nutri-widget-nb {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   max-width: 900px;
   margin: 0 auto;
   padding: 0;
   box-sizing: border-box;
 }
-.nutri-widget-container *,
-.nutri-widget-container *::before,
-.nutri-widget-container *::after {
+.nutri-widget-nb *,
+.nutri-widget-nb *::before,
+.nutri-widget-nb *::after {
   box-sizing: border-box;
 }
 
 /* === CSS Variables for Dynamic Theming === */
 :root {
-  --nutri-brand: #e68917;
-  --nutri-soft: rgba(230,137,23,0.10);
-  --nutri-panel: #FFF3E0;
-  --nutri-ink: #0C141B;
-  --nutri-muted: rgba(12,20,27,0.62);
-  --nutri-border: rgba(12,20,27,0.14);
+  --nutri-brand-nb: #e68917;
+  --nutri-soft-nb: rgba(230,137,23,0.10);
+  --nutri-panel-nb: #FFF3E0;
+  --nutri-ink-nb: #0C141B;
+  --nutri-muted-nb: rgba(12,20,27,0.62);
+  --nutri-border-nb: rgba(12,20,27,0.14);
 }
 
-/* === Dropdown === */
-.nutri-variant-selector {
-  margin-bottom: 24px;
+/* === Tabs === */
+.nutri-tabs-nb {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  margin-bottom: 0;
+  border: 1px solid var(--nutri-border-nb);
+  border-radius: 16px 16px 0 0;
+  overflow: hidden;
 }
-.nutri-variant-dropdown {
-  width: 100%;
-  padding: 14px 18px;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--nutri-ink);
-  background-color: #fff;
-  border: 2px solid var(--nutri-border);
-  border-radius: 12px;
+.nutri-tab-nb {
+  background-color: #f5f5f5;
+  border: none;
+  border-right: 1px solid var(--nutri-border-nb);
+  padding: 16px 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--nutri-muted-nb);
   cursor: pointer;
   transition: all 0.2s ease;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg width='14' height='8' viewBox='0 0 14 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%230C141B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 18px center;
-  padding-right: 50px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
-.nutri-variant-dropdown:hover {
-  border-color: var(--nutri-brand);
-  background-color: var(--nutri-soft);
+.nutri-tab-nb:last-child {
+  border-right: none;
 }
-.nutri-variant-dropdown:focus {
-  outline: none;
-  border-color: var(--nutri-brand);
-  box-shadow: 0 0 0 3px var(--nutri-soft);
+.nutri-tab-nb:hover {
+  background-color: var(--nutri-soft-nb);
+  color: var(--nutri-brand-nb);
+}
+.nutri-tab-nb.active {
+  background-color: var(--nutri-brand-nb);
+  color: #fff;
 }
 
 /* === Content Area === */
-.nutri-content-area {
+.nutri-content-nb {
   display: none;
+  border: 1px solid var(--nutri-border-nb);
+  border-top: none;
+  border-radius: 0 0 16px 16px;
+  background: #fff;
 }
-.nutri-content-area.active {
+.nutri-content-nb.active {
   display: block;
   animation: fadeInNutri 0.3s ease;
 }
@@ -66,159 +75,396 @@
 @keyframes fadeInNutri {
   from {
     opacity: 0;
-    transform: translateY(10px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
-/* === Section === */
-.nutri-section {
-  background: #fff;
-  border: 1px solid var(--nutri-border);
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 20px;
+/* === Collapsible Sections === */
+.nutri-section-nb {
+  border-bottom: 1px solid var(--nutri-border-nb);
 }
-.nutri-section-title {
-  font-size: 18px;
+.nutri-section-nb:last-child {
+  border-bottom: none;
+}
+.nutri-section-nb summary {
+  padding: 18px 20px;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-weight: 700;
-  color: var(--nutri-ink);
-  margin: 0 0 16px 0;
+  font-size: 15px;
+  color: var(--nutri-ink-nb);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  transition: background-color 0.2s ease;
+}
+.nutri-section-nb summary::-webkit-details-marker {
+  display: none;
+}
+.nutri-section-nb summary:hover {
+  background-color: var(--nutri-soft-nb);
+}
+.nutri-section-nb[open] summary {
+  background-color: var(--nutri-panel-nb);
+  border-bottom: 1px solid var(--nutri-border-nb);
+}
+.nutri-section-header-nb {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  flex-wrap: wrap;
 }
-
-/* === Badges === */
-.nutri-badge-small {
+.nutri-section-badges-nb {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.nutri-badge-nb {
   display: inline-block;
-  background: var(--nutri-brand);
-  color: #fff;
+  background: var(--nutri-panel-nb);
+  color: var(--nutri-brand-nb);
   font-size: 11px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  padding: 4px 10px;
+  text-transform: none;
+  letter-spacing: 0.3px;
+  padding: 5px 10px;
   border-radius: 6px;
+  border: 1px solid var(--nutri-brand-nb);
+}
+.nutri-chevron-nb {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s ease;
+  stroke: var(--nutri-ink-nb);
+  flex-shrink: 0;
+}
+.nutri-section-nb[open] .nutri-chevron-nb {
+  transform: rotate(180deg);
+}
+
+/* === Section Content === */
+.nutri-section-content-nb {
+  padding: 20px;
 }
 
 /* === Text === */
-.nutri-text {
+.nutri-text-nb {
   font-size: 15px;
   line-height: 1.6;
-  color: var(--nutri-ink);
+  color: var(--nutri-ink-nb);
   margin: 0 0 12px 0;
 }
-.nutri-text:last-child {
+.nutri-text-nb:last-child {
   margin-bottom: 0;
 }
-.nutri-text strong {
+.nutri-text-nb strong {
   font-weight: 600;
 }
 
 /* === Notice === */
-.nutri-notice {
-  background: var(--nutri-panel);
-  border-left: 4px solid var(--nutri-brand);
-  padding: 16px;
+.nutri-notice-nb {
+  background: var(--nutri-panel-nb);
+  border-left: 4px solid var(--nutri-brand-nb);
+  padding: 14px;
   border-radius: 8px;
   font-size: 14px;
   line-height: 1.5;
-  color: var(--nutri-ink);
-  margin-top: 16px;
+  color: var(--nutri-ink-nb);
+  margin-top: 12px;
 }
 
 /* === Table === */
-.nutri-table {
+.nutri-table-nb {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 16px;
 }
-.nutri-row {
-  border-bottom: 1px solid var(--nutri-border);
+.nutri-table-nb:first-child {
+  margin-top: 0;
+}
+.nutri-row-nb {
+  border-bottom: 1px solid var(--nutri-border-nb);
   transition: background-color 0.2s ease;
 }
-.nutri-row:last-child {
+.nutri-row-nb:last-child {
   border-bottom: none;
 }
-.nutri-row.highlight {
-  background-color: var(--nutri-panel);
+.nutri-row-nb.highlight {
+  background-color: var(--nutri-panel-nb);
 }
-.nutri-row.highlight .n-label,
-.nutri-row.highlight .n-val {
-  color: var(--nutri-brand);
+.nutri-row-nb.highlight .n-label-nb,
+.nutri-row-nb.highlight .n-val-nb {
+  color: var(--nutri-brand-nb);
   font-weight: 600;
 }
-.nutri-cell {
-  padding: 14px 8px;
+.nutri-cell-nb {
+  padding: 12px 8px;
   text-align: left;
   vertical-align: middle;
 }
-.nutri-cell:last-child {
+.nutri-cell-nb:last-child {
   text-align: right;
 }
-.n-label {
-  font-size: 15px;
-  color: var(--nutri-ink);
+.n-label-nb {
+  font-size: 14px;
+  color: var(--nutri-ink-nb);
   font-weight: 500;
 }
-.n-val {
-  font-size: 15px;
-  color: var(--nutri-ink);
+.n-val-nb {
+  font-size: 14px;
+  color: var(--nutri-ink-nb);
   font-weight: 600;
+}
+
+/* === Subsection Headers === */
+.nutri-subsection-title-nb {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--nutri-ink-nb);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 20px 0 12px 0;
+}
+.nutri-subsection-title-nb:first-child {
+  margin-top: 0;
 }
 
 /* === Mobile === */
 @media (max-width: 600px) {
-  .nutri-widget-container {
+  .nutri-widget-nb {
     padding: 0;
   }
-  .nutri-variant-dropdown {
-    padding: 12px 16px;
-    font-size: 15px;
-    background-position: right 16px center;
-    padding-right: 46px;
-  }
-  .nutri-section {
-    padding: 20px;
-    border-radius: 12px;
-  }
-  .nutri-section-title {
-    font-size: 16px;
-  }
-  .nutri-text {
-    font-size: 14px;
-  }
-  .nutri-notice {
+  .nutri-tab-nb {
+    padding: 14px 8px;
     font-size: 13px;
-    padding: 14px;
+    letter-spacing: 0.3px;
   }
-  .n-label,
-  .n-val {
+  .nutri-section-nb summary {
+    padding: 16px;
     font-size: 14px;
   }
-  .nutri-cell {
-    padding: 12px 6px;
+  .nutri-section-header-nb {
+    gap: 10px;
+  }
+  .nutri-section-badges-nb {
+    gap: 6px;
+  }
+  .nutri-badge-nb {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+  .nutri-section-content-nb {
+    padding: 16px;
+  }
+  .nutri-text-nb {
+    font-size: 14px;
+  }
+  .nutri-notice-nb {
+    font-size: 13px;
+    padding: 12px;
+  }
+  .n-label-nb,
+  .n-val-nb {
+    font-size: 13px;
+  }
+  .nutri-cell-nb {
+    padding: 10px 6px;
+  }
+  .nutri-subsection-title-nb {
+    font-size: 12px;
+    margin: 16px 0 10px 0;
   }
 }
 </style>
 
-<div class="nutri-widget-container">
-  <!-- Dropdown -->
-  <div class="nutri-variant-selector">
-    <select class="nutri-variant-dropdown" id="nutri-variant-select">
-      <option value="vibe">VIBE</option>
-      <option value="sharp">SHARP</option>
-      <option value="relax">RELAX</option>
-    </select>
+<div class="nutri-widget-nb">
+  <!-- Tabs -->
+  <div class="nutri-tabs-nb">
+    <button class="nutri-tab-nb active" data-variant="vibe">VIBE</button>
+    <button class="nutri-tab-nb" data-variant="sharp">SHARP</button>
+    <button class="nutri-tab-nb" data-variant="relax">RELAX</button>
   </div>
 
-  <!-- Content areas (will be populated by JavaScript) -->
-  <div id="nutri-content-vibe" class="nutri-content-area active"></div>
-  <div id="nutri-content-sharp" class="nutri-content-area"></div>
-  <div id="nutri-content-relax" class="nutri-content-area"></div>
+  <!-- VIBE Content -->
+  <div id="nutri-vibe-nb" class="nutri-content-nb active">
+    <!-- Zutaten -->
+    <details class="nutri-section-nb">
+      <summary>
+        <div class="nutri-section-header-nb">
+          <span>Zutaten</span>
+          <div class="nutri-section-badges-nb">
+            <span class="nutri-badge-nb">0 Zucker</span>
+            <span class="nutri-badge-nb">0 Kalorien</span>
+          </div>
+        </div>
+        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </summary>
+      <div class="nutri-section-content-nb" id="nutri-ingredients-vibe"></div>
+    </details>
+
+    <!-- Über diesen Drink -->
+    <details class="nutri-section-nb">
+      <summary>
+        <div class="nutri-section-header-nb">
+          <span>Über diesen Drink</span>
+        </div>
+        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </summary>
+      <div class="nutri-section-content-nb" id="nutri-about-vibe"></div>
+    </details>
+
+    <!-- Wirkstoffe -->
+    <details class="nutri-section-nb">
+      <summary>
+        <div class="nutri-section-header-nb">
+          <span>Wirkstoffe</span>
+        </div>
+        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </summary>
+      <div class="nutri-section-content-nb" id="nutri-active-vibe"></div>
+    </details>
+
+    <!-- Nährwertangaben -->
+    <details class="nutri-section-nb">
+      <summary>
+        <div class="nutri-section-header-nb">
+          <span>Nährwertangaben</span>
+        </div>
+        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </summary>
+      <div class="nutri-section-content-nb" id="nutri-nutrition-vibe"></div>
+    </details>
+  </div>
+
+  <!-- SHARP Content -->
+  <div id="nutri-sharp-nb" class="nutri-content-nb">
+    <!-- Zutaten -->
+    <details class="nutri-section-nb">
+      <summary>
+        <div class="nutri-section-header-nb">
+          <span>Zutaten</span>
+          <div class="nutri-section-badges-nb">
+            <span class="nutri-badge-nb">0 Zucker</span>
+            <span class="nutri-badge-nb">0 Kalorien</span>
+          </div>
+        </div>
+        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </summary>
+      <div class="nutri-section-content-nb" id="nutri-ingredients-sharp"></div>
+    </details>
+
+    <!-- Über diesen Drink -->
+    <details class="nutri-section-nb">
+      <summary>
+        <div class="nutri-section-header-nb">
+          <span>Über diesen Drink</span>
+        </div>
+        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </summary>
+      <div class="nutri-section-content-nb" id="nutri-about-sharp"></div>
+    </details>
+
+    <!-- Wirkstoffe -->
+    <details class="nutri-section-nb">
+      <summary>
+        <div class="nutri-section-header-nb">
+          <span>Wirkstoffe</span>
+        </div>
+        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </summary>
+      <div class="nutri-section-content-nb" id="nutri-active-sharp"></div>
+    </details>
+
+    <!-- Nährwertangaben -->
+    <details class="nutri-section-nb">
+      <summary>
+        <div class="nutri-section-header-nb">
+          <span>Nährwertangaben</span>
+        </div>
+        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </summary>
+      <div class="nutri-section-content-nb" id="nutri-nutrition-sharp"></div>
+    </details>
+  </div>
+
+  <!-- RELAX Content -->
+  <div id="nutri-relax-nb" class="nutri-content-nb">
+    <!-- Zutaten -->
+    <details class="nutri-section-nb">
+      <summary>
+        <div class="nutri-section-header-nb">
+          <span>Zutaten</span>
+          <div class="nutri-section-badges-nb">
+            <span class="nutri-badge-nb">0 Zucker</span>
+            <span class="nutri-badge-nb">0 Kalorien</span>
+          </div>
+        </div>
+        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </summary>
+      <div class="nutri-section-content-nb" id="nutri-ingredients-relax"></div>
+    </details>
+
+    <!-- Über diesen Drink -->
+    <details class="nutri-section-nb">
+      <summary>
+        <div class="nutri-section-header-nb">
+          <span>Über diesen Drink</span>
+        </div>
+        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </summary>
+      <div class="nutri-section-content-nb" id="nutri-about-relax"></div>
+    </details>
+
+    <!-- Wirkstoffe -->
+    <details class="nutri-section-nb">
+      <summary>
+        <div class="nutri-section-header-nb">
+          <span>Wirkstoffe</span>
+        </div>
+        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </summary>
+      <div class="nutri-section-content-nb" id="nutri-active-relax"></div>
+    </details>
+
+    <!-- Nährwertangaben -->
+    <details class="nutri-section-nb">
+      <summary>
+        <div class="nutri-section-header-nb">
+          <span>Nährwertangaben</span>
+        </div>
+        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </summary>
+      <div class="nutri-section-content-nb" id="nutri-nutrition-relax"></div>
+    </details>
+  </div>
 </div>
 
 <script>
@@ -249,9 +495,9 @@
   // Update theme colors
   function updateTheme(variant) {
     var colors = colorSchemes[variant];
-    document.documentElement.style.setProperty('--nutri-brand', colors.brand);
-    document.documentElement.style.setProperty('--nutri-soft', colors.soft);
-    document.documentElement.style.setProperty('--nutri-panel', colors.panel);
+    document.documentElement.style.setProperty('--nutri-brand-nb', colors.brand);
+    document.documentElement.style.setProperty('--nutri-soft-nb', colors.soft);
+    document.documentElement.style.setProperty('--nutri-panel-nb', colors.panel);
   }
 
   // Data for all variants
@@ -434,101 +680,103 @@
     }
   };
 
-  // Render content for a variant
-  function renderContent(variant) {
+  // Render content for each variant
+  function renderIngredients(variant) {
     var lang = isEnglish ? 'en' : 'de';
     var variantData = data[variant][lang];
+    return '<p class="nutri-text-nb">' + variantData.ingredients + '</p>';
+  }
 
-    var ingredientsLabel = isEnglish ? "Ingredients" : "Zutaten";
-    var aboutLabel = isEnglish ? "About this Drink" : "Über diesen Drink";
-    var activeLabel = isEnglish ? "Active Ingredients" : "Wirkstoffe";
-    var per100Label = isEnglish ? "per 100 ml" : "pro 100 ml";
-    var per250Label = isEnglish ? "per can (250 ml)" : "pro Dose (250 ml)";
-    var nutritionLabel = isEnglish ? "Nutritional Information" : "Nährwertangaben";
-
-    var html = '';
-
-    // Ingredients section
-    html += '<div class="nutri-section">';
-    html += '<h3 class="nutri-section-title">' + ingredientsLabel + '</h3>';
-    html += '<p class="nutri-text">' + variantData.ingredients + '</p>';
-    html += '</div>';
-
-    // About section
-    html += '<div class="nutri-section">';
-    html += '<h3 class="nutri-section-title">' + aboutLabel + '</h3>';
-    html += '<p class="nutri-text">' + variantData.about + '</p>';
+  function renderAbout(variant) {
+    var lang = isEnglish ? 'en' : 'de';
+    var variantData = data[variant][lang];
+    var html = '<p class="nutri-text-nb">' + variantData.about + '</p>';
     if (variantData.caffeineNote) {
-      html += '<div class="nutri-notice">' + variantData.caffeineNote + '</div>';
+      html += '<div class="nutri-notice-nb">' + variantData.caffeineNote + '</div>';
     }
-    html += '</div>';
-
-    // Active ingredients section
-    html += '<div class="nutri-section">';
-    html += '<h3 class="nutri-section-title">' + activeLabel + ' <span class="nutri-badge-small">' + per250Label + '</span></h3>';
-    html += '<table class="nutri-table"><tbody>';
-    variantData.activeIngredients.forEach(function(item) {
-      var rowClass = item.highlight ? 'nutri-row highlight' : 'nutri-row';
-      html += '<tr class="' + rowClass + '">';
-      html += '<td class="nutri-cell"><span class="n-label">' + item.name + '</span></td>';
-      html += '<td class="nutri-cell"><span class="n-val">' + item.amount + '</span></td>';
-      html += '</tr>';
-    });
-    html += '</tbody></table>';
-    html += '</div>';
-
-    // Nutrition per 100ml section
-    html += '<div class="nutri-section">';
-    html += '<h3 class="nutri-section-title">' + nutritionLabel + ' <span class="nutri-badge-small">' + per100Label + '</span></h3>';
-    html += '<table class="nutri-table"><tbody>';
-    variantData.nutritionPer100.forEach(function(item) {
-      html += '<tr class="nutri-row">';
-      html += '<td class="nutri-cell"><span class="n-label">' + item.label + '</span></td>';
-      html += '<td class="nutri-cell"><span class="n-val">' + item.value + '</span></td>';
-      html += '</tr>';
-    });
-    html += '</tbody></table>';
-    html += '</div>';
-
-    // Nutrition per 250ml section
-    html += '<div class="nutri-section">';
-    html += '<h3 class="nutri-section-title">' + nutritionLabel + ' <span class="nutri-badge-small">' + per250Label + '</span></h3>';
-    html += '<table class="nutri-table"><tbody>';
-    variantData.nutritionPer250.forEach(function(item) {
-      html += '<tr class="nutri-row">';
-      html += '<td class="nutri-cell"><span class="n-label">' + item.label + '</span></td>';
-      html += '<td class="nutri-cell"><span class="n-val">' + item.value + '</span></td>';
-      html += '</tr>';
-    });
-    html += '</tbody></table>';
-    html += '</div>';
-
     return html;
   }
 
-  // Initialize content for all variants
-  document.getElementById('nutri-content-vibe').innerHTML = renderContent('vibe');
-  document.getElementById('nutri-content-sharp').innerHTML = renderContent('sharp');
-  document.getElementById('nutri-content-relax').innerHTML = renderContent('relax');
+  function renderActive(variant) {
+    var lang = isEnglish ? 'en' : 'de';
+    var variantData = data[variant][lang];
+    var per250Label = isEnglish ? 'per can (250 ml)' : 'pro Dose (250 ml)';
+
+    var html = '<p class="nutri-subsection-title-nb">' + per250Label + '</p>';
+    html += '<table class="nutri-table-nb"><tbody>';
+    variantData.activeIngredients.forEach(function(item) {
+      var rowClass = item.highlight ? 'nutri-row-nb highlight' : 'nutri-row-nb';
+      html += '<tr class="' + rowClass + '">';
+      html += '<td class="nutri-cell-nb"><span class="n-label-nb">' + item.name + '</span></td>';
+      html += '<td class="nutri-cell-nb"><span class="n-val-nb">' + item.amount + '</span></td>';
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    return html;
+  }
+
+  function renderNutrition(variant) {
+    var lang = isEnglish ? 'en' : 'de';
+    var variantData = data[variant][lang];
+    var per100Label = isEnglish ? 'per 100 ml' : 'pro 100 ml';
+    var per250Label = isEnglish ? 'per can (250 ml)' : 'pro Dose (250 ml)';
+
+    var html = '<p class="nutri-subsection-title-nb">' + per100Label + '</p>';
+    html += '<table class="nutri-table-nb"><tbody>';
+    variantData.nutritionPer100.forEach(function(item) {
+      html += '<tr class="nutri-row-nb">';
+      html += '<td class="nutri-cell-nb"><span class="n-label-nb">' + item.label + '</span></td>';
+      html += '<td class="nutri-cell-nb"><span class="n-val-nb">' + item.value + '</span></td>';
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+
+    html += '<p class="nutri-subsection-title-nb">' + per250Label + '</p>';
+    html += '<table class="nutri-table-nb"><tbody>';
+    variantData.nutritionPer250.forEach(function(item) {
+      html += '<tr class="nutri-row-nb">';
+      html += '<td class="nutri-cell-nb"><span class="n-label-nb">' + item.label + '</span></td>';
+      html += '<td class="nutri-cell-nb"><span class="n-val-nb">' + item.value + '</span></td>';
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    return html;
+  }
+
+  // Populate all content on page load
+  ['vibe', 'sharp', 'relax'].forEach(function(variant) {
+    document.getElementById('nutri-ingredients-' + variant).innerHTML = renderIngredients(variant);
+    document.getElementById('nutri-about-' + variant).innerHTML = renderAbout(variant);
+    document.getElementById('nutri-active-' + variant).innerHTML = renderActive(variant);
+    document.getElementById('nutri-nutrition-' + variant).innerHTML = renderNutrition(variant);
+  });
 
   // Set initial theme (VIBE is default)
   updateTheme('vibe');
 
-  // Dropdown switching
-  var dropdown = document.getElementById('nutri-variant-select');
-  var contents = document.querySelectorAll('.nutri-content-area');
+  // Tab switching
+  var tabs = document.querySelectorAll('.nutri-tab-nb');
+  var contents = document.querySelectorAll('.nutri-content-nb');
 
-  dropdown.addEventListener('change', function() {
-    var variant = this.value;
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var variant = this.getAttribute('data-variant');
 
-    // Update active content
-    contents.forEach(function(c) {
-      c.classList.remove('active');
+      // Update active tab
+      tabs.forEach(function(t) {
+        t.classList.remove('active');
+      });
+      this.classList.add('active');
+
+      // Update active content
+      contents.forEach(function(c) {
+        c.classList.remove('active');
+      });
+      document.getElementById('nutri-' + variant + '-nb').classList.add('active');
+
+      // Update theme colors
+      updateTheme(variant);
     });
-    document.getElementById('nutri-content-' + variant).classList.add('active');
-
-    // Update theme colors
-    updateTheme(variant);
   });
 })();
 </script>
