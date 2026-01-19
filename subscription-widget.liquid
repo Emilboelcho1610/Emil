@@ -58,7 +58,7 @@
   .bcw-price-now{ font-size:15px; font-weight:950; }
   .bcw-price-was{ font-size:12px; text-decoration:line-through; opacity:0.5; margin-right:6px; }
 
-  .bcw-row-body{ display:none; margin-top:12px; padding-top:12px; border-top:1px solid rgba(0,0,0,0.06); }
+  .bcw-row-body{ display:none; margin-top:12px; padding-top:12px; border-top:1px solid rgba(0,0,0,0.06); margin-left:-32px; margin-right:-14px; padding-left:32px; padding-right:14px; }
   .bcw-row.is-selected .bcw-row-body{ display:block; }
 
   .bcw-label{ font-size:13px; font-weight:700; margin-bottom:8px; }
@@ -73,7 +73,7 @@
   .bcw-payments{ margin-top:8px; text-align:center; }
   .bcw-payment-icons{ list-style:none; padding:0; display:flex; justify-content:center; gap:6px; flex-wrap:wrap; }
   .bcw-payment-icons svg{ height:20px; width:auto; }
-  .bcw-footnote{ font-size:11px; text-align:center; opacity:0.6; margin-top:10px; }
+  .bcw-footnote{ font-size:11px; text-align:center; opacity:0.6; margin-top:10px; line-height:1.5; }
 
   /* Debug Panel */
   .bcw-debug{ background:#1a1a2e; color:#00ff88; font-family:monospace; font-size:11px; padding:12px; margin-top:12px; border-radius:8px; display:none; }
@@ -180,11 +180,16 @@
     .bcw-row-body{
       margin-top:14px;
       padding-top:14px;
+      margin-left:-36px;
+      margin-right:-14px;
+      padding-left:16px;
+      padding-right:14px;
     }
 
     .bcw-label{
       font-size:14px;
       margin-bottom:10px;
+      text-align:left;
     }
 
     /* Better select dropdown for touch */
@@ -202,11 +207,12 @@
     }
 
     /* Improve bullet points */
-    .bcw-bullets{ gap:10px; }
+    .bcw-bullets{ gap:10px; text-align:left; }
     .bcw-bullets li{
       font-size:13px;
       line-height:1.5;
       gap:12px;
+      text-align:left;
     }
     .bcw-check{ flex-shrink:0; }
     .bcw-check img{ width:16px; height:16px; }
@@ -226,6 +232,7 @@
       line-height:1.5;
       margin-top:12px;
       padding:0 4px;
+      text-align:center;
     }
 
     /* Improve payment icons */
@@ -242,6 +249,12 @@
     .bcw-pack-sub{ font-size:12px; }
     .bcw-badge{ font-size:9px; padding:4px 8px; }
     .bcw-row{ padding:14px 12px 14px 46px; }
+    .bcw-row-body{
+      margin-left:-34px;
+      margin-right:-12px;
+      padding-left:16px;
+      padding-right:12px;
+    }
     .bcw-row-title{ font-size:14px; }
     .bcw-price-now{ font-size:16px; }
   }
