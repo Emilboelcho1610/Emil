@@ -51,15 +51,17 @@
   .bcw-row.is-selected .bcw-radio:after{ content:""; width:10px; height:10px; border-radius:50%; background:var(--brand); position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); }
 
   .bcw-row-head{ display:grid; grid-template-columns:1fr auto; gap:12px; }
+  .bcw-row-title-wrap{ display:flex; justify-content:space-between; align-items:center; gap:12px; }
   .bcw-row-title{ font-weight:950; font-size:14px; display:flex; align-items:center; gap:8px; }
   .bcw-pill{ padding:4px 9px; border-radius:99px; background:var(--brand-soft); border:1px solid rgba(118,184,42,0.3); font-size:11px; font-weight:900; }
   .bcw-row-sub{ font-size:12px; color:var(--muted); margin-top:4px; }
 
   .bcw-price{ margin-top:6px; margin-bottom:4px; }
+  .bcw-row-title-wrap .bcw-price{ margin-top:0; margin-bottom:0; }
   .bcw-price-now{ font-size:15px; font-weight:950; }
   .bcw-price-was{ font-size:12px; text-decoration:line-through; opacity:0.5; margin-right:6px; }
 
-  .bcw-row-body{ display:none; margin-top:12px; padding-top:12px; border-top:1px solid rgba(0,0,0,0.06); margin-left:-32px; margin-right:-14px; padding-left:32px; padding-right:14px; }
+  .bcw-row-body{ display:none; margin-top:12px; padding-top:12px; border-top:1px solid rgba(0,0,0,0.06); margin-left:-46px; margin-right:-14px; padding-left:46px; padding-right:14px; }
   .bcw-row.is-selected .bcw-row-body{ display:block; }
 
   .bcw-label{ font-size:13px; font-weight:700; margin-bottom:8px; }
@@ -72,8 +74,8 @@
   .bcw-cta.is-loading{ opacity:0.7; cursor:wait; }
 
   .bcw-payments{ margin-top:8px; text-align:center; }
-  .bcw-payment-icons{ list-style:none; padding:0; display:flex; justify-content:center; gap:6px; flex-wrap:wrap; }
-  .bcw-payment-icons svg{ height:20px; width:auto; }
+  .bcw-payment-icons{ list-style:none; padding:0; display:flex; justify-content:center; gap:6px; flex-wrap:nowrap; overflow-x:auto; overflow-y:hidden; }
+  .bcw-payment-icons svg{ height:20px; width:auto; flex-shrink:0; }
   .bcw-footnote{ font-size:11px; text-align:center; opacity:0.6; margin-top:10px; line-height:1.5; }
 
   /* Debug Panel */
@@ -148,6 +150,13 @@
       gap:8px;
     }
 
+    .bcw-row-title-wrap{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+
     .bcw-row-title{
       font-size:15px;
       flex-wrap:wrap;
@@ -175,6 +184,11 @@
       margin-bottom:6px;
     }
 
+    .bcw-row-title-wrap .bcw-price{
+      margin-top:0;
+      margin-bottom:0;
+    }
+
     .bcw-price-now{ font-size:17px; }
     .bcw-price-was{ font-size:13px; }
 
@@ -182,7 +196,7 @@
     .bcw-row-body{
       margin-top:14px;
       padding-top:14px;
-      margin-left:-36px;
+      margin-left:-50px;
       margin-right:-14px;
       padding-left:0;
       padding-right:14px;
@@ -237,7 +251,7 @@
       margin-top:12px;
       padding:0 14px 0 0;
       text-align:center;
-      margin-left:36px;
+      margin-left:50px;
       margin-right:14px;
     }
 
@@ -256,13 +270,13 @@
     .bcw-badge{ font-size:9px; padding:4px 8px; }
     .bcw-row{ padding:14px 12px 14px 46px; }
     .bcw-row-body{
-      margin-left:-34px;
+      margin-left:-46px;
       margin-right:-12px;
       padding-left:0;
       padding-right:12px;
     }
     .bcw-footnote{
-      margin-left:34px;
+      margin-left:46px;
       margin-right:12px;
     }
     .bcw-row-title{ font-size:14px; }
@@ -325,9 +339,11 @@
           <span class="bcw-radio"></span>
           <div class="bcw-row-head">
             <div>
-              <div class="bcw-row-title">Einmaliger Kauf</div>
-              <div class="bcw-price">
-                <span class="bcw-price-now" data-otp-now>...</span>
+              <div class="bcw-row-title-wrap">
+                <div class="bcw-row-title">Einmaliger Kauf</div>
+                <div class="bcw-price">
+                  <span class="bcw-price-now" data-otp-now>...</span>
+                </div>
               </div>
               <div class="bcw-row-sub">Einmalzahlung. Kein Abo.</div>
             </div>
