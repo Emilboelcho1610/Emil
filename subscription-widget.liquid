@@ -73,10 +73,10 @@
   .bcw-cta{ width:100%; border:none; border-radius:14px; background:var(--brand); color:#fff; font-weight:950; text-transform:uppercase; padding:16px; margin-top:14px; cursor:pointer; font-size:14px; }
   .bcw-cta.is-loading{ opacity:0.7; cursor:wait; }
 
-  .bcw-payments{ margin-top:8px; text-align:center; }
-  .bcw-payment-icons{ list-style:none; padding:0; display:flex; justify-content:center; gap:6px; flex-wrap:wrap; max-width:100%; }
-  .bcw-payment-icons li{ flex:0 1 auto; }
-  .bcw-payment-icons svg{ height:20px; width:auto; max-width:100%; }
+  .bcw-payments{ margin-top:8px; text-align:center; padding:0 4px; }
+  .bcw-payment-icons{ list-style:none; padding:0; display:flex; justify-content:center; align-items:center; gap:4px; flex-wrap:nowrap; width:100%; }
+  .bcw-payment-icons li{ flex:0 1 auto; display:flex; align-items:center; min-width:0; }
+  .bcw-payment-icons svg{ height:18px; width:auto; max-width:100%; display:block; }
   .bcw-footnote{ font-size:11px; text-align:center; opacity:0.6; margin-top:10px; line-height:1.5; }
 
   /* Debug Panel */
@@ -148,7 +148,11 @@
     /* Improve row content layout on mobile */
     .bcw-row-head{
       grid-template-columns:1fr;
-      gap:0;
+      gap:8px;
+    }
+
+    .bcw-row[data-type="sub"] .bcw-row-head{
+      display:block;
     }
 
     .bcw-row-title-wrap{
