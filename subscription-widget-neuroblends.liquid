@@ -24,12 +24,12 @@
 
   :root{
     --ink-neuroblends:#0C141B;
-    --brand-neuroblends:#424242;
-    --brand-soft-neuroblends:rgba(66,66,66,0.10);
+    --brand-neuroblends:#e68917;
+    --brand-soft-neuroblends:rgba(230,137,23,0.10);
     --border-neuroblends:rgba(12,20,27,0.14);
     --muted-neuroblends:rgba(12,20,27,0.62);
     --bg-neuroblends:#ffffff;
-    --panel-neuroblends:#F5F5F5;
+    --panel-neuroblends:#FFF3E0;
     --shadow-neuroblends:0 14px 34px rgba(12,20,27,0.10);
     --radius-neuroblends:16px;
   }
@@ -43,12 +43,12 @@
 
   .bcw-packs-neuroblends{ display:grid; grid-template-columns:repeat(2, 1fr); gap:12px; margin-bottom:14px; }
   .bcw-pack-neuroblends{ border:1px solid rgba(12,20,27,0.14); border-radius:14px; padding:12px; cursor:pointer; background:linear-gradient(180deg, rgba(12,20,27,0.01), rgba(0,0,0,0)); position:relative; }
-  .bcw-pack-neuroblends.is-active{ border:2px solid var(--brand-neuroblends); background:var(--brand-soft-neuroblends); box-shadow:0 14px 28px rgba(66,66,66,0.14); }
+  .bcw-pack-neuroblends.is-active{ border:2px solid var(--brand-neuroblends); background:var(--brand-soft-neuroblends); box-shadow:0 14px 28px rgba(230,137,23,0.14); }
   .bcw-pack-name-neuroblends{ font-weight:950; font-size:16px; }
   .bcw-pack-sub-neuroblends{ font-size:12px; color:var(--muted-neuroblends); margin-top:4px; }
   .bcw-pack-per-neuroblends{ margin-top:10px; font-size:12px; font-weight:800; opacity:0.7; }
 
-  .bcw-badge-neuroblends{ position:absolute; top:-10px; right:10px; display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:99px; font-size:11px; font-weight:900; background:var(--brand-neuroblends); color:#fff; box-shadow:0 8px 16px rgba(66,66,66,0.25); }
+  .bcw-badge-neuroblends{ position:absolute; top:-10px; right:10px; display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:99px; font-size:11px; font-weight:900; background:var(--brand-neuroblends); color:#fff; box-shadow:0 8px 16px rgba(230,137,23,0.25); }
   .bcw-badge-neuroblends .dot{ width:8px; height:8px; border-radius:50%; background:#fff; }
 
   .bcw-choice-neuroblends{ border:1px solid rgba(12,20,27,0.14); border-radius:var(--radius-neuroblends); background:var(--panel-neuroblends); padding:12px; }
@@ -63,7 +63,7 @@
   .bcw-row-head-neuroblends{ display:grid; grid-template-columns:1fr auto; gap:12px; }
   .bcw-row-title-wrap-neuroblends{ display:flex; justify-content:space-between; align-items:center; gap:12px; }
   .bcw-row-title-neuroblends{ font-weight:950; font-size:14px; display:flex; align-items:center; gap:8px; }
-  .bcw-pill-neuroblends{ padding:4px 9px; border-radius:99px; background:var(--brand-soft-neuroblends); border:1px solid rgba(66,66,66,0.3); font-size:11px; font-weight:900; }
+  .bcw-pill-neuroblends{ padding:4px 9px; border-radius:99px; background:var(--brand-soft-neuroblends); border:1px solid rgba(230,137,23,0.3); font-size:11px; font-weight:900; }
   .bcw-row-sub-neuroblends{ font-size:12px; color:var(--muted-neuroblends); margin-top:4px; }
 
   .bcw-price-neuroblends{ margin-top:0; margin-bottom:0; }
@@ -728,7 +728,7 @@
       vid = CONFIG.variants.otp[state.pack];
       planId = null;
     }
-    console.log('%c=== BCW V7 NEUROBLENDS: FORM SUBMIT (NO CLEAR) ===', 'background:#424242;color:#fff;padding:4px 8px;font-weight:bold;');
+    console.log('%c=== BCW V7 NEUROBLENDS: FORM SUBMIT (NO CLEAR) ===', 'background:#e68917;color:#fff;padding:4px 8px;font-weight:bold;');
     console.log('Pack:', state.pack);
     console.log('Type:', state.type);
     console.log('Freq:', state.freq);
@@ -806,6 +806,6 @@
     window.appstleSelectedSellingPlan = null;
   }
   render();
-  console.log('%c=== BCW WIDGET V7 NEUROBLENDS LOADED ===', 'background:#424242;color:#fff;padding:4px 8px;font-weight:bold;');
+  console.log('%c=== BCW WIDGET V7 NEUROBLENDS LOADED ===', 'background:#e68917;color:#fff;padding:4px 8px;font-weight:bold;');
 })();
 </script>
