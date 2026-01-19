@@ -1,0 +1,821 @@
+{%- comment -%}
+  Custom Liquid: Pack + Subscription widget (V7) - NEUROBLENDS MIXED
+  - Uses FORM SUBMISSION (bypasses Appstle)
+  - Does NOT clear cart
+  - Goes to checkout after adding
+{%- endcomment -%}
+
+<style>
+  /* HIDE APPSTLE DEFAULT WIDGET */
+  .appstle_subscription_widget,
+  .appstle-subscription-wrapper,
+  .appstle-subscription-container,
+  [data-appstle],
+  #appstle_subscription_widget,
+  .appstle_sub_widget,
+  [id*="appstle"],
+  [class*="appstle"]:not(.bcw-wrap-neuroblends):not(.bcw-wrap-neuroblends *) {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+  }
+
+  :root{
+    --ink-neuroblends:#0C141B;
+    --brand-neuroblends:#424242;
+    --brand-soft-neuroblends:rgba(66,66,66,0.10);
+    --border-neuroblends:rgba(12,20,27,0.14);
+    --muted-neuroblends:rgba(12,20,27,0.62);
+    --bg-neuroblends:#ffffff;
+    --panel-neuroblends:#F5F5F5;
+    --shadow-neuroblends:0 14px 34px rgba(12,20,27,0.10);
+    --radius-neuroblends:16px;
+  }
+  .bcw-wrap-neuroblends, .bcw-wrap-neuroblends *{ box-sizing:border-box; }
+  .bcw-wrap-neuroblends{ font-family:Inter, system-ui, -apple-system, sans-serif; color:var(--ink-neuroblends); margin:18px 0; text-align:left; }
+  .bcw-card-neuroblends{ border:1px solid var(--border-neuroblends); border-radius:var(--radius-neuroblends); background:var(--bg-neuroblends); overflow:hidden; }
+  .bcw-inner-neuroblends{ padding:16px; }
+  .bcw-topline-neuroblends{ display:flex; justify-content:space-between; margin-bottom:14px; }
+  .bcw-title-neuroblends{ font-size:15px; font-weight:850; letter-spacing:0.2px; }
+  .bcw-subtitle-neuroblends{ font-size:12px; color:var(--muted-neuroblends); margin-top:4px; }
+
+  .bcw-packs-neuroblends{ display:grid; grid-template-columns:repeat(2, 1fr); gap:12px; margin-bottom:14px; }
+  .bcw-pack-neuroblends{ border:1px solid rgba(12,20,27,0.14); border-radius:14px; padding:12px; cursor:pointer; background:linear-gradient(180deg, rgba(12,20,27,0.01), rgba(0,0,0,0)); position:relative; }
+  .bcw-pack-neuroblends.is-active{ border:2px solid var(--brand-neuroblends); background:var(--brand-soft-neuroblends); box-shadow:0 14px 28px rgba(66,66,66,0.14); }
+  .bcw-pack-name-neuroblends{ font-weight:950; font-size:16px; }
+  .bcw-pack-sub-neuroblends{ font-size:12px; color:var(--muted-neuroblends); margin-top:4px; }
+  .bcw-pack-per-neuroblends{ margin-top:10px; font-size:12px; font-weight:800; opacity:0.7; }
+
+  .bcw-badge-neuroblends{ position:absolute; top:-10px; right:10px; display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:99px; font-size:11px; font-weight:900; background:var(--brand-neuroblends); color:#fff; box-shadow:0 8px 16px rgba(66,66,66,0.25); }
+  .bcw-badge-neuroblends .dot{ width:8px; height:8px; border-radius:50%; background:#fff; }
+
+  .bcw-choice-neuroblends{ border:1px solid rgba(12,20,27,0.14); border-radius:var(--radius-neuroblends); background:var(--panel-neuroblends); padding:12px; }
+  .bcw-row-neuroblends{ background:var(--bg-neuroblends); border:1px solid rgba(12,20,27,0.10); border-radius:14px; padding:14px 14px 14px 46px; position:relative; cursor:pointer; margin-top:12px; }
+  .bcw-row-neuroblends:first-child{ margin-top:0; }
+  .bcw-row-neuroblends.is-selected{ border:2px solid var(--brand-neuroblends); background:var(--brand-soft-neuroblends); }
+
+  .bcw-radio-neuroblends{ width:18px; height:18px; border-radius:50%; border:2px solid rgba(12,20,27,0.3); position:absolute; left:14px; top:16px; }
+  .bcw-row-neuroblends.is-selected .bcw-radio-neuroblends{ border-color:var(--brand-neuroblends); }
+  .bcw-row-neuroblends.is-selected .bcw-radio-neuroblends:after{ content:""; width:10px; height:10px; border-radius:50%; background:var(--brand-neuroblends); position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); }
+
+  .bcw-row-head-neuroblends{ display:grid; grid-template-columns:1fr auto; gap:12px; }
+  .bcw-row-title-wrap-neuroblends{ display:flex; justify-content:space-between; align-items:center; gap:12px; }
+  .bcw-row-title-neuroblends{ font-weight:950; font-size:14px; display:flex; align-items:center; gap:8px; }
+  .bcw-pill-neuroblends{ padding:4px 9px; border-radius:99px; background:var(--brand-soft-neuroblends); border:1px solid rgba(66,66,66,0.3); font-size:11px; font-weight:900; }
+  .bcw-row-sub-neuroblends{ font-size:12px; color:var(--muted-neuroblends); margin-top:4px; }
+
+  .bcw-price-neuroblends{ margin-top:0; margin-bottom:0; }
+  .bcw-row-title-wrap-neuroblends .bcw-price-neuroblends{ margin-top:0; margin-bottom:0; }
+  .bcw-price-now-neuroblends{ font-size:15px; font-weight:950; }
+  .bcw-price-was-neuroblends{ font-size:12px; text-decoration:line-through; opacity:0.5; margin-right:6px; }
+
+  .bcw-row-body-neuroblends{ display:none; margin-top:12px; padding-top:12px; border-top:1px solid rgba(0,0,0,0.06); margin-left:-46px; margin-right:-14px; padding-left:46px; padding-right:14px; }
+  .bcw-row-neuroblends.is-selected .bcw-row-body-neuroblends{ display:block; }
+
+  .bcw-label-neuroblends{ font-size:13px; font-weight:700; margin-bottom:8px; }
+  .bcw-select-neuroblends{ width:100%; padding:10px; border-radius:10px; border:1px solid #ddd; margin-bottom:12px; font-size:14px; background:#fff; }
+  .bcw-bullets-neuroblends{ list-style:none; padding:0; margin:0; display:grid; gap:8px; }
+  .bcw-bullets-neuroblends li{ display:flex; gap:10px; font-size:12px; opacity:0.8; }
+  .bcw-check-neuroblends img{ width:14px; }
+
+  .bcw-cta-neuroblends{ width:100%; border:none; border-radius:14px; background:var(--brand-neuroblends); color:#fff; font-weight:950; text-transform:uppercase; padding:16px; margin-top:14px; cursor:pointer; font-size:14px; }
+  .bcw-cta-neuroblends.is-loading{ opacity:0.7; cursor:wait; }
+
+  .bcw-payments-neuroblends{ margin-top:8px; text-align:center; padding:0 4px; }
+  .bcw-payment-icons-neuroblends{ list-style:none; padding:0; display:flex; justify-content:center; align-items:center; gap:4px; flex-wrap:nowrap; width:100%; }
+  .bcw-payment-icons-neuroblends li{ flex:0 1 auto; display:flex; align-items:center; min-width:0; }
+  .bcw-payment-icons-neuroblends svg{ height:18px; width:auto; max-width:100%; display:block; }
+  .bcw-footnote-neuroblends{ font-size:11px; text-align:center; opacity:0.6; margin-top:10px; line-height:1.5; }
+
+  /* Debug Panel */
+  .bcw-debug-neuroblends{ background:#1a1a2e; color:#00ff88; font-family:monospace; font-size:11px; padding:12px; margin-top:12px; border-radius:8px; display:none; }
+  .bcw-debug-neuroblends.is-visible{ display:block; }
+  .bcw-debug-title-neuroblends{ color:#ff6b6b; font-weight:bold; margin-bottom:8px; }
+  .bcw-debug-row-neuroblends{ margin:4px 0; }
+  .bcw-debug-label-neuroblends{ color:#feca57; }
+  .bcw-debug-value-neuroblends{ color:#00ff88; }
+
+  /* ============================================ */
+  /* MOBILE OPTIMIZATIONS */
+  /* ============================================ */
+  @media (max-width: 768px) {
+    /* Increase overall spacing and padding */
+    .bcw-wrap-neuroblends{ margin:12px 0; }
+    .bcw-inner-neuroblends{ padding:14px; }
+
+    /* Larger, more readable title */
+    .bcw-title-neuroblends{ font-size:17px; line-height:1.3; }
+    .bcw-subtitle-neuroblends{ font-size:13px; line-height:1.4; margin-top:6px; }
+    .bcw-topline-neuroblends{ margin-bottom:16px; }
+
+    /* Improve pack cards for touch */
+    .bcw-packs-neuroblends{ gap:10px; margin-bottom:16px; }
+    .bcw-pack-neuroblends{
+      padding:14px 12px 12px;
+      min-height:110px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+    .bcw-pack-name-neuroblends{ font-size:17px; line-height:1.2; }
+    .bcw-pack-sub-neuroblends{ font-size:13px; margin-top:6px; line-height:1.3; }
+    .bcw-pack-per-neuroblends{ margin-top:12px; font-size:13px; }
+
+    /* Better badge positioning */
+    .bcw-badge-neuroblends{
+      top:-8px;
+      right:8px;
+      padding:5px 9px;
+      font-size:10px;
+    }
+    .bcw-badge-neuroblends .dot{ width:7px; height:7px; }
+
+    /* Improve choice section spacing */
+    .bcw-choice-neuroblends{ padding:14px; }
+
+    /* Better touch targets for rows */
+    .bcw-row-neuroblends{
+      padding:16px 14px 16px 50px;
+      margin-top:14px;
+      min-height:64px;
+    }
+
+    /* Larger radio buttons */
+    .bcw-radio-neuroblends{
+      width:20px;
+      height:20px;
+      left:16px;
+      top:20px;
+    }
+    .bcw-row-neuroblends.is-selected .bcw-radio-neuroblends:after{
+      width:12px;
+      height:12px;
+    }
+
+    /* Improve row content layout on mobile */
+    .bcw-row-head-neuroblends{
+      grid-template-columns:1fr;
+      gap:8px;
+    }
+
+    .bcw-row-neuroblends[data-type="sub"] .bcw-row-head-neuroblends{
+      display:flex;
+      flex-direction:column;
+      gap:0;
+    }
+
+    .bcw-row-neuroblends[data-type="sub"] .bcw-row-head-neuroblends > div:first-child{
+      display:contents;
+    }
+
+    .bcw-row-neuroblends[data-type="sub"] .bcw-row-head-neuroblends .bcw-row-title-neuroblends{
+      order:1;
+    }
+
+    .bcw-row-neuroblends[data-type="sub"] .bcw-row-head-neuroblends .bcw-price-neuroblends{
+      order:2;
+    }
+
+    .bcw-row-neuroblends[data-type="sub"] .bcw-row-head-neuroblends .bcw-row-sub-neuroblends{
+      order:3;
+    }
+
+    .bcw-row-title-wrap-neuroblends{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+    }
+
+    .bcw-row-title-neuroblends{
+      font-size:15px;
+      flex-wrap:wrap;
+      line-height:1.4;
+    }
+
+    .bcw-pill-neuroblends{
+      padding:5px 10px;
+      font-size:11px;
+      white-space:nowrap;
+    }
+
+    .bcw-row-sub-neuroblends{
+      font-size:13px;
+      margin-top:5px;
+      line-height:1.4;
+    }
+
+    /* Price positioning on mobile */
+    .bcw-row-neuroblends[data-type="sub"] .bcw-price-neuroblends{
+      display:flex;
+      align-items:baseline;
+      gap:8px;
+      margin-top:8px;
+      margin-bottom:6px;
+    }
+
+    .bcw-row-title-wrap-neuroblends .bcw-price-neuroblends{
+      margin-top:0;
+      margin-bottom:0;
+    }
+
+    .bcw-price-now-neuroblends{ font-size:17px; }
+    .bcw-price-was-neuroblends{ font-size:13px; }
+
+    /* Improve expanded section */
+    .bcw-row-body-neuroblends{
+      margin-top:14px;
+      padding-top:14px;
+      margin-left:-50px;
+      margin-right:-14px;
+      padding-left:16px;
+      padding-right:14px;
+    }
+
+    .bcw-label-neuroblends{
+      font-size:14px;
+      margin-bottom:10px;
+      text-align:left;
+    }
+
+    /* Better select dropdown for touch */
+    .bcw-select-neuroblends{
+      padding:14px 12px;
+      font-size:15px;
+      margin-bottom:14px;
+      min-height:48px;
+      -webkit-appearance:none;
+      appearance:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%230C141B' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+      background-repeat:no-repeat;
+      background-position:right 12px center;
+      padding-right:40px;
+    }
+
+    /* Improve bullet points */
+    .bcw-bullets-neuroblends{ gap:10px; text-align:left; }
+    .bcw-bullets-neuroblends li{
+      font-size:13px;
+      line-height:1.5;
+      gap:12px;
+      text-align:left;
+    }
+    .bcw-check-neuroblends{ flex-shrink:0; }
+    .bcw-check-neuroblends img{ width:16px; height:16px; }
+
+    /* Larger CTA button for better touch target */
+    .bcw-cta-neuroblends{
+      padding:18px 16px;
+      font-size:15px;
+      margin-top:16px;
+      min-height:56px;
+      letter-spacing:0.3px;
+    }
+
+    /* Better footnote readability */
+    .bcw-footnote-neuroblends{
+      font-size:12px;
+      line-height:1.5;
+      margin-top:12px;
+      padding:0;
+      text-align:center;
+      margin-left:0;
+      margin-right:0;
+    }
+
+    /* Improve payment icons */
+    .bcw-payments-neuroblends{ margin-top:10px; }
+    .bcw-payment-icons-neuroblends{ gap:8px; }
+    .bcw-payment-icons-neuroblends svg{ height:22px; }
+  }
+
+  /* Extra small screens (narrow phones) */
+  @media (max-width: 380px) {
+    .bcw-inner-neuroblends{ padding:12px; }
+    .bcw-title-neuroblends{ font-size:16px; }
+    .bcw-pack-name-neuroblends{ font-size:16px; }
+    .bcw-pack-sub-neuroblends{ font-size:12px; }
+    .bcw-badge-neuroblends{ font-size:9px; padding:4px 8px; }
+    .bcw-row-neuroblends{ padding:14px 12px 14px 46px; }
+    .bcw-row-body-neuroblends{
+      margin-left:-46px;
+      margin-right:-12px;
+      padding-left:16px;
+      padding-right:12px;
+    }
+    .bcw-footnote-neuroblends{
+      margin-left:0;
+      margin-right:0;
+      padding:0;
+    }
+    .bcw-row-title-neuroblends{ font-size:14px; }
+    .bcw-price-now-neuroblends{ font-size:16px; }
+  }
+</style>
+
+<div class="bcw-wrap-neuroblends" data-bcw-neuroblends>
+  <div class="bcw-card-neuroblends">
+    <div class="bcw-inner-neuroblends">
+      <div class="bcw-topline-neuroblends">
+        <div>
+          <div class="bcw-title-neuroblends">Wähle dein Paket</div>
+          <div class="bcw-subtitle-neuroblends">Wähle die Größe, dann Abo oder Einzelkauf.</div>
+        </div>
+      </div>
+
+      <div class="bcw-packs-neuroblends">
+        <div class="bcw-pack-neuroblends is-active" data-pack="12">
+          <div class="bcw-badge-neuroblends"><span class="dot"></span>Beliebt</div>
+          <div class="bcw-pack-name-neuroblends">12 Dosen</div>
+          <div class="bcw-pack-sub-neuroblends">Perfekter Nachschub</div>
+          <div class="bcw-pack-per-neuroblends" data-per-pack="12">...</div>
+        </div>
+        <div class="bcw-pack-neuroblends" data-pack="36">
+          <div class="bcw-badge-neuroblends"><span class="dot"></span>Bester Preis</div>
+          <div class="bcw-pack-name-neuroblends">36 Dosen</div>
+          <div class="bcw-pack-sub-neuroblends">Günstiger pro Dose</div>
+          <div class="bcw-pack-per-neuroblends" data-per-pack="36">...</div>
+        </div>
+      </div>
+
+      <div class="bcw-choice-neuroblends">
+        <div class="bcw-row-neuroblends is-selected" data-type="sub">
+          <span class="bcw-radio-neuroblends"></span>
+          <div class="bcw-row-head-neuroblends">
+            <div>
+              <div class="bcw-row-title-neuroblends">Abonnieren <span class="bcw-pill-neuroblends" data-save-pill>Sparen</span></div>
+              <div class="bcw-row-sub-neuroblends">Automatische Lieferung. Jederzeit pausieren.</div>
+            </div>
+            <div class="bcw-price-neuroblends">
+              <span class="bcw-price-was-neuroblends" data-sub-was>...</span>
+              <span class="bcw-price-now-neuroblends" data-sub-now>...</span>
+            </div>
+          </div>
+          <div class="bcw-row-body-neuroblends">
+            <div class="bcw-label-neuroblends">Lieferintervall</div>
+            <select class="bcw-select-neuroblends" data-freq>
+              <option value="2">Alle 2 Wochen</option>
+              <option value="4" selected>Alle 4 Wochen</option>
+              <option value="6">Alle 6 Wochen</option>
+              <option value="8">Alle 8 Wochen</option>
+            </select>
+            <ul class="bcw-bullets-neuroblends" data-bullets></ul>
+            <div class="bcw-footnote-neuroblends" data-renew-note></div>
+          </div>
+        </div>
+
+        <div class="bcw-row-neuroblends" data-type="otp">
+          <span class="bcw-radio-neuroblends"></span>
+          <div class="bcw-row-head-neuroblends">
+            <div>
+              <div class="bcw-row-title-wrap-neuroblends">
+                <div class="bcw-row-title-neuroblends">Einmaliger Kauf</div>
+                <div class="bcw-price-neuroblends">
+                  <span class="bcw-price-now-neuroblends" data-otp-now>...</span>
+                </div>
+              </div>
+              <div class="bcw-row-sub-neuroblends">Einmalzahlung. Kein Abo.</div>
+            </div>
+          </div>
+          <div class="bcw-row-body-neuroblends">
+            <ul class="bcw-bullets-neuroblends">
+              <li><span class="bcw-check-neuroblends"><img src="https://cdn.shopify.com/s/files/1/0904/7215/3424/files/Icons_1.png?v=1768136915"></span>Einmal bestellen, direkt geliefert</li>
+              <li><span class="bcw-check-neuroblends"><img src="https://cdn.shopify.com/s/files/1/0904/7215/3424/files/Icons_1.png?v=1768136915"></span>Ideal zum Testen</li>
+            </ul>
+          </div>
+        </div>
+
+        <form id="bcw-cart-form-neuroblends" action="/cart/add" method="POST" style="display:none !important;">
+          <input type="hidden" name="id" id="bcw-form-id-neuroblends" value="">
+          <input type="hidden" name="quantity" value="1">
+          <input type="hidden" name="selling_plan" id="bcw-form-plan-neuroblends" value="">
+          <input type="hidden" name="return_to" value="/checkout">
+        </form>
+
+        <button class="bcw-cta-neuroblends" type="button" data-cta>In den Warenkorb</button>
+
+        <div class="bcw-debug-neuroblends" data-debug>
+          <div class="bcw-debug-title-neuroblends">🔍 DEBUG INFO (V7 NEUROBLENDS - Form Submit, No Clear)</div>
+          <div class="bcw-debug-row-neuroblends"><span class="bcw-debug-label-neuroblends">Pack:</span> <span class="bcw-debug-value-neuroblends" data-debug-pack>-</span></div>
+          <div class="bcw-debug-row-neuroblends"><span class="bcw-debug-label-neuroblends">Type:</span> <span class="bcw-debug-value-neuroblends" data-debug-type>-</span></div>
+          <div class="bcw-debug-row-neuroblends"><span class="bcw-debug-label-neuroblends">Freq:</span> <span class="bcw-debug-value-neuroblends" data-debug-freq>-</span></div>
+          <div class="bcw-debug-row-neuroblends"><span class="bcw-debug-label-neuroblends">Variant ID:</span> <span class="bcw-debug-value-neuroblends" data-debug-variant>-</span></div>
+          <div class="bcw-debug-row-neuroblends"><span class="bcw-debug-label-neuroblends">Selling Plan ID:</span> <span class="bcw-debug-value-neuroblends" data-debug-plan>-</span></div>
+          <div class="bcw-debug-row-neuroblends"><span class="bcw-debug-label-neuroblends">Plan Name:</span> <span class="bcw-debug-value-neuroblends" data-debug-name>-</span></div>
+        </div>
+
+        <div class="bcw-payments-neuroblends">
+          <ul class="bcw-payment-icons-neuroblends">
+            {% for type in shop.enabled_payment_types %}
+              {% unless 'unionpay,american_express,shop_pay' contains type %}
+                <li class="bcw-payment-icon">{{ type | payment_type_svg_tag }}</li>
+              {% endunless %}
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var root = document.querySelector('[data-bcw-neuroblends]');
+  if(!root) return;
+
+  function isEnglishPath(){
+    var path = window.location.pathname || "";
+    return path.indexOf("/en") === 0 || path.indexOf("/en/") === 0 || path.indexOf("/en-") === 0;
+  }
+
+  function t(){
+    if(isEnglishPath()){
+      return {
+        title: "Choose your pack",
+        subtitle: "Pick the size, then subscription or one-time purchase.",
+        badgePopular: "Popular",
+        badgeBest: "Best value",
+        pack12Name: "12 cans",
+        pack12Sub: "Perfect restock",
+        pack36Name: "36 cans",
+        pack36Sub: "Lower cost per can",
+        subTitle: "Subscribe",
+        subPillPrefix: "Save ",
+        subPillFallback: "Save",
+        subSub: "Automatic delivery. Pause anytime.",
+        intervalLabel: "Delivery interval",
+        opt2: "Every 2 weeks",
+        opt4: "Every 4 weeks",
+        opt6: "Every 6 weeks",
+        opt8: "Every 8 weeks",
+        otpTitle: "One-time purchase",
+        otpSub: "One payment. No subscription.",
+        otpBullet1: "Order once, delivered to your door",
+        otpBullet2: "Great for trying it out",
+        ctaAdd: "Add to cart",
+        perCan: "€ per can",
+        bulletSaveA: "Save ",
+        bulletSaveB: "% (",
+        bulletSaveC: ") per delivery",
+        bulletFreqA: "Change delivery frequency anytime (Every ",
+        bulletFreqB: " weeks)",
+        bulletShip: "Free shipping",
+        bulletCancel: "Pause or cancel anytime",
+        renewNote: "You can manage your subscription in your account after purchase.",
+        btnSubA: "Add to cart · ",
+        btnSubB: " (Every ",
+        btnSubC: " weeks)",
+        btnOtpA: "Add to cart · ",
+        processing: "Processing...",
+        alertNoForm: "Error: form not found",
+        debugPackSuffix: " cans",
+        debugTypeSub: "Subscription",
+        debugTypeOtp: "One-time",
+        debugFreqSuffix: " weeks",
+        debugPlanNameOtp: "One-time purchase",
+        plan12_2: "12-pack - Every 2 weeks",
+        plan12_4: "12-pack - Every 4 weeks",
+        plan12_6: "12-pack - Every 6 weeks",
+        plan12_8: "12-pack - Every 8 weeks",
+        plan36_2: "36-pack - Every 2 weeks",
+        plan36_4: "36-pack - Every 4 weeks",
+        plan36_6: "36-pack - Every 6 weeks",
+        plan36_8: "36-pack - Every 8 weeks"
+      };
+    }
+
+    return {
+      title: "Wähle dein Paket",
+      subtitle: "Wähle die Größe, dann Abo oder Einzelkauf.",
+      badgePopular: "Beliebt",
+      badgeBest: "Bester Preis",
+      pack12Name: "12 Dosen",
+      pack12Sub: "Perfekter Nachschub",
+      pack36Name: "36 Dosen",
+      pack36Sub: "Günstiger pro Dose",
+      subTitle: "Abonnieren",
+      subPillPrefix: "Spare ",
+      subPillFallback: "Sparen",
+      subSub: "Automatische Lieferung. Jederzeit pausieren.",
+      intervalLabel: "Lieferintervall",
+      opt2: "Alle 2 Wochen",
+      opt4: "Alle 4 Wochen",
+      opt6: "Alle 6 Wochen",
+      opt8: "Alle 8 Wochen",
+      otpTitle: "Einmaliger Kauf",
+      otpSub: "Einmalzahlung. Kein Abo.",
+      otpBullet1: "Einmal bestellen, direkt geliefert",
+      otpBullet2: "Ideal zum Testen",
+      ctaAdd: "In den Warenkorb",
+      perCan: "€ pro Dose",
+      bulletSaveA: "Spare ",
+      bulletSaveB: "% (",
+      bulletSaveC: ") pro Lieferung",
+      bulletFreqA: "Lieferfrequenz jederzeit ändern (Alle ",
+      bulletFreqB: " Wochen)",
+      bulletShip: "Kostenloser Versand",
+      bulletCancel: "Jederzeit pausieren oder kündigen",
+      renewNote: "Du kannst dein Abo nach dem Kauf im Konto verwalten.",
+      btnSubA: "In den Warenkorb · ",
+      btnSubB: " (Alle ",
+      btnSubC: " Wochen)",
+      btnOtpA: "In den Warenkorb · ",
+      processing: "Verarbeite...",
+      alertNoForm: "Fehler: Formular nicht gefunden",
+      debugPackSuffix: " Dosen",
+      debugTypeSub: "Abo",
+      debugTypeOtp: "Einmalkauf",
+      debugFreqSuffix: " Wochen",
+      debugPlanNameOtp: "Einmalkauf",
+      plan12_2: "12er - Alle 2 Wochen",
+      plan12_4: "12er - Alle 4 Wochen",
+      plan12_6: "12er - Alle 6 Wochen",
+      plan12_8: "12er - Alle 8 Wochen",
+      plan36_2: "36er - Alle 2 Wochen",
+      plan36_4: "36er - Alle 4 Wochen",
+      plan36_6: "36er - Alle 6 Wochen",
+      plan36_8: "36er - Alle 8 Wochen"
+    };
+  }
+
+  var CONFIG = {
+    currency: " €",
+    variants: {
+      otp: { 12: 52519074562384, 36: 52519074595152 },
+      sub: { 12: 52519074562384, 36: 52519074595152 }
+    },
+    sellingPlans: {
+      12: { 2: 689905729872, 4: 689905762640, 6: 689905795408, 8: 689905828176 },
+      36: { 2: 689905860944, 4: 689905893712, 6: 689905926480, 8: 689905959248 }
+    },
+    sellingPlanNames: {
+      689905729872: '12er - Alle 2 Wochen',
+      689905762640: '12er - Alle 4 Wochen',
+      689905795408: '12er - Alle 6 Wochen',
+      689905828176: '12er - Alle 8 Wochen',
+      689905860944: '36er - Alle 2 Wochen',
+      689905893712: '36er - Alle 4 Wochen',
+      689905926480: '36er - Alle 6 Wochen',
+      689905959248: '36er - Alle 8 Wochen'
+    },
+    pricing: {
+      otp: { 12: 3490, 36: 9490 },
+      sub: {
+        12: { 2: 2792, 4: 2792, 6: 2792, 8: 2792 },
+        36: { 2: 7592, 4: 7592, 6: 7592, 8: 7592 }
+      }
+    }
+  };
+
+  function applyStaticText(){
+    var L = t();
+    var title = root.querySelector('.bcw-title-neuroblends');
+    if(title) title.textContent = L.title;
+    var subtitle = root.querySelector('.bcw-subtitle-neuroblends');
+    if(subtitle) subtitle.textContent = L.subtitle;
+    var packs = root.querySelectorAll('.bcw-pack-neuroblends');
+    packs.forEach(function(packEl){
+      var p = Number(packEl.getAttribute('data-pack'));
+      var badge = packEl.querySelector('.bcw-badge-neuroblends');
+      var name = packEl.querySelector('.bcw-pack-name-neuroblends');
+      var sub = packEl.querySelector('.bcw-pack-sub-neuroblends');
+      if(p === 12){
+        if(badge) badge.innerHTML = '<span class="dot"></span>' + L.badgePopular;
+        if(name) name.textContent = L.pack12Name;
+        if(sub) sub.textContent = L.pack12Sub;
+      }
+      if(p === 36){
+        if(badge) badge.innerHTML = '<span class="dot"></span>' + L.badgeBest;
+        if(name) name.textContent = L.pack36Name;
+        if(sub) sub.textContent = L.pack36Sub;
+      }
+    });
+    var subTitle = root.querySelector('.bcw-row-neuroblends[data-type="sub"] .bcw-row-title-neuroblends');
+    if(subTitle){
+      var pillHtml = '<span class="bcw-pill-neuroblends" data-save-pill>' + L.subPillFallback + '</span>';
+      subTitle.innerHTML = L.subTitle + ' ' + pillHtml;
+    }
+    var subSub = root.querySelector('.bcw-row-neuroblends[data-type="sub"] .bcw-row-sub-neuroblends');
+    if(subSub) subSub.textContent = L.subSub;
+    var label = root.querySelector('.bcw-label-neuroblends');
+    if(label) label.textContent = L.intervalLabel;
+    var sel = root.querySelector('[data-freq]');
+    if(sel){
+      var opt2 = sel.querySelector('option[value="2"]');
+      var opt4 = sel.querySelector('option[value="4"]');
+      var opt6 = sel.querySelector('option[value="6"]');
+      var opt8 = sel.querySelector('option[value="8"]');
+      if(opt2) opt2.textContent = L.opt2;
+      if(opt4) opt4.textContent = L.opt4;
+      if(opt6) opt6.textContent = L.opt6;
+      if(opt8) opt8.textContent = L.opt8;
+    }
+    var otpTitle = root.querySelector('.bcw-row-neuroblends[data-type="otp"] .bcw-row-title-neuroblends');
+    if(otpTitle) otpTitle.textContent = L.otpTitle;
+    var otpSub = root.querySelector('.bcw-row-neuroblends[data-type="otp"] .bcw-row-sub-neuroblends');
+    if(otpSub) otpSub.textContent = L.otpSub;
+    var otpLis = root.querySelectorAll('.bcw-row-neuroblends[data-type="otp"] .bcw-row-body-neuroblends .bcw-bullets-neuroblends li');
+    if(otpLis && otpLis.length >= 2){
+      var li1Text = otpLis[0].childNodes[otpLis[0].childNodes.length - 1];
+      var li2Text = otpLis[1].childNodes[otpLis[1].childNodes.length - 1];
+      if(li1Text) li1Text.nodeValue = L.otpBullet1;
+      if(li2Text) li2Text.nodeValue = L.otpBullet2;
+    }
+    var cta = root.querySelector('[data-cta]');
+    if(cta) cta.textContent = L.ctaAdd;
+    CONFIG.sellingPlanNames = {
+      689905729872: L.plan12_2,
+      689905762640: L.plan12_4,
+      689905795408: L.plan12_6,
+      689905828176: L.plan12_8,
+      689905860944: L.plan36_2,
+      689905893712: L.plan36_4,
+      689905926480: L.plan36_6,
+      689905959248: L.plan36_8
+    };
+  }
+
+  applyStaticText();
+  var state = { pack: 12, type: "sub", freq: 4 };
+
+  function formatMoney(c){ return (c/100).toFixed(2).replace('.',',') + CONFIG.currency; }
+
+  function updateDebug(){
+    var L = t();
+    var variantId, planId, planName;
+    if(state.type === 'sub'){
+      variantId = CONFIG.variants.sub[state.pack];
+      planId = CONFIG.sellingPlans[state.pack][state.freq];
+      planName = CONFIG.sellingPlanNames[planId] || 'Unknown';
+    } else {
+      variantId = CONFIG.variants.otp[state.pack];
+      planId = '';
+      planName = L.debugPlanNameOtp;
+    }
+    var elPack = root.querySelector('[data-debug-pack]');
+    var elType = root.querySelector('[data-debug-type]');
+    var elFreq = root.querySelector('[data-debug-freq]');
+    var elVariant = root.querySelector('[data-debug-variant]');
+    var elPlan = root.querySelector('[data-debug-plan]');
+    var elName = root.querySelector('[data-debug-name]');
+    if(elPack) elPack.textContent = state.pack + L.debugPackSuffix;
+    if(elType) elType.textContent = state.type === 'sub' ? L.debugTypeSub : L.debugTypeOtp;
+    if(elFreq) elFreq.textContent = state.type === 'sub' ? state.freq + L.debugFreqSuffix : '-';
+    if(elVariant) elVariant.textContent = variantId;
+    if(elPlan) elPlan.textContent = planId || 'N/A';
+    if(elName) elName.textContent = planName;
+    var formId = document.getElementById('bcw-form-id-neuroblends');
+    var formPlan = document.getElementById('bcw-form-plan-neuroblends');
+    if(formId) formId.value = variantId;
+    if(formPlan) formPlan.value = planId || '';
+  }
+
+  function render(){
+    var L = t();
+    root.querySelectorAll('.bcw-pack-neuroblends').forEach(function(el){
+      el.classList.toggle('is-active', Number(el.getAttribute('data-pack')) === state.pack);
+    });
+    root.querySelectorAll('.bcw-row-neuroblends').forEach(function(el){
+      el.classList.toggle('is-selected', el.getAttribute('data-type') === state.type);
+    });
+    var subP = CONFIG.pricing.sub[state.pack][state.freq];
+    var otpP = CONFIG.pricing.otp[state.pack];
+    var elSubNow = root.querySelector('[data-sub-now]');
+    var elSubWas = root.querySelector('[data-sub-was]');
+    var elOtpNow = root.querySelector('[data-otp-now]');
+    if(elSubNow) elSubNow.textContent = formatMoney(subP);
+    if(elSubWas) elSubWas.textContent = formatMoney(otpP);
+    if(elOtpNow) elOtpNow.textContent = formatMoney(otpP);
+    [12,36].forEach(function(p){
+      var el = root.querySelector('[data-per-pack="'+p+'"]');
+      if(el) {
+        var cost = (state.type === 'sub' && p === state.pack) ? subP : CONFIG.pricing.otp[p];
+        el.textContent = (cost/100/p).toFixed(2).replace('.',',') + " " + L.perCan;
+      }
+    });
+    var ul = root.querySelector('[data-bullets]');
+    if(ul){
+      var savePct = Math.round((1 - (subP/otpP)) * 100);
+      var saveAmt = otpP - subP;
+      ul.innerHTML = [
+        L.bulletSaveA + savePct + L.bulletSaveB + formatMoney(saveAmt) + L.bulletSaveC,
+        L.bulletFreqA + state.freq + L.bulletFreqB,
+        L.bulletShip,
+        L.bulletCancel
+      ].map(function(txt){
+        return '<li><span class="bcw-check-neuroblends"><img src="https://cdn.shopify.com/s/files/1/0904/7215/3424/files/Icons_1.png?v=1768136915"></span>'+txt+'</li>';
+      }).join('');
+      var pill = root.querySelector('[data-save-pill]');
+      if(pill) pill.textContent = L.subPillPrefix + savePct + "%";
+      var note = root.querySelector('[data-renew-note]');
+      if(note) note.textContent = L.renewNote;
+    }
+    var btn = root.querySelector('[data-cta]');
+    if(btn){
+      if(state.type === 'sub') {
+        btn.textContent = L.btnSubA + formatMoney(subP) + L.btnSubB + state.freq + L.btnSubC;
+      } else {
+        btn.textContent = L.btnOtpA + formatMoney(otpP);
+      }
+    }
+    updateDebug();
+  }
+
+  function add(){
+    var L = t();
+    var btn = root.querySelector('[data-cta]');
+    if(btn) {
+       btn.classList.add('is-loading');
+       btn.textContent = L.processing;
+    }
+    var vid, planId;
+    if(state.type === 'sub'){
+      vid = CONFIG.variants.sub[state.pack];
+      planId = CONFIG.sellingPlans[state.pack][state.freq];
+    } else {
+      vid = CONFIG.variants.otp[state.pack];
+      planId = null;
+    }
+    console.log('%c=== BCW V7 NEUROBLENDS: FORM SUBMIT (NO CLEAR) ===', 'background:#424242;color:#fff;padding:4px 8px;font-weight:bold;');
+    console.log('Pack:', state.pack);
+    console.log('Type:', state.type);
+    console.log('Freq:', state.freq);
+    console.log('Variant ID:', vid);
+    console.log('Selling Plan ID:', planId);
+    console.log('Plan Name:', planId ? CONFIG.sellingPlanNames[planId] : 'N/A');
+    var formId = document.getElementById('bcw-form-id-neuroblends');
+    var formPlan = document.getElementById('bcw-form-plan-neuroblends');
+    var form = document.getElementById('bcw-cart-form-neuroblends');
+    if(formId) formId.value = vid;
+    if(formPlan) {
+      if(planId) {
+        formPlan.value = planId;
+        formPlan.disabled = false;
+        formPlan.name = 'selling_plan';
+      } else {
+        formPlan.value = '';
+        formPlan.disabled = true;
+        formPlan.removeAttribute('name');
+      }
+    }
+    console.log('Form values - ID:', formId.value, '| Plan:', formPlan.value, '| Plan disabled:', formPlan.disabled);
+    if(form) {
+      form.submit();
+    } else {
+      console.error('Form not found!');
+      alert(L.alertNoForm);
+      if(btn) {
+        btn.classList.remove('is-loading');
+        render();
+      }
+    }
+  }
+
+  root.querySelectorAll('.bcw-pack-neuroblends').forEach(function(el){
+    el.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      state.pack = Number(el.getAttribute('data-pack'));
+      render();
+    });
+  });
+  root.querySelectorAll('.bcw-row-neuroblends').forEach(function(el){
+    el.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      state.type = el.getAttribute('data-type');
+      render();
+    });
+  });
+  var sel = root.querySelector('[data-freq]');
+  if(sel) {
+    sel.addEventListener('change', function(e){
+      e.stopPropagation();
+      state.freq = Number(sel.value);
+      render();
+    });
+    sel.addEventListener('click', function(e){
+      e.stopPropagation();
+    });
+  }
+  var ctaBtn = root.querySelector('[data-cta]');
+  if(ctaBtn) {
+    ctaBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      add();
+    }, true);
+  }
+  if(window.getCurrentSellingPlanId) {
+    window.getCurrentSellingPlanId = function(){ return ''; };
+  }
+  if(window.appstleSelectedSellingPlan) {
+    window.appstleSelectedSellingPlan = null;
+  }
+  render();
+  console.log('%c=== BCW WIDGET V7 NEUROBLENDS LOADED ===', 'background:#424242;color:#fff;padding:4px 8px;font-weight:bold;');
+})();
+</script>
