@@ -1,0 +1,542 @@
+<style>
+/* === Container === */
+.nutri-widget-container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+.nutri-widget-container *,
+.nutri-widget-container *::before,
+.nutri-widget-container *::after {
+  box-sizing: border-box;
+}
+
+/* === CSS Variables for Dynamic Theming === */
+:root {
+  --nutri-brand: #e68917;
+  --nutri-soft: rgba(230,137,23,0.10);
+  --nutri-panel: #FFF3E0;
+  --nutri-ink: #0C141B;
+  --nutri-muted: rgba(12,20,27,0.62);
+  --nutri-border: rgba(12,20,27,0.14);
+}
+
+/* === Tabs === */
+.nutri-variant-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.nutri-variant-tab {
+  background-color: #fff;
+  border: 2px solid var(--nutri-border);
+  border-radius: 12px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--nutri-ink);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+  min-width: 120px;
+  text-align: center;
+}
+.nutri-variant-tab:hover {
+  border-color: var(--nutri-brand);
+  background-color: var(--nutri-soft);
+}
+.nutri-variant-tab.active {
+  background-color: var(--nutri-brand);
+  border-color: var(--nutri-brand);
+  color: #fff;
+}
+
+/* === Content Area === */
+.nutri-content-area {
+  display: none;
+}
+.nutri-content-area.active {
+  display: block;
+  animation: fadeInNutri 0.3s ease;
+}
+
+@keyframes fadeInNutri {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Section === */
+.nutri-section {
+  background: #fff;
+  border: 1px solid var(--nutri-border);
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+.nutri-section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--nutri-ink);
+  margin: 0 0 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* === Badges === */
+.nutri-badge-small {
+  display: inline-block;
+  background: var(--nutri-brand);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+/* === Text === */
+.nutri-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--nutri-ink);
+  margin: 0 0 12px 0;
+}
+.nutri-text:last-child {
+  margin-bottom: 0;
+}
+.nutri-text strong {
+  font-weight: 600;
+}
+
+/* === Notice === */
+.nutri-notice {
+  background: var(--nutri-panel);
+  border-left: 4px solid var(--nutri-brand);
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--nutri-ink);
+  margin-top: 16px;
+}
+
+/* === Table === */
+.nutri-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.nutri-row {
+  border-bottom: 1px solid var(--nutri-border);
+  transition: background-color 0.2s ease;
+}
+.nutri-row:last-child {
+  border-bottom: none;
+}
+.nutri-row.highlight {
+  background-color: var(--nutri-panel);
+}
+.nutri-row.highlight .n-label,
+.nutri-row.highlight .n-val {
+  color: var(--nutri-brand);
+  font-weight: 600;
+}
+.nutri-cell {
+  padding: 14px 8px;
+  text-align: left;
+  vertical-align: middle;
+}
+.nutri-cell:last-child {
+  text-align: right;
+}
+.n-label {
+  font-size: 15px;
+  color: var(--nutri-ink);
+  font-weight: 500;
+}
+.n-val {
+  font-size: 15px;
+  color: var(--nutri-ink);
+  font-weight: 600;
+}
+
+/* === Mobile === */
+@media (max-width: 600px) {
+  .nutri-widget-container {
+    padding: 0;
+  }
+  .nutri-variant-tabs {
+    gap: 8px;
+  }
+  .nutri-variant-tab {
+    padding: 10px 16px;
+    font-size: 14px;
+    min-width: 100px;
+  }
+  .nutri-section {
+    padding: 20px;
+    border-radius: 12px;
+  }
+  .nutri-section-title {
+    font-size: 16px;
+  }
+  .nutri-text {
+    font-size: 14px;
+  }
+  .nutri-notice {
+    font-size: 13px;
+    padding: 14px;
+  }
+  .n-label,
+  .n-val {
+    font-size: 14px;
+  }
+  .nutri-cell {
+    padding: 12px 6px;
+  }
+}
+</style>
+
+<div class="nutri-widget-container">
+  <!-- Tabs -->
+  <div class="nutri-variant-tabs">
+    <button class="nutri-variant-tab active" data-variant="vibe">VIBE</button>
+    <button class="nutri-variant-tab" data-variant="sharp">SHARP</button>
+    <button class="nutri-variant-tab" data-variant="relax">RELAX</button>
+  </div>
+
+  <!-- Content areas (will be populated by JavaScript) -->
+  <div id="nutri-content-vibe" class="nutri-content-area active"></div>
+  <div id="nutri-content-sharp" class="nutri-content-area"></div>
+  <div id="nutri-content-relax" class="nutri-content-area"></div>
+</div>
+
+<script>
+(function() {
+  // Detect language
+  var currentPath = window.location.pathname;
+  var isEnglish = currentPath.indexOf('/en') === 0 || currentPath.indexOf('/en/') !== -1;
+
+  // Color schemes for each variant
+  var colorSchemes = {
+    vibe: {
+      brand: '#e68917',
+      soft: 'rgba(230,137,23,0.10)',
+      panel: '#FFF3E0'
+    },
+    sharp: {
+      brand: '#76b82a',
+      soft: 'rgba(118,184,42,0.10)',
+      panel: '#f3faea'
+    },
+    relax: {
+      brand: '#9468a9',
+      soft: 'rgba(148,104,169,0.10)',
+      panel: '#F3E9F8'
+    }
+  };
+
+  // Update theme colors
+  function updateTheme(variant) {
+    var colors = colorSchemes[variant];
+    document.documentElement.style.setProperty('--nutri-brand', colors.brand);
+    document.documentElement.style.setProperty('--nutri-soft', colors.soft);
+    document.documentElement.style.setProperty('--nutri-panel', colors.panel);
+  }
+
+  // Data for all variants
+  var data = {
+    sharp: {
+      de: {
+        ingredients: "Wasser, Kohlendioxid, natürliches Aroma, Grüntee-Extrakt (0,06%), Säuerungsmittel: Citronensäure; Stabilisator: Pektin; Süßungsmittel: Steviolglykoside aus Stevia, Sucralose; Säureregulator: Natriumcitrat; natürlicher Farbstoff: Kupferkomplexe der Chlorophylline.",
+        about: "Dein Drink für produktive Phasen. Natürliches Koffein und L-Theanin aus Grüntee unterstützen fokussiertes Arbeiten – ohne den Jitter von Kaffee. Der milde Geschmack nach grünem Apfel macht jede Session angenehm.",
+        caffeineNote: "Erhöhter Koffeingehalt. Für Kinder und schwangere oder stillende Frauen nicht empfohlen (30 mg/100 ml).",
+        activeIngredients: [
+          {name: "Natürliches Koffein", amount: "30 mg", highlight: true},
+          {name: "L-Theanin (Grüntee)", amount: "150 mg"},
+          {name: "Grüntee-Extrakt (Epigallocatechin-3-gallat)", amount: "50 mg"}
+        ],
+        nutritionPer100: [
+          {label: "Energie", value: "1,2 kJ / 0,3 kcal"},
+          {label: "Fett", value: "< 0,1 g"},
+          {label: "davon gesättigte Fettsäuren", value: "< 0,1 g"},
+          {label: "Kohlenhydrate", value: "< 0,1 g"},
+          {label: "davon Zucker", value: "< 0,1 g"},
+          {label: "Eiweiß", value: "< 0,1 g"},
+          {label: "Salz", value: "0,04 g"}
+        ],
+        nutritionPer250: [
+          {label: "Energie", value: "3 kJ / 0,8 kcal"},
+          {label: "Fett", value: "< 0,1 g"},
+          {label: "davon gesättigte Fettsäuren", value: "< 0,1 g"},
+          {label: "Kohlenhydrate", value: "< 0,1 g"},
+          {label: "davon Zucker", value: "< 0,1 g"},
+          {label: "Eiweiß", value: "< 0,1 g"},
+          {label: "Salz", value: "0,1 g"}
+        ]
+      },
+      en: {
+        ingredients: "Water, carbon dioxide, natural flavouring, green tea extract (0.06%), acidity regulator: citric acid; stabiliser: pectin; sweeteners: steviol glycosides from stevia, sucralose; acidity regulator: sodium citrate; natural colour: copper complexes of chlorophyllins.",
+        about: "Your drink for productive phases. Natural caffeine and L-theanine from green tea support focused work – without the jitters from coffee. The mild green apple taste makes every session enjoyable.",
+        caffeineNote: "High caffeine content. Not recommended for children and pregnant or breastfeeding women (30 mg/100 ml).",
+        activeIngredients: [
+          {name: "Natural Caffeine", amount: "30 mg", highlight: true},
+          {name: "L-Theanine (Green Tea)", amount: "150 mg"},
+          {name: "Green Tea Extract (Epigallocatechin-3-gallate)", amount: "50 mg"}
+        ],
+        nutritionPer100: [
+          {label: "Energy", value: "1.2 kJ / 0.3 kcal"},
+          {label: "Fat", value: "< 0.1 g"},
+          {label: "of which saturates", value: "< 0.1 g"},
+          {label: "Carbohydrate", value: "< 0.1 g"},
+          {label: "of which sugars", value: "< 0.1 g"},
+          {label: "Protein", value: "< 0.1 g"},
+          {label: "Salt", value: "0.04 g"}
+        ],
+        nutritionPer250: [
+          {label: "Energy", value: "3 kJ / 0.8 kcal"},
+          {label: "Fat", value: "< 0.1 g"},
+          {label: "of which saturates", value: "< 0.1 g"},
+          {label: "Carbohydrate", value: "< 0.1 g"},
+          {label: "of which sugars", value: "< 0.1 g"},
+          {label: "Protein", value: "< 0.1 g"},
+          {label: "Salt", value: "0.1 g"}
+        ]
+      }
+    },
+    relax: {
+      de: {
+        ingredients: "Wasser, Kohlendioxid, natürliches Aroma, Melissen-Extrakt (0,05%), Süßungsmittel: Steviolglykoside aus Stevia, Sucralose; Säuerungsmittel: Citronensäure; Stabilisator: Pektin; Säureregulator: Natriumcitrat; natürlicher Farbstoff: Anthocyane.",
+        about: "Dein Moment der Entspannung. Melissen-Extrakt und GABA helfen dir, runterzufahren und im Hier und Jetzt anzukommen. Der sanfte Beeren-Geschmack begleitet dich dabei.",
+        caffeineNote: null,
+        activeIngredients: [
+          {name: "GABA (Gamma-Aminobuttersäure)", amount: "100 mg", highlight: true},
+          {name: "Melissen-Extrakt", amount: "125 mg"},
+          {name: "Ashwagandha", amount: "150 mg"}
+        ],
+        nutritionPer100: [
+          {label: "Energie", value: "1,2 kJ / 0,3 kcal"},
+          {label: "Fett", value: "< 0,1 g"},
+          {label: "davon gesättigte Fettsäuren", value: "< 0,1 g"},
+          {label: "Kohlenhydrate", value: "< 0,1 g"},
+          {label: "davon Zucker", value: "< 0,1 g"},
+          {label: "Eiweiß", value: "< 0,1 g"},
+          {label: "Salz", value: "0,04 g"}
+        ],
+        nutritionPer250: [
+          {label: "Energie", value: "3 kJ / 0,8 kcal"},
+          {label: "Fett", value: "< 0,1 g"},
+          {label: "davon gesättigte Fettsäuren", value: "< 0,1 g"},
+          {label: "Kohlenhydrate", value: "< 0,1 g"},
+          {label: "davon Zucker", value: "< 0,1 g"},
+          {label: "Eiweiß", value: "< 0,1 g"},
+          {label: "Salz", value: "0,1 g"}
+        ]
+      },
+      en: {
+        ingredients: "Water, carbon dioxide, natural flavouring, lemon balm extract (0.05%), sweeteners: steviol glycosides from stevia, sucralose; acidity regulator: citric acid; stabiliser: pectin; acidity regulator: sodium citrate; natural colour: anthocyanins.",
+        about: "Your moment of relaxation. Lemon balm extract and GABA help you wind down and be present in the moment. The gentle berry taste accompanies you.",
+        caffeineNote: null,
+        activeIngredients: [
+          {name: "GABA (Gamma-Aminobutyric Acid)", amount: "100 mg", highlight: true},
+          {name: "Lemon Balm Extract", amount: "125 mg"},
+          {name: "Ashwagandha", amount: "150 mg"}
+        ],
+        nutritionPer100: [
+          {label: "Energy", value: "1.2 kJ / 0.3 kcal"},
+          {label: "Fat", value: "< 0.1 g"},
+          {label: "of which saturates", value: "< 0.1 g"},
+          {label: "Carbohydrate", value: "< 0.1 g"},
+          {label: "of which sugars", value: "< 0.1 g"},
+          {label: "Protein", value: "< 0.1 g"},
+          {label: "Salt", value: "0.04 g"}
+        ],
+        nutritionPer250: [
+          {label: "Energy", value: "3 kJ / 0.8 kcal"},
+          {label: "Fat", value: "< 0.1 g"},
+          {label: "of which saturates", value: "< 0.1 g"},
+          {label: "Carbohydrate", value: "< 0.1 g"},
+          {label: "of which sugars", value: "< 0.1 g"},
+          {label: "Protein", value: "< 0.1 g"},
+          {label: "Salt", value: "0.1 g"}
+        ]
+      }
+    },
+    vibe: {
+      de: {
+        ingredients: "Wasser, Kohlendioxid, natürliches Aroma, Säuerungsmittel: Citronensäure; Stabilisator: Pektin; Ginseng-Extrakt (0,05%), Süßungsmittel: Steviolglykoside aus Stevia, Sucralose; Säureregulator: Natriumcitrat; natürlicher Farbstoff: Beta-Carotin.",
+        about: "Dein Begleiter für gesellige Momente. Ginseng und Ginkgo helfen dir, präsent und aufmerksam zu bleiben – ohne aufdringlich zu sein. Der leichte Zitrus-Geschmack passt zu jedem Anlass.",
+        caffeineNote: null,
+        activeIngredients: [
+          {name: "Ginseng-Extrakt", amount: "125 mg", highlight: true},
+          {name: "Ginkgo Biloba", amount: "120 mg"},
+          {name: "Vitamin B6", amount: "1,4 mg"},
+          {name: "Vitamin B12", amount: "2,5 μg"}
+        ],
+        nutritionPer100: [
+          {label: "Energie", value: "1,2 kJ / 0,3 kcal"},
+          {label: "Fett", value: "< 0,1 g"},
+          {label: "davon gesättigte Fettsäuren", value: "< 0,1 g"},
+          {label: "Kohlenhydrate", value: "< 0,1 g"},
+          {label: "davon Zucker", value: "< 0,1 g"},
+          {label: "Eiweiß", value: "< 0,1 g"},
+          {label: "Salz", value: "0,04 g"}
+        ],
+        nutritionPer250: [
+          {label: "Energie", value: "3 kJ / 0,8 kcal"},
+          {label: "Fett", value: "< 0,1 g"},
+          {label: "davon gesättigte Fettsäuren", value: "< 0,1 g"},
+          {label: "Kohlenhydrate", value: "< 0,1 g"},
+          {label: "davon Zucker", value: "< 0,1 g"},
+          {label: "Eiweiß", value: "< 0,1 g"},
+          {label: "Salz", value: "0,1 g"}
+        ]
+      },
+      en: {
+        ingredients: "Water, carbon dioxide, natural flavouring, acidity regulator: citric acid; stabiliser: pectin; ginseng extract (0.05%), sweeteners: steviol glycosides from stevia, sucralose; acidity regulator: sodium citrate; natural colour: beta-carotene.",
+        about: "Your companion for social moments. Ginseng and ginkgo help you stay present and attentive – without being intrusive. The light citrus taste suits any occasion.",
+        caffeineNote: null,
+        activeIngredients: [
+          {name: "Ginseng Extract", amount: "125 mg", highlight: true},
+          {name: "Ginkgo Biloba", amount: "120 mg"},
+          {name: "Vitamin B6", amount: "1.4 mg"},
+          {name: "Vitamin B12", amount: "2.5 μg"}
+        ],
+        nutritionPer100: [
+          {label: "Energy", value: "1.2 kJ / 0.3 kcal"},
+          {label: "Fat", value: "< 0.1 g"},
+          {label: "of which saturates", value: "< 0.1 g"},
+          {label: "Carbohydrate", value: "< 0.1 g"},
+          {label: "of which sugars", value: "< 0.1 g"},
+          {label: "Protein", value: "< 0.1 g"},
+          {label: "Salt", value: "0.04 g"}
+        ],
+        nutritionPer250: [
+          {label: "Energy", value: "3 kJ / 0.8 kcal"},
+          {label: "Fat", value: "< 0.1 g"},
+          {label: "of which saturates", value: "< 0.1 g"},
+          {label: "Carbohydrate", value: "< 0.1 g"},
+          {label: "of which sugars", value: "< 0.1 g"},
+          {label: "Protein", value: "< 0.1 g"},
+          {label: "Salt", value: "0.1 g"}
+        ]
+      }
+    }
+  };
+
+  // Render content for a variant
+  function renderContent(variant) {
+    var lang = isEnglish ? 'en' : 'de';
+    var variantData = data[variant][lang];
+
+    var ingredientsLabel = isEnglish ? "Ingredients" : "Zutaten";
+    var aboutLabel = isEnglish ? "About this Drink" : "Über diesen Drink";
+    var activeLabel = isEnglish ? "Active Ingredients" : "Wirkstoffe";
+    var per100Label = isEnglish ? "per 100 ml" : "pro 100 ml";
+    var per250Label = isEnglish ? "per can (250 ml)" : "pro Dose (250 ml)";
+    var nutritionLabel = isEnglish ? "Nutritional Information" : "Nährwertangaben";
+
+    var html = '';
+
+    // Ingredients section
+    html += '<div class="nutri-section">';
+    html += '<h3 class="nutri-section-title">' + ingredientsLabel + '</h3>';
+    html += '<p class="nutri-text">' + variantData.ingredients + '</p>';
+    html += '</div>';
+
+    // About section
+    html += '<div class="nutri-section">';
+    html += '<h3 class="nutri-section-title">' + aboutLabel + '</h3>';
+    html += '<p class="nutri-text">' + variantData.about + '</p>';
+    if (variantData.caffeineNote) {
+      html += '<div class="nutri-notice">' + variantData.caffeineNote + '</div>';
+    }
+    html += '</div>';
+
+    // Active ingredients section
+    html += '<div class="nutri-section">';
+    html += '<h3 class="nutri-section-title">' + activeLabel + ' <span class="nutri-badge-small">' + per250Label + '</span></h3>';
+    html += '<table class="nutri-table"><tbody>';
+    variantData.activeIngredients.forEach(function(item) {
+      var rowClass = item.highlight ? 'nutri-row highlight' : 'nutri-row';
+      html += '<tr class="' + rowClass + '">';
+      html += '<td class="nutri-cell"><span class="n-label">' + item.name + '</span></td>';
+      html += '<td class="nutri-cell"><span class="n-val">' + item.amount + '</span></td>';
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    html += '</div>';
+
+    // Nutrition per 100ml section
+    html += '<div class="nutri-section">';
+    html += '<h3 class="nutri-section-title">' + nutritionLabel + ' <span class="nutri-badge-small">' + per100Label + '</span></h3>';
+    html += '<table class="nutri-table"><tbody>';
+    variantData.nutritionPer100.forEach(function(item) {
+      html += '<tr class="nutri-row">';
+      html += '<td class="nutri-cell"><span class="n-label">' + item.label + '</span></td>';
+      html += '<td class="nutri-cell"><span class="n-val">' + item.value + '</span></td>';
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    html += '</div>';
+
+    // Nutrition per 250ml section
+    html += '<div class="nutri-section">';
+    html += '<h3 class="nutri-section-title">' + nutritionLabel + ' <span class="nutri-badge-small">' + per250Label + '</span></h3>';
+    html += '<table class="nutri-table"><tbody>';
+    variantData.nutritionPer250.forEach(function(item) {
+      html += '<tr class="nutri-row">';
+      html += '<td class="nutri-cell"><span class="n-label">' + item.label + '</span></td>';
+      html += '<td class="nutri-cell"><span class="n-val">' + item.value + '</span></td>';
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    html += '</div>';
+
+    return html;
+  }
+
+  // Initialize content for all variants
+  document.getElementById('nutri-content-vibe').innerHTML = renderContent('vibe');
+  document.getElementById('nutri-content-sharp').innerHTML = renderContent('sharp');
+  document.getElementById('nutri-content-relax').innerHTML = renderContent('relax');
+
+  // Set initial theme (VIBE is default)
+  updateTheme('vibe');
+
+  // Tab switching
+  var tabs = document.querySelectorAll('.nutri-variant-tab');
+  var contents = document.querySelectorAll('.nutri-content-area');
+
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      var variant = this.getAttribute('data-variant');
+
+      // Update active tab
+      tabs.forEach(function(t) {
+        t.classList.remove('active');
+      });
+      this.classList.add('active');
+
+      // Update active content
+      contents.forEach(function(c) {
+        c.classList.remove('active');
+      });
+      document.getElementById('nutri-content-' + variant).classList.add('active');
+
+      // Update theme colors
+      updateTheme(variant);
+    });
+  });
+})();
+</script>
