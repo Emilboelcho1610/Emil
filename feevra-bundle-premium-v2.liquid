@@ -50,7 +50,7 @@
 .feevra-bundle-v2 .bundle-inner {
   border: 1px solid var(--feevra-primary);
   border-radius: 14px;
-  padding: clamp(20px, 4vw, 36px);
+  padding: clamp(16px, 3.5vw, 28px);
   background: #fff;
 }
 
@@ -59,7 +59,7 @@
   font-size: clamp(16px, 3vw, 18px);
   font-weight: 700;
   text-align: left;
-  margin: 0 0 12px 0;
+  margin: 0 0 10px 0;
   color: var(--feevra-primary);
   letter-spacing: -0.01em;
 }
@@ -78,30 +78,27 @@
 }
 
 .feevra-bundle-v2 #section-color {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
-/* Smooth Apple-style transitions */
+/* Smooth transitions */
 .feevra-bundle-v2 .bundle-section {
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transform: translateY(-8px);
-  transition: max-height 0.6s cubic-bezier(0.32, 0.72, 0, 1),
-              opacity 0.4s cubic-bezier(0.32, 0.72, 0, 1),
-              transform 0.4s cubic-bezier(0.32, 0.72, 0, 1),
-              margin 0.6s cubic-bezier(0.32, 0.72, 0, 1);
+  transition: max-height 0.3s ease,
+              opacity 0.2s ease,
+              margin 0.3s ease;
 }
 
 .feevra-bundle-v2 .bundle-section.active {
   max-height: 2000px;
   opacity: 1;
-  transform: translateY(0);
   margin-bottom: 16px;
 }
 
 .feevra-bundle-v2 #section-color.active {
-  margin-bottom: 12px;
+  margin-bottom: 6px;
 }
 
 /* Color Grid - Always 4 columns */
@@ -380,12 +377,39 @@
   display: none;
 }
 
+/* Back button */
+.feevra-bundle-v2 .back-button {
+  background: none;
+  border: none;
+  color: var(--feevra-primary);
+  font-size: clamp(12px, 2.6vw, 14px);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.feevra-bundle-v2 .back-button:hover {
+  color: #13102d;
+  transform: translateX(-2px);
+}
+
+.feevra-bundle-v2 .back-button svg {
+  width: 16px;
+  height: 16px;
+}
+
 /* Innovative Color Distribution */
 .feevra-bundle-v2 .distribution-container {
   background: var(--feevra-gray-50);
   border-radius: 12px;
   padding: clamp(16px, 3vw, 20px);
-  margin-top: 20px;
+  margin-top: 0;
 }
 
 .feevra-bundle-v2 .distribution-title {
@@ -643,6 +667,12 @@
 
     <!-- Step 3: Color Distribution (for 2+ items) -->
     <div class="bundle-section" id="section-distribution">
+      <button type="button" class="back-button" id="back-to-quantity">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        Gå tilbage
+      </button>
       <div class="distribution-container">
         <h3 class="distribution-title">Fordel farver</h3>
         <div class="distribution-grid" id="distribution-grid">
@@ -727,6 +757,7 @@
     },
     distributionGrid: document.getElementById('distribution-grid'),
     ctaBtn: document.getElementById('add-to-cart-btn'),
+    backBtn: document.getElementById('back-to-quantity'),
     toast: document.getElementById('toast')
   };
 
@@ -745,6 +776,7 @@
     });
 
     els.ctaBtn.addEventListener('click', handleAddToCart);
+    els.backBtn.addEventListener('click', handleBackToQuantity);
 
     // Check stock status
     checkStockStatus();
@@ -787,7 +819,21 @@
     const quantity = parseInt(card.dataset.quantity);
 
     updateQuantitySelection(quantity);
-    updateDistribution();
+
+    // Hide quantity section after selection
+    setTimeout(() => {
+      els.sections.quantity.classList.remove('active');
+
+      // Show appropriate section based on quantity
+      if (quantity === 1) {
+        // Show CTA directly for single item
+        els.sections.cta.classList.add('active');
+        state.distribution = { 0: state.selectedColor };
+      } else {
+        // Show distribution for 2-3 items
+        updateDistribution();
+      }
+    }, 150);
   }
 
   function updateQuantitySelection(quantity) {
@@ -804,6 +850,18 @@
     });
   }
 
+  // Handle back to quantity
+  function handleBackToQuantity() {
+    // Hide distribution and CTA
+    els.sections.distribution.classList.remove('active');
+    els.sections.cta.classList.remove('active');
+
+    // Show quantity selection again
+    setTimeout(() => {
+      els.sections.quantity.classList.add('active');
+    }, 150);
+  }
+
   // Update distribution UI
   function updateDistribution() {
     const qty = state.selectedQuantity;
@@ -817,6 +875,7 @@
 
     // Show distribution for 2+ items
     els.sections.distribution.classList.add('active');
+    els.sections.cta.classList.add('active');
 
     // Build distribution UI
     const grid = els.distributionGrid;
