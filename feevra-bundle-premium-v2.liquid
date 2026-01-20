@@ -146,33 +146,6 @@
   object-fit: cover;
 }
 
-.feevra-bundle-v2 .color-checkmark {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: var(--feevra-primary);
-  color: #fff;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 700;
-  z-index: 2;
-}
-
-.feevra-bundle-v2 .color-card.selected .color-checkmark {
-  display: flex;
-  animation: checkmarkPop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-@keyframes checkmarkPop {
-  0% { transform: scale(0); }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(1); }
-}
 
 .feevra-bundle-v2 .color-name {
   padding: 8px 4px;
@@ -439,25 +412,6 @@
   object-fit: cover;
 }
 
-.feevra-bundle-v2 .dist-color-check {
-  position: absolute;
-  top: 2px;
-  right: 2px;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--feevra-primary);
-  color: #fff;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.feevra-bundle-v2 .dist-color-btn.selected .dist-color-check {
-  display: flex;
-}
 
 /* CTA Button - Semi-bold uppercase */
 .feevra-bundle-v2 .cta-button {
@@ -565,7 +519,6 @@
         <button type="button" class="color-card" data-color="sort" data-variant="49885169189206" data-available="true">
           <div class="color-image">
             <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_2_e103e0c1-662b-4aca-a605-009f32c6e49e.jpg?v=1768917230" alt="Sort">
-            <div class="color-checkmark">✓</div>
           </div>
           <div class="color-name">Sort</div>
         </button>
@@ -573,7 +526,6 @@
         <button type="button" class="color-card" data-color="rosa" data-variant="49885169221974" data-available="true">
           <div class="color-image">
             <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemaske_jpg_3ec23e6e-1dce-4474-a8e8-30ad75e4a914.jpg?v=1768917229" alt="Rosa">
-            <div class="color-checkmark">✓</div>
           </div>
           <div class="color-name">Rosa</div>
         </button>
@@ -581,7 +533,6 @@
         <button type="button" class="color-card" data-color="graa" data-variant="50595389866326" data-available="true">
           <div class="color-image">
             <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken_jpg_049bb0ba-66eb-478f-87ba-5f4e1c3af56c.jpg?v=1768917230" alt="Grå">
-            <div class="color-checkmark">✓</div>
           </div>
           <div class="color-name">Grå</div>
         </button>
@@ -589,7 +540,6 @@
         <button type="button" class="color-card" data-color="blaa" data-variant="49885169254742" data-available="true">
           <div class="color-image">
             <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_3_021793b9-d91c-4e66-8277-77242e0f482e.jpg?v=1768917230" alt="Blå">
-            <div class="color-checkmark">✓</div>
           </div>
           <div class="color-name">Blå</div>
         </button>
@@ -861,7 +811,6 @@
         btn.innerHTML = `
           <div class="dist-color-img">
             <img src="${product.image}" alt="${product.name}">
-            <div class="dist-color-check">✓</div>
           </div>
         `;
 
