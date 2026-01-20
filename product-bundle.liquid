@@ -1,0 +1,151 @@
+{% comment %}
+  Feevra Product Bundle Section
+  Usage: Add this as a section in your Shopify theme
+  or include it in a product template
+{% endcomment %}
+
+<div class="feevra-bundle-wrapper">
+  <style>
+    {{ 'bundle-styles.css' | asset_url | stylesheet_tag }}
+  </style>
+
+  <div class="bundle-container">
+    <!-- Step 1: Color Selection -->
+    <div id="color-selection" class="selection-step active">
+      <h2>Vælg din farve</h2>
+      <div class="product-grid">
+
+        {% comment %} Sort {% endcomment %}
+        <div class="product-card"
+             data-color="sort"
+             data-variant-id="49885169189206"
+             data-available="{{ product.variants[0].available }}">
+          <div class="product-image-wrapper">
+            <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_2_e103e0c1-662b-4aca-a605-009f32c6e49e.jpg?v=1768917230"
+                 alt="Sort"
+                 loading="lazy">
+          </div>
+          <div class="color-label">Sort</div>
+        </div>
+
+        {% comment %} Rosa {% endcomment %}
+        <div class="product-card"
+             data-color="rosa"
+             data-variant-id="49885169189206"
+             data-available="{{ product.variants[0].available }}">
+          <div class="product-image-wrapper">
+            <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemaske_jpg_3ec23e6e-1dce-4474-a8e8-30ad75e4a914.jpg?v=1768917229"
+                 alt="Rosa"
+                 loading="lazy">
+          </div>
+          <div class="color-label">Rosa</div>
+        </div>
+
+        {% comment %} Grå {% endcomment %}
+        <div class="product-card"
+             data-color="graa"
+             data-variant-id="50595389866326"
+             data-available="{{ product.variants[1].available }}">
+          <div class="product-image-wrapper">
+            <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken_jpg_049bb0ba-66eb-478f-87ba-5f4e1c3af56c.jpg?v=1768917230"
+                 alt="Grå"
+                 loading="lazy">
+          </div>
+          <div class="color-label">Grå</div>
+        </div>
+
+        {% comment %} Blå {% endcomment %}
+        <div class="product-card"
+             data-color="blaa"
+             data-variant-id="49885169189206"
+             data-available="{{ product.variants[0].available }}">
+          <div class="product-image-wrapper">
+            <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_3_021793b9-d91c-4e66-8277-77242e0f482e.jpg?v=1768917230"
+                 alt="Blå"
+                 loading="lazy">
+          </div>
+          <div class="color-label">Blå</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Step 2: Quantity Selection -->
+    <div id="quantity-selection" class="selection-step">
+      <button class="back-button" id="back-to-color">← Gå tilbage</button>
+      <h2>Vælg antal</h2>
+      <div class="quantity-grid">
+
+        {% comment %} 1 Stk {% endcomment %}
+        <div class="quantity-card" data-quantity="1" data-price="399">
+          <div class="quantity-option">
+            <div class="quantity-info">
+              <span class="quantity">1 Stk</span>
+              <span class="price">399 kr.</span>
+            </div>
+          </div>
+        </div>
+
+        {% comment %} 2 Stk - Mest populær {% endcomment %}
+        <div class="quantity-card" data-quantity="2" data-price="750">
+          <div class="label-badge popular">Mest populær</div>
+          <div class="quantity-option">
+            <div class="quantity-info">
+              <span class="quantity">2 Stk</span>
+              <span class="price">750 kr.</span>
+            </div>
+          </div>
+        </div>
+
+        {% comment %} 3 Stk - Bedst værdi {% endcomment %}
+        <div class="quantity-card" data-quantity="3" data-price="950">
+          <div class="label-badge best-value">Bedst værdi</div>
+          <div class="quantity-option">
+            <div class="quantity-info">
+              <span class="quantity">3 Stk</span>
+              <span class="price">950 kr.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      {% comment %} Color distribution for multiple items {% endcomment %}
+      <div id="color-distribution" class="color-distribution hidden">
+        <h3>Vælg farvefordeling</h3>
+        <div id="distribution-options"></div>
+      </div>
+
+      {% comment %} Add to cart button {% endcomment %}
+      <button class="add-to-cart-btn" id="add-to-cart">
+        Vælg venligst farve
+      </button>
+    </div>
+  </div>
+
+  <script src="{{ 'bundle-script.js' | asset_url }}"></script>
+</div>
+
+{% schema %}
+{
+  "name": "Feevra Product Bundle",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Vælg din farve"
+    },
+    {
+      "type": "product",
+      "id": "bundle_product",
+      "label": "Bundle Product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Bundle"
+    }
+  ]
+}
+{% endschema %}

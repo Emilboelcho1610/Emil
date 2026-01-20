@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feevra Produktbundle</title>
+    <link rel="stylesheet" href="bundle-styles.css">
+</head>
+<body>
+    <div class="bundle-container">
+        <!-- Step 1: Color Selection -->
+        <div id="color-selection" class="selection-step active">
+            <h2>Vælg din farve</h2>
+            <div class="product-grid">
+                <!-- Sort -->
+                <div class="product-card" data-color="sort" data-variant-id="49885169189206">
+                    <div class="product-image-wrapper">
+                        <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_2_e103e0c1-662b-4aca-a605-009f32c6e49e.jpg?v=1768917230" alt="Sort">
+                    </div>
+                    <div class="color-label">Sort</div>
+                </div>
+
+                <!-- Rosa -->
+                <div class="product-card" data-color="rosa" data-variant-id="49885169189206">
+                    <div class="product-image-wrapper">
+                        <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemaske_jpg_3ec23e6e-1dce-4474-a8e8-30ad75e4a914.jpg?v=1768917229" alt="Rosa">
+                    </div>
+                    <div class="color-label">Rosa</div>
+                </div>
+
+                <!-- Grå -->
+                <div class="product-card" data-color="graa" data-variant-id="50595389866326">
+                    <div class="product-image-wrapper">
+                        <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken_jpg_049bb0ba-66eb-478f-87ba-5f4e1c3af56c.jpg?v=1768917230" alt="Grå">
+                    </div>
+                    <div class="color-label">Grå</div>
+                </div>
+
+                <!-- Blå -->
+                <div class="product-card" data-color="blaa" data-variant-id="49885169189206">
+                    <div class="product-image-wrapper">
+                        <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_3_021793b9-d91c-4e66-8277-77242e0f482e.jpg?v=1768917230" alt="Blå">
+                    </div>
+                    <div class="color-label">Blå</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Quantity Selection -->
+        <div id="quantity-selection" class="selection-step">
+            <button class="back-button" id="back-to-color">← Gå tilbage</button>
+            <h2>Vælg antal</h2>
+            <div class="quantity-grid">
+                <!-- 1 Stk -->
+                <div class="quantity-card" data-quantity="1" data-price="399">
+                    <div class="quantity-option">
+                        <div class="quantity-info">
+                            <span class="quantity">1 Stk</span>
+                            <span class="price">399 kr.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2 Stk - Mest populær -->
+                <div class="quantity-card" data-quantity="2" data-price="750">
+                    <div class="label-badge popular">Mest populær</div>
+                    <div class="quantity-option">
+                        <div class="quantity-info">
+                            <span class="quantity">2 Stk</span>
+                            <span class="price">750 kr.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3 Stk - Bedst værdi -->
+                <div class="quantity-card" data-quantity="3" data-price="950">
+                    <div class="label-badge best-value">Bedst værdi</div>
+                    <div class="quantity-option">
+                        <div class="quantity-info">
+                            <span class="quantity">3 Stk</span>
+                            <span class="price">950 kr.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Color distribution for multiple items -->
+            <div id="color-distribution" class="color-distribution hidden">
+                <h3>Vælg farvefordeling</h3>
+                <div id="distribution-options"></div>
+            </div>
+
+            <!-- Add to cart button -->
+            <button class="add-to-cart-btn" id="add-to-cart">
+                Vælg venligst farve
+            </button>
+        </div>
+    </div>
+
+    <script src="bundle-script.js"></script>
+</body>
+</html>
