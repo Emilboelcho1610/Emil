@@ -1,4 +1,6 @@
 // Bundle Configuration
+// IMPORTANT: Verify variant IDs with actual Shopify product data
+// Rosa and Blå IDs are placeholders and MUST be updated with correct values
 const BUNDLE_CONFIG = {
     products: {
         sort: {
@@ -8,7 +10,7 @@ const BUNDLE_CONFIG = {
         },
         rosa: {
             name: 'Rosa',
-            variantId: '49885169189206',
+            variantId: '49885169221974', // PLACEHOLDER - Update with correct Shopify variant ID
             image: 'https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemaske_jpg_3ec23e6e-1dce-4474-a8e8-30ad75e4a914.jpg?v=1768917229'
         },
         graa: {
@@ -18,7 +20,7 @@ const BUNDLE_CONFIG = {
         },
         blaa: {
             name: 'Blå',
-            variantId: '49885169189206',
+            variantId: '49885169254742', // PLACEHOLDER - Update with correct Shopify variant ID
             image: 'https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_3_021793b9-d91c-4e66-8277-77242e0f482e.jpg?v=1768917230'
         }
     },

@@ -29,12 +29,14 @@ Dette er en komplet produktbundle-løsning til feevra.dk, designet til Shopify.
 
 ### Produkter
 
-| Farve | Variant ID | Billede URL |
-|-------|-----------|-------------|
-| Sort  | 49885169189206 | [Link](https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_2_e103e0c1-662b-4aca-a605-009f32c6e49e.jpg?v=1768917230) |
-| Rosa  | 49885169189206 | [Link](https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemaske_jpg_3ec23e6e-1dce-4474-a8e8-30ad75e4a914.jpg?v=1768917229) |
-| Grå   | 50595389866326 | [Link](https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken_jpg_049bb0ba-66eb-478f-87ba-5f4e1c3af56c.jpg?v=1768917230) |
-| Blå   | 49885169189206 | [Link](https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_3_021793b9-d91c-4e66-8277-77242e0f482e.jpg?v=1768917230) |
+⚠️ **IMPORTANT**: Rosa and Blå variant IDs are currently placeholders and MUST be updated with correct values from your Shopify store.
+
+| Farve | Variant ID | Status | Billede URL |
+|-------|-----------|--------|-------------|
+| Sort  | 49885169189206 | ✓ Verified | [Link](https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_2_e103e0c1-662b-4aca-a605-009f32c6e49e.jpg?v=1768917230) |
+| Rosa  | 49885169221974 | ⚠️ PLACEHOLDER | [Link](https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemaske_jpg_3ec23e6e-1dce-4474-a8e8-30ad75e4a914.jpg?v=1768917229) |
+| Grå   | 50595389866326 | ✓ Verified | [Link](https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken_jpg_049bb0ba-66eb-478f-87ba-5f4e1c3af56c.jpg?v=1768917230) |
+| Blå   | 49885169254742 | ⚠️ PLACEHOLDER | [Link](https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_3_021793b9-d91c-4e66-8277-77242e0f482e.jpg?v=1768917230) |
 
 ## 📦 Filer
 
