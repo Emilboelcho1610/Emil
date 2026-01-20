@@ -1,0 +1,768 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --primary: #1C1A54;
+    --primary-light: #2d2a6e;
+    --accent: #FF6B9D;
+    --success: #00C896;
+    --gray-50: #F9FAFB;
+    --gray-100: #F3F4F6;
+    --gray-200: #E5E7EB;
+    --gray-600: #4B5563;
+    --gray-700: #374151;
+    --gray-800: #1F2937;
+}
+
+.feevra-bundle {
+    font-family: 'Inter', sans-serif;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 16px;
+}
+
+.feevra-bundle-inner {
+    background: white;
+    border-radius: 16px;
+    padding: 32px 24px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+/* Typography */
+.feevra-title {
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 8px;
+    color: var(--primary);
+    letter-spacing: -0.02em;
+}
+
+.feevra-subtitle {
+    font-size: 14px;
+    text-align: center;
+    color: var(--gray-600);
+    margin-bottom: 32px;
+}
+
+@media (max-width: 768px) {
+    .feevra-title {
+        font-size: 24px;
+    }
+    .feevra-subtitle {
+        font-size: 13px;
+        margin-bottom: 24px;
+    }
+}
+
+/* Steps */
+.feevra-step {
+    display: none;
+}
+
+.feevra-step.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Product Grid */
+.feevra-products {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+    .feevra-products {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+}
+
+/* Product Cards */
+.feevra-product {
+    cursor: pointer;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    background: white;
+    border: 2px solid var(--gray-200);
+}
+
+.feevra-product:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(28, 26, 84, 0.1);
+    border-color: var(--primary);
+}
+
+.feevra-product.selected {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(28, 26, 84, 0.1);
+}
+
+.feevra-product.out-of-stock {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.feevra-product-image {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: var(--gray-50);
+    position: relative;
+}
+
+.feevra-product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.feevra-product:hover .feevra-product-image img {
+    transform: scale(1.05);
+}
+
+.feevra-product-name {
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-800);
+}
+
+.feevra-product-check {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--primary);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.feevra-product.selected .feevra-product-check {
+    display: flex;
+}
+
+.feevra-product-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.feevra-product.out-of-stock:hover .feevra-product-overlay {
+    display: flex;
+}
+
+.feevra-product-overlay span {
+    background: white;
+    color: var(--gray-800);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+/* Quantity Grid */
+.feevra-quantities {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+    .feevra-quantities {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
+
+/* Quantity Cards */
+.feevra-quantity {
+    position: relative;
+    cursor: pointer;
+    padding: 20px 16px;
+    border-radius: 12px;
+    background: white;
+    border: 2px solid var(--gray-200);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.feevra-quantity:hover {
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(28, 26, 84, 0.1);
+}
+
+.feevra-quantity.selected {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: white;
+}
+
+.feevra-quantity-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: white;
+}
+
+.feevra-quantity-badge.popular {
+    background: var(--primary);
+}
+
+.feevra-quantity-badge.best {
+    background: var(--success);
+}
+
+.feevra-quantity.selected .feevra-quantity-badge {
+    background: rgba(255,255,255,0.2);
+}
+
+.feevra-quantity-amount {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--gray-800);
+    margin-bottom: 4px;
+}
+
+.feevra-quantity.selected .feevra-quantity-amount {
+    color: white;
+}
+
+.feevra-quantity-price {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gray-600);
+}
+
+.feevra-quantity.selected .feevra-quantity-price {
+    color: rgba(255,255,255,0.9);
+}
+
+.feevra-quantity-savings {
+    margin-top: 4px;
+    font-size: 11px;
+    color: var(--success);
+    font-weight: 600;
+}
+
+.feevra-quantity.selected .feevra-quantity-savings {
+    color: rgba(255,255,255,0.8);
+}
+
+/* Distribution */
+.feevra-distribution {
+    background: var(--gray-50);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid var(--gray-200);
+}
+
+.feevra-distribution.hidden {
+    display: none;
+}
+
+.feevra-distribution h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gray-800);
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.feevra-distribution-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.feevra-distribution-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--gray-200);
+}
+
+.feevra-distribution-item label {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-700);
+}
+
+.feevra-distribution-item select {
+    padding: 8px 12px;
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-800);
+    background: white;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    min-width: 120px;
+}
+
+.feevra-distribution-item select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+/* Back Button */
+.feevra-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    margin-bottom: 20px;
+    background: transparent;
+    border: 2px solid var(--gray-200);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-700);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.feevra-back:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* CTA Button */
+.feevra-cta {
+    width: 100%;
+    padding: 16px 32px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.feevra-cta:hover {
+    background: var(--primary-light);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(28, 26, 84, 0.3);
+}
+
+.feevra-cta.disabled {
+    background: var(--gray-200);
+    cursor: not-allowed;
+    color: var(--gray-600);
+}
+
+.feevra-cta.disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+/* Trust Badges */
+.feevra-trust {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--gray-200);
+}
+
+@media (max-width: 768px) {
+    .feevra-trust {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+}
+
+.feevra-trust-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--gray-600);
+}
+
+.feevra-trust-item svg {
+    width: 16px;
+    height: 16px;
+    color: var(--success);
+}
+</style>
+
+<div class="feevra-bundle">
+  <div class="feevra-bundle-inner">
+
+    <!-- Step 1: Color -->
+    <div id="step-color" class="feevra-step active">
+      <h1 class="feevra-title">Vælg din farve</h1>
+      <p class="feevra-subtitle">Premium kvalitet i fire elegante farver</p>
+
+      <div class="feevra-products">
+        <div class="feevra-product" data-color="sort" data-variant="49885169189206">
+          <div class="feevra-product-image">
+            <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_2_e103e0c1-662b-4aca-a605-009f32c6e49e.jpg?v=1768917230" alt="Sort">
+            <div class="feevra-product-check">✓</div>
+            <div class="feevra-product-overlay"><span>Udsolgt</span></div>
+          </div>
+          <div class="feevra-product-name">Sort</div>
+        </div>
+
+        <div class="feevra-product" data-color="rosa" data-variant="49885169189206">
+          <div class="feevra-product-image">
+            <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemaske_jpg_3ec23e6e-1dce-4474-a8e8-30ad75e4a914.jpg?v=1768917229" alt="Rosa">
+            <div class="feevra-product-check">✓</div>
+            <div class="feevra-product-overlay"><span>Udsolgt</span></div>
+          </div>
+          <div class="feevra-product-name">Rosa</div>
+        </div>
+
+        <div class="feevra-product" data-color="graa" data-variant="50595389866326">
+          <div class="feevra-product-image">
+            <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken_jpg_049bb0ba-66eb-478f-87ba-5f4e1c3af56c.jpg?v=1768917230" alt="Grå">
+            <div class="feevra-product-check">✓</div>
+            <div class="feevra-product-overlay"><span>Udsolgt</span></div>
+          </div>
+          <div class="feevra-product-name">Grå</div>
+        </div>
+
+        <div class="feevra-product" data-color="blaa" data-variant="49885169189206">
+          <div class="feevra-product-image">
+            <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_3_021793b9-d91c-4e66-8277-77242e0f482e.jpg?v=1768917230" alt="Blå">
+            <div class="feevra-product-check">✓</div>
+            <div class="feevra-product-overlay"><span>Udsolgt</span></div>
+          </div>
+          <div class="feevra-product-name">Blå</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Quantity -->
+    <div id="step-quantity" class="feevra-step">
+      <button class="feevra-back" id="back-btn">← Gå tilbage</button>
+
+      <h1 class="feevra-title">Vælg dit bundle</h1>
+      <p class="feevra-subtitle">Spar mere når du køber flere</p>
+
+      <div class="feevra-quantities">
+        <div class="feevra-quantity" data-quantity="1" data-price="399">
+          <div class="feevra-quantity-amount">1 Stk</div>
+          <div class="feevra-quantity-price">399 kr.</div>
+        </div>
+
+        <div class="feevra-quantity selected" data-quantity="2" data-price="750">
+          <div class="feevra-quantity-badge popular">Populær</div>
+          <div class="feevra-quantity-amount">2 Stk</div>
+          <div class="feevra-quantity-price">750 kr.</div>
+          <div class="feevra-quantity-savings">Spar 48 kr.</div>
+        </div>
+
+        <div class="feevra-quantity" data-quantity="3" data-price="950">
+          <div class="feevra-quantity-badge best">Bedst</div>
+          <div class="feevra-quantity-amount">3 Stk</div>
+          <div class="feevra-quantity-price">950 kr.</div>
+          <div class="feevra-quantity-savings">Spar 247 kr.</div>
+        </div>
+      </div>
+
+      <div id="distribution" class="feevra-distribution hidden">
+        <h3>Vælg farvefordeling</h3>
+        <div class="feevra-distribution-items" id="distribution-items"></div>
+      </div>
+
+      <button class="feevra-cta" id="cta-btn">Vælg venligst farve</button>
+
+      <div class="feevra-trust">
+        <div class="feevra-trust-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+          <span>Gratis fragt</span>
+        </div>
+        <div class="feevra-trust-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+          <span>30 dages returret</span>
+        </div>
+        <div class="feevra-trust-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+          <span>Premium kvalitet</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  const CONFIG = {
+    products: {
+      sort: { name: 'Sort', variantId: '49885169189206' },
+      rosa: { name: 'Rosa', variantId: '49885169189206' },
+      graa: { name: 'Grå', variantId: '50595389866326' },
+      blaa: { name: 'Blå', variantId: '49885169189206' }
+    }
+  };
+
+  let state = {
+    selectedColor: null,
+    selectedQuantity: 2,
+    colorDistribution: {},
+    outOfStockVariants: []
+  };
+
+  const els = {
+    stepColor: document.getElementById('step-color'),
+    stepQuantity: document.getElementById('step-quantity'),
+    backBtn: document.getElementById('back-btn'),
+    ctaBtn: document.getElementById('cta-btn'),
+    distribution: document.getElementById('distribution'),
+    distributionItems: document.getElementById('distribution-items')
+  };
+
+  function init() {
+    document.querySelectorAll('.feevra-product').forEach(card => {
+      card.addEventListener('click', handleColorSelect);
+    });
+
+    document.querySelectorAll('.feevra-quantity').forEach(card => {
+      card.addEventListener('click', handleQuantitySelect);
+    });
+
+    els.backBtn.addEventListener('click', goBack);
+    els.ctaBtn.addEventListener('click', handleAddToCart);
+
+    checkStock();
+  }
+
+  async function checkStock() {
+    try {
+      state.outOfStockVariants = [];
+      updateOutOfStockUI();
+    } catch (error) {
+      console.error('Stock error:', error);
+    }
+  }
+
+  function updateOutOfStockUI() {
+    document.querySelectorAll('.feevra-product').forEach(card => {
+      const variantId = card.dataset.variant;
+      if (state.outOfStockVariants.includes(variantId)) {
+        card.classList.add('out-of-stock');
+        card.parentElement.appendChild(card);
+      }
+    });
+  }
+
+  function handleColorSelect(e) {
+    const card = e.currentTarget;
+    const color = card.dataset.color;
+    const variantId = card.dataset.variant;
+
+    if (state.outOfStockVariants.includes(variantId)) return;
+
+    document.querySelectorAll('.feevra-product').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    state.selectedColor = color;
+
+    setTimeout(() => {
+      els.stepColor.classList.remove('active');
+      els.stepQuantity.classList.add('active');
+      updateCTA();
+      updateDistribution();
+    }, 200);
+  }
+
+  function handleQuantitySelect(e) {
+    const card = e.currentTarget;
+    const quantity = parseInt(card.dataset.quantity);
+
+    document.querySelectorAll('.feevra-quantity').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+    state.selectedQuantity = quantity;
+
+    updateDistribution();
+    updateCTA();
+  }
+
+  function updateDistribution() {
+    const quantity = state.selectedQuantity;
+
+    if (quantity > 1) {
+      els.distribution.classList.remove('hidden');
+      els.distributionItems.innerHTML = '';
+
+      for (let i = 1; i <= quantity; i++) {
+        const item = document.createElement('div');
+        item.className = 'feevra-distribution-item';
+
+        const label = document.createElement('label');
+        label.innerHTML = `<span style="font-weight: 600; color: var(--primary);">Produkt ${i}:</span>`;
+
+        const select = document.createElement('select');
+        select.dataset.index = i;
+
+        Object.keys(CONFIG.products).forEach(colorKey => {
+          const product = CONFIG.products[colorKey];
+          if (state.outOfStockVariants.includes(product.variantId)) return;
+
+          const option = document.createElement('option');
+          option.value = colorKey;
+          option.textContent = product.name;
+
+          if (i === 1 && colorKey === state.selectedColor) {
+            option.selected = true;
+          }
+
+          select.appendChild(option);
+        });
+
+        select.addEventListener('change', (e) => {
+          state.colorDistribution[i] = e.target.value;
+        });
+
+        if (i === 1) {
+          state.colorDistribution[i] = state.selectedColor;
+        } else {
+          state.colorDistribution[i] = select.value;
+        }
+
+        label.appendChild(select);
+        item.appendChild(label);
+        els.distributionItems.appendChild(item);
+      }
+    } else {
+      els.distribution.classList.add('hidden');
+      state.colorDistribution = { 1: state.selectedColor };
+    }
+  }
+
+  function goBack() {
+    els.stepQuantity.classList.remove('active');
+    els.stepColor.classList.add('active');
+  }
+
+  function updateCTA() {
+    if (state.selectedColor) {
+      els.ctaBtn.textContent = 'Tilføj til kurv';
+      els.ctaBtn.classList.remove('disabled');
+    } else {
+      els.ctaBtn.textContent = 'Vælg venligst farve';
+      els.ctaBtn.classList.add('disabled');
+    }
+  }
+
+  async function handleAddToCart() {
+    if (!state.selectedColor) {
+      els.ctaBtn.textContent = 'Vælg venligst farve';
+      return;
+    }
+
+    const items = [];
+    const quantity = state.selectedQuantity;
+
+    if (quantity === 1) {
+      const product = CONFIG.products[state.selectedColor];
+      items.push({
+        id: product.variantId,
+        quantity: 1,
+        properties: {
+          'Bundle': 'Feevra Bundle',
+          'Farve': product.name
+        }
+      });
+    } else {
+      const colorCounts = {};
+      for (let i = 1; i <= quantity; i++) {
+        const color = state.colorDistribution[i];
+        colorCounts[color] = (colorCounts[color] || 0) + 1;
+      }
+
+      Object.entries(colorCounts).forEach(([color, count]) => {
+        const product = CONFIG.products[color];
+        items.push({
+          id: product.variantId,
+          quantity: count,
+          properties: {
+            'Bundle': 'Feevra Bundle',
+            'Farve': product.name,
+            'Bundle størrelse': `${quantity} stk`
+          }
+        });
+      });
+    }
+
+    try {
+      els.ctaBtn.textContent = 'Tilføjer...';
+      els.ctaBtn.disabled = true;
+
+      const response = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items })
+      });
+
+      if (response.ok) {
+        els.ctaBtn.textContent = '✓ Tilføjet!';
+        setTimeout(() => {
+          window.location.href = '/cart';
+        }, 1000);
+      } else {
+        throw new Error('Failed');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      els.ctaBtn.textContent = 'Fejl - prøv igen';
+      setTimeout(() => {
+        updateCTA();
+        els.ctaBtn.disabled = false;
+      }, 2000);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})();
+</script>
