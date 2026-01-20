@@ -1,0 +1,935 @@
+{% comment %}
+  FEEVRA PREMIUM BUNDLE - V2
+
+  Premium, innovative bundle design med smooth animations
+
+  Features:
+  - Smooth fold-down animations
+  - Innovative color distribution
+  - Før-priser på alt
+  - Responsive labels
+  - Minimalistisk og intuitivt
+{% endcomment %}
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Complete CSS isolation */
+.feevra-bundle-v2 {
+  all: initial;
+  display: block;
+
+  /* Scoped variables */
+  --feevra-primary: #1C1A54;
+  --feevra-accent: #00C896;
+  --feevra-gray-50: #F9FAFB;
+  --feevra-gray-100: #F3F4F6;
+  --feevra-gray-200: #E5E7EB;
+  --feevra-gray-300: #D1D5DB;
+  --feevra-gray-500: #9CA3AF;
+  --feevra-gray-600: #6B7280;
+  --feevra-gray-700: #374151;
+  --feevra-gray-800: #1F2937;
+  --feevra-red: #EF4444;
+  --feevra-green: #10B981;
+
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.feevra-bundle-v2 *,
+.feevra-bundle-v2 *::before,
+.feevra-bundle-v2 *::after {
+  box-sizing: border-box;
+}
+
+/* Main container with brand border - NOT a card */
+.feevra-bundle-v2 .bundle-inner {
+  border: 3px solid var(--feevra-primary);
+  padding: clamp(24px, 5vw, 40px);
+  background: #fff;
+}
+
+/* Headlines - left aligned, smaller on desktop */
+.feevra-bundle-v2 .bundle-headline {
+  font-size: clamp(16px, 3vw, 18px);
+  font-weight: 700;
+  text-align: left;
+  margin: 0 0 4px 0;
+  color: var(--feevra-primary);
+  letter-spacing: -0.01em;
+}
+
+.feevra-bundle-v2 .bundle-subheadline {
+  font-size: clamp(12px, 2.5vw, 13px);
+  text-align: left;
+  color: var(--feevra-gray-600);
+  margin: 0 0 20px 0;
+  font-weight: 400;
+}
+
+/* Section spacing */
+.feevra-bundle-v2 .bundle-section {
+  margin-bottom: 24px;
+}
+
+.feevra-bundle-v2 .bundle-section:last-child {
+  margin-bottom: 0;
+}
+
+/* Smooth transitions for sections */
+.feevra-bundle-v2 .bundle-section {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s ease,
+              margin 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feevra-bundle-v2 .bundle-section.active {
+  max-height: 2000px;
+  opacity: 1;
+  margin-bottom: 24px;
+}
+
+/* Color Grid - Always 4 columns */
+.feevra-bundle-v2 .color-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(8px, 2vw, 12px);
+}
+
+.feevra-bundle-v2 .color-card {
+  cursor: pointer;
+  border: 2px solid var(--feevra-gray-300);
+  border-radius: 14px;
+  background: #fff;
+  padding: 0;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.feevra-bundle-v2 .color-card:hover {
+  border-color: var(--feevra-primary);
+  transform: translateY(-2px);
+}
+
+.feevra-bundle-v2 .color-card.selected {
+  border-color: var(--feevra-primary);
+  border-width: 3px;
+}
+
+.feevra-bundle-v2 .color-card.sold-out {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.feevra-bundle-v2 .color-card.sold-out:hover {
+  transform: none;
+}
+
+.feevra-bundle-v2 .color-image {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  overflow: hidden;
+}
+
+.feevra-bundle-v2 .color-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.feevra-bundle-v2 .color-checkmark {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--feevra-primary);
+  color: #fff;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  z-index: 2;
+}
+
+.feevra-bundle-v2 .color-card.selected .color-checkmark {
+  display: flex;
+  animation: checkmarkPop 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes checkmarkPop {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.feevra-bundle-v2 .color-name {
+  padding: 8px 4px;
+  text-align: center;
+  font-size: clamp(11px, 2.5vw, 13px);
+  font-weight: 600;
+  color: var(--feevra-gray-800);
+}
+
+.feevra-bundle-v2 .color-status {
+  font-size: clamp(9px, 2vw, 10px);
+  color: var(--feevra-red);
+  font-weight: 600;
+  margin-top: -4px;
+  margin-bottom: 4px;
+}
+
+/* Quantity Grid */
+.feevra-bundle-v2 .qty-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(8px, 2vw, 12px);
+}
+
+.feevra-bundle-v2 .qty-card {
+  cursor: pointer;
+  border: 2px solid var(--feevra-gray-300);
+  border-radius: 14px;
+  background: #fff;
+  padding: 0;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.feevra-bundle-v2 .qty-card:hover {
+  border-color: var(--feevra-primary);
+  transform: translateY(-2px);
+}
+
+.feevra-bundle-v2 .qty-card.selected {
+  border-color: var(--feevra-primary);
+  border-width: 3px;
+  box-shadow: 0 4px 12px rgba(28, 26, 84, 0.15);
+}
+
+/* Responsive badge labels */
+.feevra-bundle-v2 .qty-badge {
+  background: var(--feevra-primary);
+  color: #fff;
+  padding: 6px 12px;
+  font-size: clamp(9px, 2vw, 10px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  width: 100%;
+  text-align: center;
+}
+
+.feevra-bundle-v2 .qty-badge.best {
+  background: var(--feevra-accent);
+}
+
+/* Hide/show text responsively */
+.feevra-bundle-v2 .qty-badge .badge-full {
+  display: inline;
+}
+
+.feevra-bundle-v2 .qty-badge .badge-short {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .feevra-bundle-v2 .qty-badge .badge-full {
+    display: none;
+  }
+
+  .feevra-bundle-v2 .qty-badge .badge-short {
+    display: inline;
+  }
+}
+
+.feevra-bundle-v2 .qty-content {
+  padding: clamp(12px, 3vw, 16px) clamp(10px, 2vw, 12px);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+}
+
+.feevra-bundle-v2 .qty-amount {
+  font-size: clamp(18px, 4vw, 22px);
+  font-weight: 700;
+  color: var(--feevra-primary);
+}
+
+.feevra-bundle-v2 .qty-prices {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.feevra-bundle-v2 .qty-original-price {
+  font-size: clamp(11px, 2.5vw, 12px);
+  color: var(--feevra-gray-500);
+  text-decoration: line-through;
+  font-weight: 500;
+}
+
+.feevra-bundle-v2 .qty-price {
+  font-size: clamp(15px, 3.5vw, 18px);
+  font-weight: 700;
+  color: var(--feevra-gray-800);
+}
+
+.feevra-bundle-v2 .qty-savings {
+  display: inline-block;
+  font-size: clamp(9px, 2vw, 10px);
+  font-weight: 700;
+  color: var(--feevra-green);
+  background: rgba(16, 185, 129, 0.1);
+  padding: 3px 8px;
+  border-radius: 12px;
+  margin-top: 4px;
+}
+
+.feevra-bundle-v2 .qty-per {
+  font-size: clamp(10px, 2.2vw, 11px);
+  color: var(--feevra-gray-600);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+/* Innovative Color Distribution */
+.feevra-bundle-v2 .distribution-container {
+  background: var(--feevra-gray-50);
+  border-radius: 12px;
+  padding: clamp(16px, 3vw, 20px);
+  margin-top: 20px;
+}
+
+.feevra-bundle-v2 .distribution-title {
+  font-size: clamp(13px, 2.8vw, 15px);
+  font-weight: 600;
+  color: var(--feevra-gray-800);
+  margin: 0 0 12px 0;
+}
+
+.feevra-bundle-v2 .distribution-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.feevra-bundle-v2 .distribution-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.feevra-bundle-v2 .distribution-label {
+  font-size: clamp(12px, 2.6vw, 14px);
+  font-weight: 600;
+  color: var(--feevra-gray-700);
+  min-width: 70px;
+}
+
+.feevra-bundle-v2 .distribution-colors {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  flex: 1;
+}
+
+.feevra-bundle-v2 .dist-color-btn {
+  cursor: pointer;
+  border: 2px solid var(--feevra-gray-300);
+  border-radius: 8px;
+  padding: 0;
+  background: #fff;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.feevra-bundle-v2 .dist-color-btn:hover {
+  border-color: var(--feevra-primary);
+}
+
+.feevra-bundle-v2 .dist-color-btn.selected {
+  border-color: var(--feevra-primary);
+  border-width: 3px;
+}
+
+.feevra-bundle-v2 .dist-color-img {
+  width: 100%;
+  padding-bottom: 100%;
+  position: relative;
+}
+
+.feevra-bundle-v2 .dist-color-img img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.feevra-bundle-v2 .dist-color-check {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--feevra-primary);
+  color: #fff;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.feevra-bundle-v2 .dist-color-btn.selected .dist-color-check {
+  display: flex;
+}
+
+/* CTA Button - Semi-bold uppercase */
+.feevra-bundle-v2 .cta-button {
+  width: 100%;
+  padding: clamp(16px, 3.5vw, 18px) 24px;
+  background: var(--feevra-primary);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: clamp(14px, 3vw, 16px);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+  margin-top: 20px;
+}
+
+.feevra-bundle-v2 .cta-button:hover:not(:disabled) {
+  background: #13102d;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(28, 26, 84, 0.25);
+}
+
+.feevra-bundle-v2 .cta-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.feevra-bundle-v2 .cta-button:disabled {
+  background: var(--feevra-gray-300);
+  cursor: not-allowed;
+}
+
+/* Trust badges */
+.feevra-bundle-v2 .trust-badges {
+  display: flex;
+  justify-content: center;
+  gap: clamp(16px, 4vw, 24px);
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.feevra-bundle-v2 .trust-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: clamp(11px, 2.4vw, 12px);
+  color: var(--feevra-gray-600);
+}
+
+.feevra-bundle-v2 .trust-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--feevra-accent);
+}
+
+/* Toast notifications */
+.feevra-bundle-v2 .toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--feevra-gray-800);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.feevra-bundle-v2 .toast.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.feevra-bundle-v2 .toast.error {
+  background: var(--feevra-red);
+}
+
+.feevra-bundle-v2 .toast.success {
+  background: var(--feevra-green);
+}
+
+/* Utility classes */
+.feevra-bundle-v2 .hidden {
+  display: none !important;
+}
+</style>
+
+<div class="feevra-bundle-v2" id="feevra-bundle-v2">
+  <div class="bundle-inner">
+
+    <!-- Step 1: Color Selection -->
+    <div class="bundle-section active" id="section-color">
+      <h2 class="bundle-headline">Vælg farve og antal</h2>
+      <p class="bundle-subheadline">Mix farver ved 2 og 3 stk</p>
+
+      <div class="color-grid" role="radiogroup" aria-label="Vælg farve">
+        <button type="button" class="color-card" data-color="sort" data-variant="49885169189206" data-available="true">
+          <div class="color-image">
+            <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_2_e103e0c1-662b-4aca-a605-009f32c6e49e.jpg?v=1768917230" alt="Sort">
+            <div class="color-checkmark">✓</div>
+          </div>
+          <div class="color-name">Sort</div>
+        </button>
+
+        <button type="button" class="color-card" data-color="rosa" data-variant="49885169221974" data-available="true">
+          <div class="color-image">
+            <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemaske_jpg_3ec23e6e-1dce-4474-a8e8-30ad75e4a914.jpg?v=1768917229" alt="Rosa">
+            <div class="color-checkmark">✓</div>
+          </div>
+          <div class="color-name">Rosa</div>
+        </button>
+
+        <button type="button" class="color-card" data-color="graa" data-variant="50595389866326" data-available="true">
+          <div class="color-image">
+            <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken_jpg_049bb0ba-66eb-478f-87ba-5f4e1c3af56c.jpg?v=1768917230" alt="Grå">
+            <div class="color-checkmark">✓</div>
+          </div>
+          <div class="color-name">Grå</div>
+        </button>
+
+        <button type="button" class="color-card" data-color="blaa" data-variant="49885169254742" data-available="true">
+          <div class="color-image">
+            <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_3_021793b9-d91c-4e66-8277-77242e0f482e.jpg?v=1768917230" alt="Blå">
+            <div class="color-checkmark">✓</div>
+          </div>
+          <div class="color-name">Blå</div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 2: Quantity Selection -->
+    <div class="bundle-section" id="section-quantity">
+      <h2 class="bundle-headline">Vælg antal</h2>
+      <p class="bundle-subheadline">Spar mere når du køber flere</p>
+
+      <div class="qty-grid" role="radiogroup" aria-label="Vælg antal">
+        <button type="button" class="qty-card" data-quantity="1">
+          <div class="qty-content">
+            <div class="qty-amount">1 Stk</div>
+            <div class="qty-prices">
+              <div class="qty-original-price">595 kr.</div>
+              <div class="qty-price">399 kr.</div>
+            </div>
+            <div class="qty-savings">Spar 33%</div>
+          </div>
+        </button>
+
+        <button type="button" class="qty-card selected" data-quantity="2">
+          <div class="qty-badge">
+            <span class="badge-full">Mest populær</span>
+            <span class="badge-short">Populær</span>
+          </div>
+          <div class="qty-content">
+            <div class="qty-amount">2 Stk</div>
+            <div class="qty-prices">
+              <div class="qty-original-price">1.190 kr.</div>
+              <div class="qty-price">750 kr.</div>
+            </div>
+            <div class="qty-savings">Spar 37%</div>
+            <div class="qty-per">375 kr./stk</div>
+          </div>
+        </button>
+
+        <button type="button" class="qty-card" data-quantity="3">
+          <div class="qty-badge best">
+            <span class="badge-full">Bedst værdi</span>
+            <span class="badge-short">Værdi</span>
+          </div>
+          <div class="qty-content">
+            <div class="qty-amount">3 Stk</div>
+            <div class="qty-prices">
+              <div class="qty-original-price">1.785 kr.</div>
+              <div class="qty-price">950 kr.</div>
+            </div>
+            <div class="qty-savings">Spar 47%</div>
+            <div class="qty-per">316 kr./stk</div>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 3: Color Distribution (for 2+ items) -->
+    <div class="bundle-section" id="section-distribution">
+      <div class="distribution-container">
+        <h3 class="distribution-title">Fordel farver</h3>
+        <div class="distribution-grid" id="distribution-grid">
+          <!-- Will be populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Button -->
+    <div class="bundle-section" id="section-cta">
+      <button type="button" class="cta-button" id="add-to-cart-btn">
+        Tilføj til kurv
+      </button>
+
+      <div class="trust-badges">
+        <div class="trust-item">
+          <svg class="trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <span>Gratis levering</span>
+        </div>
+        <div class="trust-item">
+          <svg class="trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span>30 dages returret</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  const CONFIG = {
+    products: {
+      sort: {
+        name: 'Sort',
+        variantId: '49885169189206',
+        image: 'https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_2_e103e0c1-662b-4aca-a605-009f32c6e49e.jpg?v=1768917230'
+      },
+      rosa: {
+        name: 'Rosa',
+        variantId: '49885169221974',
+        image: 'https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemaske_jpg_3ec23e6e-1dce-4474-a8e8-30ad75e4a914.jpg?v=1768917229'
+      },
+      graa: {
+        name: 'Grå',
+        variantId: '50595389866326',
+        image: 'https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken_jpg_049bb0ba-66eb-478f-87ba-5f4e1c3af56c.jpg?v=1768917230'
+      },
+      blaa: {
+        name: 'Blå',
+        variantId: '49885169254742',
+        image: 'https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_3_021793b9-d91c-4e66-8277-77242e0f482e.jpg?v=1768917230'
+      }
+    }
+  };
+
+  const state = {
+    selectedColor: null,
+    selectedQuantity: 2,
+    distribution: {},
+    soldOutVariants: []
+  };
+
+  // Elements
+  const els = {
+    colorCards: document.querySelectorAll('.feevra-bundle-v2 .color-card'),
+    qtyCards: document.querySelectorAll('.feevra-bundle-v2 .qty-card'),
+    sections: {
+      color: document.getElementById('section-color'),
+      quantity: document.getElementById('section-quantity'),
+      distribution: document.getElementById('section-distribution'),
+      cta: document.getElementById('section-cta')
+    },
+    distributionGrid: document.getElementById('distribution-grid'),
+    ctaBtn: document.getElementById('add-to-cart-btn'),
+    toast: document.getElementById('toast')
+  };
+
+  // Initialize
+  function init() {
+    // Set default quantity
+    updateQuantitySelection(2);
+
+    // Event listeners
+    els.colorCards.forEach(card => {
+      card.addEventListener('click', handleColorSelect);
+    });
+
+    els.qtyCards.forEach(card => {
+      card.addEventListener('click', handleQuantitySelect);
+    });
+
+    els.ctaBtn.addEventListener('click', handleAddToCart);
+
+    // Check stock status
+    checkStockStatus();
+  }
+
+  // Handle color selection
+  function handleColorSelect(e) {
+    const card = e.currentTarget;
+    const color = card.dataset.color;
+    const available = card.dataset.available === 'true';
+
+    if (!available) {
+      showToast('Denne farve er udsolgt', 'error');
+      return;
+    }
+
+    // Update state
+    state.selectedColor = color;
+
+    // Update UI
+    els.colorCards.forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+
+    // Smooth transition to quantity section
+    setTimeout(() => {
+      els.sections.quantity.classList.add('active');
+      els.sections.color.style.maxHeight = '200px'; // Collapse but keep visible
+
+      // Show CTA and distribution if needed
+      setTimeout(() => {
+        updateDistribution();
+        els.sections.cta.classList.add('active');
+      }, 300);
+    }, 200);
+  }
+
+  // Handle quantity selection
+  function handleQuantitySelect(e) {
+    const card = e.currentTarget;
+    const quantity = parseInt(card.dataset.quantity);
+
+    updateQuantitySelection(quantity);
+    updateDistribution();
+  }
+
+  function updateQuantitySelection(quantity) {
+    state.selectedQuantity = quantity;
+
+    // Update UI
+    els.qtyCards.forEach(card => {
+      const cardQty = parseInt(card.dataset.quantity);
+      if (cardQty === quantity) {
+        card.classList.add('selected');
+      } else {
+        card.classList.remove('selected');
+      }
+    });
+  }
+
+  // Update distribution UI
+  function updateDistribution() {
+    const qty = state.selectedQuantity;
+
+    if (qty === 1) {
+      els.sections.distribution.classList.remove('active');
+      // Single item uses selected color
+      state.distribution = { 0: state.selectedColor };
+      return;
+    }
+
+    // Show distribution for 2+ items
+    els.sections.distribution.classList.add('active');
+
+    // Build distribution UI
+    const grid = els.distributionGrid;
+    grid.innerHTML = '';
+
+    // Initialize distribution if needed
+    if (Object.keys(state.distribution).length === 0) {
+      for (let i = 0; i < qty; i++) {
+        state.distribution[i] = state.selectedColor;
+      }
+    }
+
+    // Create selection for each item
+    for (let i = 0; i < qty; i++) {
+      const item = document.createElement('div');
+      item.className = 'distribution-item';
+
+      const label = document.createElement('div');
+      label.className = 'distribution-label';
+      label.textContent = `Maske ${i + 1}:`;
+
+      const colors = document.createElement('div');
+      colors.className = 'distribution-colors';
+
+      // Create button for each color
+      Object.entries(CONFIG.products).forEach(([colorKey, product]) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'dist-color-btn';
+        btn.dataset.index = i;
+        btn.dataset.color = colorKey;
+
+        if (state.distribution[i] === colorKey) {
+          btn.classList.add('selected');
+        }
+
+        btn.innerHTML = `
+          <div class="dist-color-img">
+            <img src="${product.image}" alt="${product.name}">
+            <div class="dist-color-check">✓</div>
+          </div>
+        `;
+
+        btn.addEventListener('click', () => {
+          state.distribution[i] = colorKey;
+          updateDistribution();
+        });
+
+        colors.appendChild(btn);
+      });
+
+      item.appendChild(label);
+      item.appendChild(colors);
+      grid.appendChild(item);
+    }
+  }
+
+  // Check stock status
+  function checkStockStatus() {
+    // Mark sold out items
+    els.colorCards.forEach(card => {
+      const variant = card.dataset.variant;
+      if (state.soldOutVariants.includes(variant)) {
+        card.classList.add('sold-out');
+        card.dataset.available = 'false';
+
+        // Add "Udsolgt" text
+        const statusEl = document.createElement('div');
+        statusEl.className = 'color-status';
+        statusEl.textContent = 'Udsolgt';
+        card.appendChild(statusEl);
+      }
+    });
+  }
+
+  // Add to cart
+  async function handleAddToCart() {
+    if (!state.selectedColor) {
+      showToast('Vælg venligst en farve', 'error');
+      return;
+    }
+
+    els.ctaBtn.disabled = true;
+    els.ctaBtn.textContent = 'Tilføjer...';
+
+    try {
+      // Build items array
+      const items = [];
+      const colorCounts = {};
+
+      // Count colors
+      Object.values(state.distribution).forEach(color => {
+        colorCounts[color] = (colorCounts[color] || 0) + 1;
+      });
+
+      // Add to cart
+      Object.entries(colorCounts).forEach(([color, count]) => {
+        const product = CONFIG.products[color];
+        items.push({
+          id: product.variantId,
+          quantity: count,
+          properties: {
+            'Bundle': 'Feevra Bundle',
+            'Antal i bundle': state.selectedQuantity
+          }
+        });
+      });
+
+      const response = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items })
+      });
+
+      if (response.ok) {
+        showToast('Tilføjet til kurv!', 'success');
+
+        // Dispatch event for theme integration
+        window.dispatchEvent(new CustomEvent('feevra:cart:updated'));
+
+        // Redirect to cart
+        setTimeout(() => {
+          window.location.href = '/cart';
+        }, 800);
+      } else {
+        const error = await response.json();
+
+        if (response.status === 422) {
+          // Handle sold out
+          showToast('En eller flere varer er udsolgt', 'error');
+        } else {
+          throw new Error(error.description || 'Kunne ikke tilføje til kurv');
+        }
+      }
+    } catch (error) {
+      console.error('Add to cart error:', error);
+      showToast('Der skete en fejl. Prøv igen.', 'error');
+    } finally {
+      els.ctaBtn.disabled = false;
+      els.ctaBtn.textContent = 'TILFØJ TIL KURV';
+    }
+  }
+
+  // Show toast notification
+  function showToast(message, type = 'info') {
+    els.toast.textContent = message;
+    els.toast.className = `toast ${type} show`;
+
+    setTimeout(() => {
+      els.toast.classList.remove('show');
+    }, 3000);
+  }
+
+  // Start
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
