@@ -23,50 +23,95 @@
   --nutri-border-nb: rgba(12,20,27,0.14);
 }
 
-/* === Tabs === */
-.nutri-tabs-nb {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0;
-  margin-bottom: 0;
+/* === Main Dropdown === */
+.nutri-main-dropdown-nb {
   border: 1px solid var(--nutri-border-nb);
-  border-radius: 16px 16px 0 0;
+  border-radius: 16px;
+  background: #fff;
   overflow: hidden;
 }
-.nutri-tab-nb {
-  background-color: #f5f5f5;
-  border: none;
-  border-right: 1px solid var(--nutri-border-nb);
-  padding: 16px 12px;
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--nutri-muted-nb);
+
+.nutri-main-dropdown-nb summary {
+  padding: 18px 20px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.nutri-tab-nb:last-child {
-  border-right: none;
-}
-.nutri-tab-nb:hover {
-  background-color: var(--nutri-soft-nb);
-  color: var(--nutri-brand-nb);
-}
-.nutri-tab-nb.active {
-  background-color: var(--nutri-brand-nb);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--nutri-ink-nb);
+  background: var(--nutri-brand-nb);
   color: #fff;
+  transition: background-color 0.2s ease;
 }
 
-/* === Content Area === */
+.nutri-main-dropdown-nb summary::-webkit-details-marker {
+  display: none;
+}
+
+.nutri-main-dropdown-nb summary:hover {
+  opacity: 0.9;
+}
+
+.nutri-main-header-nb {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nutri-main-chevron-nb {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+  stroke: #fff;
+  flex-shrink: 0;
+}
+
+.nutri-main-dropdown-nb[open] .nutri-main-chevron-nb {
+  transform: rotate(180deg);
+}
+
+/* === Variant Selector Inside === */
+.nutri-variant-selector-nb {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--nutri-border-nb);
+  background: var(--nutri-panel-nb);
+}
+
+.nutri-variant-select-nb {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--nutri-ink-nb);
+  background-color: #fff;
+  border: 2px solid var(--nutri-border-nb);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='14' height='8' viewBox='0 0 14 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%230C141B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  padding-right: 48px;
+}
+
+.nutri-variant-select-nb:hover {
+  border-color: var(--nutri-brand-nb);
+}
+
+.nutri-variant-select-nb:focus {
+  outline: none;
+  border-color: var(--nutri-brand-nb);
+  box-shadow: 0 0 0 3px var(--nutri-soft-nb);
+}
+
+/* === Content Areas === */
 .nutri-content-nb {
   display: none;
-  border: 1px solid var(--nutri-border-nb);
-  border-top: none;
-  border-radius: 0 0 16px 16px;
-  background: #fff;
 }
+
 .nutri-content-nb.active {
   display: block;
   animation: fadeInNutri 0.3s ease;
@@ -85,9 +130,11 @@
 .nutri-section-nb {
   border-bottom: 1px solid var(--nutri-border-nb);
 }
+
 .nutri-section-nb:last-child {
   border-bottom: none;
 }
+
 .nutri-section-nb summary {
   padding: 18px 20px;
   cursor: pointer;
@@ -102,27 +149,33 @@
   letter-spacing: 0.3px;
   transition: background-color 0.2s ease;
 }
+
 .nutri-section-nb summary::-webkit-details-marker {
   display: none;
 }
+
 .nutri-section-nb summary:hover {
   background-color: var(--nutri-soft-nb);
 }
+
 .nutri-section-nb[open] summary {
   background-color: var(--nutri-panel-nb);
   border-bottom: 1px solid var(--nutri-border-nb);
 }
+
 .nutri-section-header-nb {
   display: flex;
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
 }
+
 .nutri-section-badges-nb {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
 }
+
 .nutri-badge-nb {
   display: inline-block;
   background: var(--nutri-panel-nb);
@@ -135,6 +188,7 @@
   border-radius: 6px;
   border: 1px solid var(--nutri-brand-nb);
 }
+
 .nutri-chevron-nb {
   width: 14px;
   height: 14px;
@@ -142,6 +196,7 @@
   stroke: var(--nutri-ink-nb);
   flex-shrink: 0;
 }
+
 .nutri-section-nb[open] .nutri-chevron-nb {
   transform: rotate(180deg);
 }
@@ -158,9 +213,11 @@
   color: var(--nutri-ink-nb);
   margin: 0 0 12px 0;
 }
+
 .nutri-text-nb:last-child {
   margin-bottom: 0;
 }
+
 .nutri-text-nb strong {
   font-weight: 600;
 }
@@ -183,37 +240,46 @@
   border-collapse: collapse;
   margin-top: 16px;
 }
+
 .nutri-table-nb:first-child {
   margin-top: 0;
 }
+
 .nutri-row-nb {
   border-bottom: 1px solid var(--nutri-border-nb);
   transition: background-color 0.2s ease;
 }
+
 .nutri-row-nb:last-child {
   border-bottom: none;
 }
+
 .nutri-row-nb.highlight {
   background-color: var(--nutri-panel-nb);
 }
+
 .nutri-row-nb.highlight .n-label-nb,
 .nutri-row-nb.highlight .n-val-nb {
   color: var(--nutri-brand-nb);
   font-weight: 600;
 }
+
 .nutri-cell-nb {
   padding: 12px 8px;
   text-align: left;
   vertical-align: middle;
 }
+
 .nutri-cell-nb:last-child {
   text-align: right;
 }
+
 .n-label-nb {
   font-size: 14px;
   color: var(--nutri-ink-nb);
   font-weight: 500;
 }
+
 .n-val-nb {
   font-size: 14px;
   color: var(--nutri-ink-nb);
@@ -229,6 +295,7 @@
   letter-spacing: 0.5px;
   margin: 20px 0 12px 0;
 }
+
 .nutri-subsection-title-nb:first-child {
   margin-top: 0;
 }
@@ -238,42 +305,68 @@
   .nutri-widget-nb {
     padding: 0;
   }
-  .nutri-tab-nb {
-    padding: 14px 8px;
-    font-size: 13px;
-    letter-spacing: 0.3px;
+
+  .nutri-main-dropdown-nb summary {
+    padding: 16px;
+    font-size: 15px;
   }
+
+  .nutri-main-chevron-nb {
+    width: 14px;
+    height: 14px;
+  }
+
+  .nutri-variant-selector-nb {
+    padding: 14px 16px;
+  }
+
+  .nutri-variant-select-nb {
+    padding: 10px 14px;
+    font-size: 14px;
+    background-position: right 14px center;
+    padding-right: 44px;
+  }
+
   .nutri-section-nb summary {
     padding: 16px;
     font-size: 14px;
   }
+
   .nutri-section-header-nb {
     gap: 10px;
   }
+
   .nutri-section-badges-nb {
     gap: 6px;
   }
+
   .nutri-badge-nb {
     font-size: 10px;
     padding: 4px 8px;
   }
+
   .nutri-section-content-nb {
     padding: 16px;
   }
+
   .nutri-text-nb {
     font-size: 14px;
   }
+
   .nutri-notice-nb {
     font-size: 13px;
     padding: 12px;
   }
+
   .n-label-nb,
   .n-val-nb {
     font-size: 13px;
   }
+
   .nutri-cell-nb {
     padding: 10px 6px;
   }
+
   .nutri-subsection-title-nb {
     font-size: 12px;
     margin: 16px 0 10px 0;
@@ -282,189 +375,203 @@
 </style>
 
 <div class="nutri-widget-nb">
-  <!-- Tabs -->
-  <div class="nutri-tabs-nb">
-    <button class="nutri-tab-nb active" data-variant="vibe">VIBE</button>
-    <button class="nutri-tab-nb" data-variant="sharp">SHARP</button>
-    <button class="nutri-tab-nb" data-variant="relax">RELAX</button>
-  </div>
+  <!-- Main Dropdown -->
+  <details class="nutri-main-dropdown-nb">
+    <summary>
+      <div class="nutri-main-header-nb">
+        <span id="nutri-main-title-nb">VIBE</span>
+      </div>
+      <svg class="nutri-main-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </summary>
 
-  <!-- VIBE Content -->
-  <div id="nutri-vibe-nb" class="nutri-content-nb active">
-    <!-- Zutaten -->
-    <details class="nutri-section-nb">
-      <summary>
-        <div class="nutri-section-header-nb">
-          <span>Zutaten</span>
-          <div class="nutri-section-badges-nb">
-            <span class="nutri-badge-nb">0 Zucker</span>
-            <span class="nutri-badge-nb">0 Kalorien</span>
+    <!-- Variant Selector -->
+    <div class="nutri-variant-selector-nb">
+      <select class="nutri-variant-select-nb" id="nutri-variant-select-nb">
+        <option value="vibe">VIBE</option>
+        <option value="sharp">SHARP</option>
+        <option value="relax">RELAX</option>
+      </select>
+    </div>
+
+    <!-- VIBE Content -->
+    <div id="nutri-vibe-nb" class="nutri-content-nb active">
+      <!-- Zutaten -->
+      <details class="nutri-section-nb">
+        <summary>
+          <div class="nutri-section-header-nb">
+            <span>Zutaten</span>
+            <div class="nutri-section-badges-nb">
+              <span class="nutri-badge-nb">0 Zucker</span>
+              <span class="nutri-badge-nb">0 Kalorien</span>
+            </div>
           </div>
-        </div>
-        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </summary>
-      <div class="nutri-section-content-nb" id="nutri-ingredients-vibe"></div>
-    </details>
+          <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </summary>
+        <div class="nutri-section-content-nb" id="nutri-ingredients-vibe"></div>
+      </details>
 
-    <!-- Über diesen Drink -->
-    <details class="nutri-section-nb">
-      <summary>
-        <div class="nutri-section-header-nb">
-          <span>Über diesen Drink</span>
-        </div>
-        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </summary>
-      <div class="nutri-section-content-nb" id="nutri-about-vibe"></div>
-    </details>
-
-    <!-- Wirkstoffe -->
-    <details class="nutri-section-nb">
-      <summary>
-        <div class="nutri-section-header-nb">
-          <span>Wirkstoffe</span>
-        </div>
-        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </summary>
-      <div class="nutri-section-content-nb" id="nutri-active-vibe"></div>
-    </details>
-
-    <!-- Nährwertangaben -->
-    <details class="nutri-section-nb">
-      <summary>
-        <div class="nutri-section-header-nb">
-          <span>Nährwertangaben</span>
-        </div>
-        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </summary>
-      <div class="nutri-section-content-nb" id="nutri-nutrition-vibe"></div>
-    </details>
-  </div>
-
-  <!-- SHARP Content -->
-  <div id="nutri-sharp-nb" class="nutri-content-nb">
-    <!-- Zutaten -->
-    <details class="nutri-section-nb">
-      <summary>
-        <div class="nutri-section-header-nb">
-          <span>Zutaten</span>
-          <div class="nutri-section-badges-nb">
-            <span class="nutri-badge-nb">0 Zucker</span>
-            <span class="nutri-badge-nb">0 Kalorien</span>
+      <!-- Über diesen Drink -->
+      <details class="nutri-section-nb">
+        <summary>
+          <div class="nutri-section-header-nb">
+            <span>Über diesen Drink</span>
           </div>
-        </div>
-        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </summary>
-      <div class="nutri-section-content-nb" id="nutri-ingredients-sharp"></div>
-    </details>
+          <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </summary>
+        <div class="nutri-section-content-nb" id="nutri-about-vibe"></div>
+      </details>
 
-    <!-- Über diesen Drink -->
-    <details class="nutri-section-nb">
-      <summary>
-        <div class="nutri-section-header-nb">
-          <span>Über diesen Drink</span>
-        </div>
-        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </summary>
-      <div class="nutri-section-content-nb" id="nutri-about-sharp"></div>
-    </details>
-
-    <!-- Wirkstoffe -->
-    <details class="nutri-section-nb">
-      <summary>
-        <div class="nutri-section-header-nb">
-          <span>Wirkstoffe</span>
-        </div>
-        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </summary>
-      <div class="nutri-section-content-nb" id="nutri-active-sharp"></div>
-    </details>
-
-    <!-- Nährwertangaben -->
-    <details class="nutri-section-nb">
-      <summary>
-        <div class="nutri-section-header-nb">
-          <span>Nährwertangaben</span>
-        </div>
-        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </summary>
-      <div class="nutri-section-content-nb" id="nutri-nutrition-sharp"></div>
-    </details>
-  </div>
-
-  <!-- RELAX Content -->
-  <div id="nutri-relax-nb" class="nutri-content-nb">
-    <!-- Zutaten -->
-    <details class="nutri-section-nb">
-      <summary>
-        <div class="nutri-section-header-nb">
-          <span>Zutaten</span>
-          <div class="nutri-section-badges-nb">
-            <span class="nutri-badge-nb">0 Zucker</span>
-            <span class="nutri-badge-nb">0 Kalorien</span>
+      <!-- Wirkstoffe -->
+      <details class="nutri-section-nb">
+        <summary>
+          <div class="nutri-section-header-nb">
+            <span>Wirkstoffe</span>
           </div>
-        </div>
-        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </summary>
-      <div class="nutri-section-content-nb" id="nutri-ingredients-relax"></div>
-    </details>
+          <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </summary>
+        <div class="nutri-section-content-nb" id="nutri-active-vibe"></div>
+      </details>
 
-    <!-- Über diesen Drink -->
-    <details class="nutri-section-nb">
-      <summary>
-        <div class="nutri-section-header-nb">
-          <span>Über diesen Drink</span>
-        </div>
-        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </summary>
-      <div class="nutri-section-content-nb" id="nutri-about-relax"></div>
-    </details>
+      <!-- Nährwertangaben -->
+      <details class="nutri-section-nb">
+        <summary>
+          <div class="nutri-section-header-nb">
+            <span>Nährwertangaben</span>
+          </div>
+          <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </summary>
+        <div class="nutri-section-content-nb" id="nutri-nutrition-vibe"></div>
+      </details>
+    </div>
 
-    <!-- Wirkstoffe -->
-    <details class="nutri-section-nb">
-      <summary>
-        <div class="nutri-section-header-nb">
-          <span>Wirkstoffe</span>
-        </div>
-        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </summary>
-      <div class="nutri-section-content-nb" id="nutri-active-relax"></div>
-    </details>
+    <!-- SHARP Content -->
+    <div id="nutri-sharp-nb" class="nutri-content-nb">
+      <!-- Zutaten -->
+      <details class="nutri-section-nb">
+        <summary>
+          <div class="nutri-section-header-nb">
+            <span>Zutaten</span>
+            <div class="nutri-section-badges-nb">
+              <span class="nutri-badge-nb">0 Zucker</span>
+              <span class="nutri-badge-nb">0 Kalorien</span>
+            </div>
+          </div>
+          <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </summary>
+        <div class="nutri-section-content-nb" id="nutri-ingredients-sharp"></div>
+      </details>
 
-    <!-- Nährwertangaben -->
-    <details class="nutri-section-nb">
-      <summary>
-        <div class="nutri-section-header-nb">
-          <span>Nährwertangaben</span>
-        </div>
-        <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </summary>
-      <div class="nutri-section-content-nb" id="nutri-nutrition-relax"></div>
-    </details>
-  </div>
+      <!-- Über diesen Drink -->
+      <details class="nutri-section-nb">
+        <summary>
+          <div class="nutri-section-header-nb">
+            <span>Über diesen Drink</span>
+          </div>
+          <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </summary>
+        <div class="nutri-section-content-nb" id="nutri-about-sharp"></div>
+      </details>
+
+      <!-- Wirkstoffe -->
+      <details class="nutri-section-nb">
+        <summary>
+          <div class="nutri-section-header-nb">
+            <span>Wirkstoffe</span>
+          </div>
+          <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </summary>
+        <div class="nutri-section-content-nb" id="nutri-active-sharp"></div>
+      </details>
+
+      <!-- Nährwertangaben -->
+      <details class="nutri-section-nb">
+        <summary>
+          <div class="nutri-section-header-nb">
+            <span>Nährwertangaben</span>
+          </div>
+          <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </summary>
+        <div class="nutri-section-content-nb" id="nutri-nutrition-sharp"></div>
+      </details>
+    </div>
+
+    <!-- RELAX Content -->
+    <div id="nutri-relax-nb" class="nutri-content-nb">
+      <!-- Zutaten -->
+      <details class="nutri-section-nb">
+        <summary>
+          <div class="nutri-section-header-nb">
+            <span>Zutaten</span>
+            <div class="nutri-section-badges-nb">
+              <span class="nutri-badge-nb">0 Zucker</span>
+              <span class="nutri-badge-nb">0 Kalorien</span>
+            </div>
+          </div>
+          <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </summary>
+        <div class="nutri-section-content-nb" id="nutri-ingredients-relax"></div>
+      </details>
+
+      <!-- Über diesen Drink -->
+      <details class="nutri-section-nb">
+        <summary>
+          <div class="nutri-section-header-nb">
+            <span>Über diesen Drink</span>
+          </div>
+          <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </summary>
+        <div class="nutri-section-content-nb" id="nutri-about-relax"></div>
+      </details>
+
+      <!-- Wirkstoffe -->
+      <details class="nutri-section-nb">
+        <summary>
+          <div class="nutri-section-header-nb">
+            <span>Wirkstoffe</span>
+          </div>
+          <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </summary>
+        <div class="nutri-section-content-nb" id="nutri-active-relax"></div>
+      </details>
+
+      <!-- Nährwertangaben -->
+      <details class="nutri-section-nb">
+        <summary>
+          <div class="nutri-section-header-nb">
+            <span>Nährwertangaben</span>
+          </div>
+          <svg class="nutri-chevron-nb" viewBox="0 0 14 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L7 7L13 1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </summary>
+        <div class="nutri-section-content-nb" id="nutri-nutrition-relax"></div>
+      </details>
+    </div>
+  </details>
 </div>
 
 <script>
@@ -754,29 +861,25 @@
   // Set initial theme (VIBE is default)
   updateTheme('vibe');
 
-  // Tab switching
-  var tabs = document.querySelectorAll('.nutri-tab-nb');
+  // Variant selector
+  var select = document.getElementById('nutri-variant-select-nb');
   var contents = document.querySelectorAll('.nutri-content-nb');
+  var mainTitle = document.getElementById('nutri-main-title-nb');
 
-  tabs.forEach(function(tab) {
-    tab.addEventListener('click', function() {
-      var variant = this.getAttribute('data-variant');
+  select.addEventListener('change', function() {
+    var variant = this.value;
 
-      // Update active tab
-      tabs.forEach(function(t) {
-        t.classList.remove('active');
-      });
-      this.classList.add('active');
-
-      // Update active content
-      contents.forEach(function(c) {
-        c.classList.remove('active');
-      });
-      document.getElementById('nutri-' + variant + '-nb').classList.add('active');
-
-      // Update theme colors
-      updateTheme(variant);
+    // Update active content
+    contents.forEach(function(c) {
+      c.classList.remove('active');
     });
+    document.getElementById('nutri-' + variant + '-nb').classList.add('active');
+
+    // Update main title
+    mainTitle.textContent = variant.toUpperCase();
+
+    // Update theme colors
+    updateTheme(variant);
   });
 })();
 </script>
