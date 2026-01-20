@@ -19,7 +19,11 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
+/* Isolated bundle wrapper with CSS reset */
 .feevra-bundle-wrapper {
+  all: initial;
+  display: block;
+
   /* Scoped CSS variables to prevent theme conflicts */
   --feevra-primary: #1C1A54;
   --feevra-accent: #00C896;
@@ -37,9 +41,18 @@
   max-width: 680px;
   margin: 0 auto;
   padding: 0;
+  box-sizing: border-box;
 }
 
-.feevra-bundle-container {
+.feevra-bundle-wrapper *,
+.feevra-bundle-wrapper *::before,
+.feevra-bundle-wrapper *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.feevra-bundle-wrapper .feevra-bundle-container {
   background: #fff;
   border: 1px solid var(--feevra-gray-200);
   border-radius: var(--feevra-radius);
@@ -47,7 +60,7 @@
 }
 
 /* Headlines */
-.feevra-headline {
+.feevra-bundle-wrapper .feevra-headline {
   font-size: clamp(18px, 3vw, 22px);
   font-weight: 700;
   text-align: center;
@@ -56,7 +69,7 @@
   letter-spacing: -0.02em;
 }
 
-.feevra-subheadline {
+.feevra-bundle-wrapper .feevra-subheadline {
   font-size: clamp(12px, 2.5vw, 14px);
   text-align: center;
   color: var(--feevra-gray-600);
@@ -64,11 +77,11 @@
 }
 
 /* Steps */
-.feevra-step {
+.feevra-bundle-wrapper .feevra-step {
   display: none;
 }
 
-.feevra-step.active {
+.feevra-bundle-wrapper .feevra-step.active {
   display: block;
   animation: feevraFadeIn 0.3s ease;
 }
@@ -79,7 +92,7 @@
 }
 
 /* Back Button */
-.feevra-back {
+.feevra-bundle-wrapper .feevra-back {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -94,23 +107,23 @@
   transition: opacity 0.2s;
 }
 
-.feevra-back:hover {
+.feevra-bundle-wrapper .feevra-back:hover {
   opacity: 0.7;
 }
 
-.feevra-back:focus-visible {
+.feevra-bundle-wrapper .feevra-back:focus-visible {
   outline: 2px solid var(--feevra-primary);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
-.feevra-back-arrow {
+.feevra-bundle-wrapper .feevra-back-arrow {
   width: 16px;
   height: 16px;
 }
 
 /* Color Grid - ALWAYS 4 columns */
-.feevra-color-grid {
+.feevra-bundle-wrapper .feevra-color-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(8px, 2vw, 12px);
@@ -118,7 +131,7 @@
 }
 
 /* Color Card */
-.feevra-color-card {
+.feevra-bundle-wrapper .feevra-color-card {
   cursor: pointer;
   border: 1px solid var(--feevra-gray-300);
   border-radius: var(--feevra-radius);
@@ -128,30 +141,30 @@
   position: relative;
 }
 
-.feevra-color-card:hover:not(.sold-out) {
+.feevra-bundle-wrapper .feevra-color-card:hover:not(.sold-out) {
   border-color: var(--feevra-primary);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(28, 26, 84, 0.1);
 }
 
-.feevra-color-card:focus-visible {
+.feevra-bundle-wrapper .feevra-color-card:focus-visible {
   outline: 2px solid var(--feevra-primary);
   outline-offset: 2px;
 }
 
-.feevra-color-card[aria-pressed="true"] {
+.feevra-bundle-wrapper .feevra-color-card[aria-pressed="true"] {
   border: 2px solid var(--feevra-primary);
   box-shadow: 0 0 0 3px rgba(28, 26, 84, 0.1);
   background: rgba(28, 26, 84, 0.02);
 }
 
-.feevra-color-card.sold-out {
+.feevra-bundle-wrapper .feevra-color-card.sold-out {
   opacity: 0.4;
   filter: grayscale(1);
   cursor: not-allowed;
 }
 
-.feevra-color-image {
+.feevra-bundle-wrapper .feevra-color-image {
   width: 100%;
   aspect-ratio: 1;
   background: var(--feevra-gray-50);
@@ -159,13 +172,13 @@
   overflow: hidden;
 }
 
-.feevra-color-image img {
+.feevra-bundle-wrapper .feevra-color-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.feevra-color-name {
+.feevra-bundle-wrapper .feevra-color-name {
   padding: clamp(6px, 1.5vw, 10px);
   text-align: center;
   font-size: clamp(11px, 2.5vw, 13px);
@@ -173,7 +186,7 @@
   color: var(--feevra-gray-700);
 }
 
-.feevra-check-mark {
+.feevra-bundle-wrapper .feevra-check-mark {
   position: absolute;
   top: 6px;
   right: 6px;
@@ -190,12 +203,12 @@
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
-.feevra-color-card[aria-pressed="true"] .feevra-check-mark {
+.feevra-bundle-wrapper .feevra-color-card[aria-pressed="true"] .feevra-check-mark {
   display: flex;
 }
 
 /* Quantity Grid */
-.feevra-qty-grid {
+.feevra-bundle-wrapper .feevra-qty-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: clamp(6px, 2vw, 10px);
@@ -203,10 +216,10 @@
 }
 
 /* Quantity Card */
-.feevra-qty-card {
+.feevra-bundle-wrapper .feevra-qty-card {
   cursor: pointer;
   position: relative;
-  padding: clamp(10px, 2.5vw, 14px) clamp(8px, 2vw, 12px);
+  padding: 0;
   border: 2px solid var(--feevra-gray-300);
   border-radius: var(--feevra-radius);
   background: transparent;
@@ -214,44 +227,50 @@
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  overflow: hidden;
 }
 
-.feevra-qty-card:hover {
+.feevra-bundle-wrapper .feevra-qty-card:hover {
   border-color: var(--feevra-primary);
 }
 
-.feevra-qty-card:focus-visible {
+.feevra-bundle-wrapper .feevra-qty-card:focus-visible {
   outline: 2px solid var(--feevra-primary);
   outline-offset: 2px;
 }
 
-.feevra-qty-card[aria-pressed="true"] {
+.feevra-bundle-wrapper .feevra-qty-card[aria-pressed="true"] {
   border: 2px solid var(--feevra-primary);
   background: transparent;
 }
 
-.feevra-qty-label {
-  padding: 4px 10px;
-  border-radius: var(--feevra-radius-sm);
+.feevra-bundle-wrapper .feevra-qty-label {
+  padding: 5px 8px;
   font-size: clamp(9px, 2vw, 10px);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.03em;
   color: #fff;
-  margin-bottom: 4px;
-  align-self: center;
+  width: 100%;
+  margin: 0;
 }
 
-.feevra-qty-label.popular {
+.feevra-bundle-wrapper .feevra-qty-label.popular {
   background: var(--feevra-primary);
 }
 
-.feevra-qty-label.best {
+.feevra-bundle-wrapper .feevra-qty-label.best {
   background: var(--feevra-accent);
 }
 
-.feevra-qty-amount {
+.feevra-bundle-wrapper .feevra-qty-content {
+  padding: clamp(10px, 2.5vw, 14px) clamp(8px, 2vw, 12px);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.feevra-bundle-wrapper .feevra-qty-amount {
   font-size: clamp(16px, 3.5vw, 20px);
   font-weight: 700;
   color: var(--feevra-primary);
@@ -260,7 +279,7 @@
 
 
 
-.feevra-qty-price {
+.feevra-bundle-wrapper .feevra-qty-price {
   font-size: clamp(13px, 2.8vw, 15px);
   font-weight: 600;
   color: var(--feevra-gray-800);
@@ -269,7 +288,7 @@
 
 
 
-.feevra-qty-savings {
+.feevra-bundle-wrapper .feevra-qty-savings {
   font-size: clamp(10px, 2.2vw, 11px);
   color: var(--feevra-accent);
   font-weight: 600;
@@ -278,7 +297,7 @@
 
 
 
-.feevra-qty-per {
+.feevra-bundle-wrapper .feevra-qty-per {
   font-size: clamp(9px, 2vw, 10px);
   color: var(--feevra-gray-600);
   font-weight: 500;
@@ -287,7 +306,7 @@
 
 
 /* Distribution */
-.feevra-distribution {
+.feevra-bundle-wrapper .feevra-distribution {
   background: var(--feevra-gray-50);
   border-radius: var(--feevra-radius-sm);
   padding: clamp(12px, 3vw, 16px);
@@ -295,11 +314,11 @@
   border: 1px solid var(--feevra-gray-200);
 }
 
-.feevra-distribution.hidden {
+.feevra-bundle-wrapper .feevra-distribution.hidden {
   display: none;
 }
 
-.feevra-distribution-title {
+.feevra-bundle-wrapper .feevra-distribution-title {
   font-size: clamp(13px, 2.8vw, 15px);
   font-weight: 600;
   color: var(--feevra-gray-800);
@@ -307,13 +326,13 @@
   text-align: center;
 }
 
-.feevra-distribution-items {
+.feevra-bundle-wrapper .feevra-distribution-items {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.feevra-distribution-item {
+.feevra-bundle-wrapper .feevra-distribution-item {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -323,14 +342,14 @@
   border: 1px solid var(--feevra-gray-200);
 }
 
-.feevra-distribution-label {
+.feevra-bundle-wrapper .feevra-distribution-label {
   flex: 1;
   font-size: clamp(12px, 2.5vw, 13px);
   font-weight: 500;
   color: var(--feevra-gray-700);
 }
 
-.feevra-distribution-select {
+.feevra-bundle-wrapper .feevra-distribution-select {
   padding: 6px 10px;
   border: 1px solid var(--feevra-gray-300);
   border-radius: 6px;
@@ -342,14 +361,14 @@
   font-family: 'Inter', sans-serif;
 }
 
-.feevra-distribution-select:focus-visible {
+.feevra-bundle-wrapper .feevra-distribution-select:focus-visible {
   outline: 2px solid var(--feevra-primary);
   outline-offset: 1px;
   border-color: var(--feevra-primary);
 }
 
 /* CTA Button */
-.feevra-cta {
+.feevra-bundle-wrapper .feevra-cta {
   width: 100%;
   padding: clamp(14px, 3vw, 16px) 24px;
   background: var(--feevra-primary);
@@ -363,29 +382,29 @@
   font-family: 'Inter', sans-serif;
 }
 
-.feevra-cta:hover:not(:disabled) {
+.feevra-bundle-wrapper .feevra-cta:hover:not(:disabled) {
   background: #13102d;
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(28, 26, 84, 0.3);
 }
 
-.feevra-cta:focus-visible {
+.feevra-bundle-wrapper .feevra-cta:focus-visible {
   outline: 2px solid var(--feevra-primary);
   outline-offset: 2px;
 }
 
-.feevra-cta:disabled {
+.feevra-bundle-wrapper .feevra-cta:disabled {
   background: var(--feevra-gray-300);
   color: var(--feevra-gray-600);
   cursor: not-allowed;
 }
 
-.feevra-cta.loading {
+.feevra-bundle-wrapper .feevra-cta.loading {
   position: relative;
   color: transparent;
 }
 
-.feevra-cta.loading::after {
+.feevra-bundle-wrapper .feevra-cta.loading::after {
   content: '';
   position: absolute;
   top: 50%;
@@ -404,7 +423,7 @@
 }
 
 /* Trust Badges */
-.feevra-trust {
+.feevra-bundle-wrapper .feevra-trust {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -414,7 +433,7 @@
   border-top: 1px solid var(--feevra-gray-200);
 }
 
-.feevra-trust-item {
+.feevra-bundle-wrapper .feevra-trust-item {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -423,7 +442,7 @@
   color: var(--feevra-gray-600);
 }
 
-.feevra-trust-icon {
+.feevra-bundle-wrapper .feevra-trust-icon {
   width: clamp(14px, 3vw, 16px);
   height: clamp(14px, 3vw, 16px);
   color: var(--feevra-accent);
@@ -431,7 +450,7 @@
 }
 
 /* Toast */
-.feevra-toast {
+.feevra-bundle-wrapper .feevra-toast {
   position: fixed;
   bottom: 24px;
   left: 50%;
@@ -450,23 +469,23 @@
   pointer-events: none;
 }
 
-.feevra-toast.show {
+.feevra-bundle-wrapper .feevra-toast.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
 
-.feevra-toast.error {
+.feevra-bundle-wrapper .feevra-toast.error {
   border-color: #DC2626;
   color: #DC2626;
 }
 
-.feevra-toast.success {
+.feevra-bundle-wrapper .feevra-toast.success {
   border-color: var(--feevra-accent);
   color: var(--feevra-accent);
 }
 
 /* Screen reader only */
-.feevra-sr-only {
+.feevra-bundle-wrapper .feevra-sr-only {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -589,10 +608,13 @@
           data-quantity="1"
           role="radio"
           aria-pressed="false"
-          aria-label="1 styk for 399 kroner"
+          aria-label="1 styk for 399 kroner, spar 33%"
         >
-          <div class="feevra-qty-amount">1 Stk</div>
-          <div class="feevra-qty-price">399 kr.</div>
+          <div class="feevra-qty-content">
+            <div class="feevra-qty-amount">1 Stk</div>
+            <div class="feevra-qty-price">399 kr.</div>
+            <div class="feevra-qty-savings">Spar 33%</div>
+          </div>
         </button>
 
         <button
@@ -601,13 +623,15 @@
           data-quantity="2"
           role="radio"
           aria-pressed="true"
-          aria-label="2 stykker for 750 kroner - Mest populær"
+          aria-label="2 stykker for 750 kroner - Mest populær, spar 37%"
         >
           <div class="feevra-qty-label popular" aria-hidden="true">MEST POPULÆR</div>
-          <div class="feevra-qty-amount">2 Stk</div>
-          <div class="feevra-qty-price">750 kr.</div>
-          <div class="feevra-qty-savings">Spar 48 kr.</div>
-          <div class="feevra-qty-per">375 kr./stk</div>
+          <div class="feevra-qty-content">
+            <div class="feevra-qty-amount">2 Stk</div>
+            <div class="feevra-qty-price">750 kr.</div>
+            <div class="feevra-qty-savings">Spar 37%</div>
+            <div class="feevra-qty-per">375 kr./stk</div>
+          </div>
         </button>
 
         <button
@@ -616,13 +640,15 @@
           data-quantity="3"
           role="radio"
           aria-pressed="false"
-          aria-label="3 stykker for 950 kroner - Bedst værdi"
+          aria-label="3 stykker for 950 kroner - Bedst værdi, spar 47%"
         >
           <div class="feevra-qty-label best" aria-hidden="true">BEDST VÆRDI</div>
-          <div class="feevra-qty-amount">3 Stk</div>
-          <div class="feevra-qty-price">950 kr.</div>
-          <div class="feevra-qty-savings">Spar 247 kr.</div>
-          <div class="feevra-qty-per">316 kr./stk</div>
+          <div class="feevra-qty-content">
+            <div class="feevra-qty-amount">3 Stk</div>
+            <div class="feevra-qty-price">950 kr.</div>
+            <div class="feevra-qty-savings">Spar 47%</div>
+            <div class="feevra-qty-per">316 kr./stk</div>
+          </div>
         </button>
       </div>
 
@@ -688,9 +714,9 @@
       }
     },
     prices: {
-      1: { price: 399, savings: 0, perItem: 399 },
-      2: { price: 750, savings: 48, perItem: 375 },
-      3: { price: 950, savings: 247, perItem: 316 }
+      1: { price: 399, savings: 196, savingsPercent: 33, perItem: 399, originalPrice: 595 },
+      2: { price: 750, savings: 440, savingsPercent: 37, perItem: 375, originalPrice: 1190 },
+      3: { price: 950, savings: 835, savingsPercent: 47, perItem: 316, originalPrice: 1785 }
     }
   };
 
