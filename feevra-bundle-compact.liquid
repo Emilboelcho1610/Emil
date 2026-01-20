@@ -50,8 +50,17 @@
 
 @media (max-width: 600px) {
     .feevra-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+    }
+
+    .feevra-inner {
+        padding: 16px;
+    }
+
+    .feevra-name {
+        font-size: 11px;
+        padding: 6px;
     }
 }
 
@@ -152,8 +161,20 @@
 
 @media (max-width: 600px) {
     .feevra-qty-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, 1fr);
         gap: 6px;
+    }
+
+    .feevra-amt {
+        font-size: 16px;
+    }
+
+    .feevra-price {
+        font-size: 12px;
+    }
+
+    .feevra-save {
+        font-size: 9px;
     }
 }
 
@@ -359,8 +380,16 @@
 
 @media (max-width: 600px) {
     .feevra-trust {
-        flex-wrap: wrap;
         gap: 8px;
+    }
+
+    .feevra-trust-item {
+        font-size: 10px;
+    }
+
+    .feevra-trust-item svg {
+        width: 12px;
+        height: 12px;
     }
 }
 
