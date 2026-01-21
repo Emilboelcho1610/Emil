@@ -269,23 +269,13 @@
   }
 }
 
-/* Hide/show text responsively */
+/* Always show full text on all devices */
 .feevra-bundle-v2 .qty-badge .badge-full {
   display: inline;
 }
 
 .feevra-bundle-v2 .qty-badge .badge-short {
   display: none;
-}
-
-@media (max-width: 480px) {
-  .feevra-bundle-v2 .qty-badge .badge-full {
-    display: none;
-  }
-
-  .feevra-bundle-v2 .qty-badge .badge-short {
-    display: inline;
-  }
 }
 
 .feevra-bundle-v2 .qty-content {
@@ -333,7 +323,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
+  gap: 2px;
   width: 100%;
 }
 
@@ -347,6 +337,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
 .feevra-bundle-v2 .qty-price {
@@ -358,6 +349,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
 .feevra-bundle-v2 .qty-savings {
@@ -367,11 +359,12 @@
   background: rgba(16, 185, 129, 0.1);
   padding: 3px 8px;
   border-radius: 8px;
-  margin-top: 3px;
+  margin-top: 2px;
   height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
+  white-space: nowrap;
 }
 
 @media (max-width: 480px) {
@@ -386,21 +379,24 @@
   .feevra-bundle-v2 .qty-original-price {
     font-size: 9px;
     height: 11px;
+    width: 100%;
   }
 
   .feevra-bundle-v2 .qty-price {
     font-size: 13px;
     height: 17px;
+    width: 100%;
   }
 
   .feevra-bundle-v2 .qty-savings {
     font-size: 8px;
     padding: 2px 6px;
     height: 18px;
+    white-space: nowrap;
   }
 
   .feevra-bundle-v2 .qty-prices {
-    gap: 2px;
+    gap: 1px;
   }
 }
 
@@ -834,7 +830,7 @@
     selectedColor: null,
     selectedQuantity: 2,
     distribution: {},
-    soldOutVariants: []
+    soldOutVariants: ['50595389866326'] // Grå variant is sold out
   };
 
   // Elements
