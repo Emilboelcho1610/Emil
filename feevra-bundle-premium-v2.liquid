@@ -322,6 +322,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  text-align: center;
 }
 
 .feevra-bundle-v2 .qty-prices {
@@ -373,6 +375,9 @@
   .feevra-bundle-v2 .qty-amount {
     font-size: 17px;
     height: 24px;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
   }
 
   .feevra-bundle-v2 .qty-original-price {
@@ -510,27 +515,76 @@
   cursor: not-allowed;
 }
 
-/* Trust badges - ultra compact */
+/* Trust badges - larger and more visible */
 .feevra-bundle-v2 .trust-badges {
   display: flex;
   justify-content: center;
-  gap: clamp(10px, 3vw, 16px);
-  margin-top: 8px;
+  gap: clamp(14px, 3.5vw, 20px);
+  margin-top: 10px;
   flex-wrap: wrap;
 }
 
 .feevra-bundle-v2 .trust-item {
   display: flex;
   align-items: center;
-  gap: 5px;
-  font-size: clamp(10px, 2.2vw, 11px);
+  gap: 6px;
+  font-size: clamp(11px, 2.6vw, 13px);
   color: var(--feevra-gray-600);
+  font-weight: 500;
 }
 
 .feevra-bundle-v2 .trust-icon {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   color: var(--feevra-accent);
+}
+
+/* Payment icons section */
+.feevra-bundle-v2 .payment-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  width: 100%;
+  box-sizing: border-box;
+  flex-wrap: nowrap;
+}
+
+.feevra-bundle-v2 .payment-icons {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.feevra-bundle-v2 .payment-icons img {
+  height: clamp(14px, 3.8vw, 22px);
+  margin-right: 6px;
+  flex-shrink: 0;
+}
+
+.feevra-bundle-v2 .payment-icons img:last-child {
+  margin-right: 0;
+}
+
+.feevra-bundle-v2 .trustpilot-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-weight: 400;
+  font-size: clamp(12px, 2.8vw, 14px);
+}
+
+.feevra-bundle-v2 .trustpilot-badge span {
+  color: #000;
+}
+
+.feevra-bundle-v2 .trustpilot-badge img {
+  height: clamp(14px, 3.4vw, 20px);
+  flex-shrink: 0;
 }
 
 /* Toast notifications */
@@ -695,6 +749,22 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
           </svg>
           <span>100 dages returret</span>
+        </div>
+      </div>
+
+      <!-- Payment icons and Trustpilot -->
+      <div class="payment-section">
+        <div class="payment-icons">
+          <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/visa-65d650f7.svg?v=1756638751" alt="Visa">
+          <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/master-54b5a7ce.svg?v=1756638754" alt="Mastercard">
+          <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/mobilepay-a8fc702d.svg?v=1756638746" alt="MobilePay">
+          <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/apple_pay-1721ebad.svg?v=1756638775" alt="Apple Pay">
+          <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/google_pay-34c30515.svg?v=1756638754" alt="Google Pay">
+          <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/klarna-637a076e.svg?v=1761513481" alt="Klarna">
+        </div>
+        <div class="trustpilot-badge">
+          <span>Fremragende</span>
+          <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/Trustpilot_stars.png?v=1750971162" alt="Trustpilot stjerner">
         </div>
       </div>
     </div>
