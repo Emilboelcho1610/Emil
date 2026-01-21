@@ -1057,8 +1057,8 @@
   // Check stock status dynamically from Shopify product data
   async function checkStockStatus() {
     try {
-      // Fetch product data - adjust the product handle to match your product
-      const response = await fetch('/products/feevra-migraenemaske.js');
+      // Fetch product data - using correct product handle
+      const response = await fetch('/products/feevra-migraene-maske.js');
 
       if (!response.ok) {
         console.warn('Could not fetch product data, status:', response.status);
