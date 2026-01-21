@@ -670,11 +670,12 @@
           <div class="color-name">Rosa</div>
         </button>
 
-        <button type="button" class="color-card" data-color="graa" data-variant="50595389866326" data-available="true">
+        <button type="button" class="color-card" data-color="graa" data-variant="50595389866326" data-available="false">
           <div class="color-image">
             <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken_jpg_049bb0ba-66eb-478f-87ba-5f4e1c3af56c.jpg?v=1768917230" alt="Grå">
           </div>
           <div class="color-name">Grå</div>
+          <div class="color-status">Udsolgt</div>
         </button>
 
         <button type="button" class="color-card" data-color="blaa" data-variant="49885169254742" data-available="true">
@@ -1054,50 +1055,25 @@
     }
   }
 
-  // Check stock status dynamically from Shopify
-  async function checkStockStatus() {
-    // Get all unique variant IDs
-    const variantIds = [];
+  // Check stock status from data attributes
+  function checkStockStatus() {
+    // Check each color card's data-available attribute
     els.colorCards.forEach(card => {
+      const available = card.dataset.available === 'true';
       const variantId = card.dataset.variant;
-      if (variantId && !variantIds.includes(variantId)) {
-        variantIds.push(variantId);
+
+      // If variant is not available, mark as sold out
+      if (!available) {
+        card.classList.add('sold-out');
+        state.soldOutVariants.push(variantId);
+
+        // Udsolgt text is already in HTML, but ensure it has the class
+        const statusEl = card.querySelector('.color-status');
+        if (statusEl) {
+          statusEl.style.display = 'block';
+        }
       }
     });
-
-    // Check each variant's availability via Shopify API
-    for (const variantId of variantIds) {
-      try {
-        const response = await fetch(`/variants/${variantId}.json`);
-        if (response.ok) {
-          const data = await response.json();
-          const variant = data.variant;
-
-          // If variant is not available, mark as sold out
-          if (!variant.available) {
-            state.soldOutVariants.push(variantId);
-
-            // Update UI for this variant
-            els.colorCards.forEach(card => {
-              if (card.dataset.variant === variantId) {
-                card.classList.add('sold-out');
-                card.dataset.available = 'false';
-
-                // Add "Udsolgt" text if not already added
-                if (!card.querySelector('.color-status')) {
-                  const statusEl = document.createElement('div');
-                  statusEl.className = 'color-status';
-                  statusEl.textContent = 'Udsolgt';
-                  card.appendChild(statusEl);
-                }
-              }
-            });
-          }
-        }
-      } catch (error) {
-        console.warn(`Could not check stock for variant ${variantId}:`, error);
-      }
-    }
   }
 
   // Add to cart
