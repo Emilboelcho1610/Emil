@@ -49,17 +49,17 @@
 /* Main container with brand border - NOT a card */
 .feevra-bundle-v2 .bundle-inner {
   border: 1px solid var(--feevra-primary);
-  border-radius: 12px;
-  padding: clamp(10px, 2.2vw, 16px);
+  border-radius: 10px;
+  padding: clamp(8px, 2vw, 12px);
   background: #fff;
 }
 
 /* Headlines - left aligned, ultra compact */
 .feevra-bundle-v2 .bundle-headline {
-  font-size: clamp(13px, 2.6vw, 15px);
+  font-size: clamp(12px, 2.4vw, 14px);
   font-weight: 700;
   text-align: left;
-  margin: 0 0 6px 0;
+  margin: 0 0 5px 0;
   color: var(--feevra-primary);
   letter-spacing: -0.01em;
 }
@@ -70,7 +70,7 @@
 
 /* Section spacing - ultra compact */
 .feevra-bundle-v2 .bundle-section {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .feevra-bundle-v2 .bundle-section:last-child {
@@ -79,7 +79,7 @@
 
 /* Mix colors toggle - only shows for 2-3 items */
 .feevra-bundle-v2 .mix-toggle-container {
-  margin: 5px 0;
+  margin: 4px 0;
   display: none;
 }
 
@@ -90,16 +90,16 @@
 .feevra-bundle-v2 .mix-toggle {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   cursor: pointer;
-  font-size: clamp(11px, 2.4vw, 13px);
+  font-size: clamp(10px, 2.2vw, 12px);
   color: var(--feevra-gray-700);
   font-weight: 500;
 }
 
 .feevra-bundle-v2 .mix-toggle input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   cursor: pointer;
   accent-color: var(--feevra-primary);
 }
@@ -128,13 +128,13 @@
 .feevra-bundle-v2 .color-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: clamp(5px, 1.5vw, 8px);
+  gap: clamp(4px, 1.2vw, 6px);
 }
 
 .feevra-bundle-v2 .color-card {
   cursor: pointer;
-  border: 2px solid var(--feevra-gray-300);
-  border-radius: 14px;
+  border: 1.5px solid var(--feevra-gray-300);
+  border-radius: 10px;
   background: #fff;
   padding: 0;
   transition: all 0.35s cubic-bezier(0.32, 0.72, 0, 1);
@@ -181,38 +181,38 @@
 
 
 .feevra-bundle-v2 .color-name {
-  padding: 8px 4px;
+  padding: 6px 3px;
   text-align: center;
-  font-size: clamp(11px, 2.5vw, 13px);
+  font-size: clamp(10px, 2.2vw, 12px);
   font-weight: 600;
   color: var(--feevra-gray-800);
 }
 
 .feevra-bundle-v2 .color-status {
-  font-size: clamp(9px, 2vw, 10px);
+  font-size: clamp(8px, 1.8vw, 9px);
   color: var(--feevra-red);
   font-weight: 600;
-  margin-top: -4px;
-  margin-bottom: 4px;
+  margin-top: -3px;
+  margin-bottom: 3px;
 }
 
 /* Quantity Grid - ultra compact */
 .feevra-bundle-v2 .qty-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: clamp(6px, 1.5vw, 10px);
+  gap: clamp(5px, 1.2vw, 8px);
 }
 
 @media (max-width: 480px) {
   .feevra-bundle-v2 .qty-grid {
-    gap: 5px;
+    gap: 4px;
   }
 }
 
 .feevra-bundle-v2 .qty-card {
   cursor: pointer;
-  border: 2px solid var(--feevra-gray-300);
-  border-radius: 12px;
+  border: 1.5px solid var(--feevra-gray-300);
+  border-radius: 10px;
   background: #fff;
   padding: 0;
   transition: all 0.35s cubic-bezier(0.32, 0.72, 0, 1);
@@ -249,8 +249,8 @@
 .feevra-bundle-v2 .qty-badge {
   background: var(--feevra-primary);
   color: #fff;
-  padding: 5px 8px;
-  font-size: clamp(9px, 2vw, 10px);
+  padding: 4px 6px;
+  font-size: clamp(8px, 1.8vw, 9px);
   font-weight: 700;
   text-transform: capitalize;
   letter-spacing: 0.02em;
@@ -264,8 +264,8 @@
 
 @media (max-width: 480px) {
   .feevra-bundle-v2 .qty-badge {
-    padding: 4px 6px;
-    font-size: 9px;
+    padding: 3px 5px;
+    font-size: 8px;
   }
 }
 
@@ -289,10 +289,10 @@
 }
 
 .feevra-bundle-v2 .qty-content {
-  padding: clamp(8px, 2vw, 12px) clamp(5px, 1.5vw, 7px);
+  padding: clamp(6px, 1.8vw, 10px) clamp(4px, 1.2vw, 6px);
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -300,28 +300,28 @@
 
 /* Force same height for all cards - ultra compact */
 .feevra-bundle-v2 .qty-card {
-  min-height: 130px;
+  min-height: 110px;
 }
 
 @media (max-width: 480px) {
   .feevra-bundle-v2 .qty-content {
-    padding: 8px 4px;
+    padding: 6px 3px;
     gap: 2px;
     width: 100%;
     align-items: center;
   }
 
   .feevra-bundle-v2 .qty-card {
-    min-height: 120px;
+    min-height: 100px;
   }
 }
 
 .feevra-bundle-v2 .qty-amount {
-  font-size: clamp(18px, 4.2vw, 22px);
+  font-size: clamp(16px, 3.8vw, 20px);
   font-weight: 700;
   color: var(--feevra-primary);
   line-height: 1;
-  height: 26px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -333,42 +333,42 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   width: 100%;
 }
 
 .feevra-bundle-v2 .qty-original-price {
-  font-size: clamp(10px, 2.3vw, 11px);
+  font-size: clamp(9px, 2vw, 10px);
   color: var(--feevra-gray-500);
   text-decoration: line-through;
   font-weight: 500;
   line-height: 1;
-  height: 14px;
+  height: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .feevra-bundle-v2 .qty-price {
-  font-size: clamp(15px, 3.5vw, 18px);
+  font-size: clamp(14px, 3.2vw, 16px);
   font-weight: 700;
   color: var(--feevra-gray-800);
   line-height: 1;
-  height: 22px;
+  height: 19px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .feevra-bundle-v2 .qty-savings {
-  font-size: clamp(9px, 2vw, 10px);
+  font-size: clamp(8px, 1.8vw, 9px);
   font-weight: 700;
   color: var(--feevra-green);
   background: rgba(16, 185, 129, 0.1);
-  padding: 4px 10px;
-  border-radius: 10px;
-  margin-top: 4px;
-  height: 24px;
+  padding: 3px 8px;
+  border-radius: 8px;
+  margin-top: 3px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -376,31 +376,31 @@
 
 @media (max-width: 480px) {
   .feevra-bundle-v2 .qty-amount {
-    font-size: 17px;
-    height: 24px;
+    font-size: 15px;
+    height: 20px;
     width: 100%;
     justify-content: center;
     text-align: center;
   }
 
   .feevra-bundle-v2 .qty-original-price {
-    font-size: 10px;
-    height: 13px;
+    font-size: 9px;
+    height: 11px;
   }
 
   .feevra-bundle-v2 .qty-price {
-    font-size: 15px;
-    height: 20px;
+    font-size: 13px;
+    height: 17px;
   }
 
   .feevra-bundle-v2 .qty-savings {
-    font-size: 9px;
-    padding: 3px 8px;
-    height: 22px;
+    font-size: 8px;
+    padding: 2px 6px;
+    height: 18px;
   }
 
   .feevra-bundle-v2 .qty-prices {
-    gap: 3px;
+    gap: 2px;
   }
 }
 
@@ -411,40 +411,40 @@
 /* Innovative Color Distribution - ultra compact */
 .feevra-bundle-v2 .distribution-container {
   background: var(--feevra-gray-50);
-  border-radius: 8px;
-  padding: clamp(10px, 2vw, 12px);
+  border-radius: 7px;
+  padding: clamp(8px, 1.8vw, 10px);
 }
 
 .feevra-bundle-v2 .distribution-title {
-  font-size: clamp(12px, 2.5vw, 14px);
+  font-size: clamp(11px, 2.2vw, 13px);
   font-weight: 600;
   color: var(--feevra-gray-800);
-  margin: 0 0 8px 0;
+  margin: 0 0 6px 0;
 }
 
 .feevra-bundle-v2 .distribution-grid {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .feevra-bundle-v2 .distribution-item {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .feevra-bundle-v2 .distribution-label {
-  font-size: clamp(11px, 2.4vw, 13px);
+  font-size: clamp(10px, 2.2vw, 12px);
   font-weight: 600;
   color: var(--feevra-gray-700);
-  min-width: 65px;
+  min-width: 60px;
 }
 
 .feevra-bundle-v2 .distribution-colors {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
+  gap: 5px;
   flex: 1;
 }
 
@@ -487,12 +487,12 @@
 /* CTA Button - Semi-bold uppercase, ultra compact */
 .feevra-bundle-v2 .cta-button {
   width: 100%;
-  padding: clamp(12px, 2.5vw, 14px) 16px;
+  padding: clamp(10px, 2.2vw, 12px) 14px;
   background: var(--feevra-primary);
   color: #fff;
   border: none;
-  border-radius: 10px;
-  font-size: clamp(13px, 2.8vw, 15px);
+  border-radius: 8px;
+  font-size: clamp(12px, 2.6vw, 14px);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -522,23 +522,23 @@
 .feevra-bundle-v2 .trust-badges {
   display: flex;
   justify-content: center;
-  gap: clamp(14px, 3.5vw, 20px);
-  margin-top: 10px;
+  gap: clamp(12px, 3vw, 16px);
+  margin-top: 8px;
   flex-wrap: wrap;
 }
 
 .feevra-bundle-v2 .trust-item {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: clamp(11px, 2.6vw, 13px);
+  gap: 5px;
+  font-size: clamp(10px, 2.4vw, 12px);
   color: var(--feevra-gray-600);
   font-weight: 500;
 }
 
 .feevra-bundle-v2 .trust-icon {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   color: var(--feevra-accent);
 }
 
@@ -547,8 +547,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
-  margin-top: 12px;
+  gap: 6px;
+  margin-top: 8px;
   width: 100%;
   box-sizing: border-box;
   flex-wrap: nowrap;
@@ -569,8 +569,8 @@
 }
 
 .feevra-bundle-v2 .payment-icons img {
-  height: clamp(14px, 3.8vw, 22px);
-  margin-right: 6px;
+  height: clamp(12px, 3.2vw, 18px);
+  margin-right: 5px;
   flex-shrink: 0;
 }
 
@@ -581,11 +581,11 @@
 .feevra-bundle-v2 .trustpilot-badge {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   flex-shrink: 0;
   white-space: nowrap;
   font-weight: 400;
-  font-size: clamp(12px, 2.8vw, 14px);
+  font-size: clamp(10px, 2.4vw, 12px);
 }
 
 .feevra-bundle-v2 .trustpilot-badge span {
@@ -593,23 +593,23 @@
 }
 
 .feevra-bundle-v2 .trustpilot-badge img {
-  height: clamp(14px, 3.4vw, 20px);
+  height: clamp(12px, 3vw, 16px);
   flex-shrink: 0;
 }
 
 /* Mobile responsive payment section */
 @media (max-width: 480px) {
   .feevra-bundle-v2 .payment-icons img {
-    height: 18px;
-    margin-right: 8px;
+    height: 15px;
+    margin-right: 6px;
   }
 
   .feevra-bundle-v2 .trustpilot-badge {
-    font-size: 11px;
+    font-size: 9px;
   }
 
   .feevra-bundle-v2 .trustpilot-badge img {
-    height: 16px;
+    height: 13px;
   }
 }
 
@@ -709,7 +709,7 @@
 
         <button type="button" class="qty-card selected" data-quantity="2">
           <div class="qty-badge">
-            <span class="badge-full">Populær</span>
+            <span class="badge-full">Mest populær</span>
             <span class="badge-short">Populær</span>
           </div>
           <div class="qty-content">
