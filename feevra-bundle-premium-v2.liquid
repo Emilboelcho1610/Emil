@@ -50,16 +50,16 @@
 .feevra-bundle-v2 .bundle-inner {
   border: 1px solid var(--feevra-primary);
   border-radius: 14px;
-  padding: clamp(16px, 3.5vw, 28px);
+  padding: clamp(14px, 3vw, 22px);
   background: #fff;
 }
 
-/* Headlines - left aligned, smaller on desktop */
+/* Headlines - left aligned, compact */
 .feevra-bundle-v2 .bundle-headline {
-  font-size: clamp(16px, 3vw, 18px);
+  font-size: clamp(14px, 2.8vw, 16px);
   font-weight: 700;
   text-align: left;
-  margin: 0 0 10px 0;
+  margin: 0 0 8px 0;
   color: var(--feevra-primary);
   letter-spacing: -0.01em;
 }
@@ -68,44 +68,67 @@
   display: none;
 }
 
-/* Section spacing */
+/* Section spacing - very compact */
 .feevra-bundle-v2 .bundle-section {
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .feevra-bundle-v2 .bundle-section:last-child {
   margin-bottom: 0;
 }
 
-.feevra-bundle-v2 #section-color {
-  margin-bottom: 8px;
+/* Mix colors toggle - only shows for 2-3 items */
+.feevra-bundle-v2 .mix-toggle-container {
+  margin: 10px 0;
+  display: none;
 }
 
-/* Smooth transitions */
-.feevra-bundle-v2 .bundle-section {
+.feevra-bundle-v2 .mix-toggle-container.show {
+  display: block;
+}
+
+.feevra-bundle-v2 .mix-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: clamp(12px, 2.6vw, 14px);
+  color: var(--feevra-gray-700);
+  font-weight: 500;
+}
+
+.feevra-bundle-v2 .mix-toggle input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--feevra-primary);
+}
+
+.feevra-bundle-v2 .mix-toggle:hover {
+  color: var(--feevra-primary);
+}
+
+/* Distribution section - hidden by default, smooth toggle */
+.feevra-bundle-v2 #section-distribution {
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: max-height 0.3s ease,
-              opacity 0.2s ease,
-              margin 0.3s ease;
+  margin-bottom: 0;
+  transition: max-height 0.3s ease, opacity 0.2s ease, margin 0.3s ease;
 }
 
-.feevra-bundle-v2 .bundle-section.active {
+.feevra-bundle-v2 #section-distribution.active {
   max-height: 2000px;
   opacity: 1;
-  margin-bottom: 16px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-.feevra-bundle-v2 #section-color.active {
-  margin-bottom: 6px;
-}
-
-/* Color Grid - Always 4 columns */
+/* Color Grid - Always 4 columns, compact */
 .feevra-bundle-v2 .color-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: clamp(8px, 2vw, 12px);
+  gap: clamp(6px, 1.8vw, 10px);
 }
 
 .feevra-bundle-v2 .color-card {
@@ -173,16 +196,16 @@
   margin-bottom: 4px;
 }
 
-/* Quantity Grid */
+/* Quantity Grid - compact */
 .feevra-bundle-v2 .qty-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: clamp(10px, 2.5vw, 14px);
+  gap: clamp(8px, 2vw, 12px);
 }
 
 @media (max-width: 480px) {
   .feevra-bundle-v2 .qty-grid {
-    gap: 8px;
+    gap: 6px;
   }
 }
 
@@ -266,27 +289,27 @@
 }
 
 .feevra-bundle-v2 .qty-content {
-  padding: clamp(12px, 3vw, 16px) clamp(8px, 2vw, 10px);
+  padding: clamp(10px, 2.5vw, 14px) clamp(6px, 1.8vw, 8px);
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
   align-items: center;
   justify-content: center;
 }
 
-/* Force same height for all cards */
+/* Force same height for all cards - more compact */
 .feevra-bundle-v2 .qty-card {
-  min-height: 160px;
+  min-height: 145px;
 }
 
 @media (max-width: 480px) {
   .feevra-bundle-v2 .qty-content {
-    padding: 12px 6px;
-    gap: 4px;
+    padding: 10px 5px;
+    gap: 3px;
   }
 
   .feevra-bundle-v2 .qty-card {
-    min-height: 145px;
+    min-height: 135px;
   }
 }
 
@@ -377,39 +400,11 @@
   display: none;
 }
 
-/* Back button */
-.feevra-bundle-v2 .back-button {
-  background: none;
-  border: none;
-  color: var(--feevra-primary);
-  font-size: clamp(12px, 2.6vw, 14px);
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  transition: all 0.2s ease;
-  font-family: 'Inter', sans-serif;
-}
-
-.feevra-bundle-v2 .back-button:hover {
-  color: #13102d;
-  transform: translateX(-2px);
-}
-
-.feevra-bundle-v2 .back-button svg {
-  width: 16px;
-  height: 16px;
-}
-
-/* Innovative Color Distribution */
+/* Innovative Color Distribution - compact */
 .feevra-bundle-v2 .distribution-container {
   background: var(--feevra-gray-50);
-  border-radius: 12px;
-  padding: clamp(16px, 3vw, 20px);
-  margin-top: 0;
+  border-radius: 10px;
+  padding: clamp(12px, 2.5vw, 16px);
 }
 
 .feevra-bundle-v2 .distribution-title {
@@ -481,10 +476,10 @@
 }
 
 
-/* CTA Button - Semi-bold uppercase */
+/* CTA Button - Semi-bold uppercase, compact */
 .feevra-bundle-v2 .cta-button {
   width: 100%;
-  padding: clamp(16px, 3.5vw, 18px) 24px;
+  padding: clamp(14px, 3vw, 16px) 20px;
   background: var(--feevra-primary);
   color: #fff;
   border: none;
@@ -494,9 +489,9 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   cursor: pointer;
-  transition: all 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  transition: all 0.2s ease;
   font-family: 'Inter', sans-serif;
-  margin-top: 20px;
+  margin-top: 0;
 }
 
 .feevra-bundle-v2 .cta-button:hover:not(:disabled) {
@@ -515,12 +510,12 @@
   cursor: not-allowed;
 }
 
-/* Trust badges */
+/* Trust badges - compact */
 .feevra-bundle-v2 .trust-badges {
   display: flex;
   justify-content: center;
-  gap: clamp(16px, 4vw, 24px);
-  margin-top: 16px;
+  gap: clamp(12px, 3.5vw, 20px);
+  margin-top: 10px;
   flex-wrap: wrap;
 }
 
@@ -580,8 +575,8 @@
   <div class="bundle-inner">
 
     <!-- Step 1: Color Selection -->
-    <div class="bundle-section active" id="section-color">
-      <h2 class="bundle-headline">Vælg farve og antal</h2>
+    <div class="bundle-section" id="section-color">
+      <h2 class="bundle-headline">Vælg farve</h2>
       <p class="bundle-subheadline">Mix farver ved 2 og 3 stk</p>
 
       <div class="color-grid" role="radiogroup" aria-label="Vælg farve">
@@ -618,7 +613,6 @@
     <!-- Step 2: Quantity Selection -->
     <div class="bundle-section" id="section-quantity">
       <h2 class="bundle-headline">Vælg antal</h2>
-      <p class="bundle-subheadline">Spar mere når du køber flere</p>
 
       <div class="qty-grid" role="radiogroup" aria-label="Vælg antal">
         <button type="button" class="qty-card" data-quantity="1">
@@ -665,14 +659,16 @@
       </div>
     </div>
 
+    <!-- Mix colors toggle (only for 2-3 items) -->
+    <div class="mix-toggle-container" id="mix-toggle-container">
+      <label class="mix-toggle">
+        <input type="checkbox" id="mix-colors-checkbox">
+        <span>Mix farver?</span>
+      </label>
+    </div>
+
     <!-- Step 3: Color Distribution (for 2+ items) -->
     <div class="bundle-section" id="section-distribution">
-      <button type="button" class="back-button" id="back-to-quantity">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-        </svg>
-        Gå tilbage
-      </button>
       <div class="distribution-container">
         <h3 class="distribution-title">Fordel farver</h3>
         <div class="distribution-grid" id="distribution-grid">
@@ -755,16 +751,26 @@
       distribution: document.getElementById('section-distribution'),
       cta: document.getElementById('section-cta')
     },
+    mixToggleContainer: document.getElementById('mix-toggle-container'),
+    mixToggleCheckbox: document.getElementById('mix-colors-checkbox'),
     distributionGrid: document.getElementById('distribution-grid'),
     ctaBtn: document.getElementById('add-to-cart-btn'),
-    backBtn: document.getElementById('back-to-quantity'),
     toast: document.getElementById('toast')
   };
 
   // Initialize
   function init() {
-    // Set default quantity
+    // Pre-select defaults: Sort color and 2 stk (Populær)
+    const sortCard = document.querySelector('.feevra-bundle-v2 .color-card[data-color="sort"]');
+    if (sortCard) {
+      sortCard.classList.add('selected');
+      state.selectedColor = 'sort';
+    }
+
     updateQuantitySelection(2);
+
+    // Initialize distribution with default color
+    state.distribution = { 0: 'sort', 1: 'sort' };
 
     // Event listeners
     els.colorCards.forEach(card => {
@@ -775,8 +781,11 @@
       card.addEventListener('click', handleQuantitySelect);
     });
 
+    els.mixToggleCheckbox.addEventListener('change', handleMixToggle);
     els.ctaBtn.addEventListener('click', handleAddToCart);
-    els.backBtn.addEventListener('click', handleBackToQuantity);
+
+    // Show mix toggle for default 2 stk
+    updateMixToggleVisibility();
 
     // Check stock status
     checkStockStatus();
@@ -800,17 +809,17 @@
     els.colorCards.forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
 
-    // Smooth transition to quantity section
-    setTimeout(() => {
-      els.sections.quantity.classList.add('active');
-      els.sections.color.style.maxHeight = '200px'; // Collapse but keep visible
-
-      // Show CTA and distribution if needed
-      setTimeout(() => {
+    // Update distribution to use new color if not mixing
+    if (!els.mixToggleCheckbox.checked) {
+      const qty = state.selectedQuantity;
+      for (let i = 0; i < qty; i++) {
+        state.distribution[i] = color;
+      }
+      // Re-render distribution if it's active
+      if (els.sections.distribution.classList.contains('active')) {
         updateDistribution();
-        els.sections.cta.classList.add('active');
-      }, 300);
-    }, 200);
+      }
+    }
   }
 
   // Handle quantity selection
@@ -820,20 +829,24 @@
 
     updateQuantitySelection(quantity);
 
-    // Hide quantity section after selection
-    setTimeout(() => {
-      els.sections.quantity.classList.remove('active');
+    // Update distribution for new quantity
+    const color = state.selectedColor || 'sort';
+    state.distribution = {};
+    for (let i = 0; i < quantity; i++) {
+      state.distribution[i] = color;
+    }
 
-      // Show appropriate section based on quantity
-      if (quantity === 1) {
-        // Show CTA directly for single item
-        els.sections.cta.classList.add('active');
-        state.distribution = { 0: state.selectedColor };
-      } else {
-        // Show distribution for 2-3 items
-        updateDistribution();
-      }
-    }, 150);
+    // Update mix toggle visibility
+    updateMixToggleVisibility();
+
+    // If mix is checked, update distribution display
+    if (els.mixToggleCheckbox.checked && quantity > 1) {
+      updateDistribution();
+    } else if (quantity === 1) {
+      // Hide distribution for single item
+      els.sections.distribution.classList.remove('active');
+      els.mixToggleCheckbox.checked = false;
+    }
   }
 
   function updateQuantitySelection(quantity) {
@@ -850,16 +863,36 @@
     });
   }
 
-  // Handle back to quantity
-  function handleBackToQuantity() {
-    // Hide distribution and CTA
-    els.sections.distribution.classList.remove('active');
-    els.sections.cta.classList.remove('active');
+  // Handle mix toggle
+  function handleMixToggle(e) {
+    const isChecked = e.target.checked;
 
-    // Show quantity selection again
-    setTimeout(() => {
-      els.sections.quantity.classList.add('active');
-    }, 150);
+    if (isChecked) {
+      // Show distribution section
+      els.sections.distribution.classList.add('active');
+      updateDistribution();
+    } else {
+      // Hide distribution section
+      els.sections.distribution.classList.remove('active');
+
+      // Reset all to selected color
+      const qty = state.selectedQuantity;
+      const color = state.selectedColor || 'sort';
+      for (let i = 0; i < qty; i++) {
+        state.distribution[i] = color;
+      }
+    }
+  }
+
+  // Update mix toggle visibility based on quantity
+  function updateMixToggleVisibility() {
+    const qty = state.selectedQuantity;
+    if (qty > 1) {
+      els.mixToggleContainer.classList.add('show');
+    } else {
+      els.mixToggleContainer.classList.remove('show');
+      els.mixToggleCheckbox.checked = false;
+    }
   }
 
   // Update distribution UI
@@ -868,14 +901,11 @@
 
     if (qty === 1) {
       els.sections.distribution.classList.remove('active');
-      // Single item uses selected color
-      state.distribution = { 0: state.selectedColor };
       return;
     }
 
     // Show distribution for 2+ items
     els.sections.distribution.classList.add('active');
-    els.sections.cta.classList.add('active');
 
     // Build distribution UI
     const grid = els.distributionGrid;
