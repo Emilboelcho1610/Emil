@@ -219,7 +219,7 @@
   border-radius: 10px;
   background: #fff;
   padding: 0;
-  transition: all 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
   display: flex;
@@ -228,15 +228,14 @@
 
 .feevra-bundle-v2 .qty-card:hover {
   border-color: var(--feevra-primary);
-  transform: translateY(-2px) scale(1.01);
-  box-shadow: 0 6px 12px rgba(28, 26, 84, 0.08);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(28, 26, 84, 0.08);
 }
 
 .feevra-bundle-v2 .qty-card.selected {
   border-color: var(--feevra-primary);
   border-width: 2.5px;
   box-shadow: 0 4px 12px rgba(28, 26, 84, 0.15);
-  transform: scale(1.01);
 }
 
 @media (max-width: 480px) {
@@ -258,20 +257,20 @@
   font-weight: 700;
   text-transform: capitalize;
   letter-spacing: 0.02em;
-  width: calc(100% + 3px);
+  width: calc(100% + 6px);
   text-align: center;
   min-height: clamp(24px, 5.5vw, 28px);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 9px 9px 0 0;
-  margin: -1.5px -1.5px 0 -1.5px;
+  border-radius: 8px 8px 0 0;
+  margin: -1.5px -3px 0 -3px;
   position: relative;
 }
 
 .feevra-bundle-v2 .qty-card.selected .qty-badge {
-  width: calc(100% + 5px);
-  margin: -2.5px -2.5px 0 -2.5px;
+  width: calc(100% + 8px);
+  margin: -2.5px -4px 0 -4px;
 }
 
 .feevra-bundle-v2 .qty-badge.best {
@@ -283,13 +282,13 @@
     padding: 5px 6px;
     font-size: 10px;
     min-height: 24px;
-    width: calc(100% + 3px);
-    margin: -1.5px -1.5px 0 -1.5px;
+    width: calc(100% + 6px);
+    margin: -1.5px -3px 0 -3px;
   }
 
   .feevra-bundle-v2 .qty-card.selected .qty-badge {
-    width: calc(100% + 4px);
-    margin: -2px -2px 0 -2px;
+    width: calc(100% + 8px);
+    margin: -2px -4px 0 -4px;
   }
 }
 
@@ -938,20 +937,23 @@
     // Update state
     state.selectedColor = color;
 
-    // Update UI
-    els.colorCards.forEach(c => c.classList.remove('selected'));
-    card.classList.add('selected');
+    // Batch DOM updates for smoother performance
+    requestAnimationFrame(() => {
+      // Update UI
+      els.colorCards.forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
 
-    // Update distribution to use new color if not mixing
-    if (!els.sections.distribution.classList.contains('active')) {
-      const qty = state.selectedQuantity;
-      for (let i = 0; i < qty; i++) {
-        state.distribution[i] = color;
+      // Update distribution to use new color if not mixing
+      if (!els.sections.distribution.classList.contains('active')) {
+        const qty = state.selectedQuantity;
+        for (let i = 0; i < qty; i++) {
+          state.distribution[i] = color;
+        }
+      } else {
+        // Re-render distribution if it's active
+        updateDistribution();
       }
-    } else {
-      // Re-render distribution if it's active
-      updateDistribution();
-    }
+    });
   }
 
   // Handle quantity selection
@@ -959,26 +961,29 @@
     const card = e.currentTarget;
     const quantity = parseInt(card.dataset.quantity);
 
-    updateQuantitySelection(quantity);
+    // Batch DOM updates for smoother performance
+    requestAnimationFrame(() => {
+      updateQuantitySelection(quantity);
 
-    // Update distribution for new quantity
-    const color = state.selectedColor || 'sort';
-    state.distribution = {};
-    for (let i = 0; i < quantity; i++) {
-      state.distribution[i] = color;
-    }
+      // Update distribution for new quantity
+      const color = state.selectedColor || 'sort';
+      state.distribution = {};
+      for (let i = 0; i < quantity; i++) {
+        state.distribution[i] = color;
+      }
 
-    // Update mix toggle visibility
-    updateMixToggleVisibility();
+      // Update mix toggle visibility
+      updateMixToggleVisibility();
 
-    // If distribution is active, update display
-    if (els.sections.distribution.classList.contains('active') && quantity > 1) {
-      updateDistribution();
-    } else if (quantity === 1) {
-      // Hide distribution for single item
-      els.sections.distribution.classList.remove('active');
-      els.mixColorsLink.textContent = 'Vælg forskellige farver';
-    }
+      // If distribution is active, update display
+      if (els.sections.distribution.classList.contains('active') && quantity > 1) {
+        updateDistribution();
+      } else if (quantity === 1) {
+        // Hide distribution for single item
+        els.sections.distribution.classList.remove('active');
+        els.mixColorsLink.textContent = 'Vælg forskellige farver';
+      }
+    });
   }
 
   function updateQuantitySelection(quantity) {
