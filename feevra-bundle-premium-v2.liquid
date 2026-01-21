@@ -248,13 +248,17 @@
 .feevra-bundle-v2 .qty-badge {
   background: var(--feevra-primary);
   color: #fff;
-  padding: 4px 6px;
-  font-size: clamp(8px, 1.8vw, 9px);
+  padding: clamp(4px, 1vw, 6px) 6px;
+  font-size: clamp(9px, 2.2vw, 11px);
   font-weight: 700;
   text-transform: capitalize;
   letter-spacing: 0.02em;
   width: 100%;
   text-align: center;
+  min-height: clamp(20px, 4.5vw, 24px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .feevra-bundle-v2 .qty-badge.best {
@@ -263,8 +267,9 @@
 
 @media (max-width: 480px) {
   .feevra-bundle-v2 .qty-badge {
-    padding: 3px 5px;
-    font-size: 8px;
+    padding: 4px 5px;
+    font-size: 9px;
+    min-height: 20px;
   }
 }
 
@@ -310,7 +315,7 @@
   font-weight: 700;
   color: var(--feevra-primary);
   line-height: 1;
-  height: 22px;
+  min-height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -332,7 +337,7 @@
   text-decoration: line-through;
   font-weight: 500;
   line-height: 1;
-  height: 12px;
+  min-height: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -344,7 +349,7 @@
   font-weight: 700;
   color: var(--feevra-gray-800);
   line-height: 1;
-  height: 19px;
+  min-height: 19px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -359,7 +364,7 @@
   padding: 3px 8px;
   border-radius: 8px;
   margin-top: 2px;
-  height: 20px;
+  min-height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -369,7 +374,7 @@
 @media (max-width: 480px) {
   .feevra-bundle-v2 .qty-amount {
     font-size: 15px;
-    height: 20px;
+    min-height: 20px;
     width: 100%;
     justify-content: center;
     text-align: center;
@@ -377,20 +382,20 @@
 
   .feevra-bundle-v2 .qty-original-price {
     font-size: 9px;
-    height: 11px;
+    min-height: 11px;
     width: 100%;
   }
 
   .feevra-bundle-v2 .qty-price {
     font-size: 13px;
-    height: 17px;
+    min-height: 17px;
     width: 100%;
   }
 
   .feevra-bundle-v2 .qty-savings {
     font-size: 8px;
     padding: 2px 6px;
-    height: 18px;
+    min-height: 18px;
     white-space: nowrap;
   }
 
@@ -691,7 +696,7 @@
 
       <div class="qty-grid" role="radiogroup" aria-label="Vælg antal">
         <button type="button" class="qty-card" data-quantity="1">
-          <div class="qty-badge" style="visibility: hidden; padding: 5px 8px; font-size: 10px;">.</div>
+          <div class="qty-badge" style="visibility: hidden;">.</div>
           <div class="qty-content">
             <div class="qty-amount">1 Stk</div>
             <div class="qty-prices">
