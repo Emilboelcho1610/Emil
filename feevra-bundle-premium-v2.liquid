@@ -84,7 +84,7 @@
 
 /* Mix colors toggle - discrete link style */
 .feevra-bundle-v2 .mix-toggle-container {
-  margin: 0;
+  margin: 12px 0;
   display: none;
   text-align: center;
 }
@@ -103,7 +103,7 @@
   transition: all 0.2s ease;
   background: none;
   border: none;
-  padding: 0;
+  padding: 4px 0;
   font-family: inherit;
 }
 
@@ -137,25 +137,26 @@
 
 .feevra-bundle-v2 .color-card {
   cursor: pointer;
-  border: 1.5px solid var(--feevra-gray-300);
+  border: 2px solid transparent;
   border-radius: 10px;
   background: #fff;
   padding: 0;
   transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 0 0 0 transparent inset;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .feevra-bundle-v2 .color-card:hover {
   border-color: var(--feevra-primary);
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(28, 26, 84, 0.08);
+  box-shadow: 0 6px 16px rgba(28, 26, 84, 0.12);
 }
 
 .feevra-bundle-v2 .color-card.selected {
   border-color: var(--feevra-primary);
-  box-shadow: 0 0 0 1.5px var(--feevra-primary) inset, 0 4px 12px rgba(28, 26, 84, 0.12);
+  border-width: 3px;
+  box-shadow: 0 4px 12px rgba(28, 26, 84, 0.15);
 }
 
 .feevra-bundle-v2 .color-card.sold-out {
