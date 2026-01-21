@@ -830,7 +830,7 @@
     selectedColor: null,
     selectedQuantity: 2,
     distribution: {},
-    soldOutVariants: ['50595389866326'] // Grå variant is sold out
+    soldOutVariants: [] // Will be populated dynamically from Shopify
   };
 
   // Elements
@@ -1054,22 +1054,50 @@
     }
   }
 
-  // Check stock status
-  function checkStockStatus() {
-    // Mark sold out items
+  // Check stock status dynamically from Shopify
+  async function checkStockStatus() {
+    // Get all unique variant IDs
+    const variantIds = [];
     els.colorCards.forEach(card => {
-      const variant = card.dataset.variant;
-      if (state.soldOutVariants.includes(variant)) {
-        card.classList.add('sold-out');
-        card.dataset.available = 'false';
-
-        // Add "Udsolgt" text
-        const statusEl = document.createElement('div');
-        statusEl.className = 'color-status';
-        statusEl.textContent = 'Udsolgt';
-        card.appendChild(statusEl);
+      const variantId = card.dataset.variant;
+      if (variantId && !variantIds.includes(variantId)) {
+        variantIds.push(variantId);
       }
     });
+
+    // Check each variant's availability via Shopify API
+    for (const variantId of variantIds) {
+      try {
+        const response = await fetch(`/variants/${variantId}.json`);
+        if (response.ok) {
+          const data = await response.json();
+          const variant = data.variant;
+
+          // If variant is not available, mark as sold out
+          if (!variant.available) {
+            state.soldOutVariants.push(variantId);
+
+            // Update UI for this variant
+            els.colorCards.forEach(card => {
+              if (card.dataset.variant === variantId) {
+                card.classList.add('sold-out');
+                card.dataset.available = 'false';
+
+                // Add "Udsolgt" text if not already added
+                if (!card.querySelector('.color-status')) {
+                  const statusEl = document.createElement('div');
+                  statusEl.className = 'color-status';
+                  statusEl.textContent = 'Udsolgt';
+                  card.appendChild(statusEl);
+                }
+              }
+            });
+          }
+        }
+      } catch (error) {
+        console.warn(`Could not check stock for variant ${variantId}:`, error);
+      }
+    }
   }
 
   // Add to cart
