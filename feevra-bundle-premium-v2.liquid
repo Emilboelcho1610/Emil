@@ -77,9 +77,9 @@
   margin-bottom: 0;
 }
 
-/* Mix colors toggle - only shows for 2-3 items */
+/* Mix colors toggle - dropdown style label */
 .feevra-bundle-v2 .mix-toggle-container {
-  margin: 4px 0;
+  margin: 6px 0;
   display: none;
 }
 
@@ -90,21 +90,55 @@
 .feevra-bundle-v2 .mix-toggle {
   display: flex;
   align-items: center;
-  gap: 5px;
+  justify-content: space-between;
+  width: 100%;
   cursor: pointer;
-  font-size: clamp(10px, 2.2vw, 12px);
-  color: var(--feevra-gray-700);
-  font-weight: 500;
-}
-
-.feevra-bundle-v2 .mix-toggle input[type="checkbox"] {
-  width: 14px;
-  height: 14px;
-  cursor: pointer;
-  accent-color: var(--feevra-primary);
+  font-size: clamp(11px, 2.4vw, 13px);
+  color: #fff;
+  font-weight: 600;
+  background: var(--feevra-primary);
+  padding: clamp(8px, 2vw, 10px) clamp(10px, 2.5vw, 12px);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  user-select: none;
 }
 
 .feevra-bundle-v2 .mix-toggle:hover {
+  background: #13102d;
+}
+
+.feevra-bundle-v2 .mix-toggle input[type="checkbox"] {
+  display: none;
+}
+
+.feevra-bundle-v2 .mix-toggle-text {
+  flex: 1;
+}
+
+.feevra-bundle-v2 .mix-toggle-icon {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #fff;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.feevra-bundle-v2 .mix-toggle input[type="checkbox"]:checked ~ .mix-toggle-icon {
+  background: #fff;
+}
+
+.feevra-bundle-v2 .mix-toggle input[type="checkbox"]:checked ~ .mix-toggle-icon svg {
+  display: block;
+}
+
+.feevra-bundle-v2 .mix-toggle-icon svg {
+  display: none;
+  width: 12px;
+  height: 12px;
   color: var(--feevra-primary);
 }
 
@@ -663,7 +697,7 @@
           <div class="color-name">Sort</div>
         </button>
 
-        <button type="button" class="color-card" data-color="rosa" data-variant="49885169221974" data-available="true">
+        <button type="button" class="color-card" data-color="rosa" data-variant="50188499812694" data-available="true">
           <div class="color-image">
             <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemaske_jpg_3ec23e6e-1dce-4474-a8e8-30ad75e4a914.jpg?v=1768917229" alt="Rosa">
           </div>
@@ -677,7 +711,7 @@
           <div class="color-name">Grå</div>
         </button>
 
-        <button type="button" class="color-card" data-color="blaa" data-variant="49885169254742" data-available="true">
+        <button type="button" class="color-card" data-color="blaa" data-variant="51508439810390" data-available="true">
           <div class="color-image">
             <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_3_021793b9-d91c-4e66-8277-77242e0f482e.jpg?v=1768917230" alt="Blå">
           </div>
@@ -739,7 +773,12 @@
     <div class="mix-toggle-container" id="mix-toggle-container">
       <label class="mix-toggle">
         <input type="checkbox" id="mix-colors-checkbox">
-        <span>Mix farver?</span>
+        <span class="mix-toggle-text">Vælg farver til hvert produkt</span>
+        <span class="mix-toggle-icon">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+          </svg>
+        </span>
       </label>
     </div>
 
@@ -810,7 +849,7 @@
       },
       rosa: {
         name: 'Rosa',
-        variantId: '49885169221974',
+        variantId: '50188499812694',
         image: 'https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemaske_jpg_3ec23e6e-1dce-4474-a8e8-30ad75e4a914.jpg?v=1768917229'
       },
       graa: {
@@ -820,7 +859,7 @@
       },
       blaa: {
         name: 'Blå',
-        variantId: '49885169254742',
+        variantId: '51508439810390',
         image: 'https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_3_021793b9-d91c-4e66-8277-77242e0f482e.jpg?v=1768917230'
       }
     }
