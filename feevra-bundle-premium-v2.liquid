@@ -165,12 +165,13 @@
 }
 
 .feevra-bundle-v2 .color-card.sold-out {
-  opacity: 0.5;
+  opacity: 0.7;
   cursor: not-allowed;
 }
 
 .feevra-bundle-v2 .color-card.sold-out:hover {
   transform: none;
+  border-color: transparent;
 }
 
 .feevra-bundle-v2 .color-image {
@@ -190,12 +191,10 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  border-radius: 8px 8px 0 0;
 }
 
-
 .feevra-bundle-v2 .color-name {
-  padding: 8px 4px;
+  padding: 6px 4px;
   text-align: center;
   font-size: clamp(10px, 2.2vw, 12px);
   font-weight: 600;
@@ -204,11 +203,18 @@
 }
 
 .feevra-bundle-v2 .color-status {
-  font-size: clamp(8px, 1.8vw, 9px);
-  color: var(--feevra-red);
-  font-weight: 600;
-  margin-top: -3px;
-  margin-bottom: 3px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(239, 68, 68, 0.95);
+  color: #fff;
+  font-size: clamp(9px, 2vw, 10px);
+  font-weight: 700;
+  padding: 4px 6px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 /* Quantity Grid - ultra compact */
@@ -1140,12 +1146,13 @@
             card.dataset.available = 'false';
             state.soldOutVariants.push(variantId.toString());
 
-            // Add "Udsolgt" text if not already present
-            if (!card.querySelector('.color-status')) {
+            // Add "Udsolgt" label to image container if not already present
+            const imageContainer = card.querySelector('.color-image');
+            if (imageContainer && !imageContainer.querySelector('.color-status')) {
               const statusEl = document.createElement('div');
               statusEl.className = 'color-status';
               statusEl.textContent = 'Udsolgt';
-              card.appendChild(statusEl);
+              imageContainer.appendChild(statusEl);
             }
 
             // Track sold out cards for reordering
@@ -1156,10 +1163,13 @@
             card.classList.remove('sold-out');
             card.dataset.available = 'true';
 
-            // Remove "Udsolgt" text if present
-            const statusEl = card.querySelector('.color-status');
-            if (statusEl) {
-              statusEl.remove();
+            // Remove "Udsolgt" label if present
+            const imageContainer = card.querySelector('.color-image');
+            if (imageContainer) {
+              const statusEl = imageContainer.querySelector('.color-status');
+              if (statusEl) {
+                statusEl.remove();
+              }
             }
           }
         } else {
