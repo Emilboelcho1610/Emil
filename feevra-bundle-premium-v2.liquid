@@ -65,12 +65,17 @@
 }
 
 .feevra-bundle-v2 .bundle-subheadline {
-  display: none;
+  font-size: clamp(10px, 2vw, 11px);
+  font-weight: 400;
+  color: var(--feevra-gray-600);
+  text-align: left;
+  margin: -3px 0 5px 0;
+  line-height: 1.3;
 }
 
 /* Section spacing - ultra compact */
 .feevra-bundle-v2 .bundle-section {
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 .feevra-bundle-v2 .bundle-section:last-child {
@@ -724,6 +729,7 @@
     <!-- Step 2: Quantity Selection -->
     <div class="bundle-section" id="section-quantity">
       <h2 class="bundle-headline">Vælg antal</h2>
+      <p class="bundle-subheadline">De fleste vælger 2-3 masker for at have en kølig udskiftning klar</p>
 
       <div class="qty-grid" role="radiogroup" aria-label="Vælg antal">
         <button type="button" class="qty-card" data-quantity="1">
