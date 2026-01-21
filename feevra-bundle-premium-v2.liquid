@@ -507,6 +507,30 @@
   font-family: 'Inter', sans-serif;
   margin-top: 0;
   box-shadow: 0 4px 12px rgba(28, 26, 84, 0.25);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Loading spinner */
+.feevra-bundle-v2 .cta-button .spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: feevra-spin 0.6s linear infinite;
+  display: none;
+}
+
+.feevra-bundle-v2 .cta-button.loading .spinner {
+  display: block;
+}
+
+@keyframes feevra-spin {
+  to { transform: rotate(360deg); }
 }
 
 .feevra-bundle-v2 .cta-button:hover:not(:disabled) {
@@ -766,7 +790,8 @@
     <!-- CTA Button -->
     <div class="bundle-section" id="section-cta">
       <button type="button" class="cta-button" id="add-to-cart-btn">
-        Tilføj til kurv
+        <span class="cta-text">Tilføj til kurv</span>
+        <span class="spinner"></span>
       </button>
 
       <div class="trust-badges">
@@ -1157,7 +1182,8 @@
     }
 
     els.ctaBtn.disabled = true;
-    els.ctaBtn.textContent = 'Tilføjer...';
+    const ctaText = els.ctaBtn.querySelector('.cta-text');
+    ctaText.textContent = 'Tilføjer...';
 
     try {
       // Build items array
@@ -1189,15 +1215,45 @@
       });
 
       if (response.ok) {
-        showToast('Tilføjet til kurv!', 'success');
+        // Show success state with loading spinner
+        ctaText.textContent = 'Tilføjet!';
+        els.ctaBtn.classList.add('loading');
 
-        // Dispatch event for theme integration
+        // Dispatch events for theme integration
         window.dispatchEvent(new CustomEvent('feevra:cart:updated'));
 
-        // Redirect to cart
+        // Try multiple methods to open cart drawer
+        // Method 1: Dawn/common themes
+        if (typeof window.Shopify !== 'undefined' && window.Shopify.theme) {
+          document.dispatchEvent(new CustomEvent('cart:refresh'));
+        }
+
+        // Method 2: Look for cart drawer element and open it
         setTimeout(() => {
-          window.location.href = '/cart';
-        }, 800);
+          const cartDrawer = document.querySelector('.qsc2-drawer, [id*="cart-drawer"], [class*="cart-drawer"]');
+          if (cartDrawer) {
+            cartDrawer.classList.add('active', 'open', 'is-open');
+            cartDrawer.setAttribute('aria-hidden', 'false');
+
+            // Also try to find and click cart icon/button
+            const cartButton = document.querySelector('[data-cart-drawer], [aria-controls*="cart"], .cart-icon-bubble');
+            if (cartButton) {
+              cartButton.click();
+            }
+          }
+
+          // Method 3: Dispatch cart open events
+          document.dispatchEvent(new CustomEvent('cart:open'));
+          document.dispatchEvent(new CustomEvent('drawer:open'));
+
+          // Remove loading spinner after 2 seconds
+          setTimeout(() => {
+            els.ctaBtn.classList.remove('loading');
+            els.ctaBtn.disabled = false;
+            ctaText.textContent = 'Tilføj til kurv';
+          }, 2000);
+        }, 300);
+
       } else {
         const error = await response.json();
 
@@ -1207,13 +1263,15 @@
         } else {
           throw new Error(error.description || 'Kunne ikke tilføje til kurv');
         }
+
+        els.ctaBtn.disabled = false;
+        ctaText.textContent = 'Tilføj til kurv';
       }
     } catch (error) {
       console.error('Add to cart error:', error);
       showToast('Der skete en fejl. Prøv igen.', 'error');
-    } finally {
       els.ctaBtn.disabled = false;
-      els.ctaBtn.textContent = 'TILFØJ TIL KURV';
+      ctaText.textContent = 'Tilføj til kurv';
     }
   }
 
