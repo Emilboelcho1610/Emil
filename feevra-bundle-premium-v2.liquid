@@ -77,69 +77,34 @@
   margin-bottom: 0;
 }
 
-/* Mix colors toggle - dropdown style label */
+/* Mix colors toggle - discrete link style */
 .feevra-bundle-v2 .mix-toggle-container {
-  margin: 6px 0;
+  margin: 6px 0 0 0;
   display: none;
+  text-align: center;
 }
 
 .feevra-bundle-v2 .mix-toggle-container.show {
   display: block;
 }
 
-.feevra-bundle-v2 .mix-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  cursor: pointer;
-  font-size: clamp(11px, 2.4vw, 13px);
-  color: #fff;
-  font-weight: 600;
-  background: var(--feevra-primary);
-  padding: clamp(8px, 2vw, 10px) clamp(10px, 2.5vw, 12px);
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  user-select: none;
-}
-
-.feevra-bundle-v2 .mix-toggle:hover {
-  background: #13102d;
-}
-
-.feevra-bundle-v2 .mix-toggle input[type="checkbox"] {
-  display: none;
-}
-
-.feevra-bundle-v2 .mix-toggle-text {
-  flex: 1;
-}
-
-.feevra-bundle-v2 .mix-toggle-icon {
-  width: 18px;
-  height: 18px;
-  border: 2px solid #fff;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-
-.feevra-bundle-v2 .mix-toggle input[type="checkbox"]:checked ~ .mix-toggle-icon {
-  background: #fff;
-}
-
-.feevra-bundle-v2 .mix-toggle input[type="checkbox"]:checked ~ .mix-toggle-icon svg {
-  display: block;
-}
-
-.feevra-bundle-v2 .mix-toggle-icon svg {
-  display: none;
-  width: 12px;
-  height: 12px;
+.feevra-bundle-v2 .mix-colors-link {
+  display: inline-block;
+  font-size: clamp(10px, 2.2vw, 12px);
   color: var(--feevra-primary);
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+}
+
+.feevra-bundle-v2 .mix-colors-link:hover {
+  color: #13102d;
+  text-decoration: none;
 }
 
 /* Distribution section - hidden by default, smooth toggle */
@@ -771,15 +736,9 @@
 
     <!-- Mix colors toggle (only for 2-3 items) -->
     <div class="mix-toggle-container" id="mix-toggle-container">
-      <label class="mix-toggle">
-        <input type="checkbox" id="mix-colors-checkbox">
-        <span class="mix-toggle-text">Vælg farver til hvert produkt</span>
-        <span class="mix-toggle-icon">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
-          </svg>
-        </span>
-      </label>
+      <button type="button" class="mix-colors-link" id="mix-colors-link">
+        Vælg forskellige farver
+      </button>
     </div>
 
     <!-- Step 3: Color Distribution (for 2+ items) -->
@@ -883,7 +842,7 @@
       cta: document.getElementById('section-cta')
     },
     mixToggleContainer: document.getElementById('mix-toggle-container'),
-    mixToggleCheckbox: document.getElementById('mix-colors-checkbox'),
+    mixColorsLink: document.getElementById('mix-colors-link'),
     distributionGrid: document.getElementById('distribution-grid'),
     ctaBtn: document.getElementById('add-to-cart-btn'),
     toast: document.getElementById('toast')
@@ -912,7 +871,7 @@
       card.addEventListener('click', handleQuantitySelect);
     });
 
-    els.mixToggleCheckbox.addEventListener('change', handleMixToggle);
+    els.mixColorsLink.addEventListener('click', handleMixToggle);
     els.ctaBtn.addEventListener('click', handleAddToCart);
 
     // Show mix toggle for default 2 stk
@@ -941,15 +900,14 @@
     card.classList.add('selected');
 
     // Update distribution to use new color if not mixing
-    if (!els.mixToggleCheckbox.checked) {
+    if (!els.sections.distribution.classList.contains('active')) {
       const qty = state.selectedQuantity;
       for (let i = 0; i < qty; i++) {
         state.distribution[i] = color;
       }
+    } else {
       // Re-render distribution if it's active
-      if (els.sections.distribution.classList.contains('active')) {
-        updateDistribution();
-      }
+      updateDistribution();
     }
   }
 
@@ -970,13 +928,13 @@
     // Update mix toggle visibility
     updateMixToggleVisibility();
 
-    // If mix is checked, update distribution display
-    if (els.mixToggleCheckbox.checked && quantity > 1) {
+    // If distribution is active, update display
+    if (els.sections.distribution.classList.contains('active') && quantity > 1) {
       updateDistribution();
     } else if (quantity === 1) {
       // Hide distribution for single item
       els.sections.distribution.classList.remove('active');
-      els.mixToggleCheckbox.checked = false;
+      els.mixColorsLink.textContent = 'Vælg forskellige farver';
     }
   }
 
@@ -996,15 +954,19 @@
 
   // Handle mix toggle
   function handleMixToggle(e) {
-    const isChecked = e.target.checked;
+    e.preventDefault();
 
-    if (isChecked) {
+    const isActive = els.sections.distribution.classList.contains('active');
+
+    if (!isActive) {
       // Show distribution section
       els.sections.distribution.classList.add('active');
+      els.mixColorsLink.textContent = 'Brug samme farve';
       updateDistribution();
     } else {
       // Hide distribution section
       els.sections.distribution.classList.remove('active');
+      els.mixColorsLink.textContent = 'Vælg forskellige farver';
 
       // Reset all to selected color
       const qty = state.selectedQuantity;
@@ -1022,7 +984,8 @@
       els.mixToggleContainer.classList.add('show');
     } else {
       els.mixToggleContainer.classList.remove('show');
-      els.mixToggleCheckbox.checked = false;
+      els.sections.distribution.classList.remove('active');
+      els.mixColorsLink.textContent = 'Vælg forskellige farver';
     }
   }
 
