@@ -137,13 +137,14 @@
 
 .feevra-bundle-v2 .color-card {
   cursor: pointer;
-  border: 2.5px solid var(--feevra-gray-300);
+  border: 1.5px solid var(--feevra-gray-300);
   border-radius: 10px;
   background: #fff;
   padding: 0;
   transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
+  box-shadow: 0 0 0 0 transparent inset;
 }
 
 .feevra-bundle-v2 .color-card:hover {
@@ -154,7 +155,7 @@
 
 .feevra-bundle-v2 .color-card.selected {
   border-color: var(--feevra-primary);
-  box-shadow: 0 4px 12px rgba(28, 26, 84, 0.12);
+  box-shadow: 0 0 0 1.5px var(--feevra-primary) inset, 0 4px 12px rgba(28, 26, 84, 0.12);
 }
 
 .feevra-bundle-v2 .color-card.sold-out {
@@ -214,7 +215,7 @@
 
 .feevra-bundle-v2 .qty-card {
   cursor: pointer;
-  border: 2.5px solid var(--feevra-gray-300);
+  border: 1.5px solid var(--feevra-gray-300);
   border-radius: 10px;
   background: #fff;
   padding: 0;
@@ -223,6 +224,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 0 0 0 transparent inset;
 }
 
 .feevra-bundle-v2 .qty-card:hover {
@@ -233,12 +235,12 @@
 
 .feevra-bundle-v2 .qty-card.selected {
   border-color: var(--feevra-primary);
-  box-shadow: 0 4px 12px rgba(28, 26, 84, 0.15);
+  box-shadow: 0 0 0 1px var(--feevra-primary) inset, 0 4px 12px rgba(28, 26, 84, 0.15);
 }
 
 @media (max-width: 480px) {
   .feevra-bundle-v2 .qty-card {
-    border-width: 2px;
+    border-width: 1.5px;
   }
 
   .feevra-bundle-v2 .qty-card.selected {
@@ -255,14 +257,14 @@
   font-weight: 700;
   text-transform: capitalize;
   letter-spacing: 0.02em;
-  width: calc(100% + 5px);
+  width: calc(100% + 3px);
   text-align: center;
   min-height: clamp(24px, 5.5vw, 28px);
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 8px 8px 0 0;
-  margin: -2.5px -2.5px 0 -2.5px;
+  margin: -1.5px -1.5px 0 -1.5px;
   position: relative;
 }
 
