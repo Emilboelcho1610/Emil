@@ -137,24 +137,23 @@
 
 .feevra-bundle-v2 .color-card {
   cursor: pointer;
-  border: 1.5px solid var(--feevra-gray-300);
+  border: 2.5px solid var(--feevra-gray-300);
   border-radius: 10px;
   background: #fff;
   padding: 0;
-  transition: all 0.35s cubic-bezier(0.32, 0.72, 0, 1);
+  transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
 }
 
 .feevra-bundle-v2 .color-card:hover {
   border-color: var(--feevra-primary);
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 8px 16px rgba(28, 26, 84, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(28, 26, 84, 0.08);
 }
 
 .feevra-bundle-v2 .color-card.selected {
   border-color: var(--feevra-primary);
-  border-width: 3px;
   box-shadow: 0 4px 12px rgba(28, 26, 84, 0.12);
 }
 
@@ -215,7 +214,7 @@
 
 .feevra-bundle-v2 .qty-card {
   cursor: pointer;
-  border: 1.5px solid var(--feevra-gray-300);
+  border: 2.5px solid var(--feevra-gray-300);
   border-radius: 10px;
   background: #fff;
   padding: 0;
@@ -234,13 +233,12 @@
 
 .feevra-bundle-v2 .qty-card.selected {
   border-color: var(--feevra-primary);
-  border-width: 2.5px;
   box-shadow: 0 4px 12px rgba(28, 26, 84, 0.15);
 }
 
 @media (max-width: 480px) {
   .feevra-bundle-v2 .qty-card {
-    border-width: 1.5px;
+    border-width: 2px;
   }
 
   .feevra-bundle-v2 .qty-card.selected {
@@ -257,20 +255,15 @@
   font-weight: 700;
   text-transform: capitalize;
   letter-spacing: 0.02em;
-  width: calc(100% + 6px);
+  width: calc(100% + 5px);
   text-align: center;
   min-height: clamp(24px, 5.5vw, 28px);
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 8px 8px 0 0;
-  margin: -1.5px -3px 0 -3px;
+  margin: -2.5px -2.5px 0 -2.5px;
   position: relative;
-}
-
-.feevra-bundle-v2 .qty-card.selected .qty-badge {
-  width: calc(100% + 8px);
-  margin: -2.5px -4px 0 -4px;
 }
 
 .feevra-bundle-v2 .qty-badge.best {
@@ -282,13 +275,8 @@
     padding: 5px 6px;
     font-size: 10px;
     min-height: 24px;
-    width: calc(100% + 6px);
-    margin: -1.5px -3px 0 -3px;
-  }
-
-  .feevra-bundle-v2 .qty-card.selected .qty-badge {
-    width: calc(100% + 8px);
-    margin: -2px -4px 0 -4px;
+    width: calc(100% + 4px);
+    margin: -2px -2px 0 -2px;
   }
 }
 
