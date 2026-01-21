@@ -1061,11 +1061,14 @@
       const response = await fetch('/products/feevra-migraenemaske.js');
 
       if (!response.ok) {
-        console.warn('Could not fetch product data');
+        console.warn('Could not fetch product data, status:', response.status);
         return;
       }
 
       const product = await response.json();
+      console.log('Product data fetched:', product);
+      console.log('Variants:', product.variants);
+
       const colorGrid = document.querySelector('.feevra-bundle-v2 .color-grid');
       const soldOutCards = [];
 
@@ -1074,9 +1077,14 @@
         const variantId = parseInt(card.dataset.variant);
         const variant = product.variants.find(v => v.id === variantId);
 
+        console.log(`Checking variant ${variantId}:`, variant);
+
         if (variant) {
+          console.log(`  - Available: ${variant.available}`);
+
           // Update availability based on Shopify inventory
           if (!variant.available) {
+            console.log(`  - Marking variant ${variantId} as SOLD OUT`);
             card.classList.add('sold-out');
             card.dataset.available = 'false';
             state.soldOutVariants.push(variantId.toString());
@@ -1092,6 +1100,7 @@
             // Track sold out cards for reordering
             soldOutCards.push(card);
           } else {
+            console.log(`  - Variant ${variantId} is AVAILABLE`);
             // Ensure it's marked as available
             card.classList.remove('sold-out');
             card.dataset.available = 'true';
@@ -1102,16 +1111,19 @@
               statusEl.remove();
             }
           }
+        } else {
+          console.warn(`  - Variant ${variantId} NOT FOUND in product data`);
         }
       });
 
       // Move sold out variants to the end of the grid
+      console.log(`Moving ${soldOutCards.length} sold-out cards to end`);
       soldOutCards.forEach(card => {
         colorGrid.appendChild(card);
       });
 
     } catch (error) {
-      console.warn('Error checking stock status:', error);
+      console.error('Error checking stock status:', error);
       // Fallback to data-available attributes in HTML if API fails
       els.colorCards.forEach(card => {
         const available = card.dataset.available === 'true';
