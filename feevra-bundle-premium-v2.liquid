@@ -295,6 +295,7 @@
   gap: 3px;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
 /* Force same height for all cards - ultra compact */
@@ -306,6 +307,8 @@
   .feevra-bundle-v2 .qty-content {
     padding: 8px 4px;
     gap: 2px;
+    width: 100%;
+    align-items: center;
   }
 
   .feevra-bundle-v2 .qty-card {
@@ -555,7 +558,14 @@
   display: flex;
   align-items: center;
   min-width: 0;
-  overflow: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.feevra-bundle-v2 .payment-icons::-webkit-scrollbar {
+  display: none;
 }
 
 .feevra-bundle-v2 .payment-icons img {
@@ -585,6 +595,22 @@
 .feevra-bundle-v2 .trustpilot-badge img {
   height: clamp(14px, 3.4vw, 20px);
   flex-shrink: 0;
+}
+
+/* Mobile responsive payment section */
+@media (max-width: 480px) {
+  .feevra-bundle-v2 .payment-icons img {
+    height: 18px;
+    margin-right: 8px;
+  }
+
+  .feevra-bundle-v2 .trustpilot-badge {
+    font-size: 11px;
+  }
+
+  .feevra-bundle-v2 .trustpilot-badge img {
+    height: 16px;
+  }
 }
 
 /* Toast notifications */
