@@ -1,0 +1,665 @@
+{% schema %}
+{
+  "name": "Header (Transparent)",
+  "settings": [
+    { "type": "header", "content": "Logo" },
+    { "type": "image_picker", "id": "logo", "label": "Logo Billede" },
+    { "type": "image_picker", "id": "logo_dark", "label": "Logo Billede (Mørk version - til lyse sider)", "info": "Valgfrit: Bruges på sider med sort tekst" },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 50,
+      "max": 250,
+      "step": 5,
+      "unit": "px",
+      "label": "Logo Bredde",
+      "default": 140
+    },
+
+    { "type": "header", "content": "Placering" },
+    {
+      "type": "select",
+      "id": "logo_position",
+      "label": "Logo placering (desktop)",
+      "default": "left",
+      "options": [
+        { "value": "left", "label": "Venstre" },
+        { "value": "center", "label": "Midten" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "menu_position",
+      "label": "Hovedmenu placering (desktop)",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Venstre" },
+        { "value": "center", "label": "Midten" }
+      ]
+    },
+
+    { "type": "header", "content": "Navigation" },
+    {
+      "type": "link_list",
+      "id": "main_menu",
+      "label": "Hovedmenu",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_header",
+      "label": "Sticky Header",
+      "default": true
+    },
+
+    { "type": "header", "content": "Farver" },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Hover/Badge farve",
+      "default": "#e68917"
+    },
+
+    { "type": "header", "content": "Mobilmenu" },
+    {
+      "type": "color",
+      "id": "drawer_bg_color",
+      "label": "Mobilmenu baggrund",
+      "default": "#0C141B"
+    },
+    {
+      "type": "color",
+      "id": "drawer_text_color",
+      "label": "Mobilmenu tekst",
+      "default": "#ffffff"
+    },
+
+    { "type": "header", "content": "Overlay (mobilmenu)" },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay farve",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay gennemsigtighed",
+      "default": 70
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Menu Badge",
+      "settings": [
+        {
+          "type": "text",
+          "id": "menu_item_name",
+          "label": "Menupunkt navn (præcis)",
+          "default": "Shop"
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge tekst",
+          "default": "NY"
+        },
+        {
+          "type": "color",
+          "id": "badge_bg",
+          "label": "Badge farve",
+          "default": "#e68917"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "Header (Transparent)" }
+  ]
+}
+{% endschema %}
+
+{% comment %} Automatisk detekter side-type {% endcomment %}
+{% assign is_home = false %}
+{% if template == 'index' or template.name == 'index' %}
+  {% assign is_home = true %}
+{% endif %}
+
+{% assign overlay_alpha = section.settings.overlay_opacity | divided_by: 100.0 %}
+{% assign header_dom_id = 'SiteHeader-' | append: section.id %}
+
+<style>
+  #shopify-section-{{ section.id }}{
+    --header-height: 70px;
+    --accent: {{ section.settings.accent_color }};
+    --drawer-bg: {{ section.settings.drawer_bg_color }};
+    --drawer-text: {{ section.settings.drawer_text_color }};
+    --overlay-bg: {{ section.settings.overlay_color | color_modify: 'alpha', overlay_alpha }};
+  }
+
+  {% if section.settings.sticky_header %}
+  #shopify-section-{{ section.id }} #{{ header_dom_id }}{
+    position: sticky;
+    top: var(--ann-bar-height, 0px);
+    left: 0;
+    z-index: 9999;
+  }
+  {% endif %}
+
+  /* Base header - altid transparent */
+  #shopify-section-{{ section.id }} .site-header{
+    height: var(--header-height);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: transparent !important;
+    transition: color 0.3s ease;
+  }
+
+  /* Forside: hvid tekst */
+  #shopify-section-{{ section.id }} .site-header.home-header{
+    color: #ffffff;
+  }
+
+  /* Andre sider: sort tekst */
+  #shopify-section-{{ section.id }} .site-header.page-header{
+    color: #111111;
+  }
+
+  /* Alt arver farve */
+  #shopify-section-{{ section.id }} .nav-link,
+  #shopify-section-{{ section.id }} .icon-link,
+  #shopify-section-{{ section.id }} .header-logo-text{
+    color: inherit;
+    transition: color 0.2s ease;
+  }
+
+  /* Wrapper */
+  #shopify-section-{{ section.id }} .header-wrapper{
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+  }
+
+  /* Layout */
+  #shopify-section-{{ section.id }} .header-layout{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    column-gap: 20px;
+  }
+
+  #shopify-section-{{ section.id }} .header-left,
+  #shopify-section-{{ section.id }} .header-center{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-width: 0;
+  }
+  #shopify-section-{{ section.id }} .header-center{ justify-content: center; }
+
+  #shopify-section-{{ section.id }} .header-right{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  /* Logo */
+  #shopify-section-{{ section.id }} .header-logo-link{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+  }
+  #shopify-section-{{ section.id }} .header-logo-img{
+    width: {{ section.settings.logo_width }}px;
+    height: auto;
+    object-fit: contain;
+    display: block;
+  }
+  #shopify-section-{{ section.id }} .header-logo-text{
+    font-size: 22px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  /* Logo version switching */
+  #shopify-section-{{ section.id }} .logo-light{ display: none; }
+  #shopify-section-{{ section.id }} .logo-dark{ display: none; }
+
+  #shopify-section-{{ section.id }} .home-header .logo-light{ display: block; }
+  #shopify-section-{{ section.id }} .page-header .logo-dark{ display: block; }
+
+  /* Fallback hvis kun ét logo */
+  #shopify-section-{{ section.id }} .home-header .logo-fallback{ display: block; }
+  #shopify-section-{{ section.id }} .page-header .logo-fallback{ display: block; }
+
+  /* Navigation desktop */
+  #shopify-section-{{ section.id }} .header-nav{ display: none; }
+  #shopify-section-{{ section.id }} .nav-list{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 35px;
+    align-items: center;
+  }
+  #shopify-section-{{ section.id }} .nav-item{ position: relative; }
+
+  #shopify-section-{{ section.id }} .nav-link{
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 10px 0;
+    position: relative;
+    white-space: nowrap;
+  }
+  #shopify-section-{{ section.id }} .nav-link:hover{
+    color: var(--accent) !important;
+  }
+
+  #shopify-section-{{ section.id }} .nav-link::after{
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background-color: var(--accent);
+    transition: width 0.3s ease;
+  }
+  #shopify-section-{{ section.id }} .nav-link:hover::after{
+    width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .nav-badge{
+    position: absolute;
+    top: -14px;
+    right: -15px;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 5px;
+    border-radius: 4px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    line-height: 1;
+    animation: floatBadge 3s ease-in-out infinite;
+  }
+
+  @keyframes floatBadge{
+    0%, 100%{ transform: translateY(0); }
+    50%{ transform: translateY(-3px); }
+  }
+
+  /* Ikoner */
+  #shopify-section-{{ section.id }} .header-icons{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  #shopify-section-{{ section.id }} .icon-link{
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 5px;
+    color: inherit;
+  }
+  #shopify-section-{{ section.id }} .icon-svg{
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+  #shopify-section-{{ section.id }} .icon-link:hover .icon-svg{
+    stroke: var(--accent);
+  }
+
+  #shopify-section-{{ section.id }} .cart-count{
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    background-color: var(--accent);
+    color: #fff;
+    font-size: 10px;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  /* Hamburger */
+  #shopify-section-{{ section.id }} .hamburger-btn{
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    margin-right: 10px;
+    color: inherit;
+  }
+  #shopify-section-{{ section.id }} .hamburger-icon{
+    width: 26px;
+    height: 26px;
+    stroke: currentColor;
+    stroke-width: 2;
+  }
+
+  /* Mobil menu */
+  #shopify-section-{{ section.id }} .mobile-menu-drawer{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 85%;
+    max-width: 400px;
+    height: 100vh;
+    background-color: var(--drawer-bg);
+    color: var(--drawer-text);
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 10000;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+  }
+  #shopify-section-{{ section.id }} .mobile-menu-drawer.open{
+    transform: translateX(0);
+  }
+
+  #shopify-section-{{ section.id }} .mobile-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--overlay-bg);
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  #shopify-section-{{ section.id }} .mobile-overlay.open{
+    opacity: 1;
+    visibility: visible;
+  }
+
+  #shopify-section-{{ section.id }} .drawer-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.10);
+  }
+
+  #shopify-section-{{ section.id }} .close-btn{
+    background: none;
+    border: none;
+    color: var(--drawer-text);
+    cursor: pointer;
+    padding: 5px;
+  }
+
+  #shopify-section-{{ section.id }} .mobile-nav-list{
+    list-style: none;
+    padding: 20px;
+    margin: 0;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  #shopify-section-{{ section.id }} .mobile-nav-item{
+    border-bottom: 1px solid rgba(255,255,255,0.10);
+    margin-bottom: 10px;
+  }
+
+  #shopify-section-{{ section.id }} .mobile-nav-link{
+    display: block;
+    padding: 12px 0;
+    font-size: 18px;
+    color: var(--drawer-text);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  #shopify-section-{{ section.id }} .mobile-badge{
+    margin-left: 10px;
+    background-color: var(--accent);
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+    vertical-align: middle;
+  }
+
+  /* Desktop */
+  @media (min-width: 992px){
+    #shopify-section-{{ section.id }} .header-nav{
+      display: block;
+    }
+  }
+
+  /* Mobil */
+  @media (max-width: 991px){
+    #shopify-section-{{ section.id }} .hamburger-btn{
+      display: block;
+    }
+    #shopify-section-{{ section.id }} .header-wrapper{
+      padding: 0 15px;
+    }
+    #shopify-section-{{ section.id }} .header-layout{
+      grid-template-columns: 1fr auto;
+    }
+    #shopify-section-{{ section.id }} .header-center{
+      display: none;
+    }
+    #shopify-section-{{ section.id }} .header-logo-img{
+      width: calc({{ section.settings.logo_width }}px * 0.8);
+    }
+  }
+</style>
+
+<div class="mobile-overlay" id="mobileOverlay-{{ section.id }}" onclick="closeMobileMenu{{ section.id }}()"></div>
+
+<header
+  class="site-header {% if is_home %}home-header{% else %}page-header{% endif %}"
+  id="{{ header_dom_id }}"
+>
+  <div class="header-wrapper">
+    <div class="header-layout">
+
+      <div class="header-left">
+        <button class="hamburger-btn" onclick="openMobileMenu{{ section.id }}()" aria-label="Åben menu">
+          <svg class="hamburger-icon" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+
+        {% if section.settings.logo_position == 'left' %}
+          <a href="/" class="header-logo-link">
+            {% if section.settings.logo != blank and section.settings.logo_dark != blank %}
+              <img src="{{ section.settings.logo | image_url: width: 300 }}" alt="{{ shop.name }}" class="header-logo-img logo-light">
+              <img src="{{ section.settings.logo_dark | image_url: width: 300 }}" alt="{{ shop.name }}" class="header-logo-img logo-dark">
+            {% elsif section.settings.logo != blank %}
+              <img src="{{ section.settings.logo | image_url: width: 300 }}" alt="{{ shop.name }}" class="header-logo-img logo-fallback">
+            {% else %}
+              <span class="header-logo-text">{{ shop.name }}</span>
+            {% endif %}
+          </a>
+        {% endif %}
+
+        {% if section.settings.menu_position == 'left' %}
+          <nav class="header-nav">
+            <ul class="nav-list">
+              {% for link in linklists[section.settings.main_menu].links %}
+                <li class="nav-item">
+                  <a href="{{ link.url }}" class="nav-link">
+                    {{ link.title }}
+                    {% for block in section.blocks %}
+                      {% if block.type == 'badge' %}
+                        {% assign link_title_lower = link.title | downcase %}
+                        {% assign badge_name_lower = block.settings.menu_item_name | downcase %}
+                        {% if link_title_lower == badge_name_lower %}
+                          <span class="nav-badge" style="background-color: {{ block.settings.badge_bg }};">
+                            {{ block.settings.badge_text }}
+                          </span>
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </nav>
+        {% endif %}
+      </div>
+
+      <div class="header-center">
+        {% if section.settings.logo_position == 'center' %}
+          <a href="/" class="header-logo-link">
+            {% if section.settings.logo != blank and section.settings.logo_dark != blank %}
+              <img src="{{ section.settings.logo | image_url: width: 300 }}" alt="{{ shop.name }}" class="header-logo-img logo-light">
+              <img src="{{ section.settings.logo_dark | image_url: width: 300 }}" alt="{{ shop.name }}" class="header-logo-img logo-dark">
+            {% elsif section.settings.logo != blank %}
+              <img src="{{ section.settings.logo | image_url: width: 300 }}" alt="{{ shop.name }}" class="header-logo-img logo-fallback">
+            {% else %}
+              <span class="header-logo-text">{{ shop.name }}</span>
+            {% endif %}
+          </a>
+        {% endif %}
+
+        {% if section.settings.menu_position == 'center' %}
+          <nav class="header-nav">
+            <ul class="nav-list">
+              {% for link in linklists[section.settings.main_menu].links %}
+                <li class="nav-item">
+                  <a href="{{ link.url }}" class="nav-link">
+                    {{ link.title }}
+                    {% for block in section.blocks %}
+                      {% if block.type == 'badge' %}
+                        {% assign link_title_lower2 = link.title | downcase %}
+                        {% assign badge_name_lower2 = block.settings.menu_item_name | downcase %}
+                        {% if link_title_lower2 == badge_name_lower2 %}
+                          <span class="nav-badge" style="background-color: {{ block.settings.badge_bg }};">
+                            {{ block.settings.badge_text }}
+                          </span>
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+          </nav>
+        {% endif %}
+      </div>
+
+      <div class="header-right">
+        <div class="header-icons">
+          {% if shop.customer_accounts_enabled %}
+            <a href="{% if customer %}/account{% else %}/account/login{% endif %}" class="icon-link" title="Konto">
+              <svg class="icon-svg" viewBox="0 0 24 24">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </a>
+          {% endif %}
+
+          <a href="/cart" class="icon-link" title="Kurv">
+            <svg class="icon-svg" viewBox="0 0 24 24">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            {% if cart.item_count > 0 %}
+              <span class="cart-count">{{ cart.item_count }}</span>
+            {% endif %}
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu-drawer" id="mobileDrawer-{{ section.id }}">
+  <div class="drawer-header">
+    <span class="header-logo-text" style="font-size:18px; color: var(--drawer-text);">{{ shop.name }}</span>
+    <button class="close-btn" onclick="closeMobileMenu{{ section.id }}()" aria-label="Luk menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+
+  <ul class="mobile-nav-list">
+    {% for link in linklists[section.settings.main_menu].links %}
+      <li class="mobile-nav-item">
+        <a href="{{ link.url }}" class="mobile-nav-link">
+          {{ link.title }}
+          {% for block in section.blocks %}
+            {% if block.type == 'badge' %}
+              {% assign link_title_lower3 = link.title | downcase %}
+              {% assign badge_name_lower3 = block.settings.menu_item_name | downcase %}
+              {% if link_title_lower3 == badge_name_lower3 %}
+                <span class="mobile-badge" style="background-color: {{ block.settings.badge_bg }};">
+                  {{ block.settings.badge_text }}
+                </span>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<script>
+  function openMobileMenu{{ section.id }}() {
+    document.getElementById('mobileDrawer-{{ section.id }}').classList.add('open');
+    document.getElementById('mobileOverlay-{{ section.id }}').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMobileMenu{{ section.id }}() {
+    document.getElementById('mobileDrawer-{{ section.id }}').classList.remove('open');
+    document.getElementById('mobileOverlay-{{ section.id }}').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  (function () {
+    function setAnnBarOffset() {
+      var bar = document.querySelector('.ann-bar-wrapper');
+      var h = bar ? bar.offsetHeight : 0;
+      document.documentElement.style.setProperty('--ann-bar-height', h + 'px');
+    }
+    setAnnBarOffset();
+    window.addEventListener('resize', setAnnBarOffset, { passive: true });
+  })();
+</script>
