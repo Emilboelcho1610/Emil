@@ -99,11 +99,6 @@
           "default": "John D."
         },
         {
-          "type": "image_picker",
-          "id": "profile_image",
-          "label": "Profil billede"
-        },
-        {
           "type": "range",
           "id": "rating",
           "min": 1,
@@ -111,19 +106,6 @@
           "step": 0.5,
           "label": "Stjerne rating",
           "default": 5
-        },
-        {
-          "type": "text",
-          "id": "initial",
-          "label": "Initial (hvis intet profil billede)",
-          "default": "J",
-          "info": "Vises som cirkel med initial hvis intet billede er uploadet"
-        },
-        {
-          "type": "color",
-          "id": "initial_bg",
-          "label": "Initial baggrundsfarve",
-          "default": "#10B981"
         }
       ]
     }
@@ -267,8 +249,8 @@
 
   .testimonial-footer-{{ section.id }} {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: column;
     gap: 12px;
   }
 
@@ -276,7 +258,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    flex: 1;
+    width: 100%;
   }
 
   .customer-name-{{ section.id }} {
@@ -311,28 +293,6 @@
     background-color: var(--card-bg);
   }
 
-  .customer-avatar-{{ section.id }} {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  .customer-initial-{{ section.id }} {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 18px;
-    color: white;
-    border: 3px solid white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
 
   /* Navigation */
   .slider-nav-{{ section.id }} {
@@ -458,7 +418,7 @@
                     <svg class="verified-icon-{{ section.id }}" viewBox="0 0 20 20" fill="currentColor">
                       <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
                     </svg>
-                    Verified customer
+                    Verificeret køber
                   </div>
 
                   <p class="testimonial-quote-{{ section.id }}">
@@ -493,18 +453,6 @@
                         {% endfor %}
                       </div>
                     </div>
-
-                    {% if block.settings.profile_image != blank %}
-                      <img
-                        src="{{ block.settings.profile_image | image_url: width: 100 }}"
-                        alt="{{ block.settings.customer_name }}"
-                        class="customer-avatar-{{ section.id }}"
-                      >
-                    {% else %}
-                      <div class="customer-initial-{{ section.id }}" style="background-color: {{ block.settings.initial_bg }};">
-                        {{ block.settings.initial }}
-                      </div>
-                    {% endif %}
                   </div>
 
                 </div>
