@@ -202,6 +202,7 @@
     flex-direction: column;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 380px;
   }
 
   .testimonial-card-{{ section.id }}:hover {
@@ -344,6 +345,12 @@
     }
   }
 
+  @media (max-width: 991px) {
+    .testimonial-card-{{ section.id }} {
+      width: 350px;
+    }
+  }
+
   @media (max-width: 768px) {
     .testimonials-section-{{ section.id }} {
       padding: 40px 15px 60px;
@@ -359,6 +366,11 @@
 
     .testimonials-heading-{{ section.id }} {
       font-size: 24px;
+    }
+
+    .testimonial-card-{{ section.id }} {
+      width: calc(100vw - 30px);
+      max-width: 380px;
     }
 
     .testimonial-image-{{ section.id }} {
@@ -509,13 +521,18 @@
     updateSlider();
   }
 
-  // Calculate card width
+  // Calculate card width (fixed widths)
   function getCardWidth() {
-    var cards = track.children;
-    if (cards.length === 0) return 0;
-    var cardWidth = cards[0].offsetWidth;
+    var cardWidth = 380; // Desktop width
     var gap = 30;
-    if (window.innerWidth < 768) gap = 15;
+
+    if (window.innerWidth <= 768) {
+      cardWidth = Math.min(380, window.innerWidth - 30);
+      gap = 15;
+    } else if (window.innerWidth <= 991) {
+      cardWidth = 350;
+    }
+
     return cardWidth + gap;
   }
 
