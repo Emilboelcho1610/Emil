@@ -1,0 +1,1027 @@
+{% schema %}
+{
+  "name": "Footer (Beauty Brand)",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Farver"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Baggrundsfarve",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "bg_gradient_end",
+      "label": "Gradient slutfarve (valgfri)",
+      "default": "#2d2d2d"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_gradient",
+      "label": "Brug gradient baggrund",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Primær tekstfarve",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Sekundær tekst",
+      "default": "#a0a0a0"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent farve",
+      "default": "#d4a574"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Borders og linjer",
+      "default": "rgba(255,255,255,0.1)"
+    },
+
+    {
+      "type": "header",
+      "content": "Brand / Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Footer logo"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo bredde",
+      "min": 60,
+      "max": 200,
+      "step": 10,
+      "default": 120,
+      "unit": "px"
+    },
+    {
+      "type": "textarea",
+      "id": "brand_tagline",
+      "label": "Brand tagline",
+      "default": "Naturlig skønhed, ren science"
+    },
+
+    {
+      "type": "header",
+      "content": "USP Badges"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_usp",
+      "label": "Vis USP badges",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "usp_1_text",
+      "label": "USP 1 tekst",
+      "default": "Gratis fragt over 499 kr"
+    },
+    {
+      "type": "select",
+      "id": "usp_1_icon",
+      "label": "USP 1 ikon",
+      "options": [
+        { "value": "shipping", "label": "Fragt" },
+        { "value": "leaf", "label": "Blad / Naturlig" },
+        { "value": "heart", "label": "Hjerte" },
+        { "value": "star", "label": "Stjerne" },
+        { "value": "shield", "label": "Garanti" },
+        { "value": "recycle", "label": "Bæredygtig" }
+      ],
+      "default": "shipping"
+    },
+    {
+      "type": "text",
+      "id": "usp_2_text",
+      "label": "USP 2 tekst",
+      "default": "30 dages returret"
+    },
+    {
+      "type": "select",
+      "id": "usp_2_icon",
+      "label": "USP 2 ikon",
+      "options": [
+        { "value": "shipping", "label": "Fragt" },
+        { "value": "leaf", "label": "Blad / Naturlig" },
+        { "value": "heart", "label": "Hjerte" },
+        { "value": "star", "label": "Stjerne" },
+        { "value": "shield", "label": "Garanti" },
+        { "value": "recycle", "label": "Bæredygtig" }
+      ],
+      "default": "shield"
+    },
+    {
+      "type": "text",
+      "id": "usp_3_text",
+      "label": "USP 3 tekst",
+      "default": "100% vegansk & cruelty-free"
+    },
+    {
+      "type": "select",
+      "id": "usp_3_icon",
+      "label": "USP 3 ikon",
+      "options": [
+        { "value": "shipping", "label": "Fragt" },
+        { "value": "leaf", "label": "Blad / Naturlig" },
+        { "value": "heart", "label": "Hjerte" },
+        { "value": "star", "label": "Stjerne" },
+        { "value": "shield", "label": "Garanti" },
+        { "value": "recycle", "label": "Bæredygtig" }
+      ],
+      "default": "leaf"
+    },
+    {
+      "type": "text",
+      "id": "usp_4_text",
+      "label": "USP 4 tekst",
+      "default": "Hurtig levering 1-3 dage"
+    },
+    {
+      "type": "select",
+      "id": "usp_4_icon",
+      "label": "USP 4 ikon",
+      "options": [
+        { "value": "shipping", "label": "Fragt" },
+        { "value": "leaf", "label": "Blad / Naturlig" },
+        { "value": "heart", "label": "Hjerte" },
+        { "value": "star", "label": "Stjerne" },
+        { "value": "shield", "label": "Garanti" },
+        { "value": "recycle", "label": "Bæredygtig" }
+      ],
+      "default": "star"
+    },
+
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_1",
+      "label": "Menu 1",
+      "default": "footer"
+    },
+    {
+      "type": "text",
+      "id": "menu_1_title",
+      "label": "Menu 1 overskrift",
+      "default": "Shop"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_2",
+      "label": "Menu 2"
+    },
+    {
+      "type": "text",
+      "id": "menu_2_title",
+      "label": "Menu 2 overskrift",
+      "default": "Kundeservice"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_3",
+      "label": "Menu 3"
+    },
+    {
+      "type": "text",
+      "id": "menu_3_title",
+      "label": "Menu 3 overskrift",
+      "default": "Om os"
+    },
+
+    {
+      "type": "header",
+      "content": "Nyhedsbrev"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_title",
+      "label": "Overskrift",
+      "default": "Bliv en del af vores univers"
+    },
+    {
+      "type": "textarea",
+      "id": "newsletter_description",
+      "label": "Beskrivelse",
+      "default": "Tilmeld dig og få eksklusive tilbud, beauty tips og tidlig adgang til nye produkter."
+    },
+    {
+      "type": "text",
+      "id": "newsletter_discount",
+      "label": "Rabat tekst (valgfri)",
+      "default": "Få 10% på din første ordre"
+    },
+    {
+      "type": "color",
+      "id": "newsletter_btn_bg",
+      "label": "Knap baggrund",
+      "default": "#d4a574"
+    },
+    {
+      "type": "color",
+      "id": "newsletter_btn_text",
+      "label": "Knap tekst",
+      "default": "#1a1a1a"
+    },
+
+    {
+      "type": "header",
+      "content": "Social Media"
+    },
+    {
+      "type": "url",
+      "id": "social_instagram",
+      "label": "Instagram"
+    },
+    {
+      "type": "url",
+      "id": "social_facebook",
+      "label": "Facebook"
+    },
+    {
+      "type": "url",
+      "id": "social_tiktok",
+      "label": "TikTok"
+    },
+    {
+      "type": "url",
+      "id": "social_pinterest",
+      "label": "Pinterest"
+    },
+    {
+      "type": "url",
+      "id": "social_youtube",
+      "label": "YouTube"
+    },
+
+    {
+      "type": "header",
+      "content": "Betalingsikoner"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Vis betalingsikoner",
+      "default": true
+    },
+
+    {
+      "type": "header",
+      "content": "Bund"
+    },
+    {
+      "type": "link_list",
+      "id": "legal_menu",
+      "label": "Juridisk menu",
+      "info": "Handelsbetingelser, privatlivspolitik osv."
+    },
+    {
+      "type": "textarea",
+      "id": "additional_text",
+      "label": "Ekstra tekst (valgfri)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Footer (Beauty Brand)"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .beauty-footer {
+    {% if section.settings.use_gradient %}
+      background: linear-gradient(180deg, {{ section.settings.bg_color }} 0%, {{ section.settings.bg_gradient_end }} 100%);
+    {% else %}
+      background-color: {{ section.settings.bg_color }};
+    {% endif %}
+    color: {{ section.settings.text_color }};
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .beauty-footer * {
+    box-sizing: border-box;
+  }
+
+  /* Dekorativt element */
+  .beauty-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, {{ section.settings.accent_color }}, transparent);
+    opacity: 0.5;
+  }
+
+  /* USP SEKTION */
+  .bf-usp-bar {
+    border-bottom: 1px solid {{ section.settings.border_color }};
+    padding: 25px 20px;
+  }
+
+  .bf-usp-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .bf-usp-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-align: center;
+  }
+
+  .bf-usp-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    opacity: 0.9;
+  }
+
+  .bf-usp-icon svg {
+    width: 100%;
+    height: 100%;
+    stroke: {{ section.settings.accent_color }};
+    stroke-width: 1.5;
+    fill: none;
+  }
+
+  .bf-usp-text {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: {{ section.settings.text_color }};
+  }
+
+  /* HOVEDINDHOLD */
+  .bf-main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 70px 20px 50px;
+    display: grid;
+    grid-template-columns: 1.2fr 2fr 1.5fr;
+    gap: 60px;
+  }
+
+  /* BRAND KOLONNE */
+  .bf-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .bf-logo img {
+    max-width: {{ section.settings.logo_width }}px;
+    height: auto;
+  }
+
+  .bf-logo-text {
+    font-size: 28px;
+    font-weight: 300;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: {{ section.settings.text_color }};
+  }
+
+  .bf-tagline {
+    font-size: 14px;
+    line-height: 1.7;
+    color: {{ section.settings.muted_text_color }};
+    max-width: 280px;
+  }
+
+  .bf-social {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+  }
+
+  .bf-social-link {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid {{ section.settings.border_color }};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+  }
+
+  .bf-social-link:hover {
+    border-color: {{ section.settings.accent_color }};
+    background: {{ section.settings.accent_color }};
+    transform: translateY(-3px);
+  }
+
+  .bf-social-link svg {
+    width: 18px;
+    height: 18px;
+    fill: {{ section.settings.text_color }};
+    transition: fill 0.3s;
+  }
+
+  .bf-social-link:hover svg {
+    fill: {{ section.settings.bg_color }};
+  }
+
+  /* NAVIGATION KOLONNE */
+  .bf-nav {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+
+  .bf-nav-col h4 {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0 0 25px 0;
+    color: {{ section.settings.text_color }};
+    position: relative;
+    padding-bottom: 15px;
+  }
+
+  .bf-nav-col h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background: {{ section.settings.accent_color }};
+  }
+
+  .bf-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .bf-nav-list li {
+    margin-bottom: 12px;
+  }
+
+  .bf-nav-link {
+    color: {{ section.settings.muted_text_color }};
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    display: inline-block;
+    position: relative;
+  }
+
+  .bf-nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: {{ section.settings.accent_color }};
+    transition: width 0.3s ease;
+  }
+
+  .bf-nav-link:hover {
+    color: {{ section.settings.text_color }};
+  }
+
+  .bf-nav-link:hover::after {
+    width: 100%;
+  }
+
+  /* NYHEDSBREV KOLONNE */
+  .bf-newsletter {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid {{ section.settings.border_color }};
+    border-radius: 16px;
+    padding: 35px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bf-newsletter::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, {{ section.settings.accent_color }}15 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .bf-newsletter-discount {
+    display: inline-block;
+    background: {{ section.settings.accent_color }};
+    color: {{ section.settings.bg_color }};
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+  }
+
+  .bf-newsletter h3 {
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: {{ section.settings.text_color }};
+    letter-spacing: 0.5px;
+  }
+
+  .bf-newsletter p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: {{ section.settings.muted_text_color }};
+    margin: 0 0 25px 0;
+  }
+
+  .bf-newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .bf-newsletter-input {
+    width: 100%;
+    padding: 16px 20px;
+    border: 1px solid {{ section.settings.border_color }};
+    background: transparent;
+    color: {{ section.settings.text_color }};
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    transition: border-color 0.3s;
+  }
+
+  .bf-newsletter-input::placeholder {
+    color: {{ section.settings.muted_text_color }};
+  }
+
+  .bf-newsletter-input:focus {
+    outline: none;
+    border-color: {{ section.settings.accent_color }};
+  }
+
+  .bf-newsletter-btn {
+    width: 100%;
+    padding: 16px 30px;
+    background: {{ section.settings.newsletter_btn_bg }};
+    color: {{ section.settings.newsletter_btn_text }};
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .bf-newsletter-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px {{ section.settings.accent_color }}40;
+  }
+
+  .bf-newsletter-privacy {
+    font-size: 11px;
+    color: {{ section.settings.muted_text_color }};
+    margin-top: 10px;
+    opacity: 0.8;
+  }
+
+  .bf-newsletter-privacy a {
+    color: {{ section.settings.text_color }};
+    text-decoration: underline;
+  }
+
+  /* BUND SEKTION */
+  .bf-bottom {
+    border-top: 1px solid {{ section.settings.border_color }};
+    padding: 30px 20px;
+  }
+
+  .bf-bottom-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 25px;
+  }
+
+  .bf-copyright {
+    font-size: 12px;
+    color: {{ section.settings.muted_text_color }};
+  }
+
+  .bf-legal {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .bf-legal a {
+    font-size: 12px;
+    color: {{ section.settings.muted_text_color }};
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .bf-legal a:hover {
+    color: {{ section.settings.text_color }};
+  }
+
+  .bf-payment {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .bf-payment-icon {
+    height: 24px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .bf-payment-icon:hover {
+    opacity: 1;
+  }
+
+  .bf-payment svg {
+    height: 24px;
+    width: auto;
+    fill: {{ section.settings.muted_text_color }};
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1100px) {
+    .bf-main {
+      grid-template-columns: 1fr;
+      gap: 50px;
+      padding: 50px 20px;
+    }
+
+    .bf-nav {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .bf-brand {
+      text-align: center;
+      align-items: center;
+    }
+
+    .bf-tagline {
+      max-width: 400px;
+    }
+
+    .bf-social {
+      justify-content: center;
+    }
+
+    .bf-newsletter {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .bf-usp-container {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .bf-usp-item {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .bf-nav {
+      grid-template-columns: 1fr;
+      gap: 35px;
+      text-align: center;
+    }
+
+    .bf-nav-col h4::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .bf-bottom-container {
+      flex-direction: column;
+      text-align: center;
+      gap: 20px;
+    }
+
+    .bf-legal {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px 25px;
+    }
+
+    .bf-payment {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .bf-usp-container {
+      grid-template-columns: 1fr;
+    }
+
+    .bf-newsletter {
+      padding: 25px;
+    }
+
+    .bf-newsletter h3 {
+      font-size: 18px;
+    }
+  }
+</style>
+
+<footer class="beauty-footer">
+  {%- if section.settings.show_usp -%}
+    <div class="bf-usp-bar">
+      <div class="bf-usp-container">
+        {%- if section.settings.usp_1_text != blank -%}
+          <div class="bf-usp-item">
+            <span class="bf-usp-icon">
+              {%- case section.settings.usp_1_icon -%}
+                {%- when 'shipping' -%}
+                  <svg viewBox="0 0 24 24"><path d="M1 3h15v13H1zM16 8h4l3 4v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                {%- when 'leaf' -%}
+                  <svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+                {%- when 'heart' -%}
+                  <svg viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                {%- when 'star' -%}
+                  <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                {%- when 'shield' -%}
+                  <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                {%- when 'recycle' -%}
+                  <svg viewBox="0 0 24 24"><path d="m7 19 1.5-2.5M19 12l-1.5 2.5M2 12l1.5-2.5"/><path d="m7 19-3-5 3-5h6l3 5-3 5H7z"/><path d="m12 3 3 5-3 5"/><path d="m17 8 3 5-3 5h-6"/></svg>
+              {%- endcase -%}
+            </span>
+            <span class="bf-usp-text">{{ section.settings.usp_1_text }}</span>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.usp_2_text != blank -%}
+          <div class="bf-usp-item">
+            <span class="bf-usp-icon">
+              {%- case section.settings.usp_2_icon -%}
+                {%- when 'shipping' -%}
+                  <svg viewBox="0 0 24 24"><path d="M1 3h15v13H1zM16 8h4l3 4v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                {%- when 'leaf' -%}
+                  <svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+                {%- when 'heart' -%}
+                  <svg viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                {%- when 'star' -%}
+                  <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                {%- when 'shield' -%}
+                  <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                {%- when 'recycle' -%}
+                  <svg viewBox="0 0 24 24"><path d="m7 19 1.5-2.5M19 12l-1.5 2.5M2 12l1.5-2.5"/><path d="m7 19-3-5 3-5h6l3 5-3 5H7z"/><path d="m12 3 3 5-3 5"/><path d="m17 8 3 5-3 5h-6"/></svg>
+              {%- endcase -%}
+            </span>
+            <span class="bf-usp-text">{{ section.settings.usp_2_text }}</span>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.usp_3_text != blank -%}
+          <div class="bf-usp-item">
+            <span class="bf-usp-icon">
+              {%- case section.settings.usp_3_icon -%}
+                {%- when 'shipping' -%}
+                  <svg viewBox="0 0 24 24"><path d="M1 3h15v13H1zM16 8h4l3 4v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                {%- when 'leaf' -%}
+                  <svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+                {%- when 'heart' -%}
+                  <svg viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                {%- when 'star' -%}
+                  <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                {%- when 'shield' -%}
+                  <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                {%- when 'recycle' -%}
+                  <svg viewBox="0 0 24 24"><path d="m7 19 1.5-2.5M19 12l-1.5 2.5M2 12l1.5-2.5"/><path d="m7 19-3-5 3-5h6l3 5-3 5H7z"/><path d="m12 3 3 5-3 5"/><path d="m17 8 3 5-3 5h-6"/></svg>
+              {%- endcase -%}
+            </span>
+            <span class="bf-usp-text">{{ section.settings.usp_3_text }}</span>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.usp_4_text != blank -%}
+          <div class="bf-usp-item">
+            <span class="bf-usp-icon">
+              {%- case section.settings.usp_4_icon -%}
+                {%- when 'shipping' -%}
+                  <svg viewBox="0 0 24 24"><path d="M1 3h15v13H1zM16 8h4l3 4v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                {%- when 'leaf' -%}
+                  <svg viewBox="0 0 24 24"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+                {%- when 'heart' -%}
+                  <svg viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                {%- when 'star' -%}
+                  <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                {%- when 'shield' -%}
+                  <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                {%- when 'recycle' -%}
+                  <svg viewBox="0 0 24 24"><path d="m7 19 1.5-2.5M19 12l-1.5 2.5M2 12l1.5-2.5"/><path d="m7 19-3-5 3-5h6l3 5-3 5H7z"/><path d="m12 3 3 5-3 5"/><path d="m17 8 3 5-3 5h-6"/></svg>
+              {%- endcase -%}
+            </span>
+            <span class="bf-usp-text">{{ section.settings.usp_4_text }}</span>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="bf-main">
+    <!-- BRAND KOLONNE -->
+    <div class="bf-brand">
+      <div class="bf-logo">
+        {%- if section.settings.logo != blank -%}
+          <img src="{{ section.settings.logo | image_url: width: 400 }}" alt="{{ shop.name }}" loading="lazy">
+        {%- else -%}
+          <span class="bf-logo-text">{{ shop.name }}</span>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.brand_tagline != blank -%}
+        <p class="bf-tagline">{{ section.settings.brand_tagline }}</p>
+      {%- endif -%}
+
+      <div class="bf-social">
+        {%- if section.settings.social_instagram != blank -%}
+          <a href="{{ section.settings.social_instagram }}" class="bf-social-link" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+        {%- endif -%}
+
+        {%- if section.settings.social_facebook != blank -%}
+          <a href="{{ section.settings.social_facebook }}" class="bf-social-link" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+        {%- endif -%}
+
+        {%- if section.settings.social_tiktok != blank -%}
+          <a href="{{ section.settings.social_tiktok }}" class="bf-social-link" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg viewBox="0 0 24 24"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+          </a>
+        {%- endif -%}
+
+        {%- if section.settings.social_pinterest != blank -%}
+          <a href="{{ section.settings.social_pinterest }}" class="bf-social-link" target="_blank" rel="noopener" aria-label="Pinterest">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12c0 4.1 2.5 7.6 6 9.2-.1-.8-.1-2 0-2.9.2-.8 1.2-5.2 1.2-5.2s-.3-.6-.3-1.5c0-1.4.8-2.5 1.9-2.5.9 0 1.3.7 1.3 1.5 0 .9-.6 2.2-.9 3.5-.2 1 .5 1.8 1.5 1.8 1.8 0 3.2-1.9 3.2-4.6 0-2.4-1.7-4.1-4.2-4.1-2.9 0-4.5 2.1-4.5 4.3 0 .9.3 1.8.7 2.3.1.1.1.2.1.3-.1.3-.2 1-.3 1.1 0 .2-.1.2-.3.1-1.2-.6-2-2.4-2-3.9 0-3.2 2.3-6.1 6.7-6.1 3.5 0 6.2 2.5 6.2 5.9 0 3.5-2.2 6.3-5.3 6.3-1 0-2-.5-2.4-1.1l-.6 2.4c-.2.9-.8 2-1.2 2.7.9.3 1.8.4 2.8.4 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+          </a>
+        {%- endif -%}
+
+        {%- if section.settings.social_youtube != blank -%}
+          <a href="{{ section.settings.social_youtube }}" class="bf-social-link" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24"><path d="M22.5 6.4c-.3-1-1-1.8-2-2.1C18.9 4 12 4 12 4s-6.9 0-8.5.3c-1 .3-1.7 1.1-2 2.1C1 8 1 12 1 12s0 4 .5 5.6c.3 1 1 1.8 2 2.1 1.6.3 8.5.3 8.5.3s6.9 0 8.5-.3c1-.3 1.7-1.1 2-2.1.5-1.6.5-5.6.5-5.6s0-4-.5-5.6zM10 15V9l5.2 3-5.2 3z"/></svg>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <!-- NAVIGATION -->
+    <div class="bf-nav">
+      {%- if linklists[section.settings.menu_1].links.size > 0 or section.settings.menu_1_title != blank -%}
+        <div class="bf-nav-col">
+          <h4>{{ section.settings.menu_1_title }}</h4>
+          <ul class="bf-nav-list">
+            {%- for link in linklists[section.settings.menu_1].links -%}
+              <li><a href="{{ link.url }}" class="bf-nav-link">{{ link.title }}</a></li>
+            {%- else -%}
+              <li><a href="#" class="bf-nav-link">Alle produkter</a></li>
+              <li><a href="#" class="bf-nav-link">Bestsellers</a></li>
+              <li><a href="#" class="bf-nav-link">Nyheder</a></li>
+              <li><a href="#" class="bf-nav-link">Gavesets</a></li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+
+      {%- if linklists[section.settings.menu_2].links.size > 0 or section.settings.menu_2_title != blank -%}
+        <div class="bf-nav-col">
+          <h4>{{ section.settings.menu_2_title }}</h4>
+          <ul class="bf-nav-list">
+            {%- for link in linklists[section.settings.menu_2].links -%}
+              <li><a href="{{ link.url }}" class="bf-nav-link">{{ link.title }}</a></li>
+            {%- else -%}
+              <li><a href="#" class="bf-nav-link">Kontakt os</a></li>
+              <li><a href="#" class="bf-nav-link">FAQ</a></li>
+              <li><a href="#" class="bf-nav-link">Levering</a></li>
+              <li><a href="#" class="bf-nav-link">Returnering</a></li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+
+      {%- if linklists[section.settings.menu_3].links.size > 0 or section.settings.menu_3_title != blank -%}
+        <div class="bf-nav-col">
+          <h4>{{ section.settings.menu_3_title }}</h4>
+          <ul class="bf-nav-list">
+            {%- for link in linklists[section.settings.menu_3].links -%}
+              <li><a href="{{ link.url }}" class="bf-nav-link">{{ link.title }}</a></li>
+            {%- else -%}
+              <li><a href="#" class="bf-nav-link">Vores historie</a></li>
+              <li><a href="#" class="bf-nav-link">Ingredienser</a></li>
+              <li><a href="#" class="bf-nav-link">Bæredygtighed</a></li>
+              <li><a href="#" class="bf-nav-link">Blog</a></li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <!-- NYHEDSBREV -->
+    <div class="bf-newsletter">
+      {%- if section.settings.newsletter_discount != blank -%}
+        <span class="bf-newsletter-discount">{{ section.settings.newsletter_discount }}</span>
+      {%- endif -%}
+
+      <h3>{{ section.settings.newsletter_title }}</h3>
+
+      {%- if section.settings.newsletter_description != blank -%}
+        <p>{{ section.settings.newsletter_description }}</p>
+      {%- endif -%}
+
+      {% form 'customer', class: 'bf-newsletter-form' %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        <input
+          type="email"
+          name="contact[email]"
+          class="bf-newsletter-input"
+          placeholder="Din e-mailadresse"
+          required
+          autocomplete="email"
+        >
+        <button type="submit" class="bf-newsletter-btn">Tilmeld nyhedsbrev</button>
+      {% endform %}
+
+      <p class="bf-newsletter-privacy">
+        Ved tilmelding accepterer du vores <a href="/policies/privacy-policy">privatlivspolitik</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- BUND -->
+  <div class="bf-bottom">
+    <div class="bf-bottom-container">
+      <div class="bf-copyright">
+        &copy; {{ 'now' | date: "%Y" }} {{ shop.name }}. Alle rettigheder forbeholdes.
+        {%- if section.settings.additional_text != blank -%}
+          <br>{{ section.settings.additional_text }}
+        {%- endif -%}
+      </div>
+
+      <ul class="bf-legal">
+        {%- for link in linklists[section.settings.legal_menu].links -%}
+          <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+        {%- else -%}
+          <li><a href="/policies/terms-of-service">Handelsbetingelser</a></li>
+          <li><a href="/policies/privacy-policy">Privatlivspolitik</a></li>
+          <li><a href="/policies/refund-policy">Returpolitik</a></li>
+          <li><a href="/policies/shipping-policy">Leveringspolitik</a></li>
+        {%- endfor -%}
+      </ul>
+
+      {%- if section.settings.show_payment_icons -%}
+        <div class="bf-payment">
+          {{ shop.enabled_payment_types | payment_type_svg_tag }}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
