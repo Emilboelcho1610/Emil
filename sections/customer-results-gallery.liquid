@@ -84,13 +84,30 @@
   }
 
   .main-image {
-    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transform: translateX(100%);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    pointer-events: none;
   }
 
   .main-image.active {
-    display: block;
+    position: relative;
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  .main-image.slide-out-left {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+
+  .main-image.slide-in-right {
+    transform: translateX(0);
     opacity: 1;
   }
 
@@ -161,19 +178,37 @@
   .testimonials-container {
     position: relative;
     min-height: 120px;
+    overflow: hidden;
   }
 
   .testimonial-text {
-    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
     opacity: 0;
+    transform: translateX(100%);
     font-size: {{ section.settings.testimonial_font_size }}px;
     line-height: 1.6;
     font-style: italic;
-    transition: opacity 0.4s ease;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    pointer-events: none;
   }
 
   .testimonial-text.active {
-    display: block;
+    position: relative;
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+  }
+
+  .testimonial-text.slide-out-left {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+
+  .testimonial-text.slide-in-right {
+    transform: translateX(0);
     opacity: 1;
   }
 
@@ -218,24 +253,58 @@
     const thumbnails = section.querySelectorAll('.thumbnail-item');
     const mainImages = section.querySelectorAll('.main-image');
     const testimonials = section.querySelectorAll('.testimonial-text');
+    let isAnimating = false;
 
     thumbnails.forEach(thumbnail => {
       thumbnail.addEventListener('click', function() {
-        const index = this.dataset.index;
+        if (isAnimating) return;
 
-        // Fjern active class fra alle elementer
+        const newIndex = this.dataset.index;
+        const currentImage = section.querySelector('.main-image.active');
+        const currentTestimonial = section.querySelector('.testimonial-text.active');
+        const currentIndex = currentImage ? currentImage.dataset.index : null;
+
+        // Hvis samme element er valgt, gør ingenting
+        if (currentIndex === newIndex) return;
+
+        isAnimating = true;
+
+        // Opdater thumbnails
         thumbnails.forEach(t => t.classList.remove('active'));
-        mainImages.forEach(img => img.classList.remove('active'));
-        testimonials.forEach(text => text.classList.remove('active'));
-
-        // Tilføj active class til valgte elementer
         this.classList.add('active');
 
-        const targetImage = section.querySelector(`.main-image[data-index="${index}"]`);
-        const targetTestimonial = section.querySelector(`.testimonial-text[data-index="${index}"]`);
+        // Find nye elementer
+        const newImage = section.querySelector(`.main-image[data-index="${newIndex}"]`);
+        const newTestimonial = section.querySelector(`.testimonial-text[data-index="${newIndex}"]`);
 
-        if (targetImage) targetImage.classList.add('active');
-        if (targetTestimonial) targetTestimonial.classList.add('active');
+        // Slide ud til venstre (nuværende)
+        if (currentImage) {
+          currentImage.classList.add('slide-out-left');
+          currentImage.classList.remove('active');
+        }
+        if (currentTestimonial) {
+          currentTestimonial.classList.add('slide-out-left');
+          currentTestimonial.classList.remove('active');
+        }
+
+        // Slide ind fra højre (nye)
+        if (newImage) {
+          newImage.classList.add('active');
+        }
+        if (newTestimonial) {
+          newTestimonial.classList.add('active');
+        }
+
+        // Ryd op efter animation
+        setTimeout(() => {
+          mainImages.forEach(img => {
+            img.classList.remove('slide-out-left', 'slide-in-right');
+          });
+          testimonials.forEach(text => {
+            text.classList.remove('slide-out-left', 'slide-in-right');
+          });
+          isAnimating = false;
+        }, 500);
       });
     });
   });
