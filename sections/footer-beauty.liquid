@@ -871,7 +871,7 @@
     <div class="bf-brand">
       <div class="bf-logo">
         {%- if section.settings.logo != blank -%}
-          <img src="{{ section.settings.logo | image_url: width: 400 }}" alt="{{ shop.name }}" loading="lazy">
+          <img src="{{ section.settings.logo | img_url: '400x' }}" alt="{{ shop.name }}" loading="lazy">
         {%- else -%}
           <span class="bf-logo-text">{{ shop.name }}</span>
         {%- endif -%}
@@ -1000,7 +1000,7 @@
   <div class="bf-bottom">
     <div class="bf-bottom-container">
       <div class="bf-copyright">
-        &copy; {{ 'now' | date: "%Y" }} {{ shop.name }}. Alle rettigheder forbeholdes.
+        &copy; {% assign current_year = 'now' | date: '%Y' %}{{ current_year }} {{ shop.name }}. Alle rettigheder forbeholdes.
         {%- if section.settings.additional_text != blank -%}
           <br>{{ section.settings.additional_text }}
         {%- endif -%}
@@ -1019,7 +1019,9 @@
 
       {%- if section.settings.show_payment_icons -%}
         <div class="bf-payment">
-          {{ shop.enabled_payment_types | payment_type_svg_tag }}
+          {%- for type in shop.enabled_payment_types -%}
+            {{ type | payment_type_svg_tag }}
+          {%- endfor -%}
         </div>
       {%- endif -%}
     </div>
