@@ -1,0 +1,419 @@
+{{ 'customer-results-gallery.css' | asset_url | stylesheet_tag }}
+
+<div class="customer-results-section" style="background-color: {{ section.settings.background_color }};">
+  <div class="customer-results-container">
+    <!-- Stort før/efter billede -->
+    <div class="main-image-container">
+      {% for block in section.blocks %}
+        <div class="main-image {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}">
+          {% if block.settings.main_image != blank %}
+            <img
+              src="{{ block.settings.main_image | image_url: width: 1000 }}"
+              alt="{{ block.settings.customer_name }} - Før og efter"
+              loading="lazy"
+            >
+          {% else %}
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Kundehistorier sektion -->
+    <div class="customer-stories-container">
+      <h2 class="section-heading" style="color: {{ section.settings.heading_color }};">
+        {{ section.settings.heading }}
+      </h2>
+
+      <!-- Thumbnail profilbilleder -->
+      <div class="customer-thumbnails">
+        {% for block in section.blocks %}
+          <div class="thumbnail-item {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}">
+            <div class="thumbnail-image">
+              {% if block.settings.main_image != blank %}
+                <img
+                  src="{{ block.settings.main_image | image_url: width: 200, height: 200, crop: 'center' }}"
+                  alt="{{ block.settings.customer_name }}"
+                  loading="lazy"
+                >
+              {% else %}
+                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+              {% endif %}
+            </div>
+            <span class="thumbnail-name" style="color: {{ section.settings.text_color }};">
+              {{ block.settings.customer_name }}
+            </span>
+          </div>
+        {% endfor %}
+      </div>
+
+      <!-- Testimonial tekst -->
+      <div class="testimonials-container">
+        {% for block in section.blocks %}
+          <div class="testimonial-text {% if forloop.first %}active{% endif %}" data-index="{{ forloop.index0 }}" style="color: {{ section.settings.text_color }};">
+            {{ block.settings.testimonial_text }}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .customer-results-section {
+    padding: {{ section.settings.padding_top }}px 15px {{ section.settings.padding_bottom }}px;
+  }
+
+  .customer-results-container {
+    max-width: {{ section.settings.max_width }}px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .main-image-container {
+    flex: 1;
+    min-width: 300px;
+    max-width: 550px;
+    position: relative;
+    border-radius: {{ section.settings.image_border_radius }}px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .main-image {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .main-image.active {
+    display: block;
+    opacity: 1;
+  }
+
+  .main-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .customer-stories-container {
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+  }
+
+  .section-heading {
+    font-size: {{ section.settings.heading_size }}px;
+    font-weight: 600;
+    margin-bottom: 25px;
+  }
+
+  .customer-thumbnails {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+
+  .thumbnail-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .thumbnail-item:hover {
+    transform: scale(1.05);
+  }
+
+  .thumbnail-image {
+    width: {{ section.settings.thumbnail_size }}px;
+    height: {{ section.settings.thumbnail_size }}px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid transparent;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .thumbnail-item.active .thumbnail-image {
+    border-color: {{ section.settings.active_color }};
+    box-shadow: 0 0 0 2px {{ section.settings.active_color }}20;
+  }
+
+  .thumbnail-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .thumbnail-name {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .testimonials-container {
+    position: relative;
+    min-height: 120px;
+  }
+
+  .testimonial-text {
+    display: none;
+    opacity: 0;
+    font-size: {{ section.settings.testimonial_font_size }}px;
+    line-height: 1.6;
+    font-style: italic;
+    transition: opacity 0.4s ease;
+  }
+
+  .testimonial-text.active {
+    display: block;
+    opacity: 1;
+  }
+
+  /* Placeholder styling */
+  .placeholder-svg {
+    width: 100%;
+    height: 100%;
+    background: #f0f0f0;
+  }
+
+  /* Mobile responsiveness */
+  @media screen and (max-width: 768px) {
+    .customer-results-container {
+      flex-direction: column;
+    }
+
+    .main-image-container,
+    .customer-stories-container {
+      max-width: 100%;
+      width: 100%;
+    }
+
+    .section-heading {
+      text-align: center;
+    }
+
+    .customer-thumbnails {
+      justify-content: center;
+    }
+
+    .testimonial-text {
+      text-align: center;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const section = document.querySelector('.customer-results-section');
+    if (!section) return;
+
+    const thumbnails = section.querySelectorAll('.thumbnail-item');
+    const mainImages = section.querySelectorAll('.main-image');
+    const testimonials = section.querySelectorAll('.testimonial-text');
+
+    thumbnails.forEach(thumbnail => {
+      thumbnail.addEventListener('click', function() {
+        const index = this.dataset.index;
+
+        // Fjern active class fra alle elementer
+        thumbnails.forEach(t => t.classList.remove('active'));
+        mainImages.forEach(img => img.classList.remove('active'));
+        testimonials.forEach(text => text.classList.remove('active'));
+
+        // Tilføj active class til valgte elementer
+        this.classList.add('active');
+
+        const targetImage = section.querySelector(`.main-image[data-index="${index}"]`);
+        const targetTestimonial = section.querySelector(`.testimonial-text[data-index="${index}"]`);
+
+        if (targetImage) targetImage.classList.add('active');
+        if (targetTestimonial) targetTestimonial.classList.add('active');
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Kundehistorier Galleri",
+  "tag": "section",
+  "class": "customer-results-gallery-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Overskrift",
+      "default": "Vores kunders resultater"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Overskrift størrelse",
+      "min": 18,
+      "max": 48,
+      "step": 2,
+      "default": 28,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "testimonial_font_size",
+      "label": "Testimonial tekst størrelse",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "thumbnail_size",
+      "label": "Thumbnail størrelse",
+      "min": 50,
+      "max": 120,
+      "step": 5,
+      "default": 70,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Billede hjørne afrunding",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "default": 8,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Maks bredde",
+      "min": 800,
+      "max": 1600,
+      "step": 50,
+      "default": 1200,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 50,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bund",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 50,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Baggrundsfarve",
+      "default": "#e8e8e8"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Overskrift farve",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Tekst farve",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "active_color",
+      "label": "Aktiv thumbnail kant farve",
+      "default": "#c9a96e"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "customer",
+      "name": "Kundehistorie",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "main_image",
+          "label": "Før/efter billede"
+        },
+        {
+          "type": "text",
+          "id": "customer_name",
+          "label": "Kundens navn",
+          "default": "Kunde"
+        },
+        {
+          "type": "textarea",
+          "id": "testimonial_text",
+          "label": "Testimonial tekst",
+          "default": "Skriv kundens historie her..."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Kundehistorier Galleri",
+      "blocks": [
+        {
+          "type": "customer",
+          "settings": {
+            "customer_name": "Mette",
+            "testimonial_text": "AYA lysterapi har gjort underværker for min hud! På bare 4 uger er mine fine linjer og rynker næsten forsvundet, og min hud har fået en fantastisk glød. Jeg kan varmt anbefale det til alle, der ønsker synlige resultater uden at skulle bruge en formue på dyre behandlinger."
+          }
+        },
+        {
+          "type": "customer",
+          "settings": {
+            "customer_name": "Sarah",
+            "testimonial_text": "Jeg var skeptisk i starten, men resultaterne taler for sig selv. Min hud ser yngre og friskere ud end den har gjort i årevis."
+          }
+        },
+        {
+          "type": "customer",
+          "settings": {
+            "customer_name": "Helle",
+            "testimonial_text": "Efter kun få ugers brug kunne jeg se en markant forbedring i min hudtone og tekstur. Fantastisk produkt!"
+          }
+        },
+        {
+          "type": "customer",
+          "settings": {
+            "customer_name": "Katrine",
+            "testimonial_text": "Jeg har prøvet mange forskellige behandlinger, men dette er den første der virkelig har gjort en forskel for mine rynker."
+          }
+        },
+        {
+          "type": "customer",
+          "settings": {
+            "customer_name": "Nadia",
+            "testimonial_text": "Min hud har aldrig set bedre ud! Jeg får konstant komplimenter for min glødende hud."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
