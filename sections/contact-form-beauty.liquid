@@ -31,11 +31,21 @@
     {
       "type": "range",
       "id": "section_padding_top",
-      "label": "Padding top",
+      "label": "Padding top (desktop)",
       "min": 0,
       "max": 100,
       "step": 5,
       "default": 50,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top_mobile",
+      "label": "Padding top (mobil)",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 30,
       "unit": "px"
     },
     {
@@ -458,7 +468,7 @@
 
   @media (max-width: 600px) {
     .glow-contact {
-      padding: 50px 15px;
+      padding: {{ section.settings.section_padding_top_mobile }}px 15px {{ section.settings.section_padding_bottom }}px;
     }
 
     .glow-contact-title {
@@ -479,6 +489,11 @@
 
     .glow-sidebar-card {
       min-width: 100%;
+    }
+
+    /* Skjul email kort på mobil */
+    .glow-sidebar-card--email {
+      display: none;
     }
   }
 </style>
@@ -638,7 +653,7 @@
     {%- if section.settings.show_sidebar -%}
       <div class="glow-contact-sidebar">
 
-        <div class="glow-sidebar-card">
+        <div class="glow-sidebar-card glow-sidebar-card--email">
           <h3 class="glow-sidebar-title">
             <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
             Email os
