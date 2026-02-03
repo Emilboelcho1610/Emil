@@ -1,0 +1,642 @@
+{% comment %}
+  GLOW PRO Contact Form - Beauty Brand Style
+  Emails sendes automatisk til den email der er sat op i Shopify Admin > Settings > Store details
+{% endcomment %}
+
+{% schema %}
+{
+  "name": "Kontaktformular (Beauty)",
+  "class": "contact-section-beauty",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Indhold"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Overskrift",
+      "default": "Kontakt os"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Undertekst",
+      "default": "Har du spørgsmål til GLOW PRO eller brug for hjælp? Vi er her for dig og svarer inden for 24 timer."
+    },
+    {
+      "type": "header",
+      "content": "Formular felter"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_phone",
+      "label": "Vis telefon felt",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_order_number",
+      "label": "Vis ordrenummer felt",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_subject",
+      "label": "Vis emne dropdown",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Farver"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Baggrundsfarve",
+      "default": "#faf9f7"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Formular baggrund",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Tekstfarve",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Sekundær tekst",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent farve",
+      "default": "#FFC6DA"
+    },
+    {
+      "type": "color",
+      "id": "btn_bg",
+      "label": "Knap baggrund",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "btn_text",
+      "label": "Knap tekst",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Kontaktinfo (sidebar)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sidebar",
+      "label": "Vis kontaktinfo sidebar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "email_address",
+      "label": "Email adresse",
+      "default": "hello@glowpro.dk"
+    },
+    {
+      "type": "text",
+      "id": "response_time",
+      "label": "Svartid tekst",
+      "default": "Vi svarer inden for 24 timer"
+    },
+    {
+      "type": "textarea",
+      "id": "opening_hours",
+      "label": "Åbningstider",
+      "default": "Mandag - Fredag: 09:00 - 17:00"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Kontaktformular (Beauty)"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .glow-contact {
+    background-color: {{ section.settings.bg_color }};
+    padding: 80px 20px;
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  .glow-contact * {
+    box-sizing: border-box;
+  }
+
+  .glow-contact-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 50px;
+    align-items: start;
+  }
+
+  /* Header */
+  .glow-contact-header {
+    text-align: center;
+    margin-bottom: 50px;
+    grid-column: 1 / -1;
+  }
+
+  .glow-contact-title {
+    font-size: 38px;
+    font-weight: 700;
+    color: {{ section.settings.text_color }};
+    margin: 0 0 15px 0;
+    letter-spacing: -0.5px;
+  }
+
+  .glow-contact-subtitle {
+    font-size: 16px;
+    color: {{ section.settings.muted_color }};
+    margin: 0;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+  }
+
+  /* Form Card */
+  .glow-contact-form-card {
+    background: {{ section.settings.card_bg }};
+    border-radius: 20px;
+    padding: 45px;
+    box-shadow: 0 4px 25px rgba(0,0,0,0.06);
+  }
+
+  .glow-contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+
+  .glow-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .glow-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .glow-form-group.full-width {
+    grid-column: 1 / -1;
+  }
+
+  .glow-form-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: {{ section.settings.text_color }};
+    letter-spacing: 0.3px;
+  }
+
+  .glow-form-label .required {
+    color: {{ section.settings.accent_color }};
+    margin-left: 2px;
+  }
+
+  .glow-form-input,
+  .glow-form-select,
+  .glow-form-textarea {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #e9e9e9;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 14px;
+    color: {{ section.settings.text_color }};
+    background: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    -webkit-appearance: none;
+  }
+
+  .glow-form-input:focus,
+  .glow-form-select:focus,
+  .glow-form-textarea:focus {
+    outline: none;
+    border-color: {{ section.settings.accent_color }};
+    box-shadow: 0 0 0 4px {{ section.settings.accent_color }}20;
+  }
+
+  .glow-form-input::placeholder,
+  .glow-form-textarea::placeholder {
+    color: #999;
+  }
+
+  .glow-form-select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+
+  .glow-form-textarea {
+    min-height: 140px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .glow-form-submit {
+    width: 100%;
+    padding: 18px 30px;
+    background: {{ section.settings.btn_bg }};
+    color: {{ section.settings.btn_text }};
+    border: none;
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-top: 10px;
+  }
+
+  .glow-form-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  }
+
+  .glow-form-submit:active {
+    transform: translateY(0);
+  }
+
+  /* Success/Error Messages */
+  .glow-form-success {
+    background: #d4edda;
+    color: #155724;
+    padding: 16px 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .glow-form-success svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  .glow-form-errors {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 16px 20px;
+    border-radius: 12px;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .glow-form-errors ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+
+  /* Sidebar */
+  .glow-contact-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .glow-sidebar-card {
+    background: {{ section.settings.card_bg }};
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  }
+
+  .glow-sidebar-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: {{ section.settings.text_color }};
+    margin: 0 0 18px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .glow-sidebar-title svg {
+    width: 20px;
+    height: 20px;
+    stroke: {{ section.settings.accent_color }};
+    stroke-width: 2;
+    fill: none;
+  }
+
+  .glow-sidebar-content {
+    font-size: 14px;
+    color: {{ section.settings.muted_color }};
+    line-height: 1.6;
+  }
+
+  .glow-sidebar-content a {
+    color: {{ section.settings.text_color }};
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+
+  .glow-sidebar-content a:hover {
+    color: {{ section.settings.accent_color }};
+  }
+
+  .glow-sidebar-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: {{ section.settings.accent_color }}20;
+    color: {{ section.settings.text_color }};
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 12px;
+  }
+
+  .glow-sidebar-badge svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    stroke-width: 2;
+    fill: none;
+  }
+
+  /* Privacy note */
+  .glow-privacy-note {
+    font-size: 11px;
+    color: {{ section.settings.muted_color }};
+    line-height: 1.5;
+    margin-top: 5px;
+  }
+
+  .glow-privacy-note a {
+    color: {{ section.settings.text_color }};
+    text-decoration: underline;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .glow-contact-container {
+      grid-template-columns: 1fr;
+      gap: 35px;
+    }
+
+    .glow-contact-sidebar {
+      order: -1;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    .glow-sidebar-card {
+      flex: 1;
+      min-width: 250px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .glow-contact {
+      padding: 50px 15px;
+    }
+
+    .glow-contact-title {
+      font-size: 28px;
+    }
+
+    .glow-contact-form-card {
+      padding: 30px 20px;
+    }
+
+    .glow-form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .glow-contact-sidebar {
+      flex-direction: column;
+    }
+
+    .glow-sidebar-card {
+      min-width: 100%;
+    }
+  }
+</style>
+
+<section class="glow-contact">
+  <div class="glow-contact-container">
+
+    <!-- Header -->
+    <div class="glow-contact-header">
+      {%- if section.settings.title != blank -%}
+        <h1 class="glow-contact-title">{{ section.settings.title }}</h1>
+      {%- endif -%}
+      {%- if section.settings.subtitle != blank -%}
+        <p class="glow-contact-subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </div>
+
+    <!-- Form -->
+    <div class="glow-contact-form-card">
+      {%- assign form_id = 'contact-' | append: section.id -%}
+      {%- form 'contact', id: form_id, class: 'glow-contact-form' -%}
+
+        {%- if form.posted_successfully? -%}
+          <div class="glow-form-success">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#155724" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <span>Tak for din besked! Vi vender tilbage hurtigst muligt.</span>
+          </div>
+        {%- endif -%}
+
+        {%- if form.errors -%}
+          <div class="glow-form-errors">
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+
+        <div class="glow-form-row">
+          <div class="glow-form-group">
+            <label class="glow-form-label" for="ContactName-{{ section.id }}">
+              Navn <span class="required">*</span>
+            </label>
+            <input
+              type="text"
+              id="ContactName-{{ section.id }}"
+              class="glow-form-input"
+              name="contact[name]"
+              placeholder="Dit fulde navn"
+              autocapitalize="words"
+              required
+              value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+            >
+          </div>
+
+          <div class="glow-form-group">
+            <label class="glow-form-label" for="ContactEmail-{{ section.id }}">
+              Email <span class="required">*</span>
+            </label>
+            <input
+              type="email"
+              id="ContactEmail-{{ section.id }}"
+              class="glow-form-input"
+              name="contact[email]"
+              placeholder="din@email.dk"
+              autocorrect="off"
+              autocapitalize="off"
+              required
+              value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+            >
+          </div>
+        </div>
+
+        {%- if section.settings.show_phone or section.settings.show_order_number -%}
+          <div class="glow-form-row">
+            {%- if section.settings.show_phone -%}
+              <div class="glow-form-group">
+                <label class="glow-form-label" for="ContactPhone-{{ section.id }}">
+                  Telefon
+                </label>
+                <input
+                  type="tel"
+                  id="ContactPhone-{{ section.id }}"
+                  class="glow-form-input"
+                  name="contact[phone]"
+                  placeholder="+45 12 34 56 78"
+                  value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+                >
+              </div>
+            {%- endif -%}
+
+            {%- if section.settings.show_order_number -%}
+              <div class="glow-form-group">
+                <label class="glow-form-label" for="ContactOrder-{{ section.id }}">
+                  Ordrenummer
+                </label>
+                <input
+                  type="text"
+                  id="ContactOrder-{{ section.id }}"
+                  class="glow-form-input"
+                  name="contact[order_number]"
+                  placeholder="#1234"
+                >
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_subject -%}
+          <div class="glow-form-group">
+            <label class="glow-form-label" for="ContactSubject-{{ section.id }}">
+              Hvad drejer din henvendelse sig om? <span class="required">*</span>
+            </label>
+            <select
+              id="ContactSubject-{{ section.id }}"
+              class="glow-form-select"
+              name="contact[subject]"
+              required
+            >
+              <option value="" disabled selected>Vælg emne</option>
+              <option value="Spørgsmål om produkt">Spørgsmål om GLOW PRO</option>
+              <option value="Ordre status">Ordre status / Levering</option>
+              <option value="Returnering">Returnering / Ombytning</option>
+              <option value="Reklamation">Reklamation</option>
+              <option value="Samarbejde">Samarbejde / Influencer</option>
+              <option value="Andet">Andet</option>
+            </select>
+          </div>
+        {%- endif -%}
+
+        <div class="glow-form-group">
+          <label class="glow-form-label" for="ContactMessage-{{ section.id }}">
+            Besked <span class="required">*</span>
+          </label>
+          <textarea
+            id="ContactMessage-{{ section.id }}"
+            class="glow-form-textarea"
+            name="contact[body]"
+            placeholder="Skriv din besked her..."
+            required
+          >{% if form.body %}{{ form.body }}{% endif %}</textarea>
+        </div>
+
+        <button type="submit" class="glow-form-submit">
+          Send besked
+        </button>
+
+        <p class="glow-privacy-note">
+          Ved at sende accepterer du vores <a href="/policies/privacy-policy">privatlivspolitik</a>.
+          Vi bruger kun dine oplysninger til at besvare din henvendelse.
+        </p>
+
+      {%- endform -%}
+    </div>
+
+    <!-- Sidebar -->
+    {%- if section.settings.show_sidebar -%}
+      <div class="glow-contact-sidebar">
+
+        <div class="glow-sidebar-card">
+          <h3 class="glow-sidebar-title">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Email os
+          </h3>
+          <div class="glow-sidebar-content">
+            {%- if section.settings.email_address != blank -%}
+              <a href="mailto:{{ section.settings.email_address }}">{{ section.settings.email_address }}</a>
+            {%- endif -%}
+
+            {%- if section.settings.response_time != blank -%}
+              <div class="glow-sidebar-badge">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                {{ section.settings.response_time }}
+              </div>
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- if section.settings.opening_hours != blank -%}
+          <div class="glow-sidebar-card">
+            <h3 class="glow-sidebar-title">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Åbningstider
+            </h3>
+            <div class="glow-sidebar-content">
+              {{ section.settings.opening_hours | newline_to_br }}
+            </div>
+          </div>
+        {%- endif -%}
+
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
