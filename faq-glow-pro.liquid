@@ -4,7 +4,7 @@
 {% endcomment %}
 
 <style>
-  .glow-faq-section {
+  #shopify-section-{{ section.id }} .glow-faq-section {
     /* Colors */
     --glow-bg: {{ section.settings.bg_color }};
     --glow-card-bg: {{ section.settings.card_bg }};
@@ -34,17 +34,17 @@
     font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
 
-  .glow-faq-container {
+  #shopify-section-{{ section.id }} .glow-faq-container {
     max-width: {{ section.settings.container_width }}px;
     margin: 0 auto;
   }
 
-  .glow-faq-header {
+  #shopify-section-{{ section.id }} .glow-faq-header {
     text-align: {{ section.settings.header_alignment }};
     margin-bottom: {{ section.settings.header_margin_bottom }}px;
   }
 
-  .glow-faq-title {
+  #shopify-section-{{ section.id }} .glow-faq-title {
     font-size: var(--glow-title-size);
     font-weight: {{ section.settings.title_weight }};
     color: var(--glow-text);
@@ -53,7 +53,7 @@
     letter-spacing: {{ section.settings.title_letter_spacing }}px;
   }
 
-  .glow-faq-subtitle {
+  #shopify-section-{{ section.id }} .glow-faq-subtitle {
     font-size: var(--glow-subtitle-size);
     color: {{ section.settings.subtitle_color }};
     font-weight: {{ section.settings.subtitle_weight }};
@@ -62,13 +62,13 @@
     margin: 0;
   }
 
-  .glow-faq-list {
+  #shopify-section-{{ section.id }} .glow-faq-list {
     display: flex;
     flex-direction: column;
     gap: var(--glow-card-gap);
   }
 
-  .glow-faq-item {
+  #shopify-section-{{ section.id }} .glow-faq-item {
     background: var(--glow-card-bg);
     border: {{ section.settings.border_width }}px solid var(--glow-border);
     border-radius: var(--glow-card-radius);
@@ -77,20 +77,20 @@
     cursor: pointer;
   }
 
-  .glow-faq-item:hover {
+  #shopify-section-{{ section.id }} .glow-faq-item:hover {
     background: var(--glow-card-hover-bg);
     border-color: var(--glow-accent);
     transform: translateY(-2px);
     box-shadow: {{ section.settings.hover_shadow }};
   }
 
-  .glow-faq-item.active {
+  #shopify-section-{{ section.id }} .glow-faq-item.active {
     background: var(--glow-card-active-bg);
     border-color: var(--glow-border-active);
     box-shadow: {{ section.settings.active_shadow }};
   }
 
-  .glow-faq-question {
+  #shopify-section-{{ section.id }} .glow-faq-question {
     padding: {{ section.settings.question_padding_y_desktop }}px {{ section.settings.question_padding_x_desktop }}px;
     display: flex;
     justify-content: space-between;
@@ -98,7 +98,7 @@
     gap: 20px;
   }
 
-  .glow-faq-question-text {
+  #shopify-section-{{ section.id }} .glow-faq-question-text {
     font-size: var(--glow-question-size);
     font-weight: {{ section.settings.question_weight }};
     color: var(--glow-question-color);
@@ -107,7 +107,7 @@
     flex: 1;
   }
 
-  .glow-faq-icon {
+  #shopify-section-{{ section.id }} .glow-faq-icon {
     width: {{ section.settings.icon_size }}px;
     height: {{ section.settings.icon_size }}px;
     flex-shrink: 0;
@@ -119,7 +119,7 @@
     transition: all 0.3s ease;
   }
 
-  .glow-faq-icon svg {
+  #shopify-section-{{ section.id }} .glow-faq-icon svg {
     width: {{ section.settings.chevron_size }}px;
     height: {{ section.settings.chevron_size }}px;
     stroke: var(--glow-accent);
@@ -127,70 +127,70 @@
     transition: transform 0.3s ease;
   }
 
-  .glow-faq-item.active .glow-faq-icon {
+  #shopify-section-{{ section.id }} .glow-faq-item.active .glow-faq-icon {
     background: var(--glow-accent);
     transform: rotate({{ section.settings.icon_rotate_degrees }}deg);
   }
 
-  .glow-faq-item.active .glow-faq-icon svg {
+  #shopify-section-{{ section.id }} .glow-faq-item.active .glow-faq-icon svg {
     stroke: {{ section.settings.icon_active_color }};
     transform: rotate(180deg);
   }
 
-  .glow-faq-answer {
+  #shopify-section-{{ section.id }} .glow-faq-answer {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .glow-faq-answer-inner {
+  #shopify-section-{{ section.id }} .glow-faq-answer-inner {
     padding: 0 {{ section.settings.answer_padding_x_desktop }}px {{ section.settings.answer_padding_bottom_desktop }}px {{ section.settings.answer_padding_x_desktop }}px;
   }
 
-  .glow-faq-answer-content {
+  #shopify-section-{{ section.id }} .glow-faq-answer-content {
     font-size: var(--glow-answer-size);
     color: var(--glow-answer-color);
     line-height: {{ section.settings.answer_line_height }};
     font-weight: {{ section.settings.answer_weight }};
   }
 
-  .glow-faq-answer-content p {
+  #shopify-section-{{ section.id }} .glow-faq-answer-content p {
     margin: 0 0 {{ section.settings.answer_paragraph_spacing }}px 0;
   }
 
-  .glow-faq-answer-content p:last-child {
+  #shopify-section-{{ section.id }} .glow-faq-answer-content p:last-child {
     margin-bottom: 0;
   }
 
-  .glow-faq-answer-content ul,
-  .glow-faq-answer-content ol {
+  #shopify-section-{{ section.id }} .glow-faq-answer-content ul,
+  #shopify-section-{{ section.id }} .glow-faq-answer-content ol {
     margin: {{ section.settings.list_spacing }}px 0;
     padding-left: 20px;
   }
 
-  .glow-faq-answer-content li {
+  #shopify-section-{{ section.id }} .glow-faq-answer-content li {
     margin-bottom: 8px;
   }
 
-  .glow-faq-answer-content a {
+  #shopify-section-{{ section.id }} .glow-faq-answer-content a {
     color: var(--glow-accent);
     text-decoration: none;
     border-bottom: 1px solid transparent;
     transition: border-color 0.2s ease;
   }
 
-  .glow-faq-answer-content a:hover {
+  #shopify-section-{{ section.id }} .glow-faq-answer-content a:hover {
     border-bottom-color: var(--glow-accent);
   }
 
-  .glow-faq-answer-content strong {
+  #shopify-section-{{ section.id }} .glow-faq-answer-content strong {
     font-weight: 600;
     color: var(--glow-question-color);
   }
 
   /* Mobile styles */
   @media (max-width: 768px) {
-    .glow-faq-section {
+    #shopify-section-{{ section.id }} .glow-faq-section {
       --glow-title-size: {{ section.settings.title_size_mobile }}px;
       --glow-subtitle-size: {{ section.settings.subtitle_size_mobile }}px;
       --glow-question-size: {{ section.settings.question_size_mobile }}px;
@@ -199,15 +199,15 @@
       --glow-section-px: {{ section.settings.section_padding_x_mobile }}px;
     }
 
-    .glow-faq-question {
+    #shopify-section-{{ section.id }} .glow-faq-question {
       padding: {{ section.settings.question_padding_y_mobile }}px {{ section.settings.question_padding_x_mobile }}px;
     }
 
-    .glow-faq-answer-inner {
+    #shopify-section-{{ section.id }} .glow-faq-answer-inner {
       padding: 0 {{ section.settings.answer_padding_x_mobile }}px {{ section.settings.answer_padding_bottom_mobile }}px {{ section.settings.answer_padding_x_mobile }}px;
     }
 
-    .glow-faq-item:hover {
+    #shopify-section-{{ section.id }} .glow-faq-item:hover {
       transform: none;
     }
   }
@@ -230,7 +230,7 @@
     <div class="glow-faq-list">
       {% for block in section.blocks %}
         {% if block.type == 'faq_item' %}
-          <div class="glow-faq-item" {{ block.shopify_attributes }} onclick="toggleGlowFaq(this)">
+          <div class="glow-faq-item" {{ block.shopify_attributes }} onclick="toggleGlowFaq_{{ section.id | replace: '-', '_' }}(this)">
 
             <div class="glow-faq-question">
               <h3 class="glow-faq-question-text">{{ block.settings.question }}</h3>
@@ -258,23 +258,28 @@
 </div>
 
 <script>
-  function toggleGlowFaq(item) {
-    const answer = item.querySelector('.glow-faq-answer');
-    const isActive = item.classList.contains('active');
+  (function() {
+    var sectionId = 'shopify-section-{{ section.id }}';
+    var section = document.getElementById(sectionId);
 
-    // Close all items
-    document.querySelectorAll('.glow-faq-item').forEach(faqItem => {
-      faqItem.classList.remove('active');
-      const ans = faqItem.querySelector('.glow-faq-answer');
-      if (ans) ans.style.maxHeight = null;
-    });
+    window.toggleGlowFaq_{{ section.id | replace: '-', '_' }} = function(item) {
+      const answer = item.querySelector('.glow-faq-answer');
+      const isActive = item.classList.contains('active');
 
-    // Open clicked item if it wasn't active
-    if (!isActive) {
-      item.classList.add('active');
-      answer.style.maxHeight = answer.scrollHeight + 'px';
-    }
-  }
+      // Close all items within this section
+      section.querySelectorAll('.glow-faq-item').forEach(function(faqItem) {
+        faqItem.classList.remove('active');
+        const ans = faqItem.querySelector('.glow-faq-answer');
+        if (ans) ans.style.maxHeight = null;
+      });
+
+      // Open clicked item if it wasn't active
+      if (!isActive) {
+        item.classList.add('active');
+        answer.style.maxHeight = answer.scrollHeight + 'px';
+      }
+    };
+  })();
 </script>
 
 {% schema %}
