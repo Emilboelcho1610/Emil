@@ -26,6 +26,40 @@
     },
     {
       "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 50,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 50,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "header_margin_bottom",
+      "label": "Afstand under overskrift",
+      "min": 0,
+      "max": 80,
+      "step": 5,
+      "default": 30,
+      "unit": "px"
+    },
+    {
+      "type": "header",
       "content": "Formular felter"
     },
     {
@@ -132,7 +166,7 @@
 <style>
   .glow-contact {
     background-color: {{ section.settings.bg_color }};
-    padding: 80px 20px;
+    padding: {{ section.settings.section_padding_top }}px 20px {{ section.settings.section_padding_bottom }}px;
     font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
@@ -152,7 +186,7 @@
   /* Header */
   .glow-contact-header {
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: {{ section.settings.header_margin_bottom }}px;
     grid-column: 1 / -1;
   }
 
