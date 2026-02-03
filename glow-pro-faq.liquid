@@ -1,6 +1,6 @@
 {% comment %}
   GLOW PRO FAQ Section
-  A beautiful, customizable FAQ section for Shopify
+  Elegant FAQ section for beauty/skincare brands
   - Montserrat font for body text
   - Theme font for headlines
   - Fully responsive with separate desktop/mobile settings
@@ -19,20 +19,18 @@
     --faq-hover-bg: {{ section.settings.hover_background }};
     --faq-icon-color: {{ section.settings.icon_color }};
     --faq-accent-color: {{ section.settings.accent_color }};
+    --faq-item-bg: {{ section.settings.item_background }};
 
-    /* Desktop sizes */
     --faq-title-size-desktop: {{ section.settings.title_size_desktop }}px;
     --faq-subtitle-size-desktop: {{ section.settings.subtitle_size_desktop }}px;
     --faq-question-size-desktop: {{ section.settings.question_size_desktop }}px;
     --faq-answer-size-desktop: {{ section.settings.answer_size_desktop }}px;
 
-    /* Mobile sizes */
     --faq-title-size-mobile: {{ section.settings.title_size_mobile }}px;
     --faq-subtitle-size-mobile: {{ section.settings.subtitle_size_mobile }}px;
     --faq-question-size-mobile: {{ section.settings.question_size_mobile }}px;
     --faq-answer-size-mobile: {{ section.settings.answer_size_mobile }}px;
 
-    /* Spacing */
     --faq-section-padding-desktop: {{ section.settings.section_padding_desktop }}px;
     --faq-section-padding-mobile: {{ section.settings.section_padding_mobile }}px;
     --faq-item-gap: {{ section.settings.item_gap }}px;
@@ -52,55 +50,71 @@
 
   .glow-faq-header {
     text-align: {{ section.settings.header_alignment }};
-    margin-bottom: 50px;
+    margin-bottom: 60px;
+  }
+
+  .glow-faq-badge {
+    display: inline-block;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--faq-accent-color);
+    margin-bottom: 20px;
+    padding: 8px 20px;
+    border: 1px solid var(--faq-accent-color);
+    border-radius: 30px;
   }
 
   .glow-faq-title {
-    font-family: var(--font-heading-family, inherit);
+    font-family: var(--font-heading-family, 'Montserrat', sans-serif);
     font-size: var(--faq-title-size-desktop);
     font-weight: {{ section.settings.title_weight }};
     color: var(--faq-title-color);
-    margin: 0 0 15px 0;
+    margin: 0 0 20px 0;
     letter-spacing: {{ section.settings.title_letter_spacing }}em;
     text-transform: {{ section.settings.title_transform }};
+    line-height: 1.2;
   }
 
   .glow-faq-subtitle {
     font-family: 'Montserrat', sans-serif;
     font-size: var(--faq-subtitle-size-desktop);
-    font-weight: 300;
+    font-weight: 400;
     color: var(--faq-subtitle-color);
     margin: 0;
-    max-width: 600px;
+    max-width: 650px;
     {% if section.settings.header_alignment == 'center' %}
     margin-left: auto;
     margin-right: auto;
     {% endif %}
-    line-height: 1.6;
+    line-height: 1.7;
   }
 
-  .glow-faq-list {
-    display: flex;
-    flex-direction: column;
+  .glow-faq-grid {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.columns_desktop }}, 1fr);
     gap: var(--faq-item-gap);
   }
 
   .glow-faq-item {
-    background: {{ section.settings.item_background }};
+    background: var(--faq-item-bg);
     border: 1px solid var(--faq-border-color);
     border-radius: {{ section.settings.border_radius }}px;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     {% if section.settings.enable_shadow %}
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
     {% endif %}
   }
 
   .glow-faq-item:hover {
-    background: var(--faq-hover-bg);
+    border-color: var(--faq-accent-color);
     {% if section.settings.enable_shadow %}
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
     {% endif %}
+    transform: translateY(-2px);
   }
 
   .glow-faq-question {
@@ -108,6 +122,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 20px;
     padding: {{ section.settings.question_padding_desktop }}px {{ section.settings.question_padding_horizontal_desktop }}px;
     background: transparent;
     border: none;
@@ -134,30 +149,46 @@
     outline-offset: -2px;
   }
 
+  .glow-faq-question span:first-child {
+    flex: 1;
+  }
+
   .glow-faq-icon {
     flex-shrink: 0;
     width: {{ section.settings.icon_size }}px;
     height: {{ section.settings.icon_size }}px;
-    margin-left: 20px;
-    position: relative;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: {{ section.settings.icon_background }};
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .glow-faq-icon svg {
-    width: 100%;
-    height: 100%;
+    width: 12px;
+    height: 12px;
     stroke: var(--faq-icon-color);
-    stroke-width: 2;
+    stroke-width: 2.5;
     fill: none;
-    transition: stroke 0.3s ease;
+    transition: all 0.3s ease;
+  }
+
+  .glow-faq-question:hover .glow-faq-icon {
+    background: var(--faq-accent-color);
   }
 
   .glow-faq-question:hover .glow-faq-icon svg {
-    stroke: var(--faq-accent-color);
+    stroke: #fff;
   }
 
   .glow-faq-item[data-open="true"] .glow-faq-icon {
     transform: rotate(180deg);
+    background: var(--faq-accent-color);
+  }
+
+  .glow-faq-item[data-open="true"] .glow-faq-icon svg {
+    stroke: #fff;
   }
 
   .glow-faq-answer {
@@ -167,7 +198,7 @@
   }
 
   .glow-faq-item[data-open="true"] .glow-faq-answer {
-    max-height: 500px;
+    max-height: 600px;
   }
 
   .glow-faq-answer-inner {
@@ -180,7 +211,7 @@
   }
 
   .glow-faq-answer-inner p {
-    margin: 0 0 12px 0;
+    margin: 0 0 15px 0;
   }
 
   .glow-faq-answer-inner p:last-child {
@@ -188,36 +219,54 @@
   }
 
   .glow-faq-answer-inner ul {
-    margin: 10px 0;
+    margin: 15px 0;
     padding-left: 0;
     list-style: none;
   }
 
   .glow-faq-answer-inner li {
     position: relative;
-    padding-left: 20px;
-    margin-bottom: 8px;
+    padding-left: 24px;
+    margin-bottom: 10px;
+    line-height: 1.6;
   }
 
   .glow-faq-answer-inner li::before {
     content: '';
     position: absolute;
     left: 0;
-    top: 8px;
-    width: 6px;
-    height: 6px;
-    background: var(--faq-accent-color);
+    top: 9px;
+    width: 8px;
+    height: 8px;
+    background: linear-gradient(135deg, var(--faq-accent-color), {{ section.settings.accent_color_light }});
     border-radius: 50%;
   }
 
-  .glow-faq-divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--faq-border-color), transparent);
-    margin: 0 {{ section.settings.question_padding_horizontal_desktop }}px;
-    opacity: 0.5;
+  .glow-faq-answer-inner li:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Decorative line */
+  .glow-faq-line {
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--faq-accent-color), transparent);
+    margin: 0 auto 25px;
+    {% if section.settings.header_alignment == 'left' %}
+    margin-left: 0;
+    {% elsif section.settings.header_alignment == 'right' %}
+    margin-right: 0;
+    margin-left: auto;
+    {% endif %}
   }
 
   /* Mobile styles */
+  @media screen and (max-width: 999px) {
+    .glow-faq-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
   @media screen and (max-width: 749px) {
     .glow-faq-section {
       padding: var(--faq-section-padding-mobile) 0;
@@ -228,7 +277,12 @@
     }
 
     .glow-faq-header {
-      margin-bottom: 30px;
+      margin-bottom: 40px;
+    }
+
+    .glow-faq-badge {
+      font-size: 10px;
+      padding: 6px 16px;
     }
 
     .glow-faq-title {
@@ -252,11 +306,16 @@
     .glow-faq-icon {
       width: {{ section.settings.icon_size_mobile }}px;
       height: {{ section.settings.icon_size_mobile }}px;
-      margin-left: 15px;
     }
 
-    .glow-faq-divider {
-      margin: 0 {{ section.settings.question_padding_horizontal_mobile }}px;
+    .glow-faq-icon svg {
+      width: 10px;
+      height: 10px;
+    }
+
+    .glow-faq-line {
+      width: 50px;
+      margin-bottom: 20px;
     }
   }
 {% endstyle %}
@@ -265,8 +324,14 @@
   <div class="glow-faq-container">
     {% if section.settings.show_header %}
     <header class="glow-faq-header">
+      {% if section.settings.show_badge and section.settings.badge_text != blank %}
+      <span class="glow-faq-badge">{{ section.settings.badge_text }}</span>
+      {% endif %}
       {% if section.settings.title != blank %}
       <h2 class="glow-faq-title">{{ section.settings.title }}</h2>
+      {% endif %}
+      {% if section.settings.show_line %}
+      <div class="glow-faq-line"></div>
       {% endif %}
       {% if section.settings.subtitle != blank %}
       <p class="glow-faq-subtitle">{{ section.settings.subtitle }}</p>
@@ -274,33 +339,18 @@
     </header>
     {% endif %}
 
-    <div class="glow-faq-list">
+    <div class="glow-faq-grid">
       {% for block in section.blocks %}
         <div class="glow-faq-item" data-open="false" {{ block.shopify_attributes }}>
           <button class="glow-faq-question" aria-expanded="false" aria-controls="faq-answer-{{ block.id }}">
             <span>{{ block.settings.question }}</span>
             <span class="glow-faq-icon">
-              {% if section.settings.icon_style == 'chevron' %}
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
-              {% elsif section.settings.icon_style == 'arrow' %}
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <polyline points="19 12 12 19 5 12"></polyline>
-              </svg>
-              {% else %}
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="12" r="10" stroke-width="1.5"></circle>
-                <polyline points="8 11 12 15 16 11"></polyline>
-              </svg>
-              {% endif %}
             </span>
           </button>
           <div class="glow-faq-answer" id="faq-answer-{{ block.id }}" role="region">
-            {% if section.settings.show_divider %}
-            <div class="glow-faq-divider"></div>
-            {% endif %}
             <div class="glow-faq-answer-inner">
               {{ block.settings.answer }}
             </div>
@@ -312,39 +362,58 @@
 </section>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const faqItems = document.querySelectorAll('.glow-faq-item');
+  (function() {
+    function initGlowFaq() {
+      const section = document.querySelector('.glow-faq-section');
+      if (!section) return;
 
-    faqItems.forEach(item => {
-      const question = item.querySelector('.glow-faq-question');
+      const faqItems = section.querySelectorAll('.glow-faq-item');
 
-      question.addEventListener('click', function() {
-        const isOpen = item.getAttribute('data-open') === 'true';
+      faqItems.forEach(function(item) {
+        const question = item.querySelector('.glow-faq-question');
+        if (!question) return;
 
-        {% if section.settings.close_others %}
-        // Close all other items
-        faqItems.forEach(otherItem => {
-          if (otherItem !== item) {
-            otherItem.setAttribute('data-open', 'false');
-            otherItem.querySelector('.glow-faq-question').setAttribute('aria-expanded', 'false');
-          }
+        question.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          const isOpen = item.getAttribute('data-open') === 'true';
+
+          {% if section.settings.close_others %}
+          faqItems.forEach(function(otherItem) {
+            if (otherItem !== item) {
+              otherItem.setAttribute('data-open', 'false');
+              var otherQuestion = otherItem.querySelector('.glow-faq-question');
+              if (otherQuestion) otherQuestion.setAttribute('aria-expanded', 'false');
+            }
+          });
+          {% endif %}
+
+          item.setAttribute('data-open', isOpen ? 'false' : 'true');
+          question.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
         });
-        {% endif %}
-
-        // Toggle current item
-        item.setAttribute('data-open', !isOpen);
-        question.setAttribute('aria-expanded', !isOpen);
       });
-    });
 
-    // Open first item by default if setting is enabled
-    {% if section.settings.open_first %}
-    if (faqItems.length > 0) {
-      faqItems[0].setAttribute('data-open', 'true');
-      faqItems[0].querySelector('.glow-faq-question').setAttribute('aria-expanded', 'true');
+      {% if section.settings.open_first %}
+      if (faqItems.length > 0) {
+        faqItems[0].setAttribute('data-open', 'true');
+        var firstQuestion = faqItems[0].querySelector('.glow-faq-question');
+        if (firstQuestion) firstQuestion.setAttribute('aria-expanded', 'true');
+      }
+      {% endif %}
     }
-    {% endif %}
-  });
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initGlowFaq);
+    } else {
+      initGlowFaq();
+    }
+
+    // Re-init for Shopify theme editor
+    if (Shopify && Shopify.designMode) {
+      document.addEventListener('shopify:section:load', initGlowFaq);
+    }
+  })();
 </script>
 
 {% schema %}
@@ -355,7 +424,7 @@
   "settings": [
     {
       "type": "header",
-      "content": "Header Indstillinger"
+      "content": "── HEADER ──"
     },
     {
       "type": "checkbox",
@@ -364,10 +433,28 @@
       "default": true
     },
     {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Vis badge",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge tekst",
+      "default": "FAQ"
+    },
+    {
       "type": "text",
       "id": "title",
       "label": "Titel",
       "default": "Ofte Stillede Spørgsmål"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_line",
+      "label": "Vis dekorativ linje",
+      "default": true
     },
     {
       "type": "textarea",
@@ -388,13 +475,13 @@
     },
     {
       "type": "header",
-      "content": "─── FARVER ───"
+      "content": "── FARVER ──"
     },
     {
       "type": "color",
       "id": "background_color",
       "label": "Baggrundsfarve (sektion)",
-      "default": "#faf9f7"
+      "default": "#f8f6f3"
     },
     {
       "type": "color",
@@ -406,7 +493,7 @@
       "type": "color",
       "id": "hover_background",
       "label": "Hover baggrundsfarve",
-      "default": "#fefefe"
+      "default": "#ffffff"
     },
     {
       "type": "color",
@@ -418,7 +505,7 @@
       "type": "color",
       "id": "subtitle_color",
       "label": "Undertekst farve",
-      "default": "#666666"
+      "default": "#6b6b6b"
     },
     {
       "type": "color",
@@ -430,45 +517,57 @@
       "type": "color",
       "id": "answer_color",
       "label": "Svar farve",
-      "default": "#4a4a4a"
+      "default": "#555555"
     },
     {
       "type": "color",
       "id": "border_color",
       "label": "Kantlinje farve",
-      "default": "#e8e5e0"
+      "default": "#e8e4df"
     },
     {
       "type": "color",
       "id": "icon_color",
       "label": "Ikon farve",
-      "default": "#999999"
+      "default": "#9b8b7a"
+    },
+    {
+      "type": "color",
+      "id": "icon_background",
+      "label": "Ikon baggrund",
+      "default": "#f5f2ee"
     },
     {
       "type": "color",
       "id": "accent_color",
-      "label": "Accent farve (hover)",
-      "default": "#b8956b"
+      "label": "Accent farve",
+      "default": "#c4a77d"
+    },
+    {
+      "type": "color",
+      "id": "accent_color_light",
+      "label": "Accent farve (lys)",
+      "default": "#e0d0b8"
     },
     {
       "type": "header",
-      "content": "─── DESKTOP TEKST STØRRELSER ───"
+      "content": "── DESKTOP TEKST ──"
     },
     {
       "type": "range",
       "id": "title_size_desktop",
-      "label": "Titel størrelse (desktop)",
-      "min": 20,
-      "max": 60,
+      "label": "Titel størrelse",
+      "min": 24,
+      "max": 72,
       "step": 1,
       "unit": "px",
-      "default": 36
+      "default": 42
     },
     {
       "type": "range",
       "id": "subtitle_size_desktop",
-      "label": "Undertekst størrelse (desktop)",
-      "min": 12,
+      "label": "Undertekst størrelse",
+      "min": 14,
       "max": 24,
       "step": 1,
       "unit": "px",
@@ -477,18 +576,18 @@
     {
       "type": "range",
       "id": "question_size_desktop",
-      "label": "Spørgsmål størrelse (desktop)",
+      "label": "Spørgsmål størrelse",
       "min": 14,
       "max": 24,
       "step": 1,
       "unit": "px",
-      "default": 17
+      "default": 16
     },
     {
       "type": "range",
       "id": "answer_size_desktop",
-      "label": "Svar størrelse (desktop)",
-      "min": 12,
+      "label": "Svar størrelse",
+      "min": 13,
       "max": 20,
       "step": 1,
       "unit": "px",
@@ -496,22 +595,22 @@
     },
     {
       "type": "header",
-      "content": "─── MOBIL TEKST STØRRELSER ───"
+      "content": "── MOBIL TEKST ──"
     },
     {
       "type": "range",
       "id": "title_size_mobile",
-      "label": "Titel størrelse (mobil)",
-      "min": 18,
-      "max": 40,
+      "label": "Titel størrelse",
+      "min": 20,
+      "max": 48,
       "step": 1,
       "unit": "px",
-      "default": 26
+      "default": 28
     },
     {
       "type": "range",
       "id": "subtitle_size_mobile",
-      "label": "Undertekst størrelse (mobil)",
+      "label": "Undertekst størrelse",
       "min": 12,
       "max": 20,
       "step": 1,
@@ -521,7 +620,7 @@
     {
       "type": "range",
       "id": "question_size_mobile",
-      "label": "Spørgsmål størrelse (mobil)",
+      "label": "Spørgsmål størrelse",
       "min": 13,
       "max": 20,
       "step": 1,
@@ -531,7 +630,7 @@
     {
       "type": "range",
       "id": "answer_size_mobile",
-      "label": "Svar størrelse (mobil)",
+      "label": "Svar størrelse",
       "min": 12,
       "max": 18,
       "step": 1,
@@ -540,148 +639,160 @@
     },
     {
       "type": "header",
-      "content": "─── FONT VÆGT ───"
+      "content": "── FONT VÆGT ──"
     },
     {
       "type": "select",
       "id": "title_weight",
-      "label": "Titel font vægt",
+      "label": "Titel vægt",
       "options": [
-        { "value": "300", "label": "Light (300)" },
-        { "value": "400", "label": "Regular (400)" },
-        { "value": "500", "label": "Medium (500)" },
-        { "value": "600", "label": "Semi Bold (600)" },
-        { "value": "700", "label": "Bold (700)" }
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" }
       ],
-      "default": "500"
+      "default": "400"
     },
     {
       "type": "select",
       "id": "question_weight",
-      "label": "Spørgsmål font vægt",
+      "label": "Spørgsmål vægt",
       "options": [
-        { "value": "400", "label": "Regular (400)" },
-        { "value": "500", "label": "Medium (500)" },
-        { "value": "600", "label": "Semi Bold (600)" }
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" },
+        { "value": "600", "label": "Semi Bold" }
       ],
       "default": "500"
     },
     {
       "type": "select",
       "id": "answer_weight",
-      "label": "Svar font vægt",
+      "label": "Svar vægt",
       "options": [
-        { "value": "300", "label": "Light (300)" },
-        { "value": "400", "label": "Regular (400)" },
-        { "value": "500", "label": "Medium (500)" }
+        { "value": "300", "label": "Light" },
+        { "value": "400", "label": "Regular" },
+        { "value": "500", "label": "Medium" }
       ],
       "default": "400"
     },
     {
       "type": "header",
-      "content": "─── TITEL STYLING ───"
+      "content": "── TITEL STYLING ──"
     },
     {
       "type": "range",
       "id": "title_letter_spacing",
-      "label": "Titel bogstavafstand",
+      "label": "Bogstavafstand",
       "min": 0,
       "max": 0.3,
       "step": 0.1,
       "unit": "em",
-      "default": 0.1
+      "default": 0
     },
     {
       "type": "select",
       "id": "title_transform",
-      "label": "Titel teksttransformation",
+      "label": "Tekst transformation",
       "options": [
         { "value": "none", "label": "Ingen" },
         { "value": "uppercase", "label": "STORE BOGSTAVER" },
-        { "value": "lowercase", "label": "små bogstaver" },
         { "value": "capitalize", "label": "Første Bogstav Stort" }
       ],
       "default": "none"
     },
     {
       "type": "header",
-      "content": "─── LAYOUT & AFSTAND ───"
+      "content": "── LAYOUT ──"
     },
     {
       "type": "range",
       "id": "max_width",
       "label": "Maksimal bredde",
-      "min": 600,
-      "max": 1400,
+      "min": 800,
+      "max": 1800,
       "step": 50,
       "unit": "px",
-      "default": 900
+      "default": 1400
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Kolonner (desktop)",
+      "options": [
+        { "value": "1", "label": "1 kolonne" },
+        { "value": "2", "label": "2 kolonner" }
+      ],
+      "default": "1"
     },
     {
       "type": "range",
       "id": "section_padding_desktop",
       "label": "Sektion padding (desktop)",
-      "min": 20,
-      "max": 120,
+      "min": 40,
+      "max": 150,
       "step": 5,
       "unit": "px",
-      "default": 80
+      "default": 100
     },
     {
       "type": "range",
       "id": "section_padding_mobile",
       "label": "Sektion padding (mobil)",
-      "min": 20,
-      "max": 80,
+      "min": 30,
+      "max": 100,
       "step": 5,
       "unit": "px",
-      "default": 50
+      "default": 60
     },
     {
       "type": "range",
       "id": "item_gap",
-      "label": "Afstand mellem FAQ items",
-      "min": 5,
+      "label": "Afstand mellem items",
+      "min": 8,
       "max": 30,
       "step": 1,
       "unit": "px",
-      "default": 12
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "── PADDING ──"
     },
     {
       "type": "range",
       "id": "question_padding_desktop",
-      "label": "Spørgsmål padding vertikal (desktop)",
-      "min": 15,
+      "label": "Spørgsmål padding (desktop)",
+      "min": 18,
       "max": 40,
-      "step": 1,
-      "unit": "px",
-      "default": 24
-    },
-    {
-      "type": "range",
-      "id": "question_padding_horizontal_desktop",
-      "label": "Spørgsmål padding horisontal (desktop)",
-      "min": 15,
-      "max": 50,
       "step": 1,
       "unit": "px",
       "default": 28
     },
     {
       "type": "range",
+      "id": "question_padding_horizontal_desktop",
+      "label": "Horisontal padding (desktop)",
+      "min": 20,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "default": 32
+    },
+    {
+      "type": "range",
       "id": "question_padding_mobile",
-      "label": "Spørgsmål padding vertikal (mobil)",
-      "min": 12,
+      "label": "Spørgsmål padding (mobil)",
+      "min": 14,
       "max": 30,
       "step": 1,
       "unit": "px",
-      "default": 18
+      "default": 20
     },
     {
       "type": "range",
       "id": "question_padding_horizontal_mobile",
-      "label": "Spørgsmål padding horisontal (mobil)",
-      "min": 12,
+      "label": "Horisontal padding (mobil)",
+      "min": 16,
       "max": 30,
       "step": 1,
       "unit": "px",
@@ -691,44 +802,44 @@
       "type": "range",
       "id": "answer_padding_desktop",
       "label": "Svar padding bund (desktop)",
-      "min": 15,
+      "min": 18,
       "max": 40,
       "step": 1,
       "unit": "px",
-      "default": 24
+      "default": 28
     },
     {
       "type": "range",
       "id": "answer_padding_mobile",
       "label": "Svar padding bund (mobil)",
-      "min": 12,
+      "min": 14,
       "max": 30,
       "step": 1,
       "unit": "px",
-      "default": 18
+      "default": 20
     },
     {
       "type": "range",
       "id": "answer_line_height",
       "label": "Svar linjeafstand",
-      "min": 1.3,
+      "min": 1.4,
       "max": 2.0,
       "step": 0.1,
       "default": 1.7
     },
     {
       "type": "header",
-      "content": "─── VISUELLE EFFEKTER ───"
+      "content": "── VISUELLE EFFEKTER ──"
     },
     {
       "type": "range",
       "id": "border_radius",
       "label": "Hjørne afrunding",
       "min": 0,
-      "max": 20,
+      "max": 24,
       "step": 1,
       "unit": "px",
-      "default": 8
+      "default": 12
     },
     {
       "type": "checkbox",
@@ -737,45 +848,28 @@
       "default": true
     },
     {
-      "type": "checkbox",
-      "id": "show_divider",
-      "label": "Vis skillelinje mellem spørgsmål og svar",
-      "default": false
-    },
-    {
-      "type": "select",
-      "id": "icon_style",
-      "label": "Ikon stil",
-      "options": [
-        { "value": "chevron", "label": "Pil (chevron)" },
-        { "value": "arrow", "label": "Lang pil" },
-        { "value": "circle", "label": "Cirkel med pil" }
-      ],
-      "default": "chevron"
-    },
-    {
       "type": "range",
       "id": "icon_size",
       "label": "Ikon størrelse (desktop)",
-      "min": 16,
-      "max": 32,
+      "min": 28,
+      "max": 48,
       "step": 1,
       "unit": "px",
-      "default": 20
+      "default": 36
     },
     {
       "type": "range",
       "id": "icon_size_mobile",
       "label": "Ikon størrelse (mobil)",
-      "min": 14,
-      "max": 28,
+      "min": 24,
+      "max": 40,
       "step": 1,
       "unit": "px",
-      "default": 18
+      "default": 32
     },
     {
       "type": "header",
-      "content": "─── FUNKTIONALITET ───"
+      "content": "── FUNKTIONALITET ──"
     },
     {
       "type": "checkbox",
@@ -786,7 +880,7 @@
     {
       "type": "checkbox",
       "id": "open_first",
-      "label": "Åben første spørgsmål automatisk",
+      "label": "Åben første automatisk",
       "default": false
     }
   ],
@@ -832,7 +926,7 @@
           "type": "faq_item",
           "settings": {
             "question": "Hvilke teknologier bruger Glow Pro?",
-            "answer": "<p>Glow Pro er inspireret af klinikbaserede behandlinger og kan inkludere:</p><ul><li>LED Light Therapy (flere lysfarver)</li><li>EMS / Microcurrent (mild muskelstimulering)</li><li>Electroporation (hjælper serum med at trænge bedre ind)</li><li>Sonic vibration (massage og cirkulation)</li><li>Varme- og kølefunktion</li></ul>"
+            "answer": "<p>Glow Pro er inspireret af klinikbaserede behandlinger og inkluderer:</p><ul><li>LED Light Therapy (flere lysfarver)</li><li>EMS / Microcurrent (mild muskelstimulering)</li><li>Electroporation (hjælper serum med at trænge bedre ind)</li><li>Sonic vibration (massage og cirkulation)</li><li>Varme- og kølefunktion</li></ul>"
           }
         },
         {
@@ -881,7 +975,7 @@
           "type": "faq_item",
           "settings": {
             "question": "Kan alle bruge Glow Pro?",
-            "answer": "<p>Glow Pro er velegnet til de fleste, men bør ikke bruges hvis du:</p><ul><li>har pacemaker eller alvorlige hjerteproblemer</li><li>er gravid</li><li>har epilepsi</li><li>har aktive hudsygdomme i området</li></ul><p>Ved tvivl anbefales det altid at tale med en læge.</p>"
+            "answer": "<p>Glow Pro er velegnet til de fleste, men bør ikke bruges hvis du:</p><ul><li>Har pacemaker eller alvorlige hjerteproblemer</li><li>Er gravid</li><li>Har epilepsi</li><li>Har aktive hudsygdomme i området</li></ul><p>Ved tvivl anbefales det altid at tale med en læge.</p>"
           }
         },
         {
@@ -895,7 +989,7 @@
           "type": "faq_item",
           "settings": {
             "question": "Hvad følger med i pakken?",
-            "answer": "<p>Typisk indeholder pakken:</p><ul><li>Glow Pro enhed</li><li>USB-C opladerkabel</li><li>Brugervejledning</li></ul>"
+            "answer": "<p>Pakken indeholder:</p><ul><li>Glow Pro enhed</li><li>USB-C opladerkabel</li><li>Brugervejledning</li></ul>"
           }
         },
         {
