@@ -1,0 +1,1020 @@
+{% comment %}
+  FAQ - Glow Pro Beauty Edition
+  Modern, elegant FAQ for beauty products
+{% endcomment %}
+
+<style>
+  .glow-faq-section {
+    /* Colors */
+    --glow-bg: {{ section.settings.bg_color }};
+    --glow-card-bg: {{ section.settings.card_bg }};
+    --glow-card-hover-bg: {{ section.settings.card_hover_bg }};
+    --glow-card-active-bg: {{ section.settings.card_active_bg }};
+    --glow-text: {{ section.settings.text_color }};
+    --glow-question-color: {{ section.settings.question_color }};
+    --glow-answer-color: {{ section.settings.answer_color }};
+    --glow-accent: {{ section.settings.accent_color }};
+    --glow-border: {{ section.settings.border_color }};
+    --glow-border-active: {{ section.settings.border_active_color }};
+
+    /* Desktop font sizes */
+    --glow-title-size: {{ section.settings.title_size_desktop }}px;
+    --glow-subtitle-size: {{ section.settings.subtitle_size_desktop }}px;
+    --glow-question-size: {{ section.settings.question_size_desktop }}px;
+    --glow-answer-size: {{ section.settings.answer_size_desktop }}px;
+
+    /* Spacing */
+    --glow-section-py: {{ section.settings.section_padding_y_desktop }}px;
+    --glow-section-px: {{ section.settings.section_padding_x_desktop }}px;
+    --glow-card-gap: {{ section.settings.card_gap }}px;
+    --glow-card-radius: {{ section.settings.card_radius }}px;
+
+    background-color: var(--glow-bg);
+    padding: var(--glow-section-py) var(--glow-section-px);
+    font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  .glow-faq-container {
+    max-width: {{ section.settings.container_width }}px;
+    margin: 0 auto;
+  }
+
+  .glow-faq-header {
+    text-align: {{ section.settings.header_alignment }};
+    margin-bottom: {{ section.settings.header_margin_bottom }}px;
+  }
+
+  .glow-faq-title {
+    font-size: var(--glow-title-size);
+    font-weight: {{ section.settings.title_weight }};
+    color: var(--glow-text);
+    margin: 0 0 {{ section.settings.title_spacing }}px 0;
+    line-height: {{ section.settings.title_line_height }};
+    letter-spacing: {{ section.settings.title_letter_spacing }}px;
+  }
+
+  .glow-faq-subtitle {
+    font-size: var(--glow-subtitle-size);
+    color: {{ section.settings.subtitle_color }};
+    font-weight: {{ section.settings.subtitle_weight }};
+    line-height: {{ section.settings.subtitle_line_height }};
+    letter-spacing: {{ section.settings.subtitle_letter_spacing }}px;
+    margin: 0;
+  }
+
+  .glow-faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--glow-card-gap);
+  }
+
+  .glow-faq-item {
+    background: var(--glow-card-bg);
+    border: {{ section.settings.border_width }}px solid var(--glow-border);
+    border-radius: var(--glow-card-radius);
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+  }
+
+  .glow-faq-item:hover {
+    background: var(--glow-card-hover-bg);
+    border-color: var(--glow-accent);
+    transform: translateY(-2px);
+    box-shadow: {{ section.settings.hover_shadow }};
+  }
+
+  .glow-faq-item.active {
+    background: var(--glow-card-active-bg);
+    border-color: var(--glow-border-active);
+    box-shadow: {{ section.settings.active_shadow }};
+  }
+
+  .glow-faq-question {
+    padding: {{ section.settings.question_padding_y_desktop }}px {{ section.settings.question_padding_x_desktop }}px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .glow-faq-question-text {
+    font-size: var(--glow-question-size);
+    font-weight: {{ section.settings.question_weight }};
+    color: var(--glow-question-color);
+    line-height: {{ section.settings.question_line_height }};
+    margin: 0;
+    flex: 1;
+  }
+
+  .glow-faq-icon {
+    width: {{ section.settings.icon_size }}px;
+    height: {{ section.settings.icon_size }}px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: {{ section.settings.icon_bg }};
+    border-radius: {{ section.settings.icon_radius }}px;
+    transition: all 0.3s ease;
+  }
+
+  .glow-faq-icon svg {
+    width: {{ section.settings.chevron_size }}px;
+    height: {{ section.settings.chevron_size }}px;
+    stroke: var(--glow-accent);
+    stroke-width: {{ section.settings.chevron_stroke }}px;
+    transition: transform 0.3s ease;
+  }
+
+  .glow-faq-item.active .glow-faq-icon {
+    background: var(--glow-accent);
+    transform: rotate({{ section.settings.icon_rotate_degrees }}deg);
+  }
+
+  .glow-faq-item.active .glow-faq-icon svg {
+    stroke: {{ section.settings.icon_active_color }};
+    transform: rotate(180deg);
+  }
+
+  .glow-faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glow-faq-answer-inner {
+    padding: 0 {{ section.settings.answer_padding_x_desktop }}px {{ section.settings.answer_padding_bottom_desktop }}px {{ section.settings.answer_padding_x_desktop }}px;
+  }
+
+  .glow-faq-answer-content {
+    font-size: var(--glow-answer-size);
+    color: var(--glow-answer-color);
+    line-height: {{ section.settings.answer_line_height }};
+    font-weight: {{ section.settings.answer_weight }};
+  }
+
+  .glow-faq-answer-content p {
+    margin: 0 0 {{ section.settings.answer_paragraph_spacing }}px 0;
+  }
+
+  .glow-faq-answer-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  .glow-faq-answer-content ul,
+  .glow-faq-answer-content ol {
+    margin: {{ section.settings.list_spacing }}px 0;
+    padding-left: 20px;
+  }
+
+  .glow-faq-answer-content li {
+    margin-bottom: 8px;
+  }
+
+  .glow-faq-answer-content a {
+    color: var(--glow-accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+
+  .glow-faq-answer-content a:hover {
+    border-bottom-color: var(--glow-accent);
+  }
+
+  .glow-faq-answer-content strong {
+    font-weight: 600;
+    color: var(--glow-question-color);
+  }
+
+  /* Mobile styles */
+  @media (max-width: 768px) {
+    .glow-faq-section {
+      --glow-title-size: {{ section.settings.title_size_mobile }}px;
+      --glow-subtitle-size: {{ section.settings.subtitle_size_mobile }}px;
+      --glow-question-size: {{ section.settings.question_size_mobile }}px;
+      --glow-answer-size: {{ section.settings.answer_size_mobile }}px;
+      --glow-section-py: {{ section.settings.section_padding_y_mobile }}px;
+      --glow-section-px: {{ section.settings.section_padding_x_mobile }}px;
+    }
+
+    .glow-faq-question {
+      padding: {{ section.settings.question_padding_y_mobile }}px {{ section.settings.question_padding_x_mobile }}px;
+    }
+
+    .glow-faq-answer-inner {
+      padding: 0 {{ section.settings.answer_padding_x_mobile }}px {{ section.settings.answer_padding_bottom_mobile }}px {{ section.settings.answer_padding_x_mobile }}px;
+    }
+
+    .glow-faq-item:hover {
+      transform: none;
+    }
+  }
+</style>
+
+<div class="glow-faq-section">
+  <div class="glow-faq-container">
+
+    {% if section.settings.title != blank or section.settings.subtitle != blank %}
+      <div class="glow-faq-header">
+        {% if section.settings.title != blank %}
+          <h2 class="glow-faq-title">{{ section.settings.title }}</h2>
+        {% endif %}
+        {% if section.settings.subtitle != blank %}
+          <p class="glow-faq-subtitle">{{ section.settings.subtitle }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    <div class="glow-faq-list">
+      {% for block in section.blocks %}
+        {% if block.type == 'faq_item' %}
+          <div class="glow-faq-item" {{ block.shopify_attributes }} onclick="toggleGlowFaq(this)">
+
+            <div class="glow-faq-question">
+              <h3 class="glow-faq-question-text">{{ block.settings.question }}</h3>
+              <div class="glow-faq-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+            </div>
+
+            <div class="glow-faq-answer">
+              <div class="glow-faq-answer-inner">
+                <div class="glow-faq-answer-content">
+                  {{ block.settings.answer }}
+                </div>
+              </div>
+            </div>
+
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function toggleGlowFaq(item) {
+    const answer = item.querySelector('.glow-faq-answer');
+    const isActive = item.classList.contains('active');
+
+    // Close all items
+    document.querySelectorAll('.glow-faq-item').forEach(faqItem => {
+      faqItem.classList.remove('active');
+      const ans = faqItem.querySelector('.glow-faq-answer');
+      if (ans) ans.style.maxHeight = null;
+    });
+
+    // Open clicked item if it wasn't active
+    if (!isActive) {
+      item.classList.add('active');
+      answer.style.maxHeight = answer.scrollHeight + 'px';
+    }
+  }
+</script>
+
+{% schema %}
+{
+  "name": "FAQ - Glow Pro",
+  "settings": [
+    {
+      "type": "header",
+      "content": "📝 Tekster"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Overskrift",
+      "default": "Ofte Stillede Spørgsmål"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Underoverskrift",
+      "default": "Alt du behøver at vide om Glow Pro"
+    },
+
+    {
+      "type": "header",
+      "content": "🎨 Farver - Baggrund"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Sektion baggrund",
+      "default": "#FFF5F8"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card baggrund",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "card_hover_bg",
+      "label": "Card hover baggrund",
+      "default": "#FFF9FB"
+    },
+    {
+      "type": "color",
+      "id": "card_active_bg",
+      "label": "Card aktiv baggrund",
+      "default": "#FFF0F5"
+    },
+
+    {
+      "type": "header",
+      "content": "🎨 Farver - Tekst"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Titel tekstfarve",
+      "default": "#1A1A1A"
+    },
+    {
+      "type": "color",
+      "id": "subtitle_color",
+      "label": "Underoverskrift farve",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "question_color",
+      "label": "Spørgsmål tekstfarve",
+      "default": "#2C2C2C"
+    },
+    {
+      "type": "color",
+      "id": "answer_color",
+      "label": "Svar tekstfarve",
+      "default": "#4A4A4A"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent farve (ikon & links)",
+      "default": "#E91E63"
+    },
+
+    {
+      "type": "header",
+      "content": "🎨 Farver - Border & Effekter"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border farve",
+      "default": "#F0E5EA"
+    },
+    {
+      "type": "color",
+      "id": "border_active_color",
+      "label": "Border aktiv farve",
+      "default": "#FFD4E5"
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "label": "Border bredde",
+      "min": 0,
+      "max": 4,
+      "step": 1,
+      "default": 1,
+      "unit": "px"
+    },
+
+    {
+      "type": "header",
+      "content": "✏️ Font Størrelser - Desktop"
+    },
+    {
+      "type": "range",
+      "id": "title_size_desktop",
+      "label": "Titel størrelse",
+      "min": 20,
+      "max": 72,
+      "step": 2,
+      "default": 40,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_desktop",
+      "label": "Underoverskrift størrelse",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "default": 18,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "question_size_desktop",
+      "label": "Spørgsmål størrelse",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "default": 18,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "answer_size_desktop",
+      "label": "Svar størrelse",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+
+    {
+      "type": "header",
+      "content": "📱 Font Størrelser - Mobil"
+    },
+    {
+      "type": "range",
+      "id": "title_size_mobile",
+      "label": "Titel størrelse mobil",
+      "min": 18,
+      "max": 56,
+      "step": 2,
+      "default": 32,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_size_mobile",
+      "label": "Underoverskrift størrelse mobil",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "question_size_mobile",
+      "label": "Spørgsmål størrelse mobil",
+      "min": 14,
+      "max": 28,
+      "step": 1,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "answer_size_mobile",
+      "label": "Svar størrelse mobil",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "default": 15,
+      "unit": "px"
+    },
+
+    {
+      "type": "header",
+      "content": "📏 Font Weight & Line Height"
+    },
+    {
+      "type": "select",
+      "id": "title_weight",
+      "label": "Titel weight",
+      "default": "600",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Normal (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" },
+        { "value": "800", "label": "Extra Bold (800)" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "subtitle_weight",
+      "label": "Underoverskrift weight",
+      "default": "400",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Normal (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "question_weight",
+      "label": "Spørgsmål weight",
+      "default": "600",
+      "options": [
+        { "value": "400", "label": "Normal (400)" },
+        { "value": "500", "label": "Medium (500)" },
+        { "value": "600", "label": "Semi Bold (600)" },
+        { "value": "700", "label": "Bold (700)" }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "answer_weight",
+      "label": "Svar weight",
+      "default": "400",
+      "options": [
+        { "value": "300", "label": "Light (300)" },
+        { "value": "400", "label": "Normal (400)" },
+        { "value": "500", "label": "Medium (500)" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "title_line_height",
+      "label": "Titel line height",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "default": 12,
+      "unit": "/10"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_line_height",
+      "label": "Underoverskrift line height",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "default": 16,
+      "unit": "/10"
+    },
+    {
+      "type": "range",
+      "id": "question_line_height",
+      "label": "Spørgsmål line height",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "default": 14,
+      "unit": "/10"
+    },
+    {
+      "type": "range",
+      "id": "answer_line_height",
+      "label": "Svar line height",
+      "min": 14,
+      "max": 24,
+      "step": 1,
+      "default": 18,
+      "unit": "/10"
+    },
+
+    {
+      "type": "header",
+      "content": "📐 Letter Spacing"
+    },
+    {
+      "type": "range",
+      "id": "title_letter_spacing",
+      "label": "Titel letter spacing",
+      "min": -2,
+      "max": 4,
+      "step": 0.5,
+      "default": -0.5,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "subtitle_letter_spacing",
+      "label": "Underoverskrift letter spacing",
+      "min": 0,
+      "max": 4,
+      "step": 0.5,
+      "default": 0.5,
+      "unit": "px"
+    },
+
+    {
+      "type": "header",
+      "content": "📦 Spacing - Desktop"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_y_desktop",
+      "label": "Sektion padding top/bund",
+      "min": 20,
+      "max": 200,
+      "step": 10,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_x_desktop",
+      "label": "Sektion padding sider",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "question_padding_y_desktop",
+      "label": "Spørgsmål padding Y",
+      "min": 15,
+      "max": 60,
+      "step": 5,
+      "default": 30,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "question_padding_x_desktop",
+      "label": "Spørgsmål padding X",
+      "min": 15,
+      "max": 80,
+      "step": 5,
+      "default": 35,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "answer_padding_x_desktop",
+      "label": "Svar padding X",
+      "min": 15,
+      "max": 80,
+      "step": 5,
+      "default": 35,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "answer_padding_bottom_desktop",
+      "label": "Svar padding bund",
+      "min": 15,
+      "max": 80,
+      "step": 5,
+      "default": 35,
+      "unit": "px"
+    },
+
+    {
+      "type": "header",
+      "content": "📱 Spacing - Mobil"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_y_mobile",
+      "label": "Sektion padding top/bund mobil",
+      "min": 20,
+      "max": 150,
+      "step": 10,
+      "default": 50,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "section_padding_x_mobile",
+      "label": "Sektion padding sider mobil",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "default": 15,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "question_padding_y_mobile",
+      "label": "Spørgsmål padding Y mobil",
+      "min": 12,
+      "max": 50,
+      "step": 2,
+      "default": 22,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "question_padding_x_mobile",
+      "label": "Spørgsmål padding X mobil",
+      "min": 12,
+      "max": 50,
+      "step": 2,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "answer_padding_x_mobile",
+      "label": "Svar padding X mobil",
+      "min": 12,
+      "max": 50,
+      "step": 2,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "answer_padding_bottom_mobile",
+      "label": "Svar padding bund mobil",
+      "min": 12,
+      "max": 50,
+      "step": 2,
+      "default": 25,
+      "unit": "px"
+    },
+
+    {
+      "type": "header",
+      "content": "📐 Layout"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "label": "Container max bredde",
+      "min": 600,
+      "max": 1600,
+      "step": 50,
+      "default": 900,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header justering",
+      "default": "center",
+      "options": [
+        { "value": "left", "label": "Venstre" },
+        { "value": "center", "label": "Midten" },
+        { "value": "right", "label": "Højre" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "header_margin_bottom",
+      "label": "Header margin bund",
+      "min": 20,
+      "max": 120,
+      "step": 5,
+      "default": 50,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "title_spacing",
+      "label": "Afstand titel til underoverskrift",
+      "min": 5,
+      "max": 40,
+      "step": 5,
+      "default": 15,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "label": "Afstand mellem cards",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Card border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "answer_paragraph_spacing",
+      "label": "Afstand mellem afsnit i svar",
+      "min": 8,
+      "max": 30,
+      "step": 2,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "list_spacing",
+      "label": "Liste spacing i svar",
+      "min": 8,
+      "max": 30,
+      "step": 2,
+      "default": 12,
+      "unit": "px"
+    },
+
+    {
+      "type": "header",
+      "content": "🔘 Ikon Indstillinger"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Ikon størrelse",
+      "min": 30,
+      "max": 60,
+      "step": 2,
+      "default": 42,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "icon_bg",
+      "label": "Ikon baggrund",
+      "default": "#FFF0F5"
+    },
+    {
+      "type": "range",
+      "id": "icon_radius",
+      "label": "Ikon border radius",
+      "min": 0,
+      "max": 30,
+      "step": 2,
+      "default": 12,
+      "unit": "px"
+    },
+    {
+      "type": "color",
+      "id": "icon_active_color",
+      "label": "Chevron farve når aktiv",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "range",
+      "id": "chevron_size",
+      "label": "Chevron størrelse",
+      "min": 14,
+      "max": 32,
+      "step": 2,
+      "default": 22,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "chevron_stroke",
+      "label": "Chevron stroke bredde",
+      "min": 1,
+      "max": 4,
+      "step": 0.5,
+      "default": 2.5,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "icon_rotate_degrees",
+      "label": "Ikon rotation når aktiv",
+      "min": 0,
+      "max": 360,
+      "step": 45,
+      "default": 0,
+      "unit": "deg"
+    },
+
+    {
+      "type": "header",
+      "content": "✨ Effekter"
+    },
+    {
+      "type": "text",
+      "id": "hover_shadow",
+      "label": "Hover shadow",
+      "default": "0 8px 30px rgba(233, 30, 99, 0.12)",
+      "info": "CSS box-shadow værdi"
+    },
+    {
+      "type": "text",
+      "id": "active_shadow",
+      "label": "Aktiv shadow",
+      "default": "0 12px 40px rgba(233, 30, 99, 0.18)",
+      "info": "CSS box-shadow værdi"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "Spørgsmål",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Spørgsmål",
+          "default": "Hvad er Glow Pro?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Svar",
+          "default": "<p>Glow Pro er en avanceret hjemmeenhed til hudpleje, der kombinerer flere professionelle teknologier i én behandling.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "FAQ - Glow Pro",
+      "blocks": [
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Hvad er Glow Pro?",
+            "answer": "<p>Glow Pro er en avanceret hjemmeenhed til hudpleje, der kombinerer flere professionelle teknologier i én behandling. Den er udviklet til at støtte hudens glød, struktur og generelle udseende, direkte hjemme hos dig.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Hvordan virker Glow Pro?",
+            "answer": "<p>Glow Pro kombinerer teknologier som LED-lys, mikrostrøm (EMS) og vibration, som arbejder sammen for at støtte hudens udseende og forbedre optagelsen af dine hudplejeprodukter.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Hvilke teknologier bruger Glow Pro?",
+            "answer": "<p>Glow Pro er inspireret af klinikbaserede behandlinger og kan inkludere:</p><ul><li>LED Light Therapy (flere lysfarver)</li><li>EMS / Microcurrent (mild muskelstimulering)</li><li>Electroporation (hjælper serum med at trænge bedre ind)</li><li>Sonic vibration (massage og cirkulation)</li><li>Varme- og kølefunktion</li></ul>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Skal jeg bruge gel sammen med Glow Pro?",
+            "answer": "<p>Nej. Glow Pro kan bruges med dine egne serumer og cremer, og der kræves normalt ikke en særlig gel.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Hvor ofte skal jeg bruge Glow Pro?",
+            "answer": "<p>De fleste bruger Glow Pro 3-5 gange om ugen i korte sessioner. Du kan starte roligt og øge frekvensen efter behov.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Hvornår kan jeg forvente at se resultater?",
+            "answer": "<p>Mange oplever en mere frisk glød hurtigt, mens mere synlige forbedringer typisk kommer over flere ugers regelmæssig brug. Resultater varierer fra person til person.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Er Glow Pro sikker at bruge?",
+            "answer": "<p>Glow Pro er designet til hjemmebrug og bruger skånsomme teknologier. Følg altid brugsanvisningen og undgå brug på irriteret eller beskadiget hud.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Kan alle bruge Glow Pro?",
+            "answer": "<p>Glow Pro er velegnet til de fleste, men bør ikke bruges hvis du:</p><ul><li>har pacemaker eller alvorlige hjerteproblemer</li><li>er gravid</li><li>har epilepsi</li><li>har aktive hudsygdomme i området</li></ul><p>Ved tvivl anbefales det altid at tale med en læge.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Hvad følger med i pakken?",
+            "answer": "<p>Typisk indeholder pakken:</p><ul><li>Glow Pro enhed</li><li>USB-C opladerkabel</li><li>Brugervejledning</li></ul>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Hvordan oplades Glow Pro?",
+            "answer": "<p>Glow Pro oplades med USB-C og kan bruges trådløst efter opladning.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {% for block in section.blocks %}
+    {
+      "@type": "Question",
+      "name": "{{ block.settings.question | escape }}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ block.settings.answer | strip_html | escape }}"
+      }
+    }{% unless forloop.last %},{% endunless %}
+    {% endfor %}
+  ]
+}
+</script>
