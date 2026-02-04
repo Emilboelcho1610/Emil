@@ -1,0 +1,616 @@
+{% comment %}
+  Section: Compare Switcher (SHARP / RELAX / VIBE)
+
+  Goal:
+  - Card/content stays max-width 1180px (same as before)
+  - Background color becomes FULL WIDTH across the page
+  - Each variant has its own comparison text and images
+
+  How:
+  - Make section full width (no max-width on section)
+  - Move max-width + padding to inner container (.cmp-inner)
+  - Per-variant mid/right column content in block settings
+{% endcomment %}
+
+<section
+  class="cmp-switcher"
+  style="
+    --cmp-bg: {{ section.settings.bg_color }};
+    --cmp-stage-bg: {{ section.settings.stage_bg }};
+    --cmp-surface: {{ section.settings.surface_color }};
+    --cmp-text: {{ section.settings.text_color }};
+    --cmp-muted: {{ section.settings.muted_text_color }};
+    --cmp-accent: {{ section.settings.accent_color }};
+    --cmp-highlight: {{ section.settings.highlight_color }};
+    --cmp-radius: {{ section.settings.radius }}px;
+    --cmp-tab-radius: {{ section.settings.tab_radius }}px;
+    --cmp-gap: {{ section.settings.gap }}px;
+    --cmp-row-radius: {{ section.settings.row_radius }}px;
+
+    --cmp-mid-pill-bg: {{ section.settings.mid_pill_bg }};
+    --cmp-right-pill-bg: {{ section.settings.right_pill_bg }};
+  "
+>
+  <div class="cmp-inner">
+    <div class="cmp-wrap">
+      {% if section.settings.show_heading %}
+        <div class="cmp-head">
+          <h2 class="cmp-title">
+            {{ section.settings.heading | escape }}
+            {% if section.settings.show_highlight %}
+              <span class="cmp-title-highlight">{{ section.settings.highlight_text | escape }}</span>
+            {% endif %}
+          </h2>
+
+          {% if section.settings.show_subheading %}
+            <p class="cmp-subtitle">{{ section.settings.subheading | escape }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if section.blocks.size > 0 %}
+        <div class="cmp-stage">
+          <div class="cmp-tabs" role="tablist" aria-label="Varianten">
+            {% for block in section.blocks %}
+              <button
+                class="cmp-tab"
+                type="button"
+                role="tab"
+                data-cmp-tab="{{ block.id }}"
+                aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+                {% if forloop.first %}data-active="true"{% endif %}
+              >
+                {{ block.settings.label | escape }}
+              </button>
+            {% endfor %}
+          </div>
+
+          <div class="cmp-panel" data-cmp-panel>
+            {% for block in section.blocks %}
+              <div
+                class="cmp-state{% if forloop.first %} is-active{% endif %}"
+                data-cmp-state="{{ block.id }}"
+                {% if forloop.first %}aria-hidden="false"{% else %}aria-hidden="true"{% endif %}
+                style="--cmp-left-pill-bg: {{ block.settings.pill_bg }};"
+                {{ block.shopify_attributes }}
+              >
+                <div class="cmp-table">
+                  <div class="cmp-colheads">
+                    <div class="cmp-colhead">
+                      <div class="cmp-colhead-media">
+                        {% if block.settings.can_image != blank %}
+                          <img
+                            src="{{ block.settings.can_image | image_url: width: 900 }}"
+                            alt="{{ block.settings.label | escape }}"
+                            loading="lazy"
+                            width="420"
+                            height="420"
+                          >
+                        {% else %}
+                          <div class="cmp-can-placeholder">Bild</div>
+                        {% endif %}
+                      </div>
+
+                      <div class="cmp-colhead-text">
+                        <div class="cmp-colhead-title">{{ section.settings.left_col_title | escape }}</div>
+                        <div class="cmp-colhead-sub">{{ block.settings.label | escape }}</div>
+                      </div>
+                    </div>
+
+                    <div class="cmp-colhead">
+                      <div class="cmp-colhead-media">
+                        {% if block.settings.mid_image != blank %}
+                          <img
+                            src="{{ block.settings.mid_image | image_url: width: 900 }}"
+                            alt="{{ block.settings.mid_col_title | escape }}"
+                            loading="lazy"
+                            width="420"
+                            height="420"
+                          >
+                        {% else %}
+                          <div class="cmp-icon-placeholder">Bild</div>
+                        {% endif %}
+                      </div>
+
+                      <div class="cmp-colhead-text">
+                        <div class="cmp-colhead-title">{{ block.settings.mid_col_title | escape }}</div>
+                        <div class="cmp-colhead-sub">{{ block.settings.mid_col_sub | escape }}</div>
+                      </div>
+                    </div>
+
+                    <div class="cmp-colhead">
+                      <div class="cmp-colhead-media">
+                        {% if block.settings.right_image != blank %}
+                          <img
+                            src="{{ block.settings.right_image | image_url: width: 900 }}"
+                            alt="{{ block.settings.right_col_title | escape }}"
+                            loading="lazy"
+                            width="420"
+                            height="420"
+                          >
+                        {% else %}
+                          <div class="cmp-icon-placeholder">Bild</div>
+                        {% endif %}
+                      </div>
+
+                      <div class="cmp-colhead-text">
+                        <div class="cmp-colhead-title">{{ block.settings.right_col_title | escape }}</div>
+                        <div class="cmp-colhead-sub">{{ block.settings.right_col_sub | escape }}</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {% for i in (1..4) %}
+                    {% capture left_key %}row_left_{{ i }}{% endcapture %}
+                    {% capture mid_key %}row_mid_{{ i }}{% endcapture %}
+                    {% capture right_key %}row_right_{{ i }}{% endcapture %}
+
+                    <div class="cmp-row cmp-fade-swap">
+                      <div class="cmp-cell cmp-cell-left" data-label="{{ section.settings.left_col_title | escape }}">
+                        {{ block.settings[left_key] | escape }}
+                      </div>
+
+                      <div class="cmp-cell cmp-cell-mid" data-label="{{ block.settings.mid_col_title | escape }}">
+                        {{ block.settings[mid_key] | escape }}
+                      </div>
+
+                      <div class="cmp-cell cmp-cell-right" data-label="{{ block.settings.right_col_title | escape }}">
+                        {{ block.settings[right_key] | escape }}
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+
+                {% if section.settings.show_button and section.settings.button_link != blank %}
+                  <div class="cmp-cta">
+                    <a class="cmp-btn" href="{{ section.settings.button_link }}">
+                      {{ section.settings.button_label | escape }}
+                    </a>
+                  </div>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <style>
+    /* FULL WIDTH background */
+    .cmp-switcher{
+      width: 100%;
+      background: var(--cmp-bg);
+      color: var(--cmp-text);
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Keep content/card width as before */
+    .cmp-inner{
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: clamp(18px, 3.2vw, 36px);
+    }
+
+    .cmp-wrap{ width:100%; }
+
+    .cmp-head{ text-align:center; margin: 0 0 14px 0; }
+    .cmp-title{
+      margin: 0 0 6px 0;
+      font-size: clamp(22px, 2.4vw, 34px);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+    .cmp-title-highlight{
+      color: var(--cmp-highlight);
+      font-style: italic;
+      margin-left: 8px;
+      white-space: nowrap;
+    }
+    .cmp-subtitle{
+      margin: 0;
+      color: var(--cmp-muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* Optional: inner background around the card area (same width as content) */
+    .cmp-stage{
+      background: var(--cmp-stage-bg);
+      border-radius: var(--cmp-radius);
+      padding: clamp(12px, 1.8vw, 18px);
+    }
+
+    .cmp-tabs{
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      flex-wrap:wrap;
+      margin: 0 0 16px 0;
+    }
+    .cmp-tab{
+      border: 1px solid rgba(0,0,0,0.08);
+      background: var(--cmp-surface);
+      color: var(--cmp-text);
+      padding: 10px 14px;
+      border-radius: var(--cmp-tab-radius);
+      cursor: pointer;
+      font-weight: 650;
+      font-size: 14px;
+      transition: transform 180ms ease, background 180ms ease, color 180ms ease, border-color 180ms ease;
+      user-select:none;
+    }
+    .cmp-tab[data-active="true"]{
+      background: var(--cmp-accent);
+      color: #fff;
+      border-color: rgba(0,0,0,0.14);
+      transform: translateY(-1px);
+    }
+    .cmp-tab:focus-visible{
+      outline: 3px solid rgba(0,0,0,0.18);
+      outline-offset: 3px;
+    }
+
+    .cmp-panel{ position:relative; }
+
+    .cmp-state{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      pointer-events:none;
+      transform: translateY(6px);
+      transition: opacity 260ms ease, transform 260ms ease;
+    }
+    .cmp-state.is-active{
+      position:relative;
+      opacity:1;
+      pointer-events:auto;
+      transform: translateY(0);
+    }
+
+    .cmp-table{
+      background: var(--cmp-surface);
+      border-radius: var(--cmp-radius);
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.06);
+      overflow: hidden;
+    }
+
+    .cmp-colheads{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+      padding: clamp(12px, 1.6vw, 18px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      background: rgba(0,0,0,0.02);
+    }
+
+    .cmp-colhead{
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 6px;
+      text-align:center;
+    }
+
+    .cmp-colhead-media{
+      width: 100%;
+      max-width: 320px;
+      aspect-ratio: 1 / 1;
+      border-radius: 18px;
+      background: rgba(0,0,0,0.04);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+    }
+    .cmp-colhead-media img{
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display:block;
+    }
+
+    .cmp-colhead-text{ width: 100%; }
+    .cmp-colhead-title{
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: -0.01em;
+    }
+    .cmp-colhead-sub{
+      margin-top: 4px;
+      color: var(--cmp-muted);
+      font-size: 13px;
+      line-height: 1.2;
+    }
+
+    .cmp-can-placeholder,
+    .cmp-icon-placeholder{
+      width: 100%;
+      height: 100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color: var(--cmp-muted);
+      font-size: 12px;
+      font-weight: 650;
+      text-align:center;
+      padding: 10px;
+    }
+
+    .cmp-row{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--cmp-gap);
+      padding: clamp(10px, 1.4vw, 14px) clamp(12px, 1.8vw, 18px);
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .cmp-cell{
+      border-radius: var(--cmp-row-radius);
+      padding: 12px 12px;
+      font-size: 13px;
+      line-height: 1.35;
+      color: var(--cmp-text);
+      text-align: center;
+      word-break: break-word;
+      hyphens: auto;
+    }
+
+    .cmp-cell-left{ background: var(--cmp-left-pill-bg); }
+    .cmp-cell-mid{ background: var(--cmp-mid-pill-bg); }
+    .cmp-cell-right{ background: var(--cmp-right-pill-bg); }
+
+    .cmp-fade-swap{
+      opacity:0;
+      transform: translateY(6px);
+      transition: opacity 220ms ease, transform 220ms ease;
+    }
+    .cmp-fade-swap.is-in{
+      opacity:1;
+      transform: translateY(0);
+    }
+
+    .cmp-cta{
+      display:flex;
+      justify-content:center;
+      margin-top: 16px;
+    }
+    .cmp-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-width: 220px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: var(--cmp-accent);
+      color: #fff;
+      text-decoration:none;
+      font-weight: 750;
+      letter-spacing: 0.01em;
+    }
+
+    @media (max-width: 780px){
+      .cmp-colheads{ padding: 12px; }
+      .cmp-colhead-media{
+        border-radius: 14px;
+        max-width: 220px;
+      }
+      .cmp-colhead-title{ font-size: clamp(12px, 3.2vw, 14px); }
+      .cmp-colhead-sub{ font-size: clamp(11px, 3vw, 13px); }
+      .cmp-row{
+        gap: 10px;
+        padding: 12px;
+      }
+      .cmp-cell{
+        padding: 10px 10px;
+        font-size: clamp(11px, 3.2vw, 13px);
+        line-height: 1.25;
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 420px){
+      .cmp-tabs{ gap: 8px; }
+      .cmp-tab{ padding: 9px 12px; font-size: 13px; }
+      .cmp-row{ gap: 8px; }
+      .cmp-cell{ padding: 9px; border-radius: 12px; }
+      .cmp-colhead-media{ max-width: 190px; }
+    }
+  </style>
+
+  <script>
+    (function () {
+      const root = document.currentScript.closest(".cmp-switcher");
+      if (!root) return;
+
+      const tabs = Array.from(root.querySelectorAll("[data-cmp-tab]"));
+      const states = Array.from(root.querySelectorAll("[data-cmp-state]"));
+
+      function setActive(targetId) {
+        tabs.forEach(t => {
+          const active = t.getAttribute("data-cmp-tab") === targetId;
+          t.setAttribute("aria-selected", active ? "true" : "false");
+          if (active) t.setAttribute("data-active", "true");
+          else t.removeAttribute("data-active");
+        });
+
+        states.forEach(s => {
+          const isActive = s.getAttribute("data-cmp-state") === targetId;
+          s.classList.toggle("is-active", isActive);
+          s.setAttribute("aria-hidden", isActive ? "false" : "true");
+
+          if (isActive) {
+            const rows = s.querySelectorAll(".cmp-fade-swap");
+            rows.forEach(el => el.classList.remove("is-in"));
+            requestAnimationFrame(() => {
+              rows.forEach((el, i) => {
+                setTimeout(() => el.classList.add("is-in"), 40 + i * 55);
+              });
+            });
+          }
+        });
+      }
+
+      tabs.forEach(btn => {
+        btn.addEventListener("click", () => setActive(btn.getAttribute("data-cmp-tab")));
+      });
+
+      const initial = tabs[0] && tabs[0].getAttribute("data-cmp-tab");
+      if (initial) setActive(initial);
+    })();
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Compare switcher",
+  "settings": [
+    { "type": "color", "id": "bg_color", "label": "Background color (full width)", "default": "#F5F3EF" },
+    { "type": "color", "id": "stage_bg", "label": "Inner background (around card)", "default": "#F3F4F6" },
+    { "type": "color", "id": "surface_color", "label": "Surface color (card)", "default": "#FFFFFF" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#111111" },
+    { "type": "color", "id": "muted_text_color", "label": "Muted text color", "default": "#5A5A5A" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#111111" },
+    { "type": "color", "id": "highlight_color", "label": "Highlight color", "default": "#FF7A3D" },
+
+    { "type": "color", "id": "mid_pill_bg", "label": "Middle column pill background", "default": "#E9E9E9" },
+    { "type": "color", "id": "right_pill_bg", "label": "Right column pill background", "default": "#F2F2F2" },
+
+    { "type": "range", "id": "radius", "label": "Box radius", "min": 10, "max": 28, "step": 1, "default": 18 },
+    { "type": "range", "id": "tab_radius", "label": "Tab radius", "min": 4, "max": 30, "step": 1, "default": 10 },
+    { "type": "range", "id": "row_radius", "label": "Cell radius", "min": 6, "max": 22, "step": 1, "default": 14 },
+    { "type": "range", "id": "gap", "label": "Cell gap", "min": 6, "max": 30, "step": 2, "default": 14 },
+
+    { "type": "checkbox", "id": "show_heading", "label": "Show heading", "default": true },
+    { "type": "text", "id": "heading", "label": "Heading (DE)", "default": "Wie unsere Drinks im Vergleich stehen" },
+
+    { "type": "checkbox", "id": "show_highlight", "label": "Show highlight text", "default": true },
+    { "type": "text", "id": "highlight_text", "label": "Highlight text (DE)", "default": "im Vergleich" },
+
+    { "type": "checkbox", "id": "show_subheading", "label": "Show subheading", "default": true },
+    { "type": "text", "id": "subheading", "label": "Subheading (DE)", "default": "Entwickelt für produktive Tage und klare Routinen" },
+
+    { "type": "text", "id": "left_col_title", "label": "Left column title (DE)", "default": "Neuroblends" },
+
+    { "type": "checkbox", "id": "show_button", "label": "Show button", "default": true },
+    { "type": "text", "id": "button_label", "label": "Button label (DE)", "default": "Jetzt kaufen" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "blocks": [
+    {
+      "type": "variant",
+      "name": "Variant",
+      "settings": [
+        { "type": "header", "content": "Variant Tab" },
+        { "type": "text", "id": "label", "label": "Tab label", "default": "SHARP" },
+
+        { "type": "header", "content": "Left Column (Neuroblends)" },
+        { "type": "image_picker", "id": "can_image", "label": "Left column image" },
+        { "type": "color", "id": "pill_bg", "label": "Left column pill background", "default": "#EAF4E8" },
+        { "type": "text", "id": "row_left_1", "label": "Left row 1", "default": "Fokus und Produktivitet, ruhige Energie" },
+        { "type": "text", "id": "row_left_2", "label": "Left row 2", "default": "Zuckerfrei" },
+        { "type": "text", "id": "row_left_3", "label": "Left row 3", "default": "Klare Dosierung und funktionale Zutaten" },
+        { "type": "text", "id": "row_left_4", "label": "Left row 4", "default": "Transparent und sauber deklariert" },
+
+        { "type": "header", "content": "Middle Column (Comparison 1)" },
+        { "type": "image_picker", "id": "mid_image", "label": "Middle column image" },
+        { "type": "text", "id": "mid_col_title", "label": "Middle column title", "default": "Andere Drinks" },
+        { "type": "text", "id": "mid_col_sub", "label": "Middle column subtitle", "default": "haufige Formeln" },
+        { "type": "text", "id": "row_mid_1", "label": "Middle row 1", "default": "Kann Nervositat auslosen und danach abfallen" },
+        { "type": "text", "id": "row_mid_2", "label": "Middle row 2", "default": "Oft mit Zucker oder stark gesuesst" },
+        { "type": "text", "id": "row_mid_3", "label": "Middle row 3", "default": "Wenige aktive Inhaltsstoffe" },
+        { "type": "text", "id": "row_mid_4", "label": "Middle row 4", "default": "Mengen oft niedrig oder unklar" },
+
+        { "type": "header", "content": "Right Column (Comparison 2)" },
+        { "type": "image_picker", "id": "right_image", "label": "Right column image" },
+        { "type": "text", "id": "right_col_title", "label": "Right column title", "default": "Energy Drinks" },
+        { "type": "text", "id": "right_col_sub", "label": "Right column subtitle", "default": "klassisch" },
+        { "type": "text", "id": "row_right_1", "label": "Right row 1", "default": "Kann Nervositat auslosen und danach abfallen" },
+        { "type": "text", "id": "row_right_2", "label": "Right row 2", "default": "Haufig wenig funktionale Inhaltsstoffe" },
+        { "type": "text", "id": "row_right_3", "label": "Right row 3", "default": "Kaum funktionale Inhaltsstoffe" },
+        { "type": "text", "id": "row_right_4", "label": "Right row 4", "default": "Keine klaren Nootropika" }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Compare switcher",
+      "blocks": [
+        {
+          "type": "variant",
+          "settings": {
+            "label": "SHARP",
+            "pill_bg": "#EAF4E8",
+            "row_left_1": "Fokus und Produktivitet, ruhige Energie",
+            "row_left_2": "Naturliches Koffein aus Guarana",
+            "row_left_3": "Nootropika fur Konzentration und Klarheit",
+            "row_left_4": "Transparent und sauber deklariert",
+            "mid_col_title": "Kaffee",
+            "mid_col_sub": "klassisch",
+            "row_mid_1": "Schneller Energieschub, oft mit Crash",
+            "row_mid_2": "Kann Nervositat und Unruhe verursachen",
+            "row_mid_3": "Keine zusatzlichen Nootropika",
+            "row_mid_4": "Koffeingehalt variiert stark",
+            "right_col_title": "Energy Drinks",
+            "right_col_sub": "klassisch",
+            "row_right_1": "Kunstliches Koffein mit schnellem Absturz",
+            "row_right_2": "Oft viel Zucker oder kunstliche Sussstoffe",
+            "row_right_3": "Kaum echte funktionale Inhaltsstoffe",
+            "row_right_4": "Marketing statt Wissenschaft"
+          }
+        },
+        {
+          "type": "variant",
+          "settings": {
+            "label": "RELAX",
+            "pill_bg": "#F0E9FF",
+            "row_left_1": "Naturliche Entspannung ohne mude zu machen",
+            "row_left_2": "100% naturliche pflanzliche Inhaltsstoffe",
+            "row_left_3": "Adaptogene fur Stressabbau und Balance",
+            "row_left_4": "Kein Koffein, keine Chemie",
+            "mid_col_title": "CBD Drinks",
+            "mid_col_sub": "Trend",
+            "row_mid_1": "Wirkung oft unklar oder inkonsistent",
+            "row_mid_2": "Rechtliche Grauzone in vielen Landern",
+            "row_mid_3": "Dosierung schwer zu kontrollieren",
+            "row_mid_4": "Qualitat variiert stark zwischen Anbietern",
+            "right_col_title": "Beruhigungstees",
+            "right_col_sub": "traditionell",
+            "row_right_1": "Milde Wirkung, erfordert lange Ziehzeit",
+            "row_right_2": "Oft nur ein aktiver Inhaltsstoff",
+            "row_right_3": "Nicht praktisch fur unterwegs",
+            "row_right_4": "Wirkstoffgehalt nicht standardisiert"
+          }
+        },
+        {
+          "type": "variant",
+          "settings": {
+            "label": "VIBE",
+            "pill_bg": "#FFF0DF",
+            "row_left_1": "Gute Stimmung und Geselligkeit, alkoholfrei",
+            "row_left_2": "Naturliche Stimmungsaufheller",
+            "row_left_3": "Perfekt fur soziale Anlasse ohne Alkohol",
+            "row_left_4": "Kein Kater, volle Kontrolle",
+            "mid_col_title": "Alkoholfreies Bier",
+            "mid_col_sub": "Alternative",
+            "row_mid_1": "Imitiert nur den Geschmack, keine Wirkung",
+            "row_mid_2": "Keine stimmungsaufhellenden Inhaltsstoffe",
+            "row_mid_3": "Oft noch Restkalorien und Kohlenhydrate",
+            "row_mid_4": "Kann Verlangen nach Alkohol triggern",
+            "right_col_title": "Alkohol",
+            "right_col_sub": "klassisch",
+            "row_right_1": "Kurzfristige Enthemmung, langfristiger Schaden",
+            "row_right_2": "Kater und Energieverlust am nachsten Tag",
+            "row_right_3": "Beeintrachtigt Urteilsvermogen und Reaktion",
+            "row_right_4": "Hohe Kalorien, kein funktionaler Nutzen"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
