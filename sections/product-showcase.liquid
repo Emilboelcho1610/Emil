@@ -1,0 +1,210 @@
+{{ 'product-showcase.css' | asset_url | stylesheet_tag }}
+
+<section class="ps-showcase" id="ProductShowcase-{{ section.id }}">
+  {%- if section.settings.heading != blank -%}
+    <div class="ps-header">
+      {%- if section.settings.subheading != blank -%}
+        <span class="ps-subheading">{{ section.settings.subheading }}</span>
+      {%- endif -%}
+      <h2 class="ps-heading">{{ section.settings.heading }}</h2>
+    </div>
+  {%- endif -%}
+
+  <div class="ps-grid ps-grid--{{ section.settings.layout }}">
+    {%- for block in section.blocks -%}
+      {%- assign product = block.settings.product -%}
+      {%- if product != blank -%}
+        <a
+          href="{{ product.url }}"
+          class="ps-card {% if forloop.first and section.settings.layout == 'featured' %}ps-card--featured{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          {%- if block.settings.badge_text != blank -%}
+            <span class="ps-badge">{{ block.settings.badge_text }}</span>
+          {%- endif -%}
+
+          <div class="ps-card__image-wrap">
+            {%- if product.featured_image != blank -%}
+              <img
+                src="{{ product.featured_image | image_url: width: 800 }}"
+                srcset="
+                  {{ product.featured_image | image_url: width: 400 }} 400w,
+                  {{ product.featured_image | image_url: width: 600 }} 600w,
+                  {{ product.featured_image | image_url: width: 800 }} 800w
+                "
+                sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                alt="{{ product.featured_image.alt | default: product.title | escape }}"
+                loading="lazy"
+                width="{{ product.featured_image.width }}"
+                height="{{ product.featured_image.height }}"
+                class="ps-card__image"
+              >
+              {%- if product.images.size > 1 -%}
+                <img
+                  src="{{ product.images[1] | image_url: width: 800 }}"
+                  alt="{{ product.images[1].alt | default: product.title | escape }}"
+                  loading="lazy"
+                  class="ps-card__image ps-card__image--hover"
+                >
+              {%- endif -%}
+            {%- else -%}
+              <div class="ps-card__placeholder">
+                {{ 'product-1' | placeholder_svg_tag: 'ps-placeholder-svg' }}
+              </div>
+            {%- endif -%}
+          </div>
+
+          <div class="ps-card__body">
+            {%- if block.settings.show_vendor and product.vendor != blank -%}
+              <span class="ps-card__vendor">{{ product.vendor }}</span>
+            {%- endif -%}
+
+            <h3 class="ps-card__title">{{ product.title }}</h3>
+
+            {%- if block.settings.show_stars -%}
+              <div class="ps-card__rating">
+                <div class="ps-stars" style="--ps-rating: {{ block.settings.star_rating }};" aria-label="{{ block.settings.star_rating }} ud af 5 stjerner">
+                  <div class="ps-stars__empty">
+                    {%- for i in (1..5) -%}
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    {%- endfor -%}
+                  </div>
+                  <div class="ps-stars__filled">
+                    {%- for i in (1..5) -%}
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                    {%- endfor -%}
+                  </div>
+                </div>
+                {%- if block.settings.review_count > 0 -%}
+                  <span class="ps-card__review-count">({{ block.settings.review_count }})</span>
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+
+            <div class="ps-card__price">
+              {%- if product.compare_at_price > product.price -%}
+                <span class="ps-card__price-sale">{{ product.price | money }}</span>
+                <span class="ps-card__price-compare">{{ product.compare_at_price | money }}</span>
+                {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+                <span class="ps-card__price-save">-{{ savings }}%</span>
+              {%- else -%}
+                <span class="ps-card__price-regular">{{ product.price | money }}</span>
+              {%- endif -%}
+            </div>
+
+            <span class="ps-card__cta">
+              Se produkt
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </div>
+        </a>
+      {%- else -%}
+        <div class="ps-card ps-card--empty" {{ block.shopify_attributes }}>
+          <div class="ps-card__image-wrap">
+            <div class="ps-card__placeholder">
+              {{ 'product-1' | placeholder_svg_tag: 'ps-placeholder-svg' }}
+            </div>
+          </div>
+          <div class="ps-card__body">
+            <span class="ps-card__vendor">Brand</span>
+            <h3 class="ps-card__title">Vaelg et produkt</h3>
+            <div class="ps-card__price">
+              <span class="ps-card__price-regular">0,00 kr.</span>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Produkt Showcase",
+  "tag": "section",
+  "class": "ps-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Underoverskrift",
+      "default": "Udvalgt til dig"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Overskrift",
+      "default": "Vores Bestsellere"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        { "value": "grid", "label": "Ensartet gitter" },
+        { "value": "featured", "label": "Fremhaevet (foerste produkt stort)" }
+      ],
+      "default": "featured"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "Produkt",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Produkt"
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge tekst",
+          "info": "F.eks. 'Bestseller', 'Nyt', 'Tilbud'"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_vendor",
+          "label": "Vis producent",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_stars",
+          "label": "Vis stjerner",
+          "default": true
+        },
+        {
+          "type": "range",
+          "id": "star_rating",
+          "label": "Stjerne-bedoemmelse",
+          "min": 0,
+          "max": 5,
+          "step": 0.5,
+          "default": 5,
+          "unit": "★"
+        },
+        {
+          "type": "number",
+          "id": "review_count",
+          "label": "Antal anmeldelser",
+          "default": 0
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Produkt Showcase",
+      "blocks": [
+        { "type": "product_card" },
+        { "type": "product_card" },
+        { "type": "product_card" },
+        { "type": "product_card" }
+      ]
+    }
+  ]
+}
+{% endschema %}
