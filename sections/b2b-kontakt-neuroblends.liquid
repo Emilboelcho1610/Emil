@@ -1,0 +1,1442 @@
+{%- liquid
+  assign margin_top = section.settings.logo_margin_top
+  assign margin_bottom = section.settings.logo_margin_bottom
+  assign padding_top = section.settings.logo_padding_top
+  assign padding_bottom = section.settings.logo_padding_bottom
+  assign logo_background_color = section.settings.logo_background_color
+
+  assign full_width = section.settings.logo_full_width
+  assign content_width = section.settings.logo_content_width
+
+  assign border_thickness = section.settings.logo_border_thickness
+  assign border_color = section.settings.logo_border_color
+
+  assign ss_title = section.settings.logo_title
+  assign header_size = section.settings.logo_header_size
+  assign header_color = section.settings.logo_header_color
+  assign header_align = section.settings.logo_header_align
+  assign heading_custom = section.settings.logo_heading_custom
+  assign heading_font = section.settings.logo_heading_font
+
+  assign sliders_mt = section.settings.logo_sliders_mt
+  assign logo_padding_top_inner = section.settings.logo_padding_top_inner
+  assign logo_padding_bottom_inner = section.settings.logo_padding_bottom_inner
+  assign shadow = section.settings.logo_shadow
+  assign scrolling_velocity = section.settings.logo_scrolling_velocity
+  assign pause_hover = section.settings.logo_pause_hover
+  assign slider_background_color = section.settings.logo_slider_background_color
+  assign slider_gap_mobile = section.settings.logo_slider_gap_mobile
+  assign slider_gap = section.settings.logo_slider_gap
+  assign slider_direction = section.settings.logo_slider_direction
+
+  assign icon_width = section.settings.logo_icon_width
+-%}
+
+{% schema %}
+{
+  "name": "B2B Kontakt - neuroblends",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero Banner Indstillinger"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_desktop",
+      "label": "Hero Billede (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_mobile",
+      "label": "Hero Billede (Mobil)"
+    },
+    {
+      "type": "select",
+      "id": "hero_image_position",
+      "label": "Billede Position",
+      "default": "center",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "bottom", "label": "Bund" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "hero_overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay Gennemsigtighed",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Inhaltseinstellungen"
+    },
+    {
+      "type": "text",
+      "id": "title_de",
+      "label": "Überschrift (Deutsch)",
+      "default": "Bereit für den nächsten Schritt?"
+    },
+    {
+      "type": "text",
+      "id": "title_en",
+      "label": "Title (English)",
+      "default": "Ready for the next step?"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle_de",
+      "label": "Unterüberschrift (Deutsch)",
+      "default": "<p>Großhandel, Distributoren oder interessiert an einer Partnerschaft?<br>Füllen Sie das Formular aus und unser Team meldet sich innerhalb von 24 Stunden.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle_en",
+      "label": "Subtitle (English)",
+      "default": "<p>Wholesale, distributors or interested in a partnership?<br>Fill out the form and our team will get back to you within 24 hours.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_text_de",
+      "label": "Button Text (Deutsch)",
+      "default": "ANFRAGE SENDEN"
+    },
+    {
+      "type": "text",
+      "id": "button_text_en",
+      "label": "Button Text (English)",
+      "default": "SEND INQUIRY"
+    },
+    {
+      "type": "header",
+      "content": "Farbeinstellungen"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Hintergrundfarbe",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Überschrift Farbe",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Textfarbe",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Akzentfarbe (Buttons, Fokus)",
+      "default": "#8BC34A",
+      "info": "SHARP grün eller andre neuroblends farver"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Formular Hintergrund",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Formularfelder Beschriftungen (Deutsch)"
+    },
+    {
+      "type": "text",
+      "id": "name_label_de",
+      "label": "Name",
+      "default": "Vor- und Nachname"
+    },
+    {
+      "type": "text",
+      "id": "email_label_de",
+      "label": "E-Mail",
+      "default": "Geschäftliche E-Mail-Adresse"
+    },
+    {
+      "type": "text",
+      "id": "company_label_de",
+      "label": "Firma",
+      "default": "Firmenname"
+    },
+    {
+      "type": "text",
+      "id": "website_label_de",
+      "label": "Website",
+      "default": "Firmen-Website (optional)"
+    },
+    {
+      "type": "text",
+      "id": "location_label_de",
+      "label": "Standort",
+      "default": "Stadt / Region"
+    },
+    {
+      "type": "text",
+      "id": "interest_label_de",
+      "label": "Interesse",
+      "default": "Welche Produkte interessieren Sie?"
+    },
+    {
+      "type": "text",
+      "id": "quantity_label_de",
+      "label": "Menge",
+      "default": "Geschätzte Bestellmenge"
+    },
+    {
+      "type": "text",
+      "id": "message_label_de",
+      "label": "Nachricht",
+      "default": "Ihre Nachricht an uns"
+    },
+    {
+      "type": "header",
+      "content": "Form Field Labels (English)"
+    },
+    {
+      "type": "text",
+      "id": "name_label_en",
+      "label": "Name",
+      "default": "First and Last Name"
+    },
+    {
+      "type": "text",
+      "id": "email_label_en",
+      "label": "Email",
+      "default": "Business Email Address"
+    },
+    {
+      "type": "text",
+      "id": "company_label_en",
+      "label": "Company",
+      "default": "Company Name"
+    },
+    {
+      "type": "text",
+      "id": "website_label_en",
+      "label": "Website",
+      "default": "Company Website (optional)"
+    },
+    {
+      "type": "text",
+      "id": "location_label_en",
+      "label": "Location",
+      "default": "City / Region"
+    },
+    {
+      "type": "text",
+      "id": "interest_label_en",
+      "label": "Interest",
+      "default": "Which products interest you?"
+    },
+    {
+      "type": "text",
+      "id": "quantity_label_en",
+      "label": "Quantity",
+      "default": "Estimated Order Quantity"
+    },
+    {
+      "type": "text",
+      "id": "message_label_en",
+      "label": "Message",
+      "default": "Your message to us"
+    },
+    {
+      "type": "header",
+      "content": "Mengenoptionen"
+    },
+    {
+      "type": "textarea",
+      "id": "quantity_options_de",
+      "label": "Optionen (Deutsch, eine pro Zeile)",
+      "default": "10-50 Einheiten\n50-100 Einheiten\n100-500 Einheiten\n500+ Einheiten"
+    },
+    {
+      "type": "textarea",
+      "id": "quantity_options_en",
+      "label": "Options (English, one per line)",
+      "default": "10-50 units\n50-100 units\n100-500 units\n500+ units"
+    },
+    {
+      "type": "header",
+      "content": "═══ SCROLLING LOGO INDSTILLINGER ═══"
+    },
+    {
+      "type": "checkbox",
+      "id": "logo_section_enabled",
+      "label": "Aktiver Scrolling Logo Sektion",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "logo_title",
+      "label": "Logo Header tekst",
+      "default": "Trusted by"
+    },
+    {
+      "type": "checkbox",
+      "id": "logo_heading_custom",
+      "label": "Brug Custom Font",
+      "default": false
+    },
+    {
+      "type": "font_picker",
+      "id": "logo_heading_font",
+      "label": "Header Font Family",
+      "default": "assistant_n4"
+    },
+    {
+      "type": "range",
+      "id": "logo_header_size",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Header font størrelse",
+      "default": 30
+    },
+    {
+      "type": "select",
+      "id": "logo_header_align",
+      "label": "Header Text Alignment",
+      "default": "center",
+      "options": [
+        { "label": "Center", "value": "center" },
+        { "label": "Venstre", "value": "left" },
+        { "label": "Højre", "value": "right" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Slider Indstillinger"
+    },
+    {
+      "type": "range",
+      "id": "logo_scrolling_velocity",
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "label": "Scroll hastighed",
+      "info": "⚡ <----------------> 🐌",
+      "default": 10
+    },
+    {
+      "type": "checkbox",
+      "id": "logo_pause_hover",
+      "label": "Pause ved Hover",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "logo_shadow",
+      "label": "Skygge",
+      "default": false,
+      "info": "Tilføj skygge omkring slideren"
+    },
+    {
+      "type": "range",
+      "id": "logo_sliders_mt",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Slider Margin Top",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "logo_padding_top_inner",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Slider Padding top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "logo_padding_bottom_inner",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Slider Padding bottom",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "logo_slider_gap",
+      "min": 10,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Slider Items Gap",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "logo_slider_gap_mobile",
+      "min": 10,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Slider Items Gap - Mobil",
+      "default": 30
+    },
+    {
+      "type": "select",
+      "id": "logo_slider_direction",
+      "label": "Slider Retning",
+      "default": "left",
+      "options": [
+        { "label": "Venstre", "value": "left" },
+        { "label": "Højre", "value": "right" }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Logo Indstillinger"
+    },
+    {
+      "type": "range",
+      "id": "logo_icon_width",
+      "min": 100,
+      "max": 500,
+      "step": 10,
+      "unit": "px",
+      "label": "Bredde af ikoner i pixel",
+      "default": 200
+    },
+    {
+      "type": "header",
+      "content": "Logo Sektion Farver"
+    },
+    {
+      "type": "color",
+      "label": "Header farve",
+      "id": "logo_header_color",
+      "default": "#121212"
+    },
+    {
+      "type": "color",
+      "label": "Border farve",
+      "id": "logo_border_color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "label": "Sektion baggrund",
+      "id": "logo_background_color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "label": "Slider baggrund",
+      "id": "logo_slider_background_color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Logo Sektion Margin"
+    },
+    {
+      "type": "range",
+      "id": "logo_margin_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "logo_margin_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Margin bottom",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Logo Sektion Padding"
+    },
+    {
+      "type": "range",
+      "id": "logo_padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "logo_padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "content": "Logo Sektion Indstillinger"
+    },
+    {
+      "type": "checkbox",
+      "id": "logo_full_width",
+      "label": "Fuld Bredde",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "logo_content_width",
+      "min": 0,
+      "max": 400,
+      "step": 10,
+      "unit": "rem",
+      "label": "Sektion indhold bredde",
+      "info": "Hvis Fuld Bredde ikke er valgt",
+      "default": 120
+    },
+    {
+      "type": "range",
+      "id": "logo_border_thickness",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "unit": "px",
+      "label": "Border tykkelse",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "logo_lazy",
+      "label": "Lazy load",
+      "info": "Lazy load billeder for hastigheds optimering",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Client logo",
+      "type": "logo_slide",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Tip: Beskær hvid plads fra billeder."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Client logo"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Url"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "B2B Kontakt - neuroblends",
+      "blocks": [
+        { "type": "logo_slide" },
+        { "type": "logo_slide" },
+        { "type": "logo_slide" },
+        { "type": "logo_slide" },
+        { "type": "logo_slide" },
+        { "type": "logo_slide" }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  /* ========================================
+     HERO BANNER STYLES
+     ======================================== */
+  .neuro-contact-wrapper {
+    background: {{ section.settings.bg_color }};
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .neuro-hero-section {
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+    padding: 100px 20px 80px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Hero Background Image */
+  .neuro-hero-bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center {{ section.settings.hero_image_position }};
+    z-index: 1;
+  }
+
+  .neuro-hero-bg-image--desktop {
+    display: block;
+  }
+
+  .neuro-hero-bg-image--mobile {
+    display: none;
+  }
+
+  @media screen and (max-width: 767px) {
+    .neuro-hero-bg-image--desktop {
+      display: none;
+    }
+    .neuro-hero-bg-image--mobile {
+      display: block;
+    }
+  }
+
+  /* Hero Overlay */
+  .neuro-hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, {{ section.settings.hero_overlay_opacity | divided_by: 100.0 }});
+    z-index: 2;
+  }
+
+  .neuro-hero-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -10%;
+    width: 120%;
+    height: 200%;
+    background: radial-gradient(circle, {{ section.settings.accent_color | color_modify: 'alpha', 0.15 }} 0%, transparent 70%);
+    animation: pulse 8s ease-in-out infinite;
+    z-index: 3;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.1); opacity: 0.5; }
+  }
+
+  .neuro-hero-content {
+    position: relative;
+    z-index: 4;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .neuro-logo-area { margin-bottom: 30px; }
+
+  .neuro-logo-text {
+    font-size: 32px;
+    font-weight: 900;
+    color: #FFFFFF;
+    letter-spacing: -1px;
+    font-family: 'Avenir Next', -apple-system, sans-serif;
+  }
+
+  .neuro-tagline {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #999;
+    margin-top: 5px;
+  }
+
+  .neuro-hero-title {
+    font-size: 56px;
+    font-weight: 900;
+    color: #FFFFFF;
+    margin: 0 0 25px 0;
+    line-height: 1.1;
+    font-family: 'Avenir Next', -apple-system, sans-serif;
+    letter-spacing: -2px;
+  }
+
+  .neuro-hero-subtitle {
+    font-size: 18px;
+    line-height: 1.7;
+    color: #CCCCCC;
+    margin: 0;
+  }
+  .neuro-hero-subtitle p { margin: 0; }
+
+  /* ========================================
+     SCROLLING LOGO CLOUD STYLES
+     ======================================== */
+  .section-{{ section.id }}-settings {
+    margin: 0 auto;
+    margin-top: {{ margin_top | times: 0.85 | round: 0 }}px;
+    margin-bottom: {{ margin_bottom | times: 0.85 | round: 0 }}px;
+    padding-top: var(--pt);
+    padding-bottom: var(--pb);
+    background: {{ logo_background_color }};
+    border: {{ border_thickness }}px solid {{ border_color }};
+    {% unless full_width %}
+      max-width: {{ content_width }}rem;
+    {% endunless %}
+  }
+
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      margin-top: {{ margin_top }}px;
+      margin-bottom: {{ margin_bottom }}px;
+      padding-top: var(--pt-desktop);
+      padding-bottom: var(--pb-desktop);
+    }
+  }
+
+  {{ heading_font | font_face: font_display: 'swap' }}
+
+  .scrolling-logo-cloud_{{ section.id }} {
+    margin-top: {{ sliders_mt | times: 0.85 | round: 0 }}px;
+  }
+
+  .scrolling-logo-cloud-title-{{ section.id }} {
+    width: 100%;
+    margin: 0px;
+    text-align: {{ header_align }};
+    padding: 0 15px;
+    font-size: {{ header_size | times: 0.75 | round: 0 }}px;
+    color: {{ header_color }};
+  }
+
+  .scrolling-logo-cloud_placeholder {
+    width: 100%;
+  }
+
+  .scrolling-logo-cloud_{{ section.id }} .slide-{{ section.id }} {
+    display: block;
+    flex: 0 0 {{ icon_width | times: 0.85 | round: 0 }}px;
+    width: 100%;
+  }
+
+  .scrolling-logo-cloud_{{ section.id }} .slide-{{ section.id }} img,
+  .scrolling-logo-cloud_{{ section.id }} .slide-{{ section.id }} svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .marquee-horizontal-{{ section.id }} {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    overflow: hidden;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .marquee-horizontal-{{ section.id }}.reverse {
+    flex-direction: row-reverse;
+  }
+
+  .track-horizontal-{{ section.id }} {
+    padding-left: {{ slider_gap_mobile }}px;
+    display: flex;
+    flex-shrink: 0;
+    width: calc(({{ icon_width | times: 0.85 | round: 0 }}px * {{ section.blocks.size }}) + ({{ slider_gap_mobile }}px * {{ section.blocks.size }}));
+    gap: {{ slider_gap_mobile }}px;
+    justify-content: flex-start;
+    align-items: center;
+    white-space: nowrap;
+    will-change: transform;
+    animation: marquee-horizontal-{{ slider_direction }}-{{ section.id }} {{ scrolling_velocity | times: 1000 | round: 0 }}ms linear infinite;
+  }
+
+  @keyframes marquee-horizontal-left-{{ section.id }} {
+    0% {
+      transform: translateZ(0);
+      visibility: visible;
+    }
+    100% {
+      transform: translate3d(-100%, 0, 0);
+    }
+  }
+
+  @keyframes marquee-horizontal-right-{{ section.id }} {
+    0% {
+      transform: translate3d(-100%, 0, 0);
+      visibility: visible;
+    }
+    100% {
+      transform: translateZ(0);
+    }
+  }
+
+  @media screen and (min-width: 768px) {
+    .scrolling-logo-cloud-title-{{ section.id }} {
+      font-size: {{ header_size }}px;
+      color: {{ header_color }};
+    }
+
+    .scrolling-logo-cloud_{{ section.id }} .slide-{{ section.id }} {
+      flex: 0 0 {{ icon_width }}px;
+      width: 100%;
+    }
+
+    .track-horizontal-{{ section.id }} {
+      padding-left: {{ slider_gap }}px;
+      width: calc(({{ icon_width }}px * {{ section.blocks.size }}) + ({{ slider_gap }}px * {{ section.blocks.size }}));
+      gap: {{ slider_gap }}px;
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .scrolling-logo-cloud_{{ section.id }} {
+      padding: 0 15px;
+    }
+  }
+
+  {% if pause_hover %}
+    .marquee-horizontal-{{ section.id }}:hover .track-horizontal-{{ section.id }} {
+      animation-play-state: paused;
+    }
+  {% endif %}
+
+  {% if heading_custom %}
+    .scrolling-logo-cloud-title-{{ section.id }} {
+      font-family: {{ heading_font.family }}, {{ heading_font.fallback_families }};
+      font-weight: {{ heading_font.weight }};
+      font-style: {{ heading_font.style }};
+    }
+  {% endif %}
+
+  /* ========================================
+     CONTACT FORM STYLES
+     ======================================== */
+  .neuro-form-container {
+    max-width: 900px;
+    margin: -40px auto 0;
+    padding: 0 20px 80px;
+    position: relative;
+    z-index: 3;
+  }
+
+  .neuro-form-card {
+    background: {{ section.settings.card_bg }};
+    border-radius: 24px;
+    padding: 50px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+    position: relative;
+  }
+
+  .neuro-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .neuro-form-full { grid-column: 1 / -1; }
+
+  .neuro-field { position: relative; }
+
+  .neuro-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: {{ section.settings.text_color }};
+    margin-bottom: 8px;
+    font-family: 'Avenir Next', -apple-system, sans-serif;
+  }
+
+  .neuro-input,
+  .neuro-select,
+  .neuro-textarea {
+    width: 100%;
+    padding: 16px 18px;
+    font-size: 15px;
+    border: 2px solid #E0E0E0;
+    border-radius: 12px;
+    background-color: #FAFAFA;
+    color: #333;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    font-family: -apple-system, sans-serif;
+  }
+
+  .neuro-textarea {
+    min-height: 140px;
+    resize: vertical;
+  }
+
+  .neuro-input:focus,
+  .neuro-select:focus,
+  .neuro-textarea:focus {
+    outline: none;
+    border-color: {{ section.settings.accent_color }};
+    background-color: #FFFFFF;
+    box-shadow: 0 0 0 4px {{ section.settings.accent_color | color_modify: 'alpha', 0.1 }};
+  }
+
+  .neuro-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='14' height='9' viewBox='0 0 14 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L7 7.5L13 1.5' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+    cursor: pointer;
+    padding-right: 50px;
+  }
+
+  .neuro-products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .neuro-product-option { position: relative; }
+  .neuro-product-checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .neuro-product-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 12px;
+    border: 2px solid #E0E0E0;
+    border-radius: 12px;
+    background: #FAFAFA;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    user-select: none;
+  }
+
+  .neuro-product-checkbox:checked + .neuro-product-label {
+    border-color: {{ section.settings.accent_color }};
+    background: {{ section.settings.accent_color | color_modify: 'alpha', 0.1 }};
+    color: {{ section.settings.accent_color }};
+  }
+
+  .neuro-product-label:hover {
+    border-color: {{ section.settings.accent_color }};
+    background: #FFFFFF;
+  }
+
+  .neuro-submit {
+    width: 100%;
+    padding: 20px 40px;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    background: {{ section.settings.accent_color }};
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 30px;
+    font-family: 'Avenir Next', -apple-system, sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .neuro-submit::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .neuro-submit:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  .neuro-submit:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px {{ section.settings.accent_color | color_modify: 'alpha', 0.4 }};
+  }
+
+  .neuro-submit:active { transform: translateY(-1px); }
+
+  .neuro-message {
+    padding: 20px 25px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    font-size: 15px;
+    font-weight: 600;
+    display: none;
+  }
+  .neuro-message.show { display: block; }
+
+  .neuro-success {
+    background: #E8F5E9;
+    color: #2E7D32;
+    border-left: 4px solid #4CAF50;
+  }
+
+  .neuro-error {
+    background: #FFEBEE;
+    color: #C62828;
+    border-left: 4px solid #F44336;
+  }
+
+  .neuro-trust-section {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #E0E0E0;
+  }
+
+  .neuro-trust-items {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
+  .neuro-trust-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #666;
+    font-size: 13px;
+  }
+
+  .neuro-trust-icon {
+    width: 24px;
+    height: 24px;
+    color: {{ section.settings.accent_color }};
+  }
+
+  @media (max-width: 768px) {
+    .neuro-hero-section { padding: 60px 20px 60px; }
+    .neuro-hero-title { font-size: 36px; }
+    .neuro-hero-subtitle { font-size: 16px; }
+    .neuro-form-card { padding: 30px 25px; }
+    .neuro-form-grid { grid-template-columns: 1fr; gap: 16px; }
+    .neuro-products-grid { grid-template-columns: 1fr 1fr; }
+    .neuro-trust-items { gap: 20px; }
+  }
+</style>
+
+<div class="neuro-contact-wrapper">
+  <!-- ========================================
+       HERO BANNER SECTION
+       ======================================== -->
+  <div class="neuro-hero-section">
+    {% if section.settings.hero_image_desktop != blank %}
+      <img
+        class="neuro-hero-bg-image neuro-hero-bg-image--desktop"
+        src="{{ section.settings.hero_image_desktop | image_url: width: 1920 }}"
+        alt="Hero background"
+        loading="eager"
+      >
+    {% endif %}
+    {% if section.settings.hero_image_mobile != blank %}
+      <img
+        class="neuro-hero-bg-image neuro-hero-bg-image--mobile"
+        src="{{ section.settings.hero_image_mobile | image_url: width: 768 }}"
+        alt="Hero background mobile"
+        loading="eager"
+      >
+    {% elsif section.settings.hero_image_desktop != blank %}
+      <img
+        class="neuro-hero-bg-image neuro-hero-bg-image--mobile"
+        src="{{ section.settings.hero_image_desktop | image_url: width: 768 }}"
+        alt="Hero background mobile"
+        loading="eager"
+      >
+    {% endif %}
+
+    {% if section.settings.hero_image_desktop != blank or section.settings.hero_image_mobile != blank %}
+      <div class="neuro-hero-overlay"></div>
+    {% endif %}
+
+    <div class="neuro-hero-content">
+      <div class="neuro-logo-area">
+        <div class="neuro-logo-text">neuroblends</div>
+        <div class="neuro-tagline">Mental Power for Modern Heroes</div>
+      </div>
+      <h1 class="neuro-hero-title" data-lang-de="{{ section.settings.title_de }}" data-lang-en="{{ section.settings.title_en }}">
+        {{ section.settings.title_de }}
+      </h1>
+      <div class="neuro-hero-subtitle" data-lang-de="{{ section.settings.subtitle_de }}" data-lang-en="{{ section.settings.subtitle_en }}">
+        {{ section.settings.subtitle_de }}
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================
+       SCROLLING LOGO CLOUD SECTION
+       ======================================== -->
+  {% if section.settings.logo_section_enabled and section.blocks.size > 0 %}
+    {% capture loop %}
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'logo_slide' -%}
+          <a class="slide-{{ section.id }}" href="{{ block.settings.link }}">
+            {%- if block.settings.image != blank -%}
+              <img
+                class="image-content__image"
+                src="{{ block.settings.image | image_url: width: 300 }}"
+                alt="{{ block.settings.image.alt | escape }}"
+                {% if section.settings.logo_lazy %}loading="lazy"{% endif %}
+              >
+            {%- else -%}
+              {{ 'product-2' | placeholder_svg_tag: 'scrolling-logo-cloud_placeholder' }}
+            {%- endif -%}
+          </a>
+        {%- endif -%}
+      {%- endfor -%}
+    {% endcapture %}
+
+    <section
+      class="section-{{ section.id }}-settings"
+      data-section-id="{{ section.id }}"
+      style="
+        --pt: {{ padding_top | times: 0.75 | round: 0 }}px;
+        --pt-desktop: {{ padding_top }}px;
+        --pb: {{ padding_bottom | times: 0.75 | round: 0 }}px;
+        --pb-desktop: {{ padding_bottom }}px;
+      "
+    >
+      {% if ss_title != blank %}
+        <h2 class="scrolling-logo-cloud-title-{{ section.id }}" id="scrolling-logo-cloud">
+          {{ ss_title }}
+        </h2>
+      {% endif %}
+      <div
+        class="scrolling-logo-cloud_{{ section.id }}"
+        id="ss-scrolling-logo-cloud"
+        style="
+          {% if shadow %}box-shadow: 4px 4px 20px rgba(191, 191, 191, 0.5);{% endif %}
+          background: {{ slider_background_color }};
+          padding: 0;
+          padding-top: {{ logo_padding_top_inner }}px;
+          padding-bottom: {{ logo_padding_bottom_inner }}px;
+        "
+      >
+        <div class="marquee-horizontal-{{ section.id }} marquee-{{ section.settings.logo_slider_direction }}">
+          <div class="track-horizontal-{{ section.id }} outer_flex">{{ loop }}</div>
+          <div class="track-horizontal-{{ section.id }} outer_flex">{{ loop }}</div>
+          <div class="track-horizontal-{{ section.id }} outer_flex">{{ loop }}</div>
+          <div class="track-horizontal-{{ section.id }} outer_flex">{{ loop }}</div>
+          <div class="track-horizontal-{{ section.id }} outer_flex">{{ loop }}</div>
+          <div class="track-horizontal-{{ section.id }} outer_flex">{{ loop }}</div>
+          <div class="track-horizontal-{{ section.id }} outer_flex">{{ loop }}</div>
+        </div>
+      </div>
+    </section>
+  {% endif %}
+
+  <!-- ========================================
+       CONTACT FORM SECTION
+       ======================================== -->
+  <div class="neuro-form-container">
+    <div class="neuro-form-card">
+
+      <div class="neuro-message neuro-success" id="neuroSuccess">
+        <span data-lang-de="✓ Vielen Dank! Wir melden uns innerhalb von 24 Stunden bei Ihnen." data-lang-en="✓ Thank you! We'll get back to you within 24 hours.">
+          ✓ Vielen Dank! Wir melden uns innerhalb von 24 Stunden bei Ihnen.
+        </span>
+      </div>
+
+      {% form 'contact', id: 'NeuroB2BContactForm' %}
+        {% if form.posted_successfully? %}
+          <script>
+            document.getElementById('neuroSuccess').classList.add('show');
+            setTimeout(function() {
+              document.getElementById('neuroSuccess').classList.remove('show');
+            }, 8000);
+          </script>
+        {% endif %}
+
+        {% if form.errors %}
+          <div class="neuro-message neuro-error show">
+            <strong>Bitte korrigieren Sie folgende Fehler:</strong>
+            <ul style="margin: 10px 0 0 20px; padding: 0;">
+              {% for field in form.errors %}
+                <li>{{ field | capitalize | replace: '_', ' ' }}: {{ form.errors.messages[field] }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
+        <input type="hidden" name="contact[subject]" value="B2B Inquiry (neuroblends)">
+
+        <div class="neuro-form-grid">
+          <div class="neuro-field">
+            <label class="neuro-label" for="ContactName" data-lang-de="{{ section.settings.name_label_de }}" data-lang-en="{{ section.settings.name_label_en }}">
+              {{ section.settings.name_label_de }}
+            </label>
+            <input
+              type="text"
+              name="contact[name]"
+              id="ContactName"
+              class="neuro-input"
+              value="{% if form.name %}{{ form.name }}{% endif %}"
+              required
+            >
+          </div>
+
+          <div class="neuro-field">
+            <label class="neuro-label" for="ContactEmail" data-lang-de="{{ section.settings.email_label_de }}" data-lang-en="{{ section.settings.email_label_en }}">
+              {{ section.settings.email_label_de }}
+            </label>
+            <input
+              type="email"
+              name="contact[email]"
+              id="ContactEmail"
+              class="neuro-input"
+              value="{% if form.email %}{{ form.email }}{% endif %}"
+              required
+            >
+          </div>
+
+          <div class="neuro-field">
+            <label class="neuro-label" for="ContactCompany" data-lang-de="{{ section.settings.company_label_de }}" data-lang-en="{{ section.settings.company_label_en }}">
+              {{ section.settings.company_label_de }}
+            </label>
+            <input
+              type="text"
+              name="company_temp"
+              id="ContactCompany"
+              class="neuro-input"
+              required
+            >
+          </div>
+
+          <div class="neuro-field">
+            <label class="neuro-label" for="ContactWebsite" data-lang-de="{{ section.settings.website_label_de }}" data-lang-en="{{ section.settings.website_label_en }}">
+              {{ section.settings.website_label_de }}
+            </label>
+            <input
+              type="url"
+              name="website_temp"
+              id="ContactWebsite"
+              class="neuro-input"
+            >
+          </div>
+
+          <div class="neuro-field">
+            <label class="neuro-label" for="ContactLocation" data-lang-de="{{ section.settings.location_label_de }}" data-lang-en="{{ section.settings.location_label_en }}">
+              {{ section.settings.location_label_de }}
+            </label>
+            <input
+              type="text"
+              name="location_temp"
+              id="ContactLocation"
+              class="neuro-input"
+              required
+            >
+          </div>
+
+          <div class="neuro-field">
+            <label class="neuro-label" for="ContactQuantity" data-lang-de="{{ section.settings.quantity_label_de }}" data-lang-en="{{ section.settings.quantity_label_en }}">
+              {{ section.settings.quantity_label_de }}
+            </label>
+            <select
+              name="quantity_temp"
+              id="ContactQuantity"
+              class="neuro-select"
+              required
+            >
+              <option value="" disabled selected>Bitte auswählen</option>
+              {% assign options = section.settings.quantity_options_de | newline_to_br | split: '<br />' %}
+              {% for option in options %}
+                {% assign trimmed = option | strip %}
+                {% if trimmed != '' %}
+                  <option value="{{ trimmed }}" data-lang-de="{{ trimmed }}">{{ trimmed }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="neuro-field neuro-form-full">
+            <label class="neuro-label" data-lang-de="{{ section.settings.interest_label_de }}" data-lang-en="{{ section.settings.interest_label_en }}">
+              {{ section.settings.interest_label_de }}
+            </label>
+            <div class="neuro-products-grid">
+              <div class="neuro-product-option">
+                <input type="checkbox" name="products_temp[]" value="VIBE" id="productVIBE" class="neuro-product-checkbox">
+                <label for="productVIBE" class="neuro-product-label">VIBE</label>
+              </div>
+              <div class="neuro-product-option">
+                <input type="checkbox" name="products_temp[]" value="RELAX" id="productRELAX" class="neuro-product-checkbox">
+                <label for="productRELAX" class="neuro-product-label">RELAX</label>
+              </div>
+              <div class="neuro-product-option">
+                <input type="checkbox" name="products_temp[]" value="SHARP" id="productSHARP" class="neuro-product-checkbox">
+                <label for="productSHARP" class="neuro-product-label">SHARP</label>
+              </div>
+              <div class="neuro-product-option">
+                <input type="checkbox" name="products_temp[]" value="MIXED" id="productMIXED" class="neuro-product-checkbox">
+                <label for="productMIXED" class="neuro-product-label">MIXED</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="neuro-field neuro-form-full">
+            <label class="neuro-label" for="ContactMessage" data-lang-de="{{ section.settings.message_label_de }}" data-lang-en="{{ section.settings.message_label_en }}">
+              {{ section.settings.message_label_de }}
+            </label>
+            <textarea
+              name="contact[body]"
+              id="ContactMessage"
+              class="neuro-textarea"
+            ></textarea>
+          </div>
+
+          <div class="neuro-form-full">
+            <button type="submit" class="neuro-submit" data-lang-de="{{ section.settings.button_text_de }}" data-lang-en="{{ section.settings.button_text_en }}">
+              {{ section.settings.button_text_de }}
+            </button>
+          </div>
+        </div>
+      {% endform %}
+
+      <div class="neuro-trust-section">
+        <div class="neuro-trust-items">
+          <div class="neuro-trust-item">
+            <svg class="neuro-trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span data-lang-de="Antwort in 24h" data-lang-en="Response in 24h">Antwort in 24h</span>
+          </div>
+          <div class="neuro-trust-item">
+            <svg class="neuro-trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+            <span data-lang-de="100% Vertraulich" data-lang-en="100% Confidential">100% Vertraulich</span>
+          </div>
+          <div class="neuro-trust-item">
+            <svg class="neuro-trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+            <span data-lang-de="Persönlicher Ansprechpartner" data-lang-en="Personal Contact">Persönlicher Ansprechpartner</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const currentLang = document.documentElement.lang === 'en' ? 'en' : 'de';
+
+  function updateLanguage(lang) {
+    document.querySelectorAll('[data-lang-de]').forEach(el => {
+      const text = el.getAttribute('data-lang-' + lang);
+      if (text) {
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
+          el.placeholder = text;
+        } else {
+          el.innerHTML = text;
+        }
+      }
+    });
+  }
+
+  updateLanguage(currentLang);
+
+  document.addEventListener('languageChanged', function(e) {
+    updateLanguage(e.detail.language);
+  });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var form = document.getElementById('NeuroB2BContactForm');
+  if (!form) return;
+
+  form.addEventListener('submit', function() {
+    var lang = (document.documentElement.lang === 'en') ? 'en' : 'de';
+    var t = function(de, en){ return (lang === 'en') ? en : de; };
+
+    var name = (document.getElementById('ContactName') || {}).value || '';
+    var email = (document.getElementById('ContactEmail') || {}).value || '';
+    var company = (document.getElementById('ContactCompany') || {}).value || '';
+    var website = (document.getElementById('ContactWebsite') || {}).value || '';
+    var location = (document.getElementById('ContactLocation') || {}).value || '';
+    var quantity = (document.getElementById('ContactQuantity') || {}).value || '';
+
+    var checked = Array.prototype.slice.call(document.querySelectorAll('.neuro-product-checkbox:checked'));
+    var products = checked.map(function(x){ return x.value; }).join(', ');
+
+    var messageEl = document.getElementById('ContactMessage');
+    var userMessage = messageEl ? (messageEl.value || '') : '';
+
+    var lines = [];
+    lines.push(t('B2B ANFRAGE (neuroblends)', 'B2B INQUIRY (neuroblends)'));
+    lines.push('--------------------------------');
+    lines.push(t('Name:', 'Name:') + ' ' + name);
+    lines.push(t('E-Mail:', 'Email:') + ' ' + email);
+    lines.push(t('Firma:', 'Company:') + ' ' + company);
+    lines.push(t('Website:', 'Website:') + ' ' + (website ? website : t('(nicht angegeben)', '(not provided)')));
+    lines.push(t('Standort:', 'Location:') + ' ' + location);
+    lines.push(t('Menge:', 'Quantity:') + ' ' + quantity);
+    lines.push(t('Interesse (Produkte):', 'Interest (Products):') + ' ' + (products ? products : t('Keine Auswahl', 'None selected')));
+    lines.push('');
+    lines.push(t('Nachricht:', 'Message:'));
+    lines.push(userMessage ? userMessage : t('Keine Nachricht', 'No message'));
+    lines.push('--------------------------------');
+
+    if (messageEl) messageEl.value = lines.join('\n');
+  });
+});
+</script>
+
+<script>
+  function initScrollingLogoCloudPro() {
+    var htmlElement = document.documentElement;
+
+    if (window.getComputedStyle(htmlElement).getPropertyValue('direction') === 'rtl') {
+      document.querySelector('.marquee-horizontal-{{ section.id }}').classList.add('reverse');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', initScrollingLogoCloudPro);
+
+  if (typeof Shopify !== 'undefined' && Shopify.designMode) {
+    document.addEventListener('shopify:section:unload', initScrollingLogoCloudPro);
+    document.addEventListener('shopify:section:load', initScrollingLogoCloudPro);
+  }
+</script>
