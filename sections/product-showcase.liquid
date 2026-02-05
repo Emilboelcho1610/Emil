@@ -274,16 +274,6 @@
     flex-shrink: 0;
     min-width: 0;
   }
-  .ps-card__vendor {
-    font-size: 0.67rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ps-text-muted);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
   .ps-card__title {
     font-size: 0.95rem;
     font-weight: 700;
@@ -533,7 +523,6 @@
       padding: 12px 12px 16px;
       gap: 3px;
     }
-    .ps-card__vendor { font-size: 0.6rem; letter-spacing: 0.1em; }
     .ps-card__title {
       font-size: 0.82rem;
       -webkit-line-clamp: 2;
@@ -706,10 +695,6 @@
 
             {%- comment -%} — Card body — {%- endcomment -%}
             <div class="ps-card__body">
-              {%- if block.settings.show_vendor and product.vendor != blank -%}
-                <span class="ps-card__vendor">{{ product.vendor }}</span>
-              {%- endif -%}
-
               <h3 class="ps-card__title">{{ product.title }}</h3>
 
               {%- if block.settings.show_description and product.description != blank -%}
@@ -768,7 +753,6 @@
               </div>
             </div>
             <div class="ps-card__body">
-              <span class="ps-card__vendor">Brand</span>
               <h3 class="ps-card__title">Vaelg et produkt</h3>
               <div class="ps-price"><span class="ps-price__now">0,00 kr.</span></div>
             </div>
@@ -1098,12 +1082,6 @@
         {
           "type": "header",
           "content": "Indhold"
-        },
-        {
-          "type": "checkbox",
-          "id": "show_vendor",
-          "label": "Vis producent",
-          "default": false
         },
         {
           "type": "checkbox",
