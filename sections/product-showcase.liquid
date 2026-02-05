@@ -1,107 +1,255 @@
+{%- comment -%}
+  ================================================================
+  PRODUKT SHOWCASE — Premium Shopify Section
+  ================================================================
+  Self-contained section: Style + HTML/Liquid + JavaScript + Schema
+  Drop into any Shopify 2.0 theme's sections/ folder.
+  ================================================================
+{%- endcomment -%}
+
+{%- liquid
+  assign section_id = section.id
+  assign layout     = section.settings.layout
+  assign columns    = section.settings.columns
+  assign bg_color   = section.settings.bg_color
+  assign card_style = section.settings.card_style
+  assign cta_text   = section.settings.cta_text
+-%}
+
+{%- comment -%} ========== STYLES ========== {%- endcomment -%}
 <style>
   /* ============================================================
-     PRODUCT SHOWCASE — Modern Shopify Section
+     1. CSS CUSTOM PROPERTIES (driven by Shopify settings)
      ============================================================ */
-
-  .ps-showcase {
-    --ps-accent: #111;
-    --ps-accent-light: #f5f5f5;
-    --ps-radius: 16px;
-    --ps-gap: 20px;
-    --ps-transition: 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 80px 24px;
+  #ProductShowcase-{{ section_id }} {
+    --ps-accent: {{ section.settings.accent_color }};
+    --ps-bg: {{ bg_color }};
+    --ps-card-bg: {{ section.settings.card_bg_color }};
+    --ps-text: {{ section.settings.text_color }};
+    --ps-text-muted: {{ section.settings.text_color | color_modify: 'alpha', 0.55 }};
+    --ps-star-color: {{ section.settings.star_color }};
+    --ps-star-empty: {{ section.settings.text_color | color_modify: 'alpha', 0.15 }};
+    --ps-radius: {{ section.settings.card_radius }}px;
+    --ps-gap: {{ section.settings.grid_gap }}px;
+    --ps-columns: {{ columns }};
+    --ps-transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    --ps-padding-top: {{ section.settings.padding_top }}px;
+    --ps-padding-bottom: {{ section.settings.padding_bottom }}px;
   }
 
-  /* Header */
-  .ps-header { text-align: center; margin-bottom: 56px; }
+  /* ============================================================
+     2. SECTION WRAPPER
+     ============================================================ */
+  .ps-showcase {
+    background: var(--ps-bg);
+    padding: var(--ps-padding-top) 0 var(--ps-padding-bottom);
+  }
+  .ps-showcase__inner {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+
+  /* ============================================================
+     3. HEADER
+     ============================================================ */
+  .ps-header {
+    text-align: center;
+    margin-bottom: 56px;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
   .ps-subheading {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #888;
-    margin-bottom: 12px;
+    color: var(--ps-accent);
+    margin-bottom: 16px;
+  }
+  .ps-subheading::before,
+  .ps-subheading::after {
+    content: '';
+    width: 24px;
+    height: 1.5px;
+    background: var(--ps-accent);
+    opacity: 0.4;
   }
   .ps-heading {
-    font-size: clamp(1.75rem, 4vw, 2.75rem);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1.15;
-    color: var(--ps-accent);
+    font-size: clamp(1.8rem, 4.5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+    color: var(--ps-text);
+    margin: 0 0 12px;
+  }
+  .ps-description {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--ps-text-muted);
     margin: 0;
   }
 
-  /* Grid */
-  .ps-grid { display: grid; gap: var(--ps-gap); }
-  .ps-grid--grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
-  .ps-grid--featured { grid-template-columns: repeat(4, 1fr); grid-auto-rows: auto; }
-  .ps-grid--featured .ps-card--featured { grid-column: span 2; grid-row: span 2; }
+  /* ============================================================
+     4. GRID LAYOUTS
+     ============================================================ */
+  .ps-grid {
+    display: grid;
+    gap: var(--ps-gap);
+  }
 
-  /* Card */
+  /* Uniform grid */
+  .ps-grid--grid {
+    grid-template-columns: repeat(var(--ps-columns), 1fr);
+  }
+
+  /* Featured: first card large */
+  .ps-grid--featured {
+    grid-template-columns: repeat(var(--ps-columns), 1fr);
+    grid-auto-rows: auto;
+  }
+  .ps-grid--featured .ps-card:first-child {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  /* Masonry-style: alternating tall/short */
+  .ps-grid--masonry {
+    grid-template-columns: repeat(var(--ps-columns), 1fr);
+    grid-auto-rows: auto;
+  }
+  .ps-grid--masonry .ps-card:nth-child(3n+1) {
+    grid-row: span 2;
+  }
+
+  /* ============================================================
+     5. CARD
+     ============================================================ */
   .ps-card {
     position: relative;
     display: flex;
     flex-direction: column;
     border-radius: var(--ps-radius);
     overflow: hidden;
-    background: #fff;
+    background: var(--ps-card-bg);
     text-decoration: none;
     color: inherit;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-    transition: transform var(--ps-transition), box-shadow var(--ps-transition);
+    transition:
+      transform var(--ps-transition),
+      box-shadow var(--ps-transition);
     cursor: pointer;
+    /* Scroll reveal: starts hidden */
+    opacity: 0;
+    transform: translateY(40px);
   }
-  .ps-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
-  }
-
-  /* Badge */
-  .ps-badge {
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    z-index: 3;
-    padding: 6px 14px;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #fff;
-    background: var(--ps-accent);
-    border-radius: 100px;
+  .ps-card.ps-visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  /* Image */
+  /* Card styles */
+  .ps-card--shadow {
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .ps-card--shadow:hover {
+    transform: translateY(-8px);
+    box-shadow:
+      0 24px 48px rgba(0,0,0,0.10),
+      0 2px 6px rgba(0,0,0,0.04);
+  }
+
+  .ps-card--outline {
+    box-shadow: none;
+    border: 1.5px solid var(--ps-text-muted);
+  }
+  .ps-card--outline:hover {
+    transform: translateY(-8px);
+    border-color: var(--ps-accent);
+    box-shadow: 0 24px 48px rgba(0,0,0,0.08);
+  }
+
+  .ps-card--flat {
+    box-shadow: none;
+  }
+  .ps-card--flat:hover {
+    transform: translateY(-4px);
+  }
+
+  /* ============================================================
+     6. IMAGE AREA
+     ============================================================ */
   .ps-card__image-wrap {
     position: relative;
     overflow: hidden;
-    background: var(--ps-accent-light);
+    background: var(--ps-text-muted);
     aspect-ratio: 3 / 4;
   }
-  .ps-card--featured .ps-card__image-wrap {
+  .ps-grid--featured .ps-card:first-child .ps-card__image-wrap,
+  .ps-grid--masonry .ps-card:nth-child(3n+1) .ps-card__image-wrap {
     aspect-ratio: auto;
     flex: 1 1 0;
-    min-height: 360px;
+    min-height: 420px;
   }
+
   .ps-card__image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: opacity var(--ps-transition), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition:
+      opacity 0.6s cubic-bezier(0.22,1,0.36,1),
+      transform 0.9s cubic-bezier(0.22,1,0.36,1);
   }
   .ps-card__image--hover {
     position: absolute;
     inset: 0;
     opacity: 0;
   }
-  .ps-card:hover .ps-card__image:not(.ps-card__image--hover) { opacity: 0; }
-  .ps-card:hover .ps-card__image--hover { opacity: 1; }
-  .ps-card:hover .ps-card__image { transform: scale(1.04); }
+  .ps-card:hover .ps-card__image--primary { opacity: 0; }
+  .ps-card:hover .ps-card__image--hover   { opacity: 1; }
+  .ps-card:hover .ps-card__image          { transform: scale(1.06); }
+
+  /* Quick-add overlay */
+  .ps-card__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 20px;
+    background: linear-gradient(0deg, rgba(0,0,0,0.35) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .ps-card:hover .ps-card__overlay { opacity: 1; pointer-events: auto; }
+
+  .ps-card__quick-add {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ps-text);
+    background: var(--ps-card-bg);
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    transform: translateY(12px);
+    transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), background 0.3s;
+    pointer-events: auto;
+    text-decoration: none;
+  }
+  .ps-card:hover .ps-card__quick-add { transform: translateY(0); }
+  .ps-card__quick-add:hover { background: var(--ps-accent); color: #fff; }
 
   /* Placeholder */
   .ps-card__placeholder {
@@ -110,267 +258,559 @@
     justify-content: center;
     width: 100%;
     height: 100%;
-    background: var(--ps-accent-light);
+    background: color-mix(in srgb, var(--ps-text) 5%, transparent);
   }
-  .ps-placeholder-svg { width: 60%; height: auto; opacity: 0.25; }
+  .ps-placeholder-svg { width: 50%; height: auto; opacity: 0.18; }
 
-  /* Card body */
-  .ps-card__body {
-    padding: 20px 20px 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .ps-card--featured .ps-card__body { padding: 24px 28px 32px; }
-  .ps-card__vendor {
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
+  /* ============================================================
+     7. BADGE
+     ============================================================ */
+  .ps-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 3;
+    padding: 6px 14px;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #999;
+    color: #fff;
+    border-radius: 100px;
   }
-  .ps-card__title {
-    font-size: 1rem;
-    font-weight: 600;
-    line-height: 1.35;
-    margin: 0;
-    color: var(--ps-accent);
-    transition: color 0.3s;
-  }
-  .ps-card--featured .ps-card__title { font-size: 1.2rem; }
-  .ps-card:hover .ps-card__title { color: #555; }
+  .ps-badge--dark   { background: #111; }
+  .ps-badge--accent { background: var(--ps-accent); }
+  .ps-badge--sale   { background: #e74c3c; }
+  .ps-badge--new    { background: #27ae60; }
 
-  /* Stars */
-  .ps-card__rating { display: flex; align-items: center; gap: 6px; margin: 2px 0; }
-  .ps-stars { position: relative; display: inline-flex; line-height: 1; }
-  .ps-stars__empty { display: flex; gap: 2px; color: #ddd; }
-  .ps-stars__filled {
+  /* Sold-out overlay */
+  .ps-card__sold-out-overlay {
     position: absolute;
     inset: 0;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.7);
+    backdrop-filter: blur(2px);
+  }
+  .ps-card__sold-out-text {
+    padding: 10px 24px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #fff;
+    background: #111;
+    border-radius: 100px;
+  }
+
+  /* ============================================================
+     8. CARD BODY
+     ============================================================ */
+  .ps-card__body {
+    padding: 20px 22px 26px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex-shrink: 0;
+  }
+  .ps-grid--featured .ps-card:first-child .ps-card__body,
+  .ps-grid--masonry .ps-card:nth-child(3n+1) .ps-card__body {
+    padding: 26px 28px 34px;
+  }
+
+  .ps-card__vendor {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ps-text-muted);
+  }
+
+  .ps-card__title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.35;
+    margin: 0;
+    color: var(--ps-text);
+    transition: color 0.3s;
+  }
+  .ps-grid--featured .ps-card:first-child .ps-card__title,
+  .ps-grid--masonry .ps-card:nth-child(3n+1) .ps-card__title {
+    font-size: 1.15rem;
+  }
+  .ps-card:hover .ps-card__title { color: var(--ps-accent); }
+
+  /* Short description */
+  .ps-card__desc {
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: var(--ps-text-muted);
+    margin: 2px 0 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ============================================================
+     9. STARS & REVIEWS
+     ============================================================ */
+  .ps-card__rating {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 3px 0 1px;
+  }
+  .ps-stars {
+    position: relative;
+    display: inline-flex;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .ps-stars__track {
     display: flex;
     gap: 2px;
-    color: #f5a623;
+  }
+  .ps-stars__empty .ps-star-icon { color: var(--ps-star-empty); }
+  .ps-stars__filled {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    gap: 2px;
     overflow: hidden;
     width: calc(var(--ps-rating) / 5 * 100%);
   }
-  .ps-card__review-count { font-size: 0.75rem; color: #999; }
+  .ps-stars__filled .ps-star-icon { color: var(--ps-star-color); }
+  .ps-star-icon {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+  }
+  .ps-card__review-count {
+    font-size: 0.73rem;
+    font-weight: 600;
+    color: var(--ps-text-muted);
+  }
 
-  /* Price */
+  /* ============================================================
+     10. PRICE
+     ============================================================ */
   .ps-card__price {
     display: flex;
     align-items: baseline;
     gap: 8px;
     flex-wrap: wrap;
-    margin-top: 2px;
+    margin-top: 4px;
   }
-  .ps-card__price-regular,
+  .ps-card__price-regular {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--ps-text);
+  }
   .ps-card__price-sale {
     font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--ps-accent);
+    font-weight: 800;
+    color: #e74c3c;
   }
-  .ps-card__price-sale { color: #c0392b; }
-  .ps-card__price-compare { font-size: 0.85rem; color: #aaa; text-decoration: line-through; }
+  .ps-card__price-compare {
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--ps-text-muted);
+    text-decoration: line-through;
+  }
   .ps-card__price-save {
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: #c0392b;
-    background: #fce4e4;
-    padding: 2px 8px;
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 800;
+    color: #e74c3c;
+    background: rgba(231,76,60,0.1);
+    padding: 3px 9px;
     border-radius: 100px;
+    letter-spacing: 0.03em;
+  }
+  .ps-card__price-unit {
+    font-size: 0.75rem;
+    color: var(--ps-text-muted);
+    font-weight: 500;
   }
 
-  /* CTA teaser */
+  /* ============================================================
+     11. CTA ARROW
+     ============================================================ */
   .ps-card__cta {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    margin-top: 8px;
-    font-size: 0.8rem;
-    font-weight: 600;
+    gap: 7px;
+    margin-top: 10px;
+    font-size: 0.78rem;
+    font-weight: 700;
     letter-spacing: 0.03em;
     color: var(--ps-accent);
     opacity: 0;
-    transform: translateY(6px);
-    transition: opacity 0.35s, transform 0.35s;
+    transform: translateY(8px);
+    transition: opacity 0.4s, transform 0.4s;
   }
-  .ps-card__cta svg { transition: transform 0.35s; }
+  .ps-card__cta svg { transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); }
   .ps-card:hover .ps-card__cta { opacity: 1; transform: translateY(0); }
-  .ps-card:hover .ps-card__cta svg { transform: translateX(4px); }
+  .ps-card:hover .ps-card__cta svg { transform: translateX(5px); }
 
-  /* Empty state */
-  .ps-card--empty { border: 2px dashed #ddd; box-shadow: none; }
+  /* ============================================================
+     12. EMPTY STATE
+     ============================================================ */
+  .ps-card--empty {
+    border: 2px dashed var(--ps-text-muted);
+    box-shadow: none;
+    opacity: 0.5;
+  }
   .ps-card--empty:hover { transform: none; box-shadow: none; }
+  .ps-card--empty.ps-visible { opacity: 0.5; }
 
-  /* ---- Responsive ---- */
-  @media (max-width: 1024px) {
-    .ps-grid--featured { grid-template-columns: repeat(2, 1fr); }
-    .ps-grid--featured .ps-card--featured { grid-column: span 2; grid-row: span 1; }
-    .ps-card--featured .ps-card__image-wrap { aspect-ratio: 16 / 9; min-height: 0; }
-    .ps-showcase { padding: 60px 20px; }
+  /* ============================================================
+     13. VIEW ALL BUTTON
+     ============================================================ */
+  .ps-view-all {
+    text-align: center;
+    margin-top: 48px;
   }
-  @media (max-width: 600px) {
-    .ps-grid--featured,
-    .ps-grid--grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .ps-grid--featured .ps-card--featured { grid-column: span 2; }
-    .ps-showcase { padding: 48px 16px; }
-    .ps-header { margin-bottom: 32px; }
+  .ps-view-all__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 40px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ps-accent);
+    border: 2px solid var(--ps-accent);
+    border-radius: 100px;
+    transition: background 0.35s, color 0.35s, transform 0.35s;
+  }
+  .ps-view-all__btn:hover {
+    background: var(--ps-accent);
+    color: var(--ps-card-bg);
+    transform: translateY(-2px);
+  }
+  .ps-view-all__btn svg { transition: transform 0.35s; }
+  .ps-view-all__btn:hover svg { transform: translateX(4px); }
+
+  /* ============================================================
+     14. RESPONSIVE
+     ============================================================ */
+  @media (max-width: 1100px) {
+    .ps-showcase__inner { padding: 0 28px; }
+    #ProductShowcase-{{ section_id }} { --ps-columns: 3; }
+    .ps-grid--featured .ps-card:first-child { grid-column: span 2; grid-row: span 1; }
+    .ps-grid--featured .ps-card:first-child .ps-card__image-wrap,
+    .ps-grid--masonry .ps-card:nth-child(3n+1) .ps-card__image-wrap {
+      aspect-ratio: 16 / 9;
+      min-height: 0;
+    }
+  }
+
+  @media (max-width: 768px) {
+    #ProductShowcase-{{ section_id }} {
+      --ps-columns: 2;
+      --ps-gap: 14px;
+      --ps-padding-top: {{ section.settings.padding_top | divided_by: 2 }}px;
+      --ps-padding-bottom: {{ section.settings.padding_bottom | divided_by: 2 }}px;
+    }
+    .ps-showcase__inner { padding: 0 16px; }
+    .ps-header { margin-bottom: 36px; }
+    .ps-description { font-size: 0.92rem; }
+    .ps-grid--featured .ps-card:first-child { grid-column: span 2; }
+    .ps-grid--masonry .ps-card:nth-child(3n+1) { grid-row: span 1; }
+
     .ps-card__body { padding: 14px 14px 18px; }
-    .ps-card__title { font-size: 0.875rem; }
-    .ps-card--featured .ps-card__title { font-size: 1rem; }
+    .ps-card__title { font-size: 0.85rem; }
+    .ps-grid--featured .ps-card:first-child .ps-card__title,
+    .ps-grid--masonry .ps-card:nth-child(3n+1) .ps-card__title { font-size: 0.95rem; }
+
+    .ps-card__overlay { display: none; }
     .ps-card__cta { display: none; }
+    .ps-card__desc { display: none; }
+
     .ps-badge { top: 10px; left: 10px; padding: 4px 10px; font-size: 0.6rem; }
-  }
-  @media (max-width: 380px) {
-    .ps-grid--featured,
-    .ps-grid--grid { grid-template-columns: 1fr; }
-    .ps-grid--featured .ps-card--featured { grid-column: span 1; }
+    .ps-star-icon { width: 13px; height: 13px; }
+    .ps-card__price-regular,
+    .ps-card__price-sale { font-size: 0.92rem; }
   }
 
-  /* ---- Animations ---- */
-  @keyframes ps-fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+  @media (max-width: 420px) {
+    #ProductShowcase-{{ section_id }} { --ps-columns: 1; }
+    .ps-grid--featured .ps-card:first-child { grid-column: span 1; }
+    .ps-card__image-wrap { aspect-ratio: 4 / 5; }
   }
-  .ps-card { animation: ps-fadeUp 0.6s ease both; }
-  .ps-card:nth-child(1) { animation-delay: 0s; }
-  .ps-card:nth-child(2) { animation-delay: 0.08s; }
-  .ps-card:nth-child(3) { animation-delay: 0.16s; }
-  .ps-card:nth-child(4) { animation-delay: 0.24s; }
-  .ps-card:nth-child(5) { animation-delay: 0.32s; }
-  .ps-card:nth-child(6) { animation-delay: 0.40s; }
 
+  /* ============================================================
+     15. REDUCED MOTION
+     ============================================================ */
   @media (prefers-reduced-motion: reduce) {
-    .ps-card { animation: none; }
+    .ps-card {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
     .ps-card:hover { transform: none; }
     .ps-card:hover .ps-card__image { transform: none; }
+    .ps-card:hover .ps-card__overlay { transition: none; }
   }
 </style>
 
-<section class="ps-showcase" id="ProductShowcase-{{ section.id }}">
-  {%- if section.settings.heading != blank -%}
-    <div class="ps-header">
-      {%- if section.settings.subheading != blank -%}
-        <span class="ps-subheading">{{ section.settings.subheading }}</span>
-      {%- endif -%}
-      <h2 class="ps-heading">{{ section.settings.heading }}</h2>
-    </div>
-  {%- endif -%}
+{%- comment -%} ========== HTML ========== {%- endcomment -%}
+<section class="ps-showcase" id="ProductShowcase-{{ section_id }}">
+  <div class="ps-showcase__inner">
 
-  <div class="ps-grid ps-grid--{{ section.settings.layout }}">
-    {%- for block in section.blocks -%}
-      {%- assign product = block.settings.product -%}
-      {%- if product != blank -%}
-        <a
-          href="{{ product.url }}"
-          class="ps-card {% if forloop.first and section.settings.layout == 'featured' %}ps-card--featured{% endif %}"
-          {{ block.shopify_attributes }}
-        >
-          {%- if block.settings.badge_text != blank -%}
-            <span class="ps-badge">{{ block.settings.badge_text }}</span>
+    {%- comment -%} --- Header --- {%- endcomment -%}
+    {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
+      <div class="ps-header">
+        {%- if section.settings.subheading != blank -%}
+          <span class="ps-subheading">{{ section.settings.subheading }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="ps-heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.description != blank -%}
+          <p class="ps-description">{{ section.settings.description }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} --- Product grid --- {%- endcomment -%}
+    <div class="ps-grid ps-grid--{{ layout }}" id="PSGrid-{{ section_id }}">
+      {%- for block in section.blocks -%}
+        {%- assign product = block.settings.product -%}
+
+        {%- if product != blank -%}
+          {%- assign is_sold_out = false -%}
+          {%- unless product.available -%}
+            {%- assign is_sold_out = true -%}
+          {%- endunless -%}
+
+          {%- assign is_on_sale = false -%}
+          {%- if product.compare_at_price > product.price -%}
+            {%- assign is_on_sale = true -%}
           {%- endif -%}
 
-          <div class="ps-card__image-wrap">
-            {%- if product.featured_image != blank -%}
-              <img
-                src="{{ product.featured_image | image_url: width: 800 }}"
-                srcset="
-                  {{ product.featured_image | image_url: width: 400 }} 400w,
-                  {{ product.featured_image | image_url: width: 600 }} 600w,
-                  {{ product.featured_image | image_url: width: 800 }} 800w
-                "
-                sizes="(max-width: 600px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                alt="{{ product.featured_image.alt | default: product.title | escape }}"
-                loading="lazy"
-                width="{{ product.featured_image.width }}"
-                height="{{ product.featured_image.height }}"
-                class="ps-card__image"
-              >
-              {%- if product.images.size > 1 -%}
+          {%- comment -%} Determine badge style {%- endcomment -%}
+          {%- assign badge_class = 'ps-badge--dark' -%}
+          {%- if block.settings.badge_style == 'accent' -%}
+            {%- assign badge_class = 'ps-badge--accent' -%}
+          {%- elsif block.settings.badge_style == 'sale' -%}
+            {%- assign badge_class = 'ps-badge--sale' -%}
+          {%- elsif block.settings.badge_style == 'new' -%}
+            {%- assign badge_class = 'ps-badge--new' -%}
+          {%- endif -%}
+
+          <a
+            href="{{ product.url }}"
+            class="ps-card ps-card--{{ card_style }}"
+            {{ block.shopify_attributes }}
+            data-ps-card
+          >
+            {%- comment -%} Badge {%- endcomment -%}
+            {%- if block.settings.badge_text != blank -%}
+              <span class="ps-badge {{ badge_class }}">{{ block.settings.badge_text }}</span>
+            {%- elsif is_on_sale and section.settings.auto_sale_badge -%}
+              {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+              <span class="ps-badge ps-badge--sale">-{{ savings }}%</span>
+            {%- endif -%}
+
+            {%- comment -%} Image {%- endcomment -%}
+            <div class="ps-card__image-wrap">
+              {%- if product.featured_image != blank -%}
                 <img
-                  src="{{ product.images[1] | image_url: width: 800 }}"
-                  alt="{{ product.images[1].alt | default: product.title | escape }}"
+                  src="{{ product.featured_image | image_url: width: 900 }}"
+                  srcset="
+                    {{ product.featured_image | image_url: width: 400 }} 400w,
+                    {{ product.featured_image | image_url: width: 600 }} 600w,
+                    {{ product.featured_image | image_url: width: 900 }} 900w,
+                    {{ product.featured_image | image_url: width: 1200 }} 1200w
+                  "
+                  sizes="(max-width: 420px) 100vw, (max-width: 768px) 50vw, (max-width: 1100px) 33vw, 25vw"
+                  alt="{{ product.featured_image.alt | default: product.title | escape }}"
                   loading="lazy"
-                  class="ps-card__image ps-card__image--hover"
+                  width="{{ product.featured_image.width }}"
+                  height="{{ product.featured_image.height }}"
+                  class="ps-card__image ps-card__image--primary"
                 >
+                {%- if product.images.size > 1 -%}
+                  <img
+                    src="{{ product.images[1] | image_url: width: 900 }}"
+                    alt="{{ product.images[1].alt | default: product.title | escape }}"
+                    loading="lazy"
+                    class="ps-card__image ps-card__image--hover"
+                  >
+                {%- endif -%}
+              {%- else -%}
+                <div class="ps-card__placeholder">
+                  {{ 'product-1' | placeholder_svg_tag: 'ps-placeholder-svg' }}
+                </div>
               {%- endif -%}
-            {%- else -%}
+
+              {%- comment -%} Sold-out overlay {%- endcomment -%}
+              {%- if is_sold_out -%}
+                <div class="ps-card__sold-out-overlay">
+                  <span class="ps-card__sold-out-text">Udsolgt</span>
+                </div>
+              {%- endif -%}
+
+              {%- comment -%} Quick-add overlay {%- endcomment -%}
+              {%- unless is_sold_out -%}
+                <div class="ps-card__overlay">
+                  <span class="ps-card__quick-add">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    {{ cta_text | default: 'Se produkt' }}
+                  </span>
+                </div>
+              {%- endunless -%}
+            </div>
+
+            {%- comment -%} Card body {%- endcomment -%}
+            <div class="ps-card__body">
+              {%- if block.settings.show_vendor and product.vendor != blank -%}
+                <span class="ps-card__vendor">{{ product.vendor }}</span>
+              {%- endif -%}
+
+              <h3 class="ps-card__title">{{ product.title }}</h3>
+
+              {%- if block.settings.show_description and product.description != blank -%}
+                <p class="ps-card__desc">{{ product.description | strip_html | truncate: 90 }}</p>
+              {%- endif -%}
+
+              {%- comment -%} Stars {%- endcomment -%}
+              {%- if block.settings.show_stars -%}
+                <div class="ps-card__rating">
+                  <div class="ps-stars" style="--ps-rating: {{ block.settings.star_rating }};" aria-label="{{ block.settings.star_rating }} ud af 5 stjerner">
+                    <div class="ps-stars__track ps-stars__empty">
+                      {%- for i in (1..5) -%}
+                        <svg class="ps-star-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      {%- endfor -%}
+                    </div>
+                    <div class="ps-stars__track ps-stars__filled">
+                      {%- for i in (1..5) -%}
+                        <svg class="ps-star-icon" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      {%- endfor -%}
+                    </div>
+                  </div>
+                  {%- if block.settings.review_count > 0 -%}
+                    <span class="ps-card__review-count">({{ block.settings.review_count }})</span>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+
+              {%- comment -%} Price {%- endcomment -%}
+              <div class="ps-card__price">
+                {%- if is_on_sale -%}
+                  <span class="ps-card__price-sale">{{ product.price | money }}</span>
+                  <span class="ps-card__price-compare">{{ product.compare_at_price | money }}</span>
+                  {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+                  <span class="ps-card__price-save">-{{ savings }}%</span>
+                {%- else -%}
+                  <span class="ps-card__price-regular">{{ product.price | money }}</span>
+                {%- endif -%}
+                {%- if product.selected_or_first_available_variant.unit_price -%}
+                  <span class="ps-card__price-unit">
+                    ({{ product.selected_or_first_available_variant.unit_price | money }} /
+                    {{ product.selected_or_first_available_variant.unit_price_measurement.reference_value }}
+                    {{ product.selected_or_first_available_variant.unit_price_measurement.reference_unit }})
+                  </span>
+                {%- endif -%}
+              </div>
+
+              {%- comment -%} CTA arrow {%- endcomment -%}
+              <span class="ps-card__cta">
+                {{ cta_text | default: 'Se produkt' }}
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </span>
+            </div>
+          </a>
+
+        {%- else -%}
+          {%- comment -%} Empty block placeholder {%- endcomment -%}
+          <div class="ps-card ps-card--empty ps-card--{{ card_style }}" {{ block.shopify_attributes }} data-ps-card>
+            <div class="ps-card__image-wrap">
               <div class="ps-card__placeholder">
                 {{ 'product-1' | placeholder_svg_tag: 'ps-placeholder-svg' }}
               </div>
-            {%- endif -%}
-          </div>
-
-          <div class="ps-card__body">
-            {%- if block.settings.show_vendor and product.vendor != blank -%}
-              <span class="ps-card__vendor">{{ product.vendor }}</span>
-            {%- endif -%}
-
-            <h3 class="ps-card__title">{{ product.title }}</h3>
-
-            {%- if block.settings.show_stars -%}
-              <div class="ps-card__rating">
-                <div class="ps-stars" style="--ps-rating: {{ block.settings.star_rating }};" aria-label="{{ block.settings.star_rating }} ud af 5 stjerner">
-                  <div class="ps-stars__empty">
-                    {%- for i in (1..5) -%}
-                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    {%- endfor -%}
-                  </div>
-                  <div class="ps-stars__filled">
-                    {%- for i in (1..5) -%}
-                      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                    {%- endfor -%}
-                  </div>
-                </div>
-                {%- if block.settings.review_count > 0 -%}
-                  <span class="ps-card__review-count">({{ block.settings.review_count }})</span>
-                {%- endif -%}
+            </div>
+            <div class="ps-card__body">
+              <span class="ps-card__vendor">Brand</span>
+              <h3 class="ps-card__title">Vaelg et produkt</h3>
+              <div class="ps-card__price">
+                <span class="ps-card__price-regular">0,00 kr.</span>
               </div>
-            {%- endif -%}
-
-            <div class="ps-card__price">
-              {%- if product.compare_at_price > product.price -%}
-                <span class="ps-card__price-sale">{{ product.price | money }}</span>
-                <span class="ps-card__price-compare">{{ product.compare_at_price | money }}</span>
-                {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
-                <span class="ps-card__price-save">-{{ savings }}%</span>
-              {%- else -%}
-                <span class="ps-card__price-regular">{{ product.price | money }}</span>
-              {%- endif -%}
             </div>
-
-            <span class="ps-card__cta">
-              Se produkt
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-            </span>
           </div>
+        {%- endif -%}
+
+      {%- endfor -%}
+    </div>
+
+    {%- comment -%} View-all button {%- endcomment -%}
+    {%- if section.settings.show_view_all and section.settings.view_all_collection != blank -%}
+      <div class="ps-view-all">
+        <a href="{{ section.settings.view_all_collection.url }}" class="ps-view-all__btn">
+          {{ section.settings.view_all_text | default: 'Se alle produkter' }}
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
-      {%- else -%}
-        <div class="ps-card ps-card--empty" {{ block.shopify_attributes }}>
-          <div class="ps-card__image-wrap">
-            <div class="ps-card__placeholder">
-              {{ 'product-1' | placeholder_svg_tag: 'ps-placeholder-svg' }}
-            </div>
-          </div>
-          <div class="ps-card__body">
-            <span class="ps-card__vendor">Brand</span>
-            <h3 class="ps-card__title">Vaelg et produkt</h3>
-            <div class="ps-card__price">
-              <span class="ps-card__price-regular">0,00 kr.</span>
-            </div>
-          </div>
-        </div>
-      {%- endif -%}
-    {%- endfor -%}
+      </div>
+    {%- endif -%}
+
   </div>
 </section>
+
+{%- comment -%} ========== JAVASCRIPT — Scroll reveal ========== {%- endcomment -%}
+<script>
+  (function() {
+    var sectionId = '{{ section_id }}';
+    var cards = document.querySelectorAll('#ProductShowcase-' + sectionId + ' [data-ps-card]');
+    if (!cards.length) return;
+
+    /* Reduced-motion: show all immediately */
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      cards.forEach(function(c) { c.classList.add('ps-visible'); });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var card = entry.target;
+          var idx  = parseInt(card.getAttribute('data-ps-index'), 10) || 0;
+          var delay = idx * 100;
+
+          setTimeout(function() {
+            card.style.transition = 'opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1)';
+            card.classList.add('ps-visible');
+          }, delay);
+
+          observer.unobserve(card);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+    cards.forEach(function(card, i) {
+      card.setAttribute('data-ps-index', i);
+      observer.observe(card);
+    });
+  })();
+</script>
 
 {% schema %}
 {
   "name": "Produkt Showcase",
   "tag": "section",
-  "class": "ps-section",
+  "class": "ps-section-wrapper",
   "settings": [
+    {
+      "type": "header",
+      "content": "Overskrift"
+    },
     {
       "type": "text",
       "id": "subheading",
@@ -384,21 +824,168 @@
       "default": "Vores Bestsellere"
     },
     {
+      "type": "textarea",
+      "id": "description",
+      "label": "Beskrivelse",
+      "default": "Haandplukkede favoritter fra vores kollektion — elsket af vores kunder."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
       "type": "select",
       "id": "layout",
-      "label": "Layout",
+      "label": "Grid-layout",
       "options": [
-        { "value": "grid", "label": "Ensartet gitter" },
-        { "value": "featured", "label": "Fremhaevet (foerste produkt stort)" }
+        { "value": "grid",     "label": "Ensartet gitter" },
+        { "value": "featured", "label": "Fremhaevet (1. produkt stort)" },
+        { "value": "masonry",  "label": "Masonry (varierende hoejde)" }
       ],
       "default": "featured"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Kolonner (desktop)",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "grid_gap",
+      "label": "Afstand mellem kort",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "default": 20,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Kort-stil"
+    },
+    {
+      "type": "select",
+      "id": "card_style",
+      "label": "Kort-stil",
+      "options": [
+        { "value": "shadow",  "label": "Skygge (elevated)" },
+        { "value": "outline", "label": "Ramme (outline)" },
+        { "value": "flat",    "label": "Flad (minimalistisk)" }
+      ],
+      "default": "shadow"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "label": "Hjoerne-radius",
+      "min": 0,
+      "max": 32,
+      "step": 2,
+      "default": 16,
+      "unit": "px"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA-tekst paa kort",
+      "default": "Se produkt"
+    },
+    {
+      "type": "checkbox",
+      "id": "auto_sale_badge",
+      "label": "Automatisk tilbuds-badge",
+      "info": "Viser rabat-% badge automatisk naar produktet er paa tilbud",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Farver"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Baggrundsfarve",
+      "default": "#fafafa"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Kort-baggrundsfarve",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Tekstfarve",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent-farve",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Stjerne-farve",
+      "default": "#f5a623"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "default": 80,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Se alle-knap"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Vis 'Se alle'-knap",
+      "default": false
+    },
+    {
+      "type": "collection",
+      "id": "view_all_collection",
+      "label": "Link til kollektion"
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "Knaptekst",
+      "default": "Se alle produkter"
     }
   ],
   "blocks": [
     {
       "type": "product_card",
       "name": "Produkt",
-      "limit": 6,
+      "limit": 8,
       "settings": [
         {
           "type": "product",
@@ -406,16 +993,46 @@
           "label": "Produkt"
         },
         {
+          "type": "header",
+          "content": "Badge"
+        },
+        {
           "type": "text",
           "id": "badge_text",
-          "label": "Badge tekst",
-          "info": "F.eks. 'Bestseller', 'Nyt', 'Tilbud'"
+          "label": "Badge-tekst",
+          "info": "Lad staa tom for ingen badge (eller brug automatisk tilbuds-badge)"
+        },
+        {
+          "type": "select",
+          "id": "badge_style",
+          "label": "Badge-stil",
+          "options": [
+            { "value": "dark",   "label": "Moerk" },
+            { "value": "accent", "label": "Accent" },
+            { "value": "sale",   "label": "Roed (udsalg)" },
+            { "value": "new",    "label": "Groen (nyt)" }
+          ],
+          "default": "dark"
+        },
+        {
+          "type": "header",
+          "content": "Indhold"
         },
         {
           "type": "checkbox",
           "id": "show_vendor",
           "label": "Vis producent",
           "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_description",
+          "label": "Vis kort beskrivelse",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Anmeldelser"
         },
         {
           "type": "checkbox",
@@ -445,7 +1062,14 @@
   "presets": [
     {
       "name": "Produkt Showcase",
+      "settings": {
+        "heading": "Vores Bestsellere",
+        "subheading": "Udvalgt til dig",
+        "layout": "featured",
+        "columns": 4
+      },
       "blocks": [
+        { "type": "product_card" },
         { "type": "product_card" },
         { "type": "product_card" },
         { "type": "product_card" },
