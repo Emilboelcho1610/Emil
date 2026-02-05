@@ -26,6 +26,7 @@
     --ps-text-muted: {{ section.settings.text_color | color_modify: 'alpha', 0.5 }};
     --ps-star: {{ section.settings.star_color }};
     --ps-star-empty: {{ section.settings.text_color | color_modify: 'alpha', 0.15 }};
+    --ps-sale: {{ section.settings.sale_color }};
     --ps-radius: {{ section.settings.card_radius }}px;
     --ps-gap: {{ section.settings.grid_gap }}px;
     --ps-transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
@@ -237,7 +238,7 @@
   }
   .ps-badge--dark   { background: #111; }
   .ps-badge--accent { background: var(--ps-accent); }
-  .ps-badge--sale   { background: #e74c3c; }
+  .ps-badge--sale   { background: var(--ps-sale); }
   .ps-badge--new    { background: #27ae60; }
 
   /* Sold-out overlay */
@@ -362,7 +363,7 @@
     font-weight: 800;
     color: var(--ps-text);
   }
-  .ps-price__now--sale { color: #e74c3c; }
+  .ps-price__now--sale { color: var(--ps-sale); }
   .ps-price__was {
     font-size: 0.8rem;
     font-weight: 500;
@@ -373,8 +374,8 @@
     display: inline-block;
     font-size: 0.62rem;
     font-weight: 800;
-    color: #e74c3c;
-    background: rgba(231,76,60,0.1);
+    color: var(--ps-sale);
+    background: color-mix(in srgb, var(--ps-sale) 10%, transparent);
     padding: 2px 8px;
     border-radius: 100px;
     letter-spacing: 0.02em;
@@ -1005,6 +1006,12 @@
     },
     {
       "type": "color",
+      "id": "sale_color",
+      "label": "Tilbudspris-farve",
+      "default": "#e74c3c"
+    },
+    {
+      "type": "color",
       "id": "star_color",
       "label": "Stjerne-farve",
       "default": "#f5a623"
@@ -1096,7 +1103,7 @@
           "type": "checkbox",
           "id": "show_vendor",
           "label": "Vis producent",
-          "default": true
+          "default": false
         },
         {
           "type": "checkbox",
