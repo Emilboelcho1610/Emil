@@ -2,39 +2,33 @@
   ================================================================
   PRODUKT SHOWCASE — Premium Shopify Section
   ================================================================
-  Self-contained section: Style + HTML/Liquid + JavaScript + Schema
-  Drop into any Shopify 2.0 theme's sections/ folder.
+  Desktop: 4-column grid (rows of 4, wraps naturally)
+  Mobile:  Horizontal swipe slider (default) or stacked grid
   ================================================================
 {%- endcomment -%}
 
 {%- liquid
-  assign section_id = section.id
-  assign layout     = section.settings.layout
-  assign columns    = section.settings.columns
-  assign bg_color   = section.settings.bg_color
-  assign card_style = section.settings.card_style
-  assign cta_text   = section.settings.cta_text
+  assign section_id    = section.id
+  assign card_style    = section.settings.card_style
+  assign cta_text      = section.settings.cta_text
+  assign mobile_layout = section.settings.mobile_layout
 -%}
 
-{%- comment -%} ========== STYLES ========== {%- endcomment -%}
 <style>
   /* ============================================================
-     1. CSS CUSTOM PROPERTIES (driven by Shopify settings)
+     1. CUSTOM PROPERTIES
      ============================================================ */
-  #ProductShowcase-{{ section_id }} {
+  #PS-{{ section_id }} {
     --ps-accent: {{ section.settings.accent_color }};
-    --ps-bg: {{ bg_color }};
+    --ps-bg: {{ section.settings.bg_color }};
     --ps-card-bg: {{ section.settings.card_bg_color }};
     --ps-text: {{ section.settings.text_color }};
-    --ps-text-muted: {{ section.settings.text_color | color_modify: 'alpha', 0.55 }};
-    --ps-star-color: {{ section.settings.star_color }};
+    --ps-text-muted: {{ section.settings.text_color | color_modify: 'alpha', 0.5 }};
+    --ps-star: {{ section.settings.star_color }};
     --ps-star-empty: {{ section.settings.text_color | color_modify: 'alpha', 0.15 }};
     --ps-radius: {{ section.settings.card_radius }}px;
     --ps-gap: {{ section.settings.grid_gap }}px;
-    --ps-columns: {{ columns }};
     --ps-transition: 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-    --ps-padding-top: {{ section.settings.padding_top }}px;
-    --ps-padding-bottom: {{ section.settings.padding_bottom }}px;
   }
 
   /* ============================================================
@@ -42,9 +36,9 @@
      ============================================================ */
   .ps-showcase {
     background: var(--ps-bg);
-    padding: var(--ps-padding-top) 0 var(--ps-padding-bottom);
+    padding: {{ section.settings.padding_top }}px 0 {{ section.settings.padding_bottom }}px;
   }
-  .ps-showcase__inner {
+  .ps-inner {
     max-width: 1360px;
     margin: 0 auto;
     padding: 0 40px;
@@ -55,7 +49,7 @@
      ============================================================ */
   .ps-header {
     text-align: center;
-    margin-bottom: 56px;
+    margin-bottom: 52px;
     max-width: 640px;
     margin-left: auto;
     margin-right: auto;
@@ -69,7 +63,7 @@
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--ps-accent);
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
   .ps-subheading::before,
   .ps-subheading::after {
@@ -77,53 +71,30 @@
     width: 24px;
     height: 1.5px;
     background: var(--ps-accent);
-    opacity: 0.4;
+    opacity: 0.35;
   }
   .ps-heading {
-    font-size: clamp(1.8rem, 4.5vw, 3rem);
+    font-size: clamp(1.75rem, 4.5vw, 2.85rem);
     font-weight: 800;
-    letter-spacing: -0.035em;
-    line-height: 1.1;
+    letter-spacing: -0.03em;
+    line-height: 1.12;
     color: var(--ps-text);
-    margin: 0 0 12px;
+    margin: 0 0 10px;
   }
   .ps-description {
-    font-size: 1.05rem;
+    font-size: 1.02rem;
     line-height: 1.6;
     color: var(--ps-text-muted);
     margin: 0;
   }
 
   /* ============================================================
-     4. GRID LAYOUTS
+     4. DESKTOP GRID — simple 4-column rows
      ============================================================ */
   .ps-grid {
     display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: var(--ps-gap);
-  }
-
-  /* Uniform grid */
-  .ps-grid--grid {
-    grid-template-columns: repeat(var(--ps-columns), 1fr);
-  }
-
-  /* Featured: first card large */
-  .ps-grid--featured {
-    grid-template-columns: repeat(var(--ps-columns), 1fr);
-    grid-auto-rows: auto;
-  }
-  .ps-grid--featured .ps-card:first-child {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-
-  /* Masonry-style: alternating tall/short */
-  .ps-grid--masonry {
-    grid-template-columns: repeat(var(--ps-columns), 1fr);
-    grid-auto-rows: auto;
-  }
-  .ps-grid--masonry .ps-card:nth-child(3n+1) {
-    grid-row: span 2;
   }
 
   /* ============================================================
@@ -138,82 +109,65 @@
     background: var(--ps-card-bg);
     text-decoration: none;
     color: inherit;
-    transition:
-      transform var(--ps-transition),
-      box-shadow var(--ps-transition);
     cursor: pointer;
-    /* Scroll reveal: starts hidden */
+    /* Scroll reveal */
     opacity: 0;
-    transform: translateY(40px);
+    transform: translateY(36px);
+    transition: transform var(--ps-transition), box-shadow var(--ps-transition);
   }
   .ps-card.ps-visible {
     opacity: 1;
     transform: translateY(0);
   }
 
-  /* Card styles */
+  /* Card style variants */
   .ps-card--shadow {
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04), 0 4px 14px rgba(0,0,0,0.035);
   }
-  .ps-card--shadow:hover {
-    transform: translateY(-8px);
-    box-shadow:
-      0 24px 48px rgba(0,0,0,0.10),
-      0 2px 6px rgba(0,0,0,0.04);
+  .ps-card--shadow.ps-visible:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 22px 44px rgba(0,0,0,0.10), 0 2px 6px rgba(0,0,0,0.04);
   }
-
   .ps-card--outline {
     box-shadow: none;
     border: 1.5px solid var(--ps-text-muted);
   }
-  .ps-card--outline:hover {
-    transform: translateY(-8px);
+  .ps-card--outline.ps-visible:hover {
+    transform: translateY(-7px);
     border-color: var(--ps-accent);
-    box-shadow: 0 24px 48px rgba(0,0,0,0.08);
+    box-shadow: 0 22px 44px rgba(0,0,0,0.08);
   }
-
-  .ps-card--flat {
-    box-shadow: none;
-  }
-  .ps-card--flat:hover {
-    transform: translateY(-4px);
-  }
+  .ps-card--flat { box-shadow: none; }
+  .ps-card--flat.ps-visible:hover { transform: translateY(-4px); }
 
   /* ============================================================
-     6. IMAGE AREA
+     6. IMAGE
      ============================================================ */
-  .ps-card__image-wrap {
+  .ps-card__img-wrap {
     position: relative;
     overflow: hidden;
-    background: var(--ps-text-muted);
+    background: color-mix(in srgb, var(--ps-text) 5%, transparent);
     aspect-ratio: 3 / 4;
   }
-  .ps-grid--featured .ps-card:first-child .ps-card__image-wrap,
-  .ps-grid--masonry .ps-card:nth-child(3n+1) .ps-card__image-wrap {
-    aspect-ratio: auto;
-    flex: 1 1 0;
-    min-height: 420px;
-  }
-
-  .ps-card__image {
+  .ps-card__img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
     transition:
-      opacity 0.6s cubic-bezier(0.22,1,0.36,1),
-      transform 0.9s cubic-bezier(0.22,1,0.36,1);
+      opacity 0.55s cubic-bezier(0.22,1,0.36,1),
+      transform 0.85s cubic-bezier(0.22,1,0.36,1);
   }
-  .ps-card__image--hover {
+  .ps-card__img--hover {
     position: absolute;
     inset: 0;
     opacity: 0;
   }
-  .ps-card:hover .ps-card__image--primary { opacity: 0; }
-  .ps-card:hover .ps-card__image--hover   { opacity: 1; }
-  .ps-card:hover .ps-card__image          { transform: scale(1.06); }
+  .ps-card:hover .ps-card__img--primary { opacity: 0; }
+  .ps-card:hover .ps-card__img--hover { opacity: 1; }
+  .ps-card:hover .ps-card__img { transform: scale(1.05); }
 
-  /* Quick-add overlay */
+  /* Quick-view overlay (desktop only) */
   .ps-card__overlay {
     position: absolute;
     inset: 0;
@@ -221,20 +175,19 @@
     align-items: flex-end;
     justify-content: center;
     padding-bottom: 20px;
-    background: linear-gradient(0deg, rgba(0,0,0,0.35) 0%, transparent 50%);
+    background: linear-gradient(0deg, rgba(0,0,0,0.32) 0%, transparent 48%);
     opacity: 0;
     transition: opacity 0.4s;
     pointer-events: none;
     z-index: 2;
   }
   .ps-card:hover .ps-card__overlay { opacity: 1; pointer-events: auto; }
-
-  .ps-card__quick-add {
+  .ps-card__quick-btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 12px 28px;
-    font-size: 0.78rem;
+    padding: 11px 26px;
+    font-size: 0.76rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -243,13 +196,12 @@
     border: none;
     border-radius: 100px;
     cursor: pointer;
-    transform: translateY(12px);
-    transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), background 0.3s;
-    pointer-events: auto;
+    transform: translateY(10px);
+    transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), background 0.3s, color 0.3s;
     text-decoration: none;
   }
-  .ps-card:hover .ps-card__quick-add { transform: translateY(0); }
-  .ps-card__quick-add:hover { background: var(--ps-accent); color: #fff; }
+  .ps-card:hover .ps-card__quick-btn { transform: translateY(0); }
+  .ps-card__quick-btn:hover { background: var(--ps-accent); color: #fff; }
 
   /* Placeholder */
   .ps-card__placeholder {
@@ -258,25 +210,30 @@
     justify-content: center;
     width: 100%;
     height: 100%;
-    background: color-mix(in srgb, var(--ps-text) 5%, transparent);
+    background: color-mix(in srgb, var(--ps-text) 4%, transparent);
   }
-  .ps-placeholder-svg { width: 50%; height: auto; opacity: 0.18; }
+  .ps-placeholder-svg { width: 48%; height: auto; opacity: 0.15; }
 
   /* ============================================================
-     7. BADGE
+     7. BADGE — always inside image area, never overlaps body
      ============================================================ */
   .ps-badge {
     position: absolute;
-    top: 16px;
-    left: 16px;
+    top: 12px;
+    left: 12px;
     z-index: 3;
-    padding: 6px 14px;
-    font-size: 0.65rem;
+    padding: 5px 12px;
+    font-size: 0.62rem;
     font-weight: 800;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: #fff;
     border-radius: 100px;
+    line-height: 1.3;
+    max-width: calc(100% - 24px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .ps-badge--dark   { background: #111; }
   .ps-badge--accent { background: var(--ps-accent); }
@@ -284,7 +241,7 @@
   .ps-badge--new    { background: #27ae60; }
 
   /* Sold-out overlay */
-  .ps-card__sold-out-overlay {
+  .ps-card__soldout {
     position: absolute;
     inset: 0;
     z-index: 4;
@@ -294,11 +251,11 @@
     background: rgba(255,255,255,0.7);
     backdrop-filter: blur(2px);
   }
-  .ps-card__sold-out-text {
-    padding: 10px 24px;
-    font-size: 0.75rem;
+  .ps-card__soldout-pill {
+    padding: 8px 20px;
+    font-size: 0.7rem;
     font-weight: 800;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: #fff;
     background: #111;
@@ -309,43 +266,40 @@
      8. CARD BODY
      ============================================================ */
   .ps-card__body {
-    padding: 20px 22px 26px;
+    padding: 18px 20px 22px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 4px;
     flex-shrink: 0;
+    min-width: 0;
   }
-  .ps-grid--featured .ps-card:first-child .ps-card__body,
-  .ps-grid--masonry .ps-card:nth-child(3n+1) .ps-card__body {
-    padding: 26px 28px 34px;
-  }
-
   .ps-card__vendor {
-    font-size: 0.68rem;
+    font-size: 0.67rem;
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--ps-text-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
-
   .ps-card__title {
     font-size: 0.95rem;
     font-weight: 700;
-    line-height: 1.35;
+    line-height: 1.3;
     margin: 0;
     color: var(--ps-text);
     transition: color 0.3s;
-  }
-  .ps-grid--featured .ps-card:first-child .ps-card__title,
-  .ps-grid--masonry .ps-card:nth-child(3n+1) .ps-card__title {
-    font-size: 1.15rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   .ps-card:hover .ps-card__title { color: var(--ps-accent); }
 
-  /* Short description */
   .ps-card__desc {
-    font-size: 0.82rem;
-    line-height: 1.5;
+    font-size: 0.8rem;
+    line-height: 1.45;
     color: var(--ps-text-muted);
     margin: 2px 0 0;
     display: -webkit-box;
@@ -355,107 +309,100 @@
   }
 
   /* ============================================================
-     9. STARS & REVIEWS
+     9. STARS
      ============================================================ */
-  .ps-card__rating {
+  .ps-rating {
     display: flex;
     align-items: center;
-    gap: 7px;
-    margin: 3px 0 1px;
+    gap: 6px;
+    margin: 2px 0;
+    flex-wrap: nowrap;
+    min-width: 0;
   }
   .ps-stars {
     position: relative;
     display: inline-flex;
-    line-height: 1;
     flex-shrink: 0;
+    line-height: 1;
   }
-  .ps-stars__track {
+  .ps-stars__row {
     display: flex;
-    gap: 2px;
+    gap: 1.5px;
   }
-  .ps-stars__empty .ps-star-icon { color: var(--ps-star-empty); }
+  .ps-stars__empty .ps-star { color: var(--ps-star-empty); }
   .ps-stars__filled {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 0; left: 0;
     display: flex;
-    gap: 2px;
+    gap: 1.5px;
     overflow: hidden;
     width: calc(var(--ps-rating) / 5 * 100%);
   }
-  .ps-stars__filled .ps-star-icon { color: var(--ps-star-color); }
-  .ps-star-icon {
-    width: 15px;
-    height: 15px;
-    flex-shrink: 0;
-  }
-  .ps-card__review-count {
-    font-size: 0.73rem;
+  .ps-stars__filled .ps-star { color: var(--ps-star); }
+  .ps-star { width: 14px; height: 14px; flex-shrink: 0; }
+  .ps-review-count {
+    font-size: 0.72rem;
     font-weight: 600;
     color: var(--ps-text-muted);
+    white-space: nowrap;
   }
 
   /* ============================================================
      10. PRICE
      ============================================================ */
-  .ps-card__price {
+  .ps-price {
     display: flex;
     align-items: baseline;
-    gap: 8px;
+    gap: 7px;
     flex-wrap: wrap;
-    margin-top: 4px;
+    margin-top: 3px;
   }
-  .ps-card__price-regular {
-    font-size: 1.05rem;
+  .ps-price__now {
+    font-size: 1.02rem;
     font-weight: 800;
     color: var(--ps-text);
   }
-  .ps-card__price-sale {
-    font-size: 1.05rem;
-    font-weight: 800;
-    color: #e74c3c;
-  }
-  .ps-card__price-compare {
-    font-size: 0.82rem;
+  .ps-price__now--sale { color: #e74c3c; }
+  .ps-price__was {
+    font-size: 0.8rem;
     font-weight: 500;
     color: var(--ps-text-muted);
     text-decoration: line-through;
   }
-  .ps-card__price-save {
+  .ps-price__save {
     display: inline-block;
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     font-weight: 800;
     color: #e74c3c;
     background: rgba(231,76,60,0.1);
-    padding: 3px 9px;
+    padding: 2px 8px;
     border-radius: 100px;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.02em;
   }
-  .ps-card__price-unit {
-    font-size: 0.75rem;
+  .ps-price__unit {
+    font-size: 0.72rem;
     color: var(--ps-text-muted);
-    font-weight: 500;
+    width: 100%;
   }
 
   /* ============================================================
-     11. CTA ARROW
+     11. CTA ARROW (desktop)
      ============================================================ */
-  .ps-card__cta {
+  .ps-cta {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    margin-top: 10px;
-    font-size: 0.78rem;
+    gap: 6px;
+    margin-top: 8px;
+    font-size: 0.77rem;
     font-weight: 700;
-    letter-spacing: 0.03em;
     color: var(--ps-accent);
     opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 0.4s, transform 0.4s;
+    transform: translateY(6px);
+    transition: opacity 0.35s, transform 0.35s;
   }
-  .ps-card__cta svg { transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); }
-  .ps-card:hover .ps-card__cta { opacity: 1; transform: translateY(0); }
-  .ps-card:hover .ps-card__cta svg { transform: translateX(5px); }
+  .ps-cta svg { transition: transform 0.35s cubic-bezier(0.22,1,0.36,1); }
+  .ps-card:hover .ps-cta { opacity: 1; transform: translateY(0); }
+  .ps-card:hover .ps-cta svg { transform: translateX(4px); }
 
   /* ============================================================
      12. EMPTY STATE
@@ -463,24 +410,24 @@
   .ps-card--empty {
     border: 2px dashed var(--ps-text-muted);
     box-shadow: none;
-    opacity: 0.5;
+    opacity: 0.45;
   }
-  .ps-card--empty:hover { transform: none; box-shadow: none; }
-  .ps-card--empty.ps-visible { opacity: 0.5; }
+  .ps-card--empty:hover { transform: none !important; box-shadow: none !important; }
+  .ps-card--empty.ps-visible { opacity: 0.45; }
 
   /* ============================================================
-     13. VIEW ALL BUTTON
+     13. VIEW ALL
      ============================================================ */
   .ps-view-all {
     text-align: center;
-    margin-top: 48px;
+    margin-top: 44px;
   }
   .ps-view-all__btn {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding: 16px 40px;
-    font-size: 0.8rem;
+    padding: 15px 38px;
+    font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -499,73 +446,165 @@
   .ps-view-all__btn:hover svg { transform: translateX(4px); }
 
   /* ============================================================
-     14. RESPONSIVE
+     14. MOBILE SLIDER DOTS
      ============================================================ */
-  @media (max-width: 1100px) {
-    .ps-showcase__inner { padding: 0 28px; }
-    #ProductShowcase-{{ section_id }} { --ps-columns: 3; }
-    .ps-grid--featured .ps-card:first-child { grid-column: span 2; grid-row: span 1; }
-    .ps-grid--featured .ps-card:first-child .ps-card__image-wrap,
-    .ps-grid--masonry .ps-card:nth-child(3n+1) .ps-card__image-wrap {
-      aspect-ratio: 16 / 9;
-      min-height: 0;
-    }
+  .ps-dots {
+    display: none;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
   }
-
-  @media (max-width: 768px) {
-    #ProductShowcase-{{ section_id }} {
-      --ps-columns: 2;
-      --ps-gap: 14px;
-      --ps-padding-top: {{ section.settings.padding_top | divided_by: 2 }}px;
-      --ps-padding-bottom: {{ section.settings.padding_bottom | divided_by: 2 }}px;
-    }
-    .ps-showcase__inner { padding: 0 16px; }
-    .ps-header { margin-bottom: 36px; }
-    .ps-description { font-size: 0.92rem; }
-    .ps-grid--featured .ps-card:first-child { grid-column: span 2; }
-    .ps-grid--masonry .ps-card:nth-child(3n+1) { grid-row: span 1; }
-
-    .ps-card__body { padding: 14px 14px 18px; }
-    .ps-card__title { font-size: 0.85rem; }
-    .ps-grid--featured .ps-card:first-child .ps-card__title,
-    .ps-grid--masonry .ps-card:nth-child(3n+1) .ps-card__title { font-size: 0.95rem; }
-
-    .ps-card__overlay { display: none; }
-    .ps-card__cta { display: none; }
-    .ps-card__desc { display: none; }
-
-    .ps-badge { top: 10px; left: 10px; padding: 4px 10px; font-size: 0.6rem; }
-    .ps-star-icon { width: 13px; height: 13px; }
-    .ps-card__price-regular,
-    .ps-card__price-sale { font-size: 0.92rem; }
+  .ps-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ps-text-muted);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
   }
-
-  @media (max-width: 420px) {
-    #ProductShowcase-{{ section_id }} { --ps-columns: 1; }
-    .ps-grid--featured .ps-card:first-child { grid-column: span 1; }
-    .ps-card__image-wrap { aspect-ratio: 4 / 5; }
+  .ps-dot--active {
+    background: var(--ps-accent);
+    transform: scale(1.3);
   }
 
   /* ============================================================
-     15. REDUCED MOTION
+     15. TABLET — 3 columns, then 2
+     ============================================================ */
+  @media (max-width: 1100px) {
+    .ps-inner { padding: 0 28px; }
+    .ps-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 880px) {
+    .ps-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ============================================================
+     16. MOBILE — slider (default) or stacked
+     ============================================================ */
+  @media (max-width: 749px) {
+    .ps-showcase {
+      padding-top: {{ section.settings.padding_top | divided_by: 2 }}px;
+      padding-bottom: {{ section.settings.padding_bottom | divided_by: 2 }}px;
+    }
+    .ps-inner { padding: 0 16px; }
+    .ps-header { margin-bottom: 32px; }
+    .ps-heading { margin-bottom: 8px; }
+    .ps-description { font-size: 0.9rem; }
+
+    /* ---- Slider mode ---- */
+    .ps-grid--mobile-slider {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scroll-padding-left: 16px;
+      gap: 14px;
+      padding-bottom: 4px;
+      /* Hide scrollbar */
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .ps-grid--mobile-slider::-webkit-scrollbar { display: none; }
+
+    .ps-grid--mobile-slider .ps-card {
+      flex: 0 0 72vw;
+      max-width: 300px;
+      scroll-snap-align: start;
+    }
+
+    .ps-grid--mobile-slider + .ps-dots { display: flex; }
+
+    /* ---- Stacked mode ---- */
+    .ps-grid--mobile-stacked {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    /* ---- Card mobile tweaks ---- */
+    .ps-card__img-wrap { aspect-ratio: 3 / 4; }
+
+    .ps-card__body {
+      padding: 12px 12px 16px;
+      gap: 3px;
+    }
+    .ps-card__vendor { font-size: 0.6rem; letter-spacing: 0.1em; }
+    .ps-card__title {
+      font-size: 0.82rem;
+      -webkit-line-clamp: 2;
+    }
+    .ps-card__desc { display: none; }
+
+    /* Stars — smaller on mobile */
+    .ps-star { width: 11px; height: 11px; }
+    .ps-stars__row { gap: 1px; }
+    .ps-review-count { font-size: 0.62rem; }
+    .ps-rating { gap: 4px; }
+
+    /* Price — tighter */
+    .ps-price { gap: 5px; margin-top: 2px; }
+    .ps-price__now { font-size: 0.88rem; }
+    .ps-price__was { font-size: 0.7rem; }
+    .ps-price__save { font-size: 0.56rem; padding: 2px 6px; }
+    .ps-price__unit { font-size: 0.62rem; }
+
+    /* Badge — smaller, stays inside image */
+    .ps-badge {
+      top: 8px;
+      left: 8px;
+      padding: 3px 8px;
+      font-size: 0.54rem;
+      max-width: calc(100% - 16px);
+    }
+
+    .ps-card__soldout-pill {
+      padding: 6px 14px;
+      font-size: 0.6rem;
+    }
+
+    /* Hide desktop-only elements */
+    .ps-card__overlay { display: none; }
+    .ps-cta { display: none; }
+
+    /* View all — smaller */
+    .ps-view-all { margin-top: 28px; }
+    .ps-view-all__btn {
+      padding: 12px 28px;
+      font-size: 0.72rem;
+    }
+  }
+
+  /* Very small screens — single column stacked */
+  @media (max-width: 374px) {
+    .ps-grid--mobile-slider .ps-card {
+      flex: 0 0 82vw;
+    }
+    .ps-grid--mobile-stacked {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ============================================================
+     17. REDUCED MOTION
      ============================================================ */
   @media (prefers-reduced-motion: reduce) {
     .ps-card {
-      opacity: 1;
-      transform: none;
-      transition: none;
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
     }
-    .ps-card:hover { transform: none; }
-    .ps-card:hover .ps-card__image { transform: none; }
-    .ps-card:hover .ps-card__overlay { transition: none; }
+    .ps-card:hover .ps-card__img { transform: none; }
   }
 </style>
 
 {%- comment -%} ========== HTML ========== {%- endcomment -%}
-<section class="ps-showcase" id="ProductShowcase-{{ section_id }}">
-  <div class="ps-showcase__inner">
+<section class="ps-showcase" id="PS-{{ section_id }}">
+  <div class="ps-inner">
 
-    {%- comment -%} --- Header --- {%- endcomment -%}
     {%- if section.settings.heading != blank or section.settings.subheading != blank -%}
       <div class="ps-header">
         {%- if section.settings.subheading != blank -%}
@@ -580,31 +619,27 @@
       </div>
     {%- endif -%}
 
-    {%- comment -%} --- Product grid --- {%- endcomment -%}
-    <div class="ps-grid ps-grid--{{ layout }}" id="PSGrid-{{ section_id }}">
+    <div
+      class="ps-grid ps-grid--mobile-{{ mobile_layout }}"
+      id="PSGrid-{{ section_id }}"
+      {% if mobile_layout == 'slider' %}role="region" aria-label="Produkter — swipe for at se flere"{% endif %}
+    >
       {%- for block in section.blocks -%}
         {%- assign product = block.settings.product -%}
 
         {%- if product != blank -%}
-          {%- assign is_sold_out = false -%}
-          {%- unless product.available -%}
-            {%- assign is_sold_out = true -%}
-          {%- endunless -%}
+          {%- assign sold_out = false -%}
+          {%- unless product.available -%}{%- assign sold_out = true -%}{%- endunless -%}
 
-          {%- assign is_on_sale = false -%}
-          {%- if product.compare_at_price > product.price -%}
-            {%- assign is_on_sale = true -%}
-          {%- endif -%}
+          {%- assign on_sale = false -%}
+          {%- if product.compare_at_price > product.price -%}{%- assign on_sale = true -%}{%- endif -%}
 
-          {%- comment -%} Determine badge style {%- endcomment -%}
-          {%- assign badge_class = 'ps-badge--dark' -%}
-          {%- if block.settings.badge_style == 'accent' -%}
-            {%- assign badge_class = 'ps-badge--accent' -%}
-          {%- elsif block.settings.badge_style == 'sale' -%}
-            {%- assign badge_class = 'ps-badge--sale' -%}
-          {%- elsif block.settings.badge_style == 'new' -%}
-            {%- assign badge_class = 'ps-badge--new' -%}
-          {%- endif -%}
+          {%- assign badge_cls = 'ps-badge--dark' -%}
+          {%- case block.settings.badge_style -%}
+            {%- when 'accent' -%}{%- assign badge_cls = 'ps-badge--accent' -%}
+            {%- when 'sale' -%}{%- assign badge_cls = 'ps-badge--sale' -%}
+            {%- when 'new' -%}{%- assign badge_cls = 'ps-badge--new' -%}
+          {%- endcase -%}
 
           <a
             href="{{ product.url }}"
@@ -612,16 +647,16 @@
             {{ block.shopify_attributes }}
             data-ps-card
           >
-            {%- comment -%} Badge {%- endcomment -%}
-            {%- if block.settings.badge_text != blank -%}
-              <span class="ps-badge {{ badge_class }}">{{ block.settings.badge_text }}</span>
-            {%- elsif is_on_sale and section.settings.auto_sale_badge -%}
-              {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
-              <span class="ps-badge ps-badge--sale">-{{ savings }}%</span>
-            {%- endif -%}
+            {%- comment -%} — Image area (badge + image + overlays all inside) — {%- endcomment -%}
+            <div class="ps-card__img-wrap">
 
-            {%- comment -%} Image {%- endcomment -%}
-            <div class="ps-card__image-wrap">
+              {%- if block.settings.badge_text != blank -%}
+                <span class="ps-badge {{ badge_cls }}">{{ block.settings.badge_text }}</span>
+              {%- elsif on_sale and section.settings.auto_sale_badge -%}
+                {%- assign pct = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+                <span class="ps-badge ps-badge--sale">-{{ pct }}%</span>
+              {%- endif -%}
+
               {%- if product.featured_image != blank -%}
                 <img
                   src="{{ product.featured_image | image_url: width: 900 }}"
@@ -631,19 +666,19 @@
                     {{ product.featured_image | image_url: width: 900 }} 900w,
                     {{ product.featured_image | image_url: width: 1200 }} 1200w
                   "
-                  sizes="(max-width: 420px) 100vw, (max-width: 768px) 50vw, (max-width: 1100px) 33vw, 25vw"
+                  sizes="(max-width: 374px) 82vw, (max-width: 749px) 72vw, (max-width: 880px) 50vw, (max-width: 1100px) 33vw, 25vw"
                   alt="{{ product.featured_image.alt | default: product.title | escape }}"
                   loading="lazy"
                   width="{{ product.featured_image.width }}"
                   height="{{ product.featured_image.height }}"
-                  class="ps-card__image ps-card__image--primary"
+                  class="ps-card__img ps-card__img--primary"
                 >
                 {%- if product.images.size > 1 -%}
                   <img
                     src="{{ product.images[1] | image_url: width: 900 }}"
                     alt="{{ product.images[1].alt | default: product.title | escape }}"
                     loading="lazy"
-                    class="ps-card__image ps-card__image--hover"
+                    class="ps-card__img ps-card__img--hover"
                   >
                 {%- endif -%}
               {%- else -%}
@@ -652,25 +687,23 @@
                 </div>
               {%- endif -%}
 
-              {%- comment -%} Sold-out overlay {%- endcomment -%}
-              {%- if is_sold_out -%}
-                <div class="ps-card__sold-out-overlay">
-                  <span class="ps-card__sold-out-text">Udsolgt</span>
+              {%- if sold_out -%}
+                <div class="ps-card__soldout">
+                  <span class="ps-card__soldout-pill">Udsolgt</span>
                 </div>
               {%- endif -%}
 
-              {%- comment -%} Quick-add overlay {%- endcomment -%}
-              {%- unless is_sold_out -%}
+              {%- unless sold_out -%}
                 <div class="ps-card__overlay">
-                  <span class="ps-card__quick-add">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                  <span class="ps-card__quick-btn">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                     {{ cta_text | default: 'Se produkt' }}
                   </span>
                 </div>
               {%- endunless -%}
             </div>
 
-            {%- comment -%} Card body {%- endcomment -%}
+            {%- comment -%} — Card body — {%- endcomment -%}
             <div class="ps-card__body">
               {%- if block.settings.show_vendor and product.vendor != blank -%}
                 <span class="ps-card__vendor">{{ product.vendor }}</span>
@@ -679,61 +712,56 @@
               <h3 class="ps-card__title">{{ product.title }}</h3>
 
               {%- if block.settings.show_description and product.description != blank -%}
-                <p class="ps-card__desc">{{ product.description | strip_html | truncate: 90 }}</p>
+                <p class="ps-card__desc">{{ product.description | strip_html | truncate: 85 }}</p>
               {%- endif -%}
 
-              {%- comment -%} Stars {%- endcomment -%}
               {%- if block.settings.show_stars -%}
-                <div class="ps-card__rating">
+                <div class="ps-rating">
                   <div class="ps-stars" style="--ps-rating: {{ block.settings.star_rating }};" aria-label="{{ block.settings.star_rating }} ud af 5 stjerner">
-                    <div class="ps-stars__track ps-stars__empty">
+                    <div class="ps-stars__row ps-stars__empty">
                       {%- for i in (1..5) -%}
-                        <svg class="ps-star-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg class="ps-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                       {%- endfor -%}
                     </div>
-                    <div class="ps-stars__track ps-stars__filled">
+                    <div class="ps-stars__row ps-stars__filled">
                       {%- for i in (1..5) -%}
-                        <svg class="ps-star-icon" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                        <svg class="ps-star" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
                       {%- endfor -%}
                     </div>
                   </div>
                   {%- if block.settings.review_count > 0 -%}
-                    <span class="ps-card__review-count">({{ block.settings.review_count }})</span>
+                    <span class="ps-review-count">({{ block.settings.review_count }})</span>
                   {%- endif -%}
                 </div>
               {%- endif -%}
 
-              {%- comment -%} Price {%- endcomment -%}
-              <div class="ps-card__price">
-                {%- if is_on_sale -%}
-                  <span class="ps-card__price-sale">{{ product.price | money }}</span>
-                  <span class="ps-card__price-compare">{{ product.compare_at_price | money }}</span>
-                  {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
-                  <span class="ps-card__price-save">-{{ savings }}%</span>
+              <div class="ps-price">
+                {%- if on_sale -%}
+                  <span class="ps-price__now ps-price__now--sale">{{ product.price | money }}</span>
+                  <span class="ps-price__was">{{ product.compare_at_price | money }}</span>
+                  {%- assign pct = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+                  <span class="ps-price__save">-{{ pct }}%</span>
                 {%- else -%}
-                  <span class="ps-card__price-regular">{{ product.price | money }}</span>
+                  <span class="ps-price__now">{{ product.price | money }}</span>
                 {%- endif -%}
                 {%- if product.selected_or_first_available_variant.unit_price -%}
-                  <span class="ps-card__price-unit">
-                    ({{ product.selected_or_first_available_variant.unit_price | money }} /
-                    {{ product.selected_or_first_available_variant.unit_price_measurement.reference_value }}
-                    {{ product.selected_or_first_available_variant.unit_price_measurement.reference_unit }})
+                  <span class="ps-price__unit">
+                    {{ product.selected_or_first_available_variant.unit_price | money }} /
+                    {{ product.selected_or_first_available_variant.unit_price_measurement.reference_value }}{{ product.selected_or_first_available_variant.unit_price_measurement.reference_unit }}
                   </span>
                 {%- endif -%}
               </div>
 
-              {%- comment -%} CTA arrow {%- endcomment -%}
-              <span class="ps-card__cta">
+              <span class="ps-cta">
                 {{ cta_text | default: 'Se produkt' }}
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
               </span>
             </div>
           </a>
 
         {%- else -%}
-          {%- comment -%} Empty block placeholder {%- endcomment -%}
           <div class="ps-card ps-card--empty ps-card--{{ card_style }}" {{ block.shopify_attributes }} data-ps-card>
-            <div class="ps-card__image-wrap">
+            <div class="ps-card__img-wrap">
               <div class="ps-card__placeholder">
                 {{ 'product-1' | placeholder_svg_tag: 'ps-placeholder-svg' }}
               </div>
@@ -741,22 +769,23 @@
             <div class="ps-card__body">
               <span class="ps-card__vendor">Brand</span>
               <h3 class="ps-card__title">Vaelg et produkt</h3>
-              <div class="ps-card__price">
-                <span class="ps-card__price-regular">0,00 kr.</span>
-              </div>
+              <div class="ps-price"><span class="ps-price__now">0,00 kr.</span></div>
             </div>
           </div>
         {%- endif -%}
-
       {%- endfor -%}
     </div>
 
-    {%- comment -%} View-all button {%- endcomment -%}
+    {%- comment -%} Slider dots (mobile only, rendered via JS) {%- endcomment -%}
+    {%- if mobile_layout == 'slider' -%}
+      <ul class="ps-dots" id="PSDots-{{ section_id }}" aria-label="Slider navigation"></ul>
+    {%- endif -%}
+
     {%- if section.settings.show_view_all and section.settings.view_all_collection != blank -%}
       <div class="ps-view-all">
         <a href="{{ section.settings.view_all_collection.url }}" class="ps-view-all__btn">
           {{ section.settings.view_all_text | default: 'Se alle produkter' }}
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
       </div>
     {%- endif -%}
@@ -764,48 +793,102 @@
   </div>
 </section>
 
-{%- comment -%} ========== JAVASCRIPT — Scroll reveal ========== {%- endcomment -%}
+{%- comment -%} ========== JAVASCRIPT ========== {%- endcomment -%}
 <script>
-  (function() {
-    var sectionId = '{{ section_id }}';
-    var cards = document.querySelectorAll('#ProductShowcase-' + sectionId + ' [data-ps-card]');
-    if (!cards.length) return;
+(function() {
+  var sid   = '{{ section_id }}';
+  var root  = document.getElementById('PS-' + sid);
+  var grid  = document.getElementById('PSGrid-' + sid);
+  var cards = root.querySelectorAll('[data-ps-card]');
+  if (!cards.length) return;
 
-    /* Reduced-motion: show all immediately */
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      cards.forEach(function(c) { c.classList.add('ps-visible'); });
-      return;
-    }
+  /* ---- 1. Scroll reveal (IntersectionObserver) ---- */
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          var card = entry.target;
-          var idx  = parseInt(card.getAttribute('data-ps-index'), 10) || 0;
-          var delay = idx * 100;
-
-          setTimeout(function() {
-            card.style.transition = 'opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1)';
-            card.classList.add('ps-visible');
-          }, delay);
-
-          observer.unobserve(card);
-        }
+  if (reducedMotion) {
+    cards.forEach(function(c) { c.classList.add('ps-visible'); });
+  } else {
+    var revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (!e.isIntersecting) return;
+        var card = e.target;
+        var i = parseInt(card.getAttribute('data-ps-i'), 10) || 0;
+        setTimeout(function() {
+          card.style.transition = 'opacity 0.65s cubic-bezier(0.22,1,0.36,1), transform 0.65s cubic-bezier(0.22,1,0.36,1)';
+          card.classList.add('ps-visible');
+        }, i * 90);
+        revealObserver.unobserve(card);
       });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+
+    cards.forEach(function(c, i) {
+      c.setAttribute('data-ps-i', i);
+      revealObserver.observe(c);
+    });
+  }
+
+  /* ---- 2. Mobile slider dots ---- */
+  var dotsWrap = document.getElementById('PSDots-' + sid);
+  if (!dotsWrap || !grid.classList.contains('ps-grid--mobile-slider')) return;
+
+  function isMobile() { return window.innerWidth <= 749; }
+
+  function buildDots() {
+    dotsWrap.innerHTML = '';
+    if (!isMobile()) return;
+    cards.forEach(function(_, i) {
+      var li = document.createElement('li');
+      var btn = document.createElement('button');
+      btn.className = 'ps-dot' + (i === 0 ? ' ps-dot--active' : '');
+      btn.setAttribute('aria-label', 'Gaa til produkt ' + (i + 1));
+      btn.addEventListener('click', function() {
+        cards[i].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+      });
+      li.appendChild(btn);
+      dotsWrap.appendChild(li);
+    });
+  }
+
+  function updateDots() {
+    if (!isMobile()) return;
+    var dots = dotsWrap.querySelectorAll('.ps-dot');
+    if (!dots.length) return;
+
+    var scrollLeft = grid.scrollLeft;
+    var closest = 0;
+    var closestDist = Infinity;
 
     cards.forEach(function(card, i) {
-      card.setAttribute('data-ps-index', i);
-      observer.observe(card);
+      var dist = Math.abs(card.offsetLeft - scrollLeft - 16);
+      if (dist < closestDist) {
+        closestDist = dist;
+        closest = i;
+      }
     });
-  })();
+
+    dots.forEach(function(d, i) {
+      d.classList.toggle('ps-dot--active', i === closest);
+    });
+  }
+
+  buildDots();
+  var scrollTimer;
+  grid.addEventListener('scroll', function() {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(updateDots, 60);
+  }, { passive: true });
+
+  window.addEventListener('resize', function() {
+    buildDots();
+  });
+})();
 </script>
 
 {% schema %}
 {
   "name": "Produkt Showcase",
   "tag": "section",
-  "class": "ps-section-wrapper",
+  "class": "ps-section-wrap",
   "settings": [
     {
       "type": "header",
@@ -835,30 +918,21 @@
     },
     {
       "type": "select",
-      "id": "layout",
-      "label": "Grid-layout",
+      "id": "mobile_layout",
+      "label": "Mobil-visning",
       "options": [
-        { "value": "grid",     "label": "Ensartet gitter" },
-        { "value": "featured", "label": "Fremhaevet (1. produkt stort)" },
-        { "value": "masonry",  "label": "Masonry (varierende hoejde)" }
+        { "value": "slider",  "label": "Swipe-slider (anbefalet)" },
+        { "value": "stacked", "label": "Stacked gitter (2 kolonner)" }
       ],
-      "default": "featured"
-    },
-    {
-      "type": "range",
-      "id": "columns",
-      "label": "Kolonner (desktop)",
-      "min": 2,
-      "max": 5,
-      "step": 1,
-      "default": 4
+      "default": "slider",
+      "info": "Desktop viser altid 4 produkter pr. raekke"
     },
     {
       "type": "range",
       "id": "grid_gap",
       "label": "Afstand mellem kort",
       "min": 8,
-      "max": 40,
+      "max": 36,
       "step": 2,
       "default": 20,
       "unit": "px"
@@ -883,22 +957,22 @@
       "id": "card_radius",
       "label": "Hjoerne-radius",
       "min": 0,
-      "max": 32,
+      "max": 28,
       "step": 2,
-      "default": 16,
+      "default": 14,
       "unit": "px"
     },
     {
       "type": "text",
       "id": "cta_text",
-      "label": "CTA-tekst paa kort",
+      "label": "CTA-tekst",
       "default": "Se produkt"
     },
     {
       "type": "checkbox",
       "id": "auto_sale_badge",
       "label": "Automatisk tilbuds-badge",
-      "info": "Viser rabat-% badge automatisk naar produktet er paa tilbud",
+      "info": "Viser rabat-% automatisk naar produktet er paa tilbud",
       "default": true
     },
     {
@@ -914,7 +988,7 @@
     {
       "type": "color",
       "id": "card_bg_color",
-      "label": "Kort-baggrundsfarve",
+      "label": "Kort-baggrund",
       "default": "#ffffff"
     },
     {
@@ -985,7 +1059,7 @@
     {
       "type": "product_card",
       "name": "Produkt",
-      "limit": 8,
+      "limit": 12,
       "settings": [
         {
           "type": "product",
@@ -1065,11 +1139,9 @@
       "settings": {
         "heading": "Vores Bestsellere",
         "subheading": "Udvalgt til dig",
-        "layout": "featured",
-        "columns": 4
+        "mobile_layout": "slider"
       },
       "blocks": [
-        { "type": "product_card" },
         { "type": "product_card" },
         { "type": "product_card" },
         { "type": "product_card" },
