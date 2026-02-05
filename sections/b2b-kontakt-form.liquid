@@ -1,0 +1,704 @@
+{% schema %}
+{
+  "name": "B2B Kontakt Form",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Farbeinstellungen"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Hintergrundfarbe",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Textfarbe",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Akzentfarbe (Buttons, Fokus)",
+      "default": "#8BC34A"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Formular Hintergrund",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Button Tekst"
+    },
+    {
+      "type": "text",
+      "id": "button_text_de",
+      "label": "Button Text (Deutsch)",
+      "default": "ANFRAGE SENDEN"
+    },
+    {
+      "type": "text",
+      "id": "button_text_en",
+      "label": "Button Text (English)",
+      "default": "SEND INQUIRY"
+    },
+    {
+      "type": "header",
+      "content": "Formularfelder (Deutsch)"
+    },
+    {
+      "type": "text",
+      "id": "name_label_de",
+      "label": "Name",
+      "default": "Vor- und Nachname"
+    },
+    {
+      "type": "text",
+      "id": "email_label_de",
+      "label": "E-Mail",
+      "default": "Geschäftliche E-Mail-Adresse"
+    },
+    {
+      "type": "text",
+      "id": "company_label_de",
+      "label": "Firma",
+      "default": "Firmenname"
+    },
+    {
+      "type": "text",
+      "id": "website_label_de",
+      "label": "Website",
+      "default": "Firmen-Website (optional)"
+    },
+    {
+      "type": "text",
+      "id": "location_label_de",
+      "label": "Standort",
+      "default": "Stadt / Region"
+    },
+    {
+      "type": "text",
+      "id": "interest_label_de",
+      "label": "Interesse",
+      "default": "Welche Produkte interessieren Sie?"
+    },
+    {
+      "type": "text",
+      "id": "quantity_label_de",
+      "label": "Menge",
+      "default": "Geschätzte Bestellmenge"
+    },
+    {
+      "type": "text",
+      "id": "message_label_de",
+      "label": "Nachricht",
+      "default": "Ihre Nachricht an uns"
+    },
+    {
+      "type": "header",
+      "content": "Form Fields (English)"
+    },
+    {
+      "type": "text",
+      "id": "name_label_en",
+      "label": "Name",
+      "default": "First and Last Name"
+    },
+    {
+      "type": "text",
+      "id": "email_label_en",
+      "label": "Email",
+      "default": "Business Email Address"
+    },
+    {
+      "type": "text",
+      "id": "company_label_en",
+      "label": "Company",
+      "default": "Company Name"
+    },
+    {
+      "type": "text",
+      "id": "website_label_en",
+      "label": "Website",
+      "default": "Company Website (optional)"
+    },
+    {
+      "type": "text",
+      "id": "location_label_en",
+      "label": "Location",
+      "default": "City / Region"
+    },
+    {
+      "type": "text",
+      "id": "interest_label_en",
+      "label": "Interest",
+      "default": "Which products interest you?"
+    },
+    {
+      "type": "text",
+      "id": "quantity_label_en",
+      "label": "Quantity",
+      "default": "Estimated Order Quantity"
+    },
+    {
+      "type": "text",
+      "id": "message_label_en",
+      "label": "Message",
+      "default": "Your message to us"
+    },
+    {
+      "type": "header",
+      "content": "Mengenoptionen"
+    },
+    {
+      "type": "textarea",
+      "id": "quantity_options_de",
+      "label": "Optionen (Deutsch, eine pro Zeile)",
+      "default": "10-50 Einheiten\n50-100 Einheiten\n100-500 Einheiten\n500+ Einheiten"
+    },
+    {
+      "type": "textarea",
+      "id": "quantity_options_en",
+      "label": "Options (English, one per line)",
+      "default": "10-50 units\n50-100 units\n100-500 units\n500+ units"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": -100,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Margin Top",
+      "default": -40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 150,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "B2B Kontakt Form"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .b2b-form-wrapper-{{ section.id }} {
+    background: {{ section.settings.bg_color }};
+    padding: 0;
+  }
+
+  .b2b-form-container-{{ section.id }} {
+    max-width: 900px;
+    margin: {{ section.settings.margin_top }}px auto 0;
+    padding: 0 20px {{ section.settings.padding_bottom }}px;
+    position: relative;
+    z-index: 3;
+  }
+
+  .b2b-form-card-{{ section.id }} {
+    background: {{ section.settings.card_bg }};
+    border-radius: 24px;
+    padding: 50px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+    position: relative;
+  }
+
+  .b2b-form-grid-{{ section.id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .b2b-form-full-{{ section.id }} {
+    grid-column: 1 / -1;
+  }
+
+  .b2b-field-{{ section.id }} {
+    position: relative;
+  }
+
+  .b2b-label-{{ section.id }} {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: {{ section.settings.text_color }};
+    margin-bottom: 8px;
+    font-family: 'Avenir Next', -apple-system, sans-serif;
+  }
+
+  .b2b-input-{{ section.id }},
+  .b2b-select-{{ section.id }},
+  .b2b-textarea-{{ section.id }} {
+    width: 100%;
+    padding: 16px 18px;
+    font-size: 15px;
+    border: 2px solid #E0E0E0;
+    border-radius: 12px;
+    background-color: #FAFAFA;
+    color: #333;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    font-family: -apple-system, sans-serif;
+  }
+
+  .b2b-textarea-{{ section.id }} {
+    min-height: 140px;
+    resize: vertical;
+  }
+
+  .b2b-input-{{ section.id }}:focus,
+  .b2b-select-{{ section.id }}:focus,
+  .b2b-textarea-{{ section.id }}:focus {
+    outline: none;
+    border-color: {{ section.settings.accent_color }};
+    background-color: #FFFFFF;
+    box-shadow: 0 0 0 4px {{ section.settings.accent_color | color_modify: 'alpha', 0.1 }};
+  }
+
+  .b2b-select-{{ section.id }} {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='14' height='9' viewBox='0 0 14 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L7 7.5L13 1.5' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 18px center;
+    cursor: pointer;
+    padding-right: 50px;
+  }
+
+  .b2b-products-grid-{{ section.id }} {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  .b2b-product-option-{{ section.id }} {
+    position: relative;
+  }
+
+  .b2b-product-checkbox-{{ section.id }} {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .b2b-product-label-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 12px;
+    border: 2px solid #E0E0E0;
+    border-radius: 12px;
+    background: #FAFAFA;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    user-select: none;
+  }
+
+  .b2b-product-checkbox-{{ section.id }}:checked + .b2b-product-label-{{ section.id }} {
+    border-color: {{ section.settings.accent_color }};
+    background: {{ section.settings.accent_color | color_modify: 'alpha', 0.1 }};
+    color: {{ section.settings.accent_color }};
+  }
+
+  .b2b-product-label-{{ section.id }}:hover {
+    border-color: {{ section.settings.accent_color }};
+    background: #FFFFFF;
+  }
+
+  .b2b-submit-{{ section.id }} {
+    width: 100%;
+    padding: 20px 40px;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    background: {{ section.settings.accent_color }};
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 30px;
+    font-family: 'Avenir Next', -apple-system, sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .b2b-submit-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  .b2b-submit-{{ section.id }}:hover::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  .b2b-submit-{{ section.id }}:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px {{ section.settings.accent_color | color_modify: 'alpha', 0.4 }};
+  }
+
+  .b2b-submit-{{ section.id }}:active {
+    transform: translateY(-1px);
+  }
+
+  .b2b-message-{{ section.id }} {
+    padding: 20px 25px;
+    border-radius: 12px;
+    margin-bottom: 30px;
+    font-size: 15px;
+    font-weight: 600;
+    display: none;
+  }
+
+  .b2b-message-{{ section.id }}.show {
+    display: block;
+  }
+
+  .b2b-success-{{ section.id }} {
+    background: #E8F5E9;
+    color: #2E7D32;
+    border-left: 4px solid #4CAF50;
+  }
+
+  .b2b-error-{{ section.id }} {
+    background: #FFEBEE;
+    color: #C62828;
+    border-left: 4px solid #F44336;
+  }
+
+  .b2b-trust-section-{{ section.id }} {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #E0E0E0;
+  }
+
+  .b2b-trust-items-{{ section.id }} {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
+  .b2b-trust-item-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #666;
+    font-size: 13px;
+  }
+
+  .b2b-trust-icon-{{ section.id }} {
+    width: 24px;
+    height: 24px;
+    color: {{ section.settings.accent_color }};
+  }
+
+  @media (max-width: 768px) {
+    .b2b-form-card-{{ section.id }} {
+      padding: 30px 25px;
+    }
+    .b2b-form-grid-{{ section.id }} {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    .b2b-products-grid-{{ section.id }} {
+      grid-template-columns: 1fr 1fr;
+    }
+    .b2b-trust-items-{{ section.id }} {
+      gap: 20px;
+    }
+  }
+</style>
+
+<div class="b2b-form-wrapper-{{ section.id }}">
+  <div class="b2b-form-container-{{ section.id }}">
+    <div class="b2b-form-card-{{ section.id }}">
+
+      <div class="b2b-message-{{ section.id }} b2b-success-{{ section.id }}" id="b2bSuccess-{{ section.id }}">
+        <span data-lang-de="✓ Vielen Dank! Wir melden uns innerhalb von 24 Stunden bei Ihnen." data-lang-en="✓ Thank you! We'll get back to you within 24 hours.">
+          ✓ Vielen Dank! Wir melden uns innerhalb von 24 Stunden bei Ihnen.
+        </span>
+      </div>
+
+      {% form 'contact', id: 'B2BContactForm' %}
+        {% if form.posted_successfully? %}
+          <script>
+            document.getElementById('b2bSuccess-{{ section.id }}').classList.add('show');
+            setTimeout(function() {
+              document.getElementById('b2bSuccess-{{ section.id }}').classList.remove('show');
+            }, 8000);
+          </script>
+        {% endif %}
+
+        {% if form.errors %}
+          <div class="b2b-message-{{ section.id }} b2b-error-{{ section.id }} show">
+            <strong>Bitte korrigieren Sie folgende Fehler:</strong>
+            <ul style="margin: 10px 0 0 20px; padding: 0;">
+              {% for field in form.errors %}
+                <li>{{ field | capitalize | replace: '_', ' ' }}: {{ form.errors.messages[field] }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
+        <input type="hidden" name="contact[subject]" value="B2B Inquiry (neuroblends)">
+
+        <div class="b2b-form-grid-{{ section.id }}">
+          <div class="b2b-field-{{ section.id }}">
+            <label class="b2b-label-{{ section.id }}" for="ContactName-{{ section.id }}" data-lang-de="{{ section.settings.name_label_de }}" data-lang-en="{{ section.settings.name_label_en }}">
+              {{ section.settings.name_label_de }}
+            </label>
+            <input
+              type="text"
+              name="contact[name]"
+              id="ContactName-{{ section.id }}"
+              class="b2b-input-{{ section.id }}"
+              value="{% if form.name %}{{ form.name }}{% endif %}"
+              required
+            >
+          </div>
+
+          <div class="b2b-field-{{ section.id }}">
+            <label class="b2b-label-{{ section.id }}" for="ContactEmail-{{ section.id }}" data-lang-de="{{ section.settings.email_label_de }}" data-lang-en="{{ section.settings.email_label_en }}">
+              {{ section.settings.email_label_de }}
+            </label>
+            <input
+              type="email"
+              name="contact[email]"
+              id="ContactEmail-{{ section.id }}"
+              class="b2b-input-{{ section.id }}"
+              value="{% if form.email %}{{ form.email }}{% endif %}"
+              required
+            >
+          </div>
+
+          <div class="b2b-field-{{ section.id }}">
+            <label class="b2b-label-{{ section.id }}" for="ContactCompany-{{ section.id }}" data-lang-de="{{ section.settings.company_label_de }}" data-lang-en="{{ section.settings.company_label_en }}">
+              {{ section.settings.company_label_de }}
+            </label>
+            <input
+              type="text"
+              name="company_temp"
+              id="ContactCompany-{{ section.id }}"
+              class="b2b-input-{{ section.id }}"
+              required
+            >
+          </div>
+
+          <div class="b2b-field-{{ section.id }}">
+            <label class="b2b-label-{{ section.id }}" for="ContactWebsite-{{ section.id }}" data-lang-de="{{ section.settings.website_label_de }}" data-lang-en="{{ section.settings.website_label_en }}">
+              {{ section.settings.website_label_de }}
+            </label>
+            <input
+              type="url"
+              name="website_temp"
+              id="ContactWebsite-{{ section.id }}"
+              class="b2b-input-{{ section.id }}"
+            >
+          </div>
+
+          <div class="b2b-field-{{ section.id }}">
+            <label class="b2b-label-{{ section.id }}" for="ContactLocation-{{ section.id }}" data-lang-de="{{ section.settings.location_label_de }}" data-lang-en="{{ section.settings.location_label_en }}">
+              {{ section.settings.location_label_de }}
+            </label>
+            <input
+              type="text"
+              name="location_temp"
+              id="ContactLocation-{{ section.id }}"
+              class="b2b-input-{{ section.id }}"
+              required
+            >
+          </div>
+
+          <div class="b2b-field-{{ section.id }}">
+            <label class="b2b-label-{{ section.id }}" for="ContactQuantity-{{ section.id }}" data-lang-de="{{ section.settings.quantity_label_de }}" data-lang-en="{{ section.settings.quantity_label_en }}">
+              {{ section.settings.quantity_label_de }}
+            </label>
+            <select
+              name="quantity_temp"
+              id="ContactQuantity-{{ section.id }}"
+              class="b2b-select-{{ section.id }}"
+              required
+            >
+              <option value="" disabled selected>Bitte auswählen</option>
+              {% assign options = section.settings.quantity_options_de | newline_to_br | split: '<br />' %}
+              {% for option in options %}
+                {% assign trimmed = option | strip %}
+                {% if trimmed != '' %}
+                  <option value="{{ trimmed }}" data-lang-de="{{ trimmed }}">{{ trimmed }}</option>
+                {% endif %}
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="b2b-field-{{ section.id }} b2b-form-full-{{ section.id }}">
+            <label class="b2b-label-{{ section.id }}" data-lang-de="{{ section.settings.interest_label_de }}" data-lang-en="{{ section.settings.interest_label_en }}">
+              {{ section.settings.interest_label_de }}
+            </label>
+            <div class="b2b-products-grid-{{ section.id }}">
+              <div class="b2b-product-option-{{ section.id }}">
+                <input type="checkbox" name="products_temp[]" value="VIBE" id="productVIBE-{{ section.id }}" class="b2b-product-checkbox-{{ section.id }}">
+                <label for="productVIBE-{{ section.id }}" class="b2b-product-label-{{ section.id }}">VIBE</label>
+              </div>
+              <div class="b2b-product-option-{{ section.id }}">
+                <input type="checkbox" name="products_temp[]" value="RELAX" id="productRELAX-{{ section.id }}" class="b2b-product-checkbox-{{ section.id }}">
+                <label for="productRELAX-{{ section.id }}" class="b2b-product-label-{{ section.id }}">RELAX</label>
+              </div>
+              <div class="b2b-product-option-{{ section.id }}">
+                <input type="checkbox" name="products_temp[]" value="SHARP" id="productSHARP-{{ section.id }}" class="b2b-product-checkbox-{{ section.id }}">
+                <label for="productSHARP-{{ section.id }}" class="b2b-product-label-{{ section.id }}">SHARP</label>
+              </div>
+              <div class="b2b-product-option-{{ section.id }}">
+                <input type="checkbox" name="products_temp[]" value="MIXED" id="productMIXED-{{ section.id }}" class="b2b-product-checkbox-{{ section.id }}">
+                <label for="productMIXED-{{ section.id }}" class="b2b-product-label-{{ section.id }}">MIXED</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="b2b-field-{{ section.id }} b2b-form-full-{{ section.id }}">
+            <label class="b2b-label-{{ section.id }}" for="ContactMessage-{{ section.id }}" data-lang-de="{{ section.settings.message_label_de }}" data-lang-en="{{ section.settings.message_label_en }}">
+              {{ section.settings.message_label_de }}
+            </label>
+            <textarea
+              name="contact[body]"
+              id="ContactMessage-{{ section.id }}"
+              class="b2b-textarea-{{ section.id }}"
+            ></textarea>
+          </div>
+
+          <div class="b2b-form-full-{{ section.id }}">
+            <button type="submit" class="b2b-submit-{{ section.id }}" data-lang-de="{{ section.settings.button_text_de }}" data-lang-en="{{ section.settings.button_text_en }}">
+              {{ section.settings.button_text_de }}
+            </button>
+          </div>
+        </div>
+      {% endform %}
+
+      <div class="b2b-trust-section-{{ section.id }}">
+        <div class="b2b-trust-items-{{ section.id }}">
+          <div class="b2b-trust-item-{{ section.id }}">
+            <svg class="b2b-trust-icon-{{ section.id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span data-lang-de="Antwort in 24h" data-lang-en="Response in 24h">Antwort in 24h</span>
+          </div>
+          <div class="b2b-trust-item-{{ section.id }}">
+            <svg class="b2b-trust-icon-{{ section.id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+            <span data-lang-de="100% Vertraulich" data-lang-en="100% Confidential">100% Vertraulich</span>
+          </div>
+          <div class="b2b-trust-item-{{ section.id }}">
+            <svg class="b2b-trust-icon-{{ section.id }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+            <span data-lang-de="Persönlicher Ansprechpartner" data-lang-en="Personal Contact">Persönlicher Ansprechpartner</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const currentLang = document.documentElement.lang === 'en' ? 'en' : 'de';
+
+  function updateFormLanguage(lang) {
+    document.querySelectorAll('.b2b-form-wrapper-{{ section.id }} [data-lang-de]').forEach(el => {
+      const text = el.getAttribute('data-lang-' + lang);
+      if (text) {
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
+          el.placeholder = text;
+        } else {
+          el.innerHTML = text;
+        }
+      }
+    });
+  }
+
+  updateFormLanguage(currentLang);
+
+  document.addEventListener('languageChanged', function(e) {
+    updateFormLanguage(e.detail.language);
+  });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var form = document.getElementById('B2BContactForm');
+  if (!form) return;
+
+  form.addEventListener('submit', function() {
+    var lang = (document.documentElement.lang === 'en') ? 'en' : 'de';
+    var t = function(de, en){ return (lang === 'en') ? en : de; };
+
+    var name = (document.getElementById('ContactName-{{ section.id }}') || {}).value || '';
+    var email = (document.getElementById('ContactEmail-{{ section.id }}') || {}).value || '';
+    var company = (document.getElementById('ContactCompany-{{ section.id }}') || {}).value || '';
+    var website = (document.getElementById('ContactWebsite-{{ section.id }}') || {}).value || '';
+    var location = (document.getElementById('ContactLocation-{{ section.id }}') || {}).value || '';
+    var quantity = (document.getElementById('ContactQuantity-{{ section.id }}') || {}).value || '';
+
+    var checked = Array.prototype.slice.call(document.querySelectorAll('.b2b-product-checkbox-{{ section.id }}:checked'));
+    var products = checked.map(function(x){ return x.value; }).join(', ');
+
+    var messageEl = document.getElementById('ContactMessage-{{ section.id }}');
+    var userMessage = messageEl ? (messageEl.value || '') : '';
+
+    var lines = [];
+    lines.push(t('B2B ANFRAGE (neuroblends)', 'B2B INQUIRY (neuroblends)'));
+    lines.push('--------------------------------');
+    lines.push(t('Name:', 'Name:') + ' ' + name);
+    lines.push(t('E-Mail:', 'Email:') + ' ' + email);
+    lines.push(t('Firma:', 'Company:') + ' ' + company);
+    lines.push(t('Website:', 'Website:') + ' ' + (website ? website : t('(nicht angegeben)', '(not provided)')));
+    lines.push(t('Standort:', 'Location:') + ' ' + location);
+    lines.push(t('Menge:', 'Quantity:') + ' ' + quantity);
+    lines.push(t('Interesse (Produkte):', 'Interest (Products):') + ' ' + (products ? products : t('Keine Auswahl', 'None selected')));
+    lines.push('');
+    lines.push(t('Nachricht:', 'Message:'));
+    lines.push(userMessage ? userMessage : t('Keine Nachricht', 'No message'));
+    lines.push('--------------------------------');
+
+    if (messageEl) messageEl.value = lines.join('\n');
+  });
+});
+</script>

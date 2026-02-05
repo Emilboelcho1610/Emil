@@ -1,0 +1,311 @@
+{% schema %}
+{
+  "name": "B2B Hero Banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero Billeder"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_desktop",
+      "label": "Hero Billede (Desktop)"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image_mobile",
+      "label": "Hero Billede (Mobil)"
+    },
+    {
+      "type": "select",
+      "id": "hero_image_position",
+      "label": "Billede Position",
+      "default": "center",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "bottom", "label": "Bund" }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "hero_overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay Gennemsigtighed",
+      "default": 60
+    },
+    {
+      "type": "header",
+      "content": "Tekst Indhold"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo Tekst",
+      "default": "neuroblends"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Mental Power for Modern Heroes"
+    },
+    {
+      "type": "text",
+      "id": "title_de",
+      "label": "Overskrift (Deutsch)",
+      "default": "Bereit für den nächsten Schritt?"
+    },
+    {
+      "type": "text",
+      "id": "title_en",
+      "label": "Title (English)",
+      "default": "Ready for the next step?"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle_de",
+      "label": "Undertekst (Deutsch)",
+      "default": "<p>Großhandel, Distributoren oder interessiert an einer Partnerschaft?<br>Füllen Sie das Formular aus und unser Team meldet sich innerhalb von 24 Stunden.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "subtitle_en",
+      "label": "Subtitle (English)",
+      "default": "<p>Wholesale, distributors or interested in a partnership?<br>Fill out the form and our team will get back to you within 24 hours.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Farver"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Farve (til glow effekt)",
+      "default": "#8BC34A"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 100
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 10,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 80
+    }
+  ],
+  "presets": [
+    {
+      "name": "B2B Hero Banner"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .b2b-hero-section-{{ section.id }} {
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+    padding: {{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .b2b-hero-bg-image-{{ section.id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center {{ section.settings.hero_image_position }};
+    z-index: 1;
+  }
+
+  .b2b-hero-bg-image--desktop-{{ section.id }} {
+    display: block;
+  }
+
+  .b2b-hero-bg-image--mobile-{{ section.id }} {
+    display: none;
+  }
+
+  @media screen and (max-width: 767px) {
+    .b2b-hero-bg-image--desktop-{{ section.id }} {
+      display: none;
+    }
+    .b2b-hero-bg-image--mobile-{{ section.id }} {
+      display: block;
+    }
+  }
+
+  .b2b-hero-overlay-{{ section.id }} {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, {{ section.settings.hero_overlay_opacity | divided_by: 100.0 }});
+    z-index: 2;
+  }
+
+  .b2b-hero-section-{{ section.id }}::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -10%;
+    width: 120%;
+    height: 200%;
+    background: radial-gradient(circle, {{ section.settings.accent_color | color_modify: 'alpha', 0.15 }} 0%, transparent 70%);
+    animation: b2b-hero-pulse-{{ section.id }} 8s ease-in-out infinite;
+    z-index: 3;
+  }
+
+  @keyframes b2b-hero-pulse-{{ section.id }} {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.1); opacity: 0.5; }
+  }
+
+  .b2b-hero-content-{{ section.id }} {
+    position: relative;
+    z-index: 4;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .b2b-hero-logo-area-{{ section.id }} {
+    margin-bottom: 30px;
+  }
+
+  .b2b-hero-logo-text-{{ section.id }} {
+    font-size: 32px;
+    font-weight: 900;
+    color: #FFFFFF;
+    letter-spacing: -1px;
+    font-family: 'Avenir Next', -apple-system, sans-serif;
+  }
+
+  .b2b-hero-tagline-{{ section.id }} {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #999;
+    margin-top: 5px;
+  }
+
+  .b2b-hero-title-{{ section.id }} {
+    font-size: 56px;
+    font-weight: 900;
+    color: #FFFFFF;
+    margin: 0 0 25px 0;
+    line-height: 1.1;
+    font-family: 'Avenir Next', -apple-system, sans-serif;
+    letter-spacing: -2px;
+  }
+
+  .b2b-hero-subtitle-{{ section.id }} {
+    font-size: 18px;
+    line-height: 1.7;
+    color: #CCCCCC;
+    margin: 0;
+  }
+
+  .b2b-hero-subtitle-{{ section.id }} p {
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .b2b-hero-section-{{ section.id }} {
+      padding: 60px 20px 60px;
+    }
+    .b2b-hero-title-{{ section.id }} {
+      font-size: 36px;
+    }
+    .b2b-hero-subtitle-{{ section.id }} {
+      font-size: 16px;
+    }
+  }
+</style>
+
+<div class="b2b-hero-section-{{ section.id }}">
+  {% if section.settings.hero_image_desktop != blank %}
+    <img
+      class="b2b-hero-bg-image-{{ section.id }} b2b-hero-bg-image--desktop-{{ section.id }}"
+      src="{{ section.settings.hero_image_desktop | image_url: width: 1920 }}"
+      alt="Hero background"
+      loading="eager"
+    >
+  {% endif %}
+
+  {% if section.settings.hero_image_mobile != blank %}
+    <img
+      class="b2b-hero-bg-image-{{ section.id }} b2b-hero-bg-image--mobile-{{ section.id }}"
+      src="{{ section.settings.hero_image_mobile | image_url: width: 768 }}"
+      alt="Hero background mobile"
+      loading="eager"
+    >
+  {% elsif section.settings.hero_image_desktop != blank %}
+    <img
+      class="b2b-hero-bg-image-{{ section.id }} b2b-hero-bg-image--mobile-{{ section.id }}"
+      src="{{ section.settings.hero_image_desktop | image_url: width: 768 }}"
+      alt="Hero background mobile"
+      loading="eager"
+    >
+  {% endif %}
+
+  {% if section.settings.hero_image_desktop != blank or section.settings.hero_image_mobile != blank %}
+    <div class="b2b-hero-overlay-{{ section.id }}"></div>
+  {% endif %}
+
+  <div class="b2b-hero-content-{{ section.id }}">
+    <div class="b2b-hero-logo-area-{{ section.id }}">
+      <div class="b2b-hero-logo-text-{{ section.id }}">{{ section.settings.logo_text }}</div>
+      <div class="b2b-hero-tagline-{{ section.id }}">{{ section.settings.tagline }}</div>
+    </div>
+    <h1 class="b2b-hero-title-{{ section.id }}" data-lang-de="{{ section.settings.title_de }}" data-lang-en="{{ section.settings.title_en }}">
+      {{ section.settings.title_de }}
+    </h1>
+    <div class="b2b-hero-subtitle-{{ section.id }}" data-lang-de="{{ section.settings.subtitle_de }}" data-lang-en="{{ section.settings.subtitle_en }}">
+      {{ section.settings.subtitle_de }}
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const currentLang = document.documentElement.lang === 'en' ? 'en' : 'de';
+
+  function updateHeroLanguage(lang) {
+    document.querySelectorAll('.b2b-hero-section-{{ section.id }} [data-lang-de]').forEach(el => {
+      const text = el.getAttribute('data-lang-' + lang);
+      if (text) {
+        el.innerHTML = text;
+      }
+    });
+  }
+
+  updateHeroLanguage(currentLang);
+
+  document.addEventListener('languageChanged', function(e) {
+    updateHeroLanguage(e.detail.language);
+  });
+});
+</script>
