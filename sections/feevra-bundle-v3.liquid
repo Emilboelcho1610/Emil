@@ -1,0 +1,1296 @@
+{% comment %}
+  FEEVRA PREMIUM BUNDLE - V3
+
+  Redesign: Conversion-optimized layout
+  - Horizontal quantity cards (no images, clean price focus)
+  - Small color swatches instead of large image cards
+  - CTA with price
+  - Mix colors toggle for 2-3 stk
+  - Pre-selected: 2 stk + Sort
+{% endcomment %}
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.feevra-bundle-v3 {
+  all: initial;
+  display: block;
+
+  --fb-primary: #1C1A54;
+  --fb-accent: #00C896;
+  --fb-gray-50: #F9FAFB;
+  --fb-gray-100: #F3F4F6;
+  --fb-gray-200: #E5E7EB;
+  --fb-gray-300: #D1D5DB;
+  --fb-gray-500: #9CA3AF;
+  --fb-gray-600: #6B7280;
+  --fb-gray-700: #374151;
+  --fb-gray-800: #1F2937;
+  --fb-red: #EF4444;
+  --fb-green: #10B981;
+  --fb-check-size: 16px;
+
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+  .feevra-bundle-v3 { --fb-check-size: 14px; }
+}
+
+.feevra-bundle-v3 *,
+.feevra-bundle-v3 *::before,
+.feevra-bundle-v3 *::after { box-sizing: border-box; }
+
+/* ── Inner container ── */
+.feevra-bundle-v3 .bundle-inner {
+  border-radius: 10px;
+  padding: clamp(8px, 2vw, 12px);
+  background: #fff;
+}
+
+/* ── Quantity grid ── */
+.feevra-bundle-v3 .qty-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(5px, 1.2vw, 8px);
+}
+
+@media (max-width: 480px) {
+  .feevra-bundle-v3 .qty-grid { gap: 4px; }
+}
+
+.feevra-bundle-v3 .qty-card {
+  position: relative;
+  cursor: pointer;
+  border-radius: 10px;
+  background: #fff;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  overflow: visible !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .feevra-bundle-v3 .qty-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(28, 26, 84, 0.08);
+  }
+}
+
+.feevra-bundle-v3 .qty-card.selected {
+  box-shadow: 0 4px 12px rgba(28, 26, 84, 0.15);
+}
+
+/* Border via ::before */
+.feevra-bundle-v3 .qty-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  border: 2px solid var(--fb-gray-300);
+  transition: border-color 0.16s ease, border-width 0.16s ease;
+  z-index: 3;
+}
+
+.feevra-bundle-v3 .qty-card.selected::before {
+  border-color: var(--fb-primary);
+  border-width: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .feevra-bundle-v3 .qty-card:hover::before {
+    border-color: var(--fb-primary);
+    border-width: 2px;
+  }
+}
+
+/* Checkmark */
+.feevra-bundle-v3 .qty-card.selected::after {
+  content: "";
+  position: absolute;
+  width: var(--fb-check-size);
+  height: var(--fb-check-size);
+  top: -6px;
+  right: -6px;
+  background-image: url("https://cdn.shopify.com/s/files/1/0871/4570/9910/files/Ikoner_5.svg?v=1769718275");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  background-color: transparent;
+  z-index: 10;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.18));
+}
+
+@media (max-width: 480px) {
+  .feevra-bundle-v3 .qty-card.selected::after {
+    top: -5px;
+    right: -5px;
+  }
+}
+
+.feevra-bundle-v3 .qty-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Badge */
+.feevra-bundle-v3 .qty-badge {
+  width: 100%;
+  margin: 0;
+  background: var(--fb-primary);
+  color: #fff;
+  padding: 0 8px;
+  min-height: 28px;
+  line-height: 1.1;
+  font-size: clamp(10px, 2.6vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px 10px 0 0;
+}
+
+.feevra-bundle-v3 .qty-badge.best { background: var(--fb-accent); }
+
+@media (max-width: 480px) {
+  .feevra-bundle-v3 .qty-badge {
+    padding: 0 6px;
+    min-height: 26px;
+    font-size: 10px;
+  }
+}
+
+/* Content area */
+.feevra-bundle-v3 .qty-content {
+  padding: clamp(8px, 2vw, 12px) clamp(4px, 1.2vw, 6px);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.feevra-bundle-v3 .qty-card { min-height: 105px; }
+
+@media (max-width: 480px) {
+  .feevra-bundle-v3 .qty-content { padding: 8px 3px; }
+  .feevra-bundle-v3 .qty-card { min-height: 98px; }
+}
+
+.feevra-bundle-v3 .qty-amount {
+  font-size: clamp(16px, 3.8vw, 20px);
+  font-weight: 700;
+  color: var(--fb-primary);
+  line-height: 1;
+  text-align: center;
+}
+
+.feevra-bundle-v3 .qty-price {
+  font-size: clamp(16px, 3.8vw, 19px);
+  font-weight: 700;
+  color: var(--fb-gray-800);
+  line-height: 1;
+  white-space: nowrap;
+  margin-top: 2px;
+}
+
+.feevra-bundle-v3 .qty-savings {
+  font-size: clamp(8px, 1.8vw, 9px);
+  font-weight: 700;
+  color: var(--fb-green);
+  background: rgba(16, 185, 129, 0.1);
+  padding: 3px 8px;
+  border-radius: 8px;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+/* ── Color swatches ── */
+.feevra-bundle-v3 .color-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 0 2px;
+  flex-wrap: wrap;
+}
+
+.feevra-bundle-v3 .color-label {
+  font-size: clamp(11px, 2.4vw, 13px);
+  font-weight: 600;
+  color: var(--fb-gray-700);
+  white-space: nowrap;
+}
+
+.feevra-bundle-v3 .color-swatches {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.feevra-bundle-v3 .color-swatch {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--fb-gray-200);
+  cursor: pointer;
+  transition: border-color 0.16s ease, transform 0.16s ease, box-shadow 0.16s ease;
+  padding: 0;
+  background: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  overflow: hidden;
+}
+
+.feevra-bundle-v3 .color-swatch img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.feevra-bundle-v3 .color-swatch.selected {
+  border-color: var(--fb-primary);
+  border-width: 3px;
+  box-shadow: 0 0 0 2px rgba(28, 26, 84, 0.15);
+}
+
+.feevra-bundle-v3 .color-swatch.sold-out {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .feevra-bundle-v3 .color-swatch:not(.sold-out):hover {
+    border-color: var(--fb-primary);
+    transform: scale(1.1);
+  }
+}
+
+.feevra-bundle-v3 .color-swatch-name {
+  font-size: clamp(9px, 2vw, 10px);
+  font-weight: 500;
+  color: var(--fb-gray-600);
+  text-align: center;
+  margin-top: 2px;
+}
+
+.feevra-bundle-v3 .swatch-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+/* ── Mix toggle ── */
+.feevra-bundle-v3 .mix-toggle-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 12px 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.feevra-bundle-v3 .mix-toggle-container.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.feevra-bundle-v3 .mix-colors-link {
+  display: inline-flex;
+  align-items: center;
+  font-size: clamp(11px, 2.4vw, 13px);
+  color: var(--fb-primary);
+  text-decoration: underline;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+}
+
+.feevra-bundle-v3 .mix-colors-link:hover {
+  color: #13102d;
+  text-decoration: none;
+}
+
+/* ── Distribution (mix colors) ── */
+.feevra-bundle-v3 .section-distribution {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.2s ease, margin 0.3s ease;
+}
+
+.feevra-bundle-v3 .section-distribution.active {
+  max-height: 2000px;
+  opacity: 1;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.feevra-bundle-v3 .distribution-container {
+  background: var(--fb-gray-50);
+  border-radius: 7px;
+  padding: clamp(8px, 1.8vw, 10px);
+}
+
+.feevra-bundle-v3 .distribution-title {
+  font-size: clamp(11px, 2.2vw, 13px);
+  font-weight: 600;
+  color: var(--fb-gray-800);
+  margin: 0 0 6px 0;
+}
+
+.feevra-bundle-v3 .distribution-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.feevra-bundle-v3 .distribution-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.feevra-bundle-v3 .distribution-label {
+  font-size: clamp(10px, 2.2vw, 12px);
+  font-weight: 600;
+  color: var(--fb-gray-700);
+  min-width: 60px;
+}
+
+.feevra-bundle-v3 .distribution-colors {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 5px;
+  flex: 1;
+}
+
+.feevra-bundle-v3 .dist-color-btn {
+  position: relative;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 0;
+  background: #fff;
+  border: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  overflow: visible !important;
+}
+
+.feevra-bundle-v3 .dist-color-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  border: 2px solid transparent;
+  transition: border-color 0.16s ease, border-width 0.16s ease;
+  z-index: 3;
+}
+
+.feevra-bundle-v3 .dist-color-btn.selected::before {
+  border-color: var(--fb-primary);
+  border-width: 3px;
+}
+
+.feevra-bundle-v3 .dist-color-btn.selected::after {
+  content: "";
+  position: absolute;
+  width: var(--fb-check-size);
+  height: var(--fb-check-size);
+  top: -5px;
+  right: -5px;
+  background-image: url("https://cdn.shopify.com/s/files/1/0871/4570/9910/files/Ikoner_5.svg?v=1769718275");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  background-color: transparent;
+  z-index: 10;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.18));
+}
+
+.feevra-bundle-v3 .dist-color-btn > * {
+  position: relative;
+  z-index: 1;
+}
+
+.feevra-bundle-v3 .dist-color-btn.sold-out {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.feevra-bundle-v3 .dist-color-btn.sold-out::after {
+  content: "Udsolgt";
+  position: absolute;
+  left: 0; right: 0; bottom: 2px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--fb-red);
+  text-transform: uppercase;
+  z-index: 4;
+  pointer-events: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .feevra-bundle-v3 .dist-color-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.feevra-bundle-v3 .dist-color-img {
+  width: 100%;
+  padding-bottom: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.feevra-bundle-v3 .dist-color-img img {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── CTA ── */
+.feevra-bundle-v3 .cta-button {
+  width: 100%;
+  padding: clamp(14px, 3vw, 16px) 20px;
+  background: var(--fb-primary);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: clamp(15px, 3.4vw, 17px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+  margin-top: 14px;
+  box-shadow: 0 4px 12px rgba(28, 26, 84, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.feevra-bundle-v3 .cta-button .spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: fb-spin 0.6s linear infinite;
+  display: none;
+}
+
+.feevra-bundle-v3 .cta-button.loading .spinner { display: block; }
+
+.feevra-bundle-v3 .cta-button:disabled {
+  background: var(--fb-gray-300);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+@keyframes fb-spin { to { transform: rotate(360deg); } }
+
+/* ── Preorder note ── */
+.feevra-bundle-v3 .preorder-note {
+  margin-top: 10px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--fb-gray-700);
+  line-height: 1.25;
+}
+
+/* ── Trust badges ── */
+.feevra-bundle-v3 .trust-badges {
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  justify-content: center;
+  align-items: center;
+  gap: clamp(12px, 3vw, 18px);
+  margin-top: 8px;
+}
+
+.feevra-bundle-v3 .trust-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: clamp(10px, 2.4vw, 12px);
+  color: var(--fb-gray-600);
+  font-weight: 500;
+}
+
+.feevra-bundle-v3 .trust-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--fb-accent);
+  overflow: visible;
+}
+
+.feevra-bundle-v3 .trustpilot-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: clamp(10px, 2.4vw, 12px);
+  color: var(--fb-gray-600);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.feevra-bundle-v3 .trustpilot-inline img {
+  height: clamp(12px, 3vw, 16px);
+  flex-shrink: 0;
+}
+
+/* ── Payment icons ── */
+.feevra-bundle-v3 .payment-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.feevra-bundle-v3 .payment-icon-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: nowrap;
+}
+
+.feevra-bundle-v3 .payment-icon { flex: 0 0 auto; display: flex; align-items: center; }
+.feevra-bundle-v3 .payment-icon svg { height: clamp(12px, 3.2vw, 18px); width: auto; display: block; }
+
+/* ── Toast ── */
+.feevra-bundle-v3 .toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--fb-gray-800);
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+
+.feevra-bundle-v3 .toast.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.feevra-bundle-v3 .toast.error { background: var(--fb-red); }
+.feevra-bundle-v3 .toast.success { background: var(--fb-green); }
+</style>
+
+<div class="feevra-bundle-v3" id="feevra-bundle-v3">
+  <div class="bundle-inner">
+
+    <!-- Quantity selection -->
+    <div class="qty-grid" role="radiogroup" aria-label="Antal">
+      <button type="button" class="qty-card" data-quantity="1" aria-pressed="false">
+        <div class="qty-badge" style="visibility: hidden;">.</div>
+        <div class="qty-content">
+          <div class="qty-amount">1 Stk</div>
+          <div class="qty-price">399 kr.</div>
+          <div class="qty-savings">Spar 33%</div>
+        </div>
+      </button>
+
+      <button type="button" class="qty-card" data-quantity="2" aria-pressed="false">
+        <div class="qty-badge">Mest populær</div>
+        <div class="qty-content">
+          <div class="qty-amount">2 Stk</div>
+          <div class="qty-price">750 kr.</div>
+          <div class="qty-savings">Spar 37%</div>
+        </div>
+      </button>
+
+      <button type="button" class="qty-card" data-quantity="3" aria-pressed="false">
+        <div class="qty-badge best">Bedst værdi</div>
+        <div class="qty-content">
+          <div class="qty-amount">3 Stk</div>
+          <div class="qty-price">950 kr.</div>
+          <div class="qty-savings">Spar 47%</div>
+        </div>
+      </button>
+    </div>
+
+    <!-- Color swatches -->
+    <div class="color-section" id="color-section">
+      <span class="color-label">Farve:</span>
+      <div class="color-swatches" role="radiogroup" aria-label="Farve">
+        <div class="swatch-item">
+          <button type="button" class="color-swatch" data-color="sort" data-variant="49885169189206" data-available="true" aria-pressed="false" title="Sort">
+            <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_2_e103e0c1-662b-4aca-a605-009f32c6e49e.jpg?v=1768917230" alt="Sort">
+          </button>
+          <span class="color-swatch-name">Sort</span>
+        </div>
+
+        <div class="swatch-item">
+          <button type="button" class="color-swatch" data-color="rosa" data-variant="50188499812694" data-available="true" aria-pressed="false" title="Rosa">
+            <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemaske_jpg_3ec23e6e-1dce-4474-a8e8-30ad75e4a914.jpg?v=1768917229" alt="Rosa">
+          </button>
+          <span class="color-swatch-name">Rosa</span>
+        </div>
+
+        <div class="swatch-item">
+          <button type="button" class="color-swatch" data-color="graa" data-variant="50595389866326" data-available="true" aria-pressed="false" title="Grå">
+            <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken_jpg_049bb0ba-66eb-478f-87ba-5f4e1c3af56c.jpg?v=1768917230" alt="Grå">
+          </button>
+          <span class="color-swatch-name">Grå</span>
+        </div>
+
+        <div class="swatch-item">
+          <button type="button" class="color-swatch" data-color="blaa" data-variant="51508439810390" data-available="true" aria-pressed="false" title="Blå">
+            <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_3_021793b9-d91c-4e66-8277-77242e0f482e.jpg?v=1768917230" alt="Blå">
+          </button>
+          <span class="color-swatch-name">Blå</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mix colors toggle -->
+    <div class="mix-toggle-container" id="mix-toggle-container" aria-hidden="true">
+      <button type="button" class="mix-colors-link" id="mix-colors-link">Vælg forskellige farver</button>
+    </div>
+
+    <!-- Distribution (mix colors) -->
+    <div class="section-distribution" id="section-distribution">
+      <div class="distribution-container">
+        <h3 class="distribution-title">Fordel farver</h3>
+        <div class="distribution-grid" id="distribution-grid"></div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div id="section-cta">
+      <button type="button" class="cta-button" id="add-to-cart-btn" disabled>
+        <span class="cta-text">Tilføj til kurv</span>
+        <span class="spinner"></span>
+      </button>
+
+      <div class="preorder-note">Forudbestilling: På lager igen 20 Februar</div>
+
+      <div class="trust-badges">
+        <div class="trust-item">
+          <svg class="trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          </svg>
+          <span>Gratis levering</span>
+        </div>
+
+        <div class="trust-item">
+          <svg class="trust-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span>100 dages returret</span>
+        </div>
+
+        <div class="trustpilot-inline">
+          <span>Fremragende</span>
+          <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/Trustpilot_stars.png?v=1750971162" alt="Trustpilot stjerner">
+        </div>
+      </div>
+
+      <div class="payment-section">
+        <div aria-label="Betalingsmuligheder">
+          <ul class="payment-icon-list" role="list">
+            {%- assign payment_icons = "visa,master,apple_pay,google_pay,mobilepay,klarna" | split: "," -%}
+            {%- for type in payment_icons -%}
+              <li class="payment-icon">{{ type | payment_type_svg_tag }}</li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="toast" id="fb-toast" role="status" aria-live="polite" aria-atomic="true"></div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  var CONFIG = {
+    productHandle: 'feevra-migraene-maske',
+    cacheKey: 'feevra_bundle_product_cache_v3',
+    cacheTtlMs: 300000,
+    uiLockMs: 140,
+    defaultColor: 'sort',
+    defaultQuantity: 2,
+    prices: { 1: 399, 2: 750, 3: 950 },
+    products: {
+      sort: { name: 'Sort', variantId: '49885169189206', image: 'https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_2_e103e0c1-662b-4aca-a605-009f32c6e49e.jpg?v=1768917230' },
+      rosa: { name: 'Rosa', variantId: '50188499812694', image: 'https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemaske_jpg_3ec23e6e-1dce-4474-a8e8-30ad75e4a914.jpg?v=1768917229' },
+      graa: { name: 'Grå', variantId: '50595389866326', image: 'https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken_jpg_049bb0ba-66eb-478f-87ba-5f4e1c3af56c.jpg?v=1768917230' },
+      blaa: { name: 'Blå', variantId: '51508439810390', image: 'https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_3_021793b9-d91c-4e66-8277-77242e0f482e.jpg?v=1768917230' }
+    }
+  };
+
+  var state = {
+    selectedColor: null,
+    selectedQuantity: null,
+    distribution: {},
+    soldOutVariantIds: new Set(),
+    inFlightProductPromise: null,
+    lockedUntil: 0,
+    isAdding: false,
+    distUI: { renderedQty: 0, rows: {} }
+  };
+
+  var els = {
+    root: document.getElementById('feevra-bundle-v3'),
+    swatches: document.querySelectorAll('.feevra-bundle-v3 .color-swatch'),
+    qtyCards: document.querySelectorAll('.feevra-bundle-v3 .qty-card'),
+    mixToggleContainer: document.getElementById('mix-toggle-container'),
+    mixColorsLink: document.getElementById('mix-colors-link'),
+    sectionDistribution: document.getElementById('section-distribution'),
+    distributionGrid: document.getElementById('distribution-grid'),
+    ctaBtn: document.getElementById('add-to-cart-btn'),
+    toast: document.getElementById('fb-toast')
+  };
+
+  function now() { return Date.now(); }
+  function lockUi(ms) { state.lockedUntil = Math.max(state.lockedUntil, now() + ms); }
+  function blocked() { return state.isAdding || (now() < state.lockedUntil); }
+
+  function showToast(message, type) {
+    els.toast.textContent = message;
+    els.toast.className = 'toast ' + (type || 'info') + ' show';
+    setTimeout(function() { els.toast.classList.remove('show'); }, 3000);
+  }
+
+  function isSoldOutVariant(variantId) { return state.soldOutVariantIds.has(String(variantId)); }
+
+  function availableColorKeys() {
+    return Object.keys(CONFIG.products).filter(function(k) {
+      return !isSoldOutVariant(CONFIG.products[k].variantId);
+    });
+  }
+
+  function pickFirstAvailableColor(preferKey) {
+    if (preferKey && CONFIG.products[preferKey] && !isSoldOutVariant(CONFIG.products[preferKey].variantId)) return preferKey;
+    var keys = availableColorKeys();
+    return keys.length ? keys[0] : null;
+  }
+
+  /* ── CTA ── */
+  function updateCta() {
+    var ctaText = els.ctaBtn.querySelector('.cta-text');
+    var keys = availableColorKeys();
+
+    if (!keys.length) {
+      els.ctaBtn.disabled = true;
+      ctaText.textContent = 'Udsolgt';
+      return;
+    }
+
+    if (!state.selectedColor || !state.selectedQuantity) {
+      els.ctaBtn.disabled = true;
+      ctaText.textContent = 'Vælg dine masker';
+      return;
+    }
+
+    if (!state.isAdding) {
+      els.ctaBtn.disabled = false;
+      var price = CONFIG.prices[state.selectedQuantity] || 0;
+      ctaText.textContent = 'Tilføj til kurv \u2014 ' + price + ' kr.';
+    }
+  }
+
+  /* ── Swatch UI ── */
+  function setSelectedSwatchUi(colorKey) {
+    els.swatches.forEach(function(s) {
+      var isSelected = s.dataset.color === colorKey;
+      s.classList.toggle('selected', isSelected);
+      s.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+    });
+  }
+
+  /* ── Qty UI ── */
+  function setSelectedQtyUi(qty) {
+    els.qtyCards.forEach(function(card) {
+      var q = parseInt(card.dataset.quantity, 10);
+      var isActive = qty != null && q === qty;
+      card.classList.toggle('selected', isActive);
+      card.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+  }
+
+  /* ── Mix toggle ── */
+  function updateMixToggle() {
+    var qty = state.selectedQuantity;
+    if (qty && qty > 1) {
+      els.mixToggleContainer.classList.add('show');
+      els.mixToggleContainer.setAttribute('aria-hidden', 'false');
+    } else {
+      els.mixToggleContainer.classList.remove('show');
+      els.mixToggleContainer.setAttribute('aria-hidden', 'true');
+      els.sectionDistribution.classList.remove('active');
+      els.mixColorsLink.textContent = 'Vælg forskellige farver';
+    }
+  }
+
+  /* ── Product fetch + cache ── */
+  function getCachedProduct() {
+    try {
+      var raw = sessionStorage.getItem(CONFIG.cacheKey);
+      if (!raw) return null;
+      var parsed = JSON.parse(raw);
+      if (!parsed || !parsed.t || !parsed.data) return null;
+      if (now() - parsed.t > CONFIG.cacheTtlMs) return null;
+      return parsed.data;
+    } catch(e) { return null; }
+  }
+
+  function setCachedProduct(data) {
+    try { sessionStorage.setItem(CONFIG.cacheKey, JSON.stringify({ t: now(), data: data })); } catch(e) {}
+  }
+
+  function fetchProductData(force) {
+    if (!force) {
+      var cached = getCachedProduct();
+      if (cached) return Promise.resolve(cached);
+    }
+    if (state.inFlightProductPromise) return state.inFlightProductPromise;
+
+    state.inFlightProductPromise = fetch('/products/' + CONFIG.productHandle + '.js', { credentials: 'same-origin' })
+      .then(function(res) { if (!res.ok) throw new Error('fetch_failed'); return res.json(); })
+      .then(function(data) { setCachedProduct(data); return data; })
+      .finally(function() { state.inFlightProductPromise = null; });
+
+    return state.inFlightProductPromise;
+  }
+
+  /* ── Stock ── */
+  function applyStock(product) {
+    state.soldOutVariantIds = new Set();
+
+    els.swatches.forEach(function(swatch) {
+      var variantId = parseInt(swatch.dataset.variant, 10);
+      var v = product && product.variants ? product.variants.find(function(x) { return x.id === variantId; }) : null;
+
+      if (v && !v.available) {
+        swatch.classList.add('sold-out');
+        swatch.dataset.available = 'false';
+        swatch.setAttribute('aria-disabled', 'true');
+        state.soldOutVariantIds.add(String(variantId));
+      } else {
+        swatch.classList.remove('sold-out');
+        swatch.dataset.available = 'true';
+        swatch.removeAttribute('aria-disabled');
+      }
+    });
+
+    updateCta();
+  }
+
+  function normalizeAfterStock() {
+    var keys = availableColorKeys();
+    if (!keys.length) { updateCta(); return; }
+
+    if (state.selectedColor && isSoldOutVariant(CONFIG.products[state.selectedColor].variantId)) {
+      var next = pickFirstAvailableColor(CONFIG.defaultColor) || keys[0];
+      state.selectedColor = next;
+      setSelectedSwatchUi(next);
+    }
+    updateCta();
+  }
+
+  function fetchAndApplyStock(force) {
+    return fetchProductData(!!force).then(function(product) {
+      applyStock(product);
+      normalizeAfterStock();
+      if (els.sectionDistribution.classList.contains('active')) renderDistributionIfNeeded();
+      return product;
+    }).catch(function() {
+      updateCta();
+      return null;
+    });
+  }
+
+  /* ── Distribution ── */
+  function ensureDistributionInit() {
+    if (!state.selectedQuantity || !state.selectedColor) return;
+    var qty = state.selectedQuantity;
+    if (!Object.keys(state.distribution).length) {
+      for (var i = 0; i < qty; i++) state.distribution[i] = state.selectedColor;
+      return;
+    }
+    for (var j = 0; j < qty; j++) {
+      if (!state.distribution[j]) state.distribution[j] = state.selectedColor;
+    }
+  }
+
+  function sortedColorKeys() {
+    var keys = Object.keys(CONFIG.products);
+    keys.sort(function(a, b) {
+      return (isSoldOutVariant(CONFIG.products[a].variantId) ? 1 : 0) - (isSoldOutVariant(CONFIG.products[b].variantId) ? 1 : 0);
+    });
+    return keys;
+  }
+
+  function updateDistRowSelection(index) {
+    var row = state.distUI.rows[index];
+    if (!row) return;
+    var selectedKey = state.distribution[index];
+    Object.keys(row.buttons).forEach(function(k) {
+      var btn = row.buttons[k];
+      var isSel = k === selectedKey;
+      btn.classList.toggle('selected', isSel);
+      btn.setAttribute('aria-pressed', isSel ? 'true' : 'false');
+    });
+  }
+
+  function refreshDistButtons() {
+    var qty = state.selectedQuantity;
+    if (!qty || qty <= 1) return;
+
+    for (var i = 0; i < qty; i++) {
+      var row = state.distUI.rows[i];
+      if (!row) continue;
+      var container = row.el.querySelector('.distribution-colors');
+      if (!container) continue;
+
+      var available = [], sold = [];
+      Object.keys(CONFIG.products).forEach(function(k) {
+        var btn = row.buttons[k];
+        if (!btn) return;
+        if (isSoldOutVariant(CONFIG.products[k].variantId)) {
+          btn.classList.add('sold-out');
+          btn.disabled = true;
+          sold.push(btn);
+        } else {
+          btn.classList.remove('sold-out');
+          btn.disabled = false;
+          available.push(btn);
+        }
+      });
+      available.forEach(function(b) { container.appendChild(b); });
+      sold.forEach(function(b) { container.appendChild(b); });
+    }
+  }
+
+  function refreshDistSelection() {
+    var qty = state.selectedQuantity;
+    if (!qty || qty <= 1) return;
+    for (var i = 0; i < qty; i++) updateDistRowSelection(i);
+  }
+
+  function renderDistributionIfNeeded() {
+    var qty = state.selectedQuantity;
+    if (!qty || qty <= 1) return;
+    if (!state.selectedColor) return;
+    ensureDistributionInit();
+
+    if (state.distUI.renderedQty === qty && els.distributionGrid.children.length) {
+      refreshDistButtons();
+      refreshDistSelection();
+      return;
+    }
+
+    state.distUI.renderedQty = qty;
+    state.distUI.rows = {};
+    els.distributionGrid.innerHTML = '';
+
+    var keys = sortedColorKeys();
+
+    for (var i = 0; i < qty; i++) {
+      (function(idx) {
+        var item = document.createElement('div');
+        item.className = 'distribution-item';
+
+        var label = document.createElement('div');
+        label.className = 'distribution-label';
+        label.textContent = 'Maske ' + (idx + 1) + ':';
+
+        var colors = document.createElement('div');
+        colors.className = 'distribution-colors';
+
+        var row = { el: item, buttons: {} };
+
+        keys.forEach(function(colorKey) {
+          var product = CONFIG.products[colorKey];
+          var soldOut = isSoldOutVariant(product.variantId);
+
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'dist-color-btn';
+          btn.dataset.index = String(idx);
+          btn.dataset.color = colorKey;
+          btn.setAttribute('aria-pressed', 'false');
+
+          if (soldOut) {
+            btn.classList.add('sold-out');
+            btn.disabled = true;
+          }
+
+          btn.innerHTML = '<div class="dist-color-img"><img src="' + product.image + '" alt="' + product.name + '"></div>';
+
+          btn.addEventListener('click', function() {
+            if (blocked()) return;
+            lockUi(CONFIG.uiLockMs);
+            if (btn.disabled) return;
+            state.distribution[idx] = colorKey;
+            updateDistRowSelection(idx);
+          });
+
+          row.buttons[colorKey] = btn;
+          colors.appendChild(btn);
+        });
+
+        item.appendChild(label);
+        item.appendChild(colors);
+        els.distributionGrid.appendChild(item);
+        state.distUI.rows[idx] = row;
+      })(i);
+    }
+
+    refreshDistButtons();
+    refreshDistSelection();
+  }
+
+  /* ── Event handlers ── */
+  function handleSwatchClick(e) {
+    if (blocked()) return;
+    lockUi(CONFIG.uiLockMs);
+
+    var swatch = e.currentTarget;
+    var color = swatch.dataset.color;
+    if (swatch.dataset.available !== 'true') {
+      showToast('Denne farve er udsolgt', 'error');
+      return;
+    }
+
+    state.selectedColor = color;
+    setSelectedSwatchUi(color);
+
+    if (state.selectedQuantity) {
+      if (!els.sectionDistribution.classList.contains('active')) {
+        state.distribution = {};
+        for (var i = 0; i < state.selectedQuantity; i++) state.distribution[i] = color;
+      } else {
+        ensureDistributionInit();
+        renderDistributionIfNeeded();
+      }
+    }
+
+    updateCta();
+  }
+
+  function handleQtyClick(e) {
+    if (blocked()) return;
+    lockUi(CONFIG.uiLockMs);
+
+    var card = e.currentTarget;
+    var quantity = parseInt(card.dataset.quantity, 10);
+    state.selectedQuantity = quantity;
+    setSelectedQtyUi(quantity);
+
+    fetchAndApplyStock(false).then(function() {
+      updateMixToggle();
+
+      if (!state.selectedColor) {
+        state.distribution = {};
+        updateCta();
+        return;
+      }
+
+      if (quantity <= 1) {
+        state.distribution = { 0: state.selectedColor };
+        els.sectionDistribution.classList.remove('active');
+        els.mixColorsLink.textContent = 'Vælg forskellige farver';
+        updateCta();
+        return;
+      }
+
+      state.distribution = {};
+      for (var i = 0; i < quantity; i++) state.distribution[i] = state.selectedColor;
+
+      if (els.sectionDistribution.classList.contains('active')) renderDistributionIfNeeded();
+      updateCta();
+    });
+  }
+
+  function handleMixToggle(e) {
+    e.preventDefault();
+    if (blocked()) return;
+    lockUi(CONFIG.uiLockMs);
+
+    if (!state.selectedQuantity || state.selectedQuantity <= 1) return;
+    var isActive = els.sectionDistribution.classList.contains('active');
+
+    if (!isActive) {
+      els.sectionDistribution.classList.add('active');
+      els.mixColorsLink.textContent = 'Brug samme farve';
+      fetchAndApplyStock(false).then(function() {
+        ensureDistributionInit();
+        renderDistributionIfNeeded();
+      });
+      return;
+    }
+
+    els.sectionDistribution.classList.remove('active');
+    els.mixColorsLink.textContent = 'Vælg forskellige farver';
+
+    if (state.selectedColor && state.selectedQuantity) {
+      for (var i = 0; i < state.selectedQuantity; i++) state.distribution[i] = state.selectedColor;
+    }
+  }
+
+  async function handleAddToCart() {
+    if (blocked()) return;
+
+    if (!state.selectedColor || !state.selectedQuantity) {
+      showToast('Vælg dine masker', 'error');
+      updateCta();
+      return;
+    }
+
+    state.isAdding = true;
+    lockUi(400);
+
+    var ctaText = els.ctaBtn.querySelector('.cta-text');
+    els.ctaBtn.disabled = true;
+    ctaText.textContent = 'Tilføjer...';
+    els.ctaBtn.classList.add('loading');
+
+    try {
+      await fetchAndApplyStock(true);
+
+      var keys = availableColorKeys();
+      if (!keys.length) {
+        showToast('Produktet er udsolgt', 'error');
+        ctaText.textContent = 'Udsolgt';
+        els.ctaBtn.classList.remove('loading');
+        state.isAdding = false;
+        updateCta();
+        return;
+      }
+
+      ensureDistributionInit();
+      var qty = state.selectedQuantity;
+
+      var counts = {};
+      for (var i = 0; i < qty; i++) {
+        var k = state.distribution[i] || state.selectedColor;
+        counts[k] = (counts[k] || 0) + 1;
+      }
+
+      var items = [];
+      Object.keys(counts).forEach(function(ck) {
+        var cfg = CONFIG.products[ck];
+        if (!cfg) return;
+        if (isSoldOutVariant(cfg.variantId)) return;
+        items.push({
+          id: cfg.variantId,
+          quantity: counts[ck],
+          properties: { 'Bundle': 'Feevra Bundle', 'Antal i bundle': qty }
+        });
+      });
+
+      var response = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: items })
+      });
+
+      if (response.ok) {
+        ctaText.textContent = 'Tilføjet!';
+        window.dispatchEvent(new CustomEvent('feevra:cart:updated'));
+        setTimeout(function() {
+          els.ctaBtn.classList.remove('loading');
+          state.isAdding = false;
+          updateCta();
+        }, 1200);
+        return;
+      }
+
+      showToast('Der skete en fejl. Prøv igen.', 'error');
+      els.ctaBtn.classList.remove('loading');
+      state.isAdding = false;
+      updateCta();
+
+    } catch(err) {
+      showToast('Der skete en fejl. Prøv igen.', 'error');
+      els.ctaBtn.classList.remove('loading');
+      state.isAdding = false;
+      updateCta();
+    }
+  }
+
+  /* ── Init ── */
+  function initDefaults() {
+    state.selectedQuantity = CONFIG.defaultQuantity;
+    state.selectedColor = CONFIG.defaultColor;
+    state.distribution = {};
+    for (var i = 0; i < state.selectedQuantity; i++) state.distribution[i] = state.selectedColor;
+
+    setSelectedSwatchUi(state.selectedColor);
+    setSelectedQtyUi(state.selectedQuantity);
+    updateMixToggle();
+    updateCta();
+  }
+
+  function init() {
+    initDefaults();
+
+    els.swatches.forEach(function(s) { s.addEventListener('pointerup', handleSwatchClick); });
+    els.qtyCards.forEach(function(c) { c.addEventListener('pointerup', handleQtyClick); });
+    els.mixColorsLink.addEventListener('click', handleMixToggle);
+    els.ctaBtn.addEventListener('click', handleAddToCart);
+
+    fetchAndApplyStock(false);
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
