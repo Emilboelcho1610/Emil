@@ -1,11 +1,11 @@
 {% comment %}
-  FEEVRA PREMIUM BUNDLE - V3
+  FEEVRA PREMIUM BUNDLE - V3.1
 
   Redesign: Conversion-optimized layout
-  - Horizontal quantity cards (no images, clean price focus)
-  - Small color swatches instead of large image cards
-  - CTA with price
-  - Mix colors toggle for 2-3 stk
+  - Horizontal quantity cards (clean price focus)
+  - Dynamic color picker: single row for 1 stk, #1/#2/#3 rows for multi
+  - No "Farve:" label, no toggle link
+  - CTA without price
   - Pre-selected: 2 stk + Sort
 {% endcomment %}
 
@@ -89,7 +89,6 @@
   box-shadow: 0 4px 12px rgba(28, 26, 84, 0.15);
 }
 
-/* Border via ::before */
 .feevra-bundle-v3 .qty-card::before {
   content: "";
   position: absolute;
@@ -113,7 +112,6 @@
   }
 }
 
-/* Checkmark */
 .feevra-bundle-v3 .qty-card.selected::after {
   content: "";
   position: absolute;
@@ -172,7 +170,6 @@
   }
 }
 
-/* Content area */
 .feevra-bundle-v3 .qty-content {
   padding: clamp(8px, 2vw, 12px) clamp(4px, 1.2vw, 6px);
   display: flex;
@@ -221,27 +218,38 @@
   white-space: nowrap;
 }
 
-/* ── Color swatches ── */
-.feevra-bundle-v3 .color-section {
+/* ── Color picker area ── */
+.feevra-bundle-v3 .color-picker-area {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.feevra-bundle-v3 .color-row {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: 14px;
-  padding: 0 2px;
-  flex-wrap: wrap;
 }
 
-.feevra-bundle-v3 .color-label {
-  font-size: clamp(11px, 2.4vw, 13px);
-  font-weight: 600;
-  color: var(--fb-gray-700);
-  white-space: nowrap;
+.feevra-bundle-v3 .color-row-label {
+  font-size: clamp(12px, 2.6vw, 14px);
+  font-weight: 700;
+  color: var(--fb-primary);
+  min-width: 24px;
 }
 
-.feevra-bundle-v3 .color-swatches {
+.feevra-bundle-v3 .color-row-swatches {
   display: flex;
   gap: 8px;
   align-items: center;
+}
+
+.feevra-bundle-v3 .swatch-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
 }
 
 .feevra-bundle-v3 .color-swatch {
@@ -291,195 +299,6 @@
   color: var(--fb-gray-600);
   text-align: center;
   margin-top: 2px;
-}
-
-.feevra-bundle-v3 .swatch-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2px;
-}
-
-/* ── Mix toggle ── */
-.feevra-bundle-v3 .mix-toggle-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin: 12px 0;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.2s ease;
-}
-
-.feevra-bundle-v3 .mix-toggle-container.show {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.feevra-bundle-v3 .mix-colors-link {
-  display: inline-flex;
-  align-items: center;
-  font-size: clamp(11px, 2.4vw, 13px);
-  color: var(--fb-primary);
-  text-decoration: underline;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.2s ease;
-  background: none;
-  border: none;
-  padding: 0;
-  font-family: inherit;
-}
-
-.feevra-bundle-v3 .mix-colors-link:hover {
-  color: #13102d;
-  text-decoration: none;
-}
-
-/* ── Distribution (mix colors) ── */
-.feevra-bundle-v3 .section-distribution {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-height 0.3s ease, opacity 0.2s ease, margin 0.3s ease;
-}
-
-.feevra-bundle-v3 .section-distribution.active {
-  max-height: 2000px;
-  opacity: 1;
-  margin-top: 6px;
-  margin-bottom: 6px;
-}
-
-.feevra-bundle-v3 .distribution-container {
-  background: var(--fb-gray-50);
-  border-radius: 7px;
-  padding: clamp(8px, 1.8vw, 10px);
-}
-
-.feevra-bundle-v3 .distribution-title {
-  font-size: clamp(11px, 2.2vw, 13px);
-  font-weight: 600;
-  color: var(--fb-gray-800);
-  margin: 0 0 6px 0;
-}
-
-.feevra-bundle-v3 .distribution-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.feevra-bundle-v3 .distribution-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.feevra-bundle-v3 .distribution-label {
-  font-size: clamp(10px, 2.2vw, 12px);
-  font-weight: 600;
-  color: var(--fb-gray-700);
-  min-width: 60px;
-}
-
-.feevra-bundle-v3 .distribution-colors {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 5px;
-  flex: 1;
-}
-
-.feevra-bundle-v3 .dist-color-btn {
-  position: relative;
-  cursor: pointer;
-  border-radius: 8px;
-  padding: 0;
-  background: #fff;
-  border: 0;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  -webkit-tap-highlight-color: transparent;
-  touch-action: manipulation;
-  overflow: visible !important;
-}
-
-.feevra-bundle-v3 .dist-color-btn::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  border: 2px solid transparent;
-  transition: border-color 0.16s ease, border-width 0.16s ease;
-  z-index: 3;
-}
-
-.feevra-bundle-v3 .dist-color-btn.selected::before {
-  border-color: var(--fb-primary);
-  border-width: 3px;
-}
-
-.feevra-bundle-v3 .dist-color-btn.selected::after {
-  content: "";
-  position: absolute;
-  width: var(--fb-check-size);
-  height: var(--fb-check-size);
-  top: -5px;
-  right: -5px;
-  background-image: url("https://cdn.shopify.com/s/files/1/0871/4570/9910/files/Ikoner_5.svg?v=1769718275");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100% 100%;
-  background-color: transparent;
-  z-index: 10;
-  pointer-events: none;
-  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.18));
-}
-
-.feevra-bundle-v3 .dist-color-btn > * {
-  position: relative;
-  z-index: 1;
-}
-
-.feevra-bundle-v3 .dist-color-btn.sold-out {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
-.feevra-bundle-v3 .dist-color-btn.sold-out::after {
-  content: "Udsolgt";
-  position: absolute;
-  left: 0; right: 0; bottom: 2px;
-  text-align: center;
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--fb-red);
-  text-transform: uppercase;
-  z-index: 4;
-  pointer-events: none;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .feevra-bundle-v3 .dist-color-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  }
-}
-
-.feevra-bundle-v3 .dist-color-img {
-  width: 100%;
-  padding-bottom: 100%;
-  position: relative;
-  overflow: hidden;
-  border-radius: 8px;
-}
-
-.feevra-bundle-v3 .dist-color-img img {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 /* ── CTA ── */
@@ -660,52 +479,8 @@
       </button>
     </div>
 
-    <!-- Color swatches -->
-    <div class="color-section" id="color-section">
-      <span class="color-label">Farve:</span>
-      <div class="color-swatches" role="radiogroup" aria-label="Farve">
-        <div class="swatch-item">
-          <button type="button" class="color-swatch" data-color="sort" data-variant="49885169189206" data-available="true" aria-pressed="false" title="Sort">
-            <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_2_e103e0c1-662b-4aca-a605-009f32c6e49e.jpg?v=1768917230" alt="Sort">
-          </button>
-          <span class="color-swatch-name">Sort</span>
-        </div>
-
-        <div class="swatch-item">
-          <button type="button" class="color-swatch" data-color="rosa" data-variant="50188499812694" data-available="true" aria-pressed="false" title="Rosa">
-            <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemaske_jpg_3ec23e6e-1dce-4474-a8e8-30ad75e4a914.jpg?v=1768917229" alt="Rosa">
-          </button>
-          <span class="color-swatch-name">Rosa</span>
-        </div>
-
-        <div class="swatch-item">
-          <button type="button" class="color-swatch" data-color="graa" data-variant="50595389866326" data-available="true" aria-pressed="false" title="Grå">
-            <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken_jpg_049bb0ba-66eb-478f-87ba-5f4e1c3af56c.jpg?v=1768917230" alt="Grå">
-          </button>
-          <span class="color-swatch-name">Grå</span>
-        </div>
-
-        <div class="swatch-item">
-          <button type="button" class="color-swatch" data-color="blaa" data-variant="51508439810390" data-available="true" aria-pressed="false" title="Blå">
-            <img src="https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_3_021793b9-d91c-4e66-8277-77242e0f482e.jpg?v=1768917230" alt="Blå">
-          </button>
-          <span class="color-swatch-name">Blå</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Mix colors toggle -->
-    <div class="mix-toggle-container" id="mix-toggle-container" aria-hidden="true">
-      <button type="button" class="mix-colors-link" id="mix-colors-link">Vælg forskellige farver</button>
-    </div>
-
-    <!-- Distribution (mix colors) -->
-    <div class="section-distribution" id="section-distribution">
-      <div class="distribution-container">
-        <h3 class="distribution-title">Fordel farver</h3>
-        <div class="distribution-grid" id="distribution-grid"></div>
-      </div>
-    </div>
+    <!-- Dynamic color picker (rendered by JS) -->
+    <div class="color-picker-area" id="color-picker-area"></div>
 
     <!-- CTA -->
     <div id="section-cta">
@@ -765,7 +540,6 @@
     uiLockMs: 140,
     defaultColor: 'sort',
     defaultQuantity: 2,
-    prices: { 1: 399, 2: 750, 3: 950 },
     products: {
       sort: { name: 'Sort', variantId: '49885169189206', image: 'https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemasken.jpg_2_e103e0c1-662b-4aca-a605-009f32c6e49e.jpg?v=1768917230' },
       rosa: { name: 'Rosa', variantId: '50188499812694', image: 'https://cdn.shopify.com/s/files/1/0871/4570/9910/files/feevra-migraenemaske_jpg_3ec23e6e-1dce-4474-a8e8-30ad75e4a914.jpg?v=1768917229' },
@@ -774,25 +548,21 @@
     }
   };
 
+  var colorKeys = Object.keys(CONFIG.products);
+
   var state = {
-    selectedColor: null,
     selectedQuantity: null,
     distribution: {},
     soldOutVariantIds: new Set(),
     inFlightProductPromise: null,
     lockedUntil: 0,
     isAdding: false,
-    distUI: { renderedQty: 0, rows: {} }
+    renderedQty: 0
   };
 
   var els = {
-    root: document.getElementById('feevra-bundle-v3'),
-    swatches: document.querySelectorAll('.feevra-bundle-v3 .color-swatch'),
     qtyCards: document.querySelectorAll('.feevra-bundle-v3 .qty-card'),
-    mixToggleContainer: document.getElementById('mix-toggle-container'),
-    mixColorsLink: document.getElementById('mix-colors-link'),
-    sectionDistribution: document.getElementById('section-distribution'),
-    distributionGrid: document.getElementById('distribution-grid'),
+    pickerArea: document.getElementById('color-picker-area'),
     ctaBtn: document.getElementById('add-to-cart-btn'),
     toast: document.getElementById('fb-toast')
   };
@@ -807,51 +577,32 @@
     setTimeout(function() { els.toast.classList.remove('show'); }, 3000);
   }
 
-  function isSoldOutVariant(variantId) { return state.soldOutVariantIds.has(String(variantId)); }
+  function isSoldOut(variantId) { return state.soldOutVariantIds.has(String(variantId)); }
 
   function availableColorKeys() {
-    return Object.keys(CONFIG.products).filter(function(k) {
-      return !isSoldOutVariant(CONFIG.products[k].variantId);
-    });
-  }
-
-  function pickFirstAvailableColor(preferKey) {
-    if (preferKey && CONFIG.products[preferKey] && !isSoldOutVariant(CONFIG.products[preferKey].variantId)) return preferKey;
-    var keys = availableColorKeys();
-    return keys.length ? keys[0] : null;
+    return colorKeys.filter(function(k) { return !isSoldOut(CONFIG.products[k].variantId); });
   }
 
   /* ── CTA ── */
   function updateCta() {
     var ctaText = els.ctaBtn.querySelector('.cta-text');
-    var keys = availableColorKeys();
 
-    if (!keys.length) {
+    if (!availableColorKeys().length) {
       els.ctaBtn.disabled = true;
       ctaText.textContent = 'Udsolgt';
       return;
     }
 
-    if (!state.selectedColor || !state.selectedQuantity) {
+    if (!state.selectedQuantity) {
       els.ctaBtn.disabled = true;
-      ctaText.textContent = 'Vælg dine masker';
+      ctaText.textContent = 'Tilføj til kurv';
       return;
     }
 
     if (!state.isAdding) {
       els.ctaBtn.disabled = false;
-      var price = CONFIG.prices[state.selectedQuantity] || 0;
-      ctaText.textContent = 'Tilføj til kurv \u2014 ' + price + ' kr.';
+      ctaText.textContent = 'Tilføj til kurv';
     }
-  }
-
-  /* ── Swatch UI ── */
-  function setSelectedSwatchUi(colorKey) {
-    els.swatches.forEach(function(s) {
-      var isSelected = s.dataset.color === colorKey;
-      s.classList.toggle('selected', isSelected);
-      s.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
-    });
   }
 
   /* ── Qty UI ── */
@@ -864,18 +615,117 @@
     });
   }
 
-  /* ── Mix toggle ── */
-  function updateMixToggle() {
-    var qty = state.selectedQuantity;
-    if (qty && qty > 1) {
-      els.mixToggleContainer.classList.add('show');
-      els.mixToggleContainer.setAttribute('aria-hidden', 'false');
-    } else {
-      els.mixToggleContainer.classList.remove('show');
-      els.mixToggleContainer.setAttribute('aria-hidden', 'true');
-      els.sectionDistribution.classList.remove('active');
-      els.mixColorsLink.textContent = 'Vælg forskellige farver';
+  /* ── Build a single swatch row ── */
+  function buildSwatchRow(index, label) {
+    var row = document.createElement('div');
+    row.className = 'color-row';
+    row.dataset.index = String(index);
+
+    if (label) {
+      var lbl = document.createElement('span');
+      lbl.className = 'color-row-label';
+      lbl.textContent = label;
+      row.appendChild(lbl);
     }
+
+    var swatchesWrap = document.createElement('div');
+    swatchesWrap.className = 'color-row-swatches';
+
+    colorKeys.forEach(function(colorKey) {
+      var product = CONFIG.products[colorKey];
+      var soldOut = isSoldOut(product.variantId);
+
+      var item = document.createElement('div');
+      item.className = 'swatch-item';
+
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'color-swatch';
+      btn.dataset.color = colorKey;
+      btn.dataset.index = String(index);
+      btn.dataset.variant = product.variantId;
+      btn.setAttribute('aria-pressed', 'false');
+      btn.title = product.name;
+
+      if (soldOut) {
+        btn.classList.add('sold-out');
+        btn.dataset.available = 'false';
+      } else {
+        btn.dataset.available = 'true';
+      }
+
+      btn.innerHTML = '<img src="' + product.image + '" alt="' + product.name + '">';
+
+      btn.addEventListener('pointerup', function() {
+        if (blocked()) return;
+        lockUi(CONFIG.uiLockMs);
+        if (btn.dataset.available !== 'true') {
+          showToast('Denne farve er udsolgt', 'error');
+          return;
+        }
+        state.distribution[index] = colorKey;
+        updateRowSelection(index);
+        updateCta();
+      });
+
+      var name = document.createElement('span');
+      name.className = 'color-swatch-name';
+      name.textContent = product.name;
+
+      item.appendChild(btn);
+      item.appendChild(name);
+      swatchesWrap.appendChild(item);
+    });
+
+    row.appendChild(swatchesWrap);
+    return row;
+  }
+
+  /* ── Update selection styling for one row ── */
+  function updateRowSelection(index) {
+    var selectedColor = state.distribution[index];
+    var row = els.pickerArea.querySelector('.color-row[data-index="' + index + '"]');
+    if (!row) return;
+
+    row.querySelectorAll('.color-swatch').forEach(function(btn) {
+      var isSel = btn.dataset.color === selectedColor;
+      btn.classList.toggle('selected', isSel);
+      btn.setAttribute('aria-pressed', isSel ? 'true' : 'false');
+    });
+  }
+
+  /* ── Render the color picker based on quantity ── */
+  function renderColorPicker() {
+    var qty = state.selectedQuantity;
+    if (!qty) return;
+
+    if (state.renderedQty === qty) {
+      refreshSoldOutState();
+      for (var u = 0; u < qty; u++) updateRowSelection(u);
+      return;
+    }
+
+    state.renderedQty = qty;
+    els.pickerArea.innerHTML = '';
+
+    if (qty === 1) {
+      els.pickerArea.appendChild(buildSwatchRow(0, null));
+    } else {
+      for (var i = 0; i < qty; i++) {
+        els.pickerArea.appendChild(buildSwatchRow(i, '#' + (i + 1)));
+      }
+    }
+
+    for (var j = 0; j < qty; j++) updateRowSelection(j);
+  }
+
+  /* ── Refresh sold-out state on existing swatches ── */
+  function refreshSoldOutState() {
+    els.pickerArea.querySelectorAll('.color-swatch').forEach(function(btn) {
+      var soldOut = isSoldOut(btn.dataset.variant);
+      btn.classList.toggle('sold-out', soldOut);
+      btn.dataset.available = soldOut ? 'false' : 'true';
+    });
   }
 
   /* ── Product fetch + cache ── */
@@ -913,42 +763,30 @@
   function applyStock(product) {
     state.soldOutVariantIds = new Set();
 
-    els.swatches.forEach(function(swatch) {
-      var variantId = parseInt(swatch.dataset.variant, 10);
-      var v = product && product.variants ? product.variants.find(function(x) { return x.id === variantId; }) : null;
-
-      if (v && !v.available) {
-        swatch.classList.add('sold-out');
-        swatch.dataset.available = 'false';
-        swatch.setAttribute('aria-disabled', 'true');
-        state.soldOutVariantIds.add(String(variantId));
-      } else {
-        swatch.classList.remove('sold-out');
-        swatch.dataset.available = 'true';
-        swatch.removeAttribute('aria-disabled');
-      }
-    });
-
-    updateCta();
-  }
-
-  function normalizeAfterStock() {
-    var keys = availableColorKeys();
-    if (!keys.length) { updateCta(); return; }
-
-    if (state.selectedColor && isSoldOutVariant(CONFIG.products[state.selectedColor].variantId)) {
-      var next = pickFirstAvailableColor(CONFIG.defaultColor) || keys[0];
-      state.selectedColor = next;
-      setSelectedSwatchUi(next);
+    if (product && product.variants) {
+      product.variants.forEach(function(v) {
+        if (!v.available) state.soldOutVariantIds.add(String(v.id));
+      });
     }
+
+    refreshSoldOutState();
+
+    var qty = state.selectedQuantity || 0;
+    for (var i = 0; i < qty; i++) {
+      var current = state.distribution[i];
+      if (current && isSoldOut(CONFIG.products[current].variantId)) {
+        var fallback = availableColorKeys();
+        state.distribution[i] = fallback.length ? fallback[0] : current;
+        updateRowSelection(i);
+      }
+    }
+
     updateCta();
   }
 
   function fetchAndApplyStock(force) {
     return fetchProductData(!!force).then(function(product) {
       applyStock(product);
-      normalizeAfterStock();
-      if (els.sectionDistribution.classList.contains('active')) renderDistributionIfNeeded();
       return product;
     }).catch(function() {
       updateCta();
@@ -956,241 +794,37 @@
     });
   }
 
-  /* ── Distribution ── */
-  function ensureDistributionInit() {
-    if (!state.selectedQuantity || !state.selectedColor) return;
-    var qty = state.selectedQuantity;
-    if (!Object.keys(state.distribution).length) {
-      for (var i = 0; i < qty; i++) state.distribution[i] = state.selectedColor;
-      return;
-    }
-    for (var j = 0; j < qty; j++) {
-      if (!state.distribution[j]) state.distribution[j] = state.selectedColor;
-    }
-  }
-
-  function sortedColorKeys() {
-    var keys = Object.keys(CONFIG.products);
-    keys.sort(function(a, b) {
-      return (isSoldOutVariant(CONFIG.products[a].variantId) ? 1 : 0) - (isSoldOutVariant(CONFIG.products[b].variantId) ? 1 : 0);
-    });
-    return keys;
-  }
-
-  function updateDistRowSelection(index) {
-    var row = state.distUI.rows[index];
-    if (!row) return;
-    var selectedKey = state.distribution[index];
-    Object.keys(row.buttons).forEach(function(k) {
-      var btn = row.buttons[k];
-      var isSel = k === selectedKey;
-      btn.classList.toggle('selected', isSel);
-      btn.setAttribute('aria-pressed', isSel ? 'true' : 'false');
-    });
-  }
-
-  function refreshDistButtons() {
-    var qty = state.selectedQuantity;
-    if (!qty || qty <= 1) return;
-
-    for (var i = 0; i < qty; i++) {
-      var row = state.distUI.rows[i];
-      if (!row) continue;
-      var container = row.el.querySelector('.distribution-colors');
-      if (!container) continue;
-
-      var available = [], sold = [];
-      Object.keys(CONFIG.products).forEach(function(k) {
-        var btn = row.buttons[k];
-        if (!btn) return;
-        if (isSoldOutVariant(CONFIG.products[k].variantId)) {
-          btn.classList.add('sold-out');
-          btn.disabled = true;
-          sold.push(btn);
-        } else {
-          btn.classList.remove('sold-out');
-          btn.disabled = false;
-          available.push(btn);
-        }
-      });
-      available.forEach(function(b) { container.appendChild(b); });
-      sold.forEach(function(b) { container.appendChild(b); });
-    }
-  }
-
-  function refreshDistSelection() {
-    var qty = state.selectedQuantity;
-    if (!qty || qty <= 1) return;
-    for (var i = 0; i < qty; i++) updateDistRowSelection(i);
-  }
-
-  function renderDistributionIfNeeded() {
-    var qty = state.selectedQuantity;
-    if (!qty || qty <= 1) return;
-    if (!state.selectedColor) return;
-    ensureDistributionInit();
-
-    if (state.distUI.renderedQty === qty && els.distributionGrid.children.length) {
-      refreshDistButtons();
-      refreshDistSelection();
-      return;
-    }
-
-    state.distUI.renderedQty = qty;
-    state.distUI.rows = {};
-    els.distributionGrid.innerHTML = '';
-
-    var keys = sortedColorKeys();
-
-    for (var i = 0; i < qty; i++) {
-      (function(idx) {
-        var item = document.createElement('div');
-        item.className = 'distribution-item';
-
-        var label = document.createElement('div');
-        label.className = 'distribution-label';
-        label.textContent = 'Maske ' + (idx + 1) + ':';
-
-        var colors = document.createElement('div');
-        colors.className = 'distribution-colors';
-
-        var row = { el: item, buttons: {} };
-
-        keys.forEach(function(colorKey) {
-          var product = CONFIG.products[colorKey];
-          var soldOut = isSoldOutVariant(product.variantId);
-
-          var btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'dist-color-btn';
-          btn.dataset.index = String(idx);
-          btn.dataset.color = colorKey;
-          btn.setAttribute('aria-pressed', 'false');
-
-          if (soldOut) {
-            btn.classList.add('sold-out');
-            btn.disabled = true;
-          }
-
-          btn.innerHTML = '<div class="dist-color-img"><img src="' + product.image + '" alt="' + product.name + '"></div>';
-
-          btn.addEventListener('click', function() {
-            if (blocked()) return;
-            lockUi(CONFIG.uiLockMs);
-            if (btn.disabled) return;
-            state.distribution[idx] = colorKey;
-            updateDistRowSelection(idx);
-          });
-
-          row.buttons[colorKey] = btn;
-          colors.appendChild(btn);
-        });
-
-        item.appendChild(label);
-        item.appendChild(colors);
-        els.distributionGrid.appendChild(item);
-        state.distUI.rows[idx] = row;
-      })(i);
-    }
-
-    refreshDistButtons();
-    refreshDistSelection();
-  }
-
   /* ── Event handlers ── */
-  function handleSwatchClick(e) {
-    if (blocked()) return;
-    lockUi(CONFIG.uiLockMs);
-
-    var swatch = e.currentTarget;
-    var color = swatch.dataset.color;
-    if (swatch.dataset.available !== 'true') {
-      showToast('Denne farve er udsolgt', 'error');
-      return;
-    }
-
-    state.selectedColor = color;
-    setSelectedSwatchUi(color);
-
-    if (state.selectedQuantity) {
-      if (!els.sectionDistribution.classList.contains('active')) {
-        state.distribution = {};
-        for (var i = 0; i < state.selectedQuantity; i++) state.distribution[i] = color;
-      } else {
-        ensureDistributionInit();
-        renderDistributionIfNeeded();
-      }
-    }
-
-    updateCta();
-  }
-
   function handleQtyClick(e) {
     if (blocked()) return;
     lockUi(CONFIG.uiLockMs);
 
     var card = e.currentTarget;
     var quantity = parseInt(card.dataset.quantity, 10);
+    var prevQty = state.selectedQuantity;
     state.selectedQuantity = quantity;
     setSelectedQtyUi(quantity);
 
-    fetchAndApplyStock(false).then(function() {
-      updateMixToggle();
+    var defaultColor = CONFIG.defaultColor;
+    if (prevQty && state.distribution[0]) defaultColor = state.distribution[0];
 
-      if (!state.selectedColor) {
-        state.distribution = {};
-        updateCta();
-        return;
-      }
-
-      if (quantity <= 1) {
-        state.distribution = { 0: state.selectedColor };
-        els.sectionDistribution.classList.remove('active');
-        els.mixColorsLink.textContent = 'Vælg forskellige farver';
-        updateCta();
-        return;
-      }
-
-      state.distribution = {};
-      for (var i = 0; i < quantity; i++) state.distribution[i] = state.selectedColor;
-
-      if (els.sectionDistribution.classList.contains('active')) renderDistributionIfNeeded();
-      updateCta();
-    });
-  }
-
-  function handleMixToggle(e) {
-    e.preventDefault();
-    if (blocked()) return;
-    lockUi(CONFIG.uiLockMs);
-
-    if (!state.selectedQuantity || state.selectedQuantity <= 1) return;
-    var isActive = els.sectionDistribution.classList.contains('active');
-
-    if (!isActive) {
-      els.sectionDistribution.classList.add('active');
-      els.mixColorsLink.textContent = 'Brug samme farve';
-      fetchAndApplyStock(false).then(function() {
-        ensureDistributionInit();
-        renderDistributionIfNeeded();
-      });
-      return;
+    var newDist = {};
+    for (var i = 0; i < quantity; i++) {
+      newDist[i] = state.distribution[i] || defaultColor;
     }
+    state.distribution = newDist;
 
-    els.sectionDistribution.classList.remove('active');
-    els.mixColorsLink.textContent = 'Vælg forskellige farver';
+    renderColorPicker();
+    updateCta();
 
-    if (state.selectedColor && state.selectedQuantity) {
-      for (var i = 0; i < state.selectedQuantity; i++) state.distribution[i] = state.selectedColor;
-    }
+    fetchAndApplyStock(false);
   }
 
   async function handleAddToCart() {
     if (blocked()) return;
 
-    if (!state.selectedColor || !state.selectedQuantity) {
-      showToast('Vælg dine masker', 'error');
-      updateCta();
+    if (!state.selectedQuantity) {
+      showToast('Vælg antal', 'error');
       return;
     }
 
@@ -1215,12 +849,10 @@
         return;
       }
 
-      ensureDistributionInit();
       var qty = state.selectedQuantity;
-
       var counts = {};
       for (var i = 0; i < qty; i++) {
-        var k = state.distribution[i] || state.selectedColor;
+        var k = state.distribution[i] || CONFIG.defaultColor;
         counts[k] = (counts[k] || 0) + 1;
       }
 
@@ -1228,7 +860,7 @@
       Object.keys(counts).forEach(function(ck) {
         var cfg = CONFIG.products[ck];
         if (!cfg) return;
-        if (isSoldOutVariant(cfg.variantId)) return;
+        if (isSoldOut(cfg.variantId)) return;
         items.push({
           id: cfg.variantId,
           quantity: counts[ck],
@@ -1254,37 +886,28 @@
       }
 
       showToast('Der skete en fejl. Prøv igen.', 'error');
-      els.ctaBtn.classList.remove('loading');
-      state.isAdding = false;
-      updateCta();
-
     } catch(err) {
       showToast('Der skete en fejl. Prøv igen.', 'error');
-      els.ctaBtn.classList.remove('loading');
-      state.isAdding = false;
-      updateCta();
     }
-  }
 
-  /* ── Init ── */
-  function initDefaults() {
-    state.selectedQuantity = CONFIG.defaultQuantity;
-    state.selectedColor = CONFIG.defaultColor;
-    state.distribution = {};
-    for (var i = 0; i < state.selectedQuantity; i++) state.distribution[i] = state.selectedColor;
-
-    setSelectedSwatchUi(state.selectedColor);
-    setSelectedQtyUi(state.selectedQuantity);
-    updateMixToggle();
+    els.ctaBtn.classList.remove('loading');
+    state.isAdding = false;
     updateCta();
   }
 
+  /* ── Init ── */
   function init() {
-    initDefaults();
+    state.selectedQuantity = CONFIG.defaultQuantity;
 
-    els.swatches.forEach(function(s) { s.addEventListener('pointerup', handleSwatchClick); });
+    for (var i = 0; i < state.selectedQuantity; i++) {
+      state.distribution[i] = CONFIG.defaultColor;
+    }
+
+    setSelectedQtyUi(state.selectedQuantity);
+    renderColorPicker();
+    updateCta();
+
     els.qtyCards.forEach(function(c) { c.addEventListener('pointerup', handleQtyClick); });
-    els.mixColorsLink.addEventListener('click', handleMixToggle);
     els.ctaBtn.addEventListener('click', handleAddToCart);
 
     fetchAndApplyStock(false);
