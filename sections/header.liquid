@@ -13,6 +13,10 @@
   - Responsive design
 {%- endcomment -%}
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 {%- liquid
   assign header_bg = section.settings.header_bg
   assign header_text = section.settings.header_text_color
@@ -65,7 +69,7 @@
   .header-section-{{ section.id }} {
     position: relative;
     z-index: 1000;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   }
 
   /* =============================================
@@ -294,8 +298,11 @@
     position: fixed;
     top: auto;
     border-radius: 0;
+    width: 100vw;
     max-width: 100vw;
-    padding: 28px 40px;
+    padding: 32px 48px;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
   }
 
   .nav-item-{{ section.id }}.is-active .mega-dropdown-{{ section.id }} {
@@ -314,30 +321,22 @@
     max-width: 1440px;
     margin: 0 auto;
     display: flex;
-    gap: 20px;
-    align-items: flex-start;
+    gap: 24px;
+    align-items: stretch;
   }
 
   /* =============================================
      MEGA MENU PRODUCT CARD
      ============================================= */
   .mega-products-grid-{{ section.id }} {
-    display: flex;
-    gap: 20px;
-    flex-wrap: nowrap;
-    overflow-x: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 16px;
     flex-grow: 1;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
-  .mega-products-grid-{{ section.id }}::-webkit-scrollbar {
-    display: none;
+    width: 100%;
   }
 
   .mega-product-card-{{ section.id }} {
-    flex: 0 0 auto;
-    width: 180px;
     text-decoration: none;
     color: var(--dropdown-text);
     display: flex;
@@ -345,8 +344,9 @@
     border-radius: 10px;
     overflow: hidden;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    background: var(--dropdown-bg);
+    background: #f8f8fa;
     border: 1px solid var(--border-color);
+    min-width: 0;
   }
 
   .mega-product-card-{{ section.id }}:hover {
@@ -375,22 +375,23 @@
 
   .mega-product-badge-{{ section.id }} {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 8px;
+    left: 8px;
     padding: 4px 10px;
     border-radius: 20px;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
     line-height: 1.3;
     z-index: 2;
     white-space: nowrap;
+    letter-spacing: 0.02em;
   }
 
   .mega-product-info-{{ section.id }} {
-    padding: 12px;
+    padding: 10px 12px 12px;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
     flex-grow: 1;
   }
 
@@ -398,7 +399,7 @@
     font-size: 13px;
     font-weight: 600;
     color: var(--dropdown-text);
-    line-height: 1.3;
+    line-height: 1.35;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -406,14 +407,15 @@
   }
 
   .mega-product-desc-{{ section.id }} {
-    font-size: 11px;
+    font-size: 12px;
     color: var(--dropdown-text);
-    opacity: 0.65;
+    opacity: 0.6;
     line-height: 1.4;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    font-weight: 400;
   }
 
   /* Color swatches */
@@ -702,11 +704,12 @@
 
   .mobile-menu-badge-{{ section.id }} {
     display: inline-block;
-    padding: 3px 10px;
+    padding: 4px 12px;
     border-radius: 20px;
     font-size: 11px;
     font-weight: 600;
     line-height: 1.3;
+    letter-spacing: 0.02em;
   }
 
   .mobile-menu-arrow-{{ section.id }} {
@@ -1363,7 +1366,7 @@
                 {% if block.settings.mobile_badge_text != blank %}
                   <span
                     class="mobile-menu-badge-{{ section.id }}"
-                    style="background-color:{{ block.settings.mobile_badge_bg | default: accent_color }};color:{{ block.settings.mobile_badge_text_color | default: '#ffffff' }};"
+                    style="background-color:{{ block.settings.mobile_badge_bg | default: '#dce8f8' }};color:{{ block.settings.mobile_badge_text_color | default: '#1a1a2e' }};"
                   >
                     {{ block.settings.mobile_badge_text }}
                   </span>
@@ -2059,13 +2062,13 @@
           "type": "color",
           "id": "mobile_badge_bg",
           "label": "Mobil badge baggrund",
-          "default": "#2c2c54"
+          "default": "#dce8f8"
         },
         {
           "type": "color",
           "id": "mobile_badge_text_color",
           "label": "Mobil badge tekst farve",
-          "default": "#ffffff"
+          "default": "#1a1a2e"
         }
       ]
     },
