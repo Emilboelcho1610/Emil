@@ -1,0 +1,2300 @@
+{%- comment -%}
+  Advanced Header Section - Mega Menu
+  Features:
+  - Desktop mega menu with product grids, collections, and link dropdowns
+  - Mobile slide-out drawer menu with category images
+  - Product badges (customizable text + color per product)
+  - Product description text box
+  - Color swatches from product variants
+  - Promotional image cards in mega menu
+  - Fully customizable colors from theme editor
+  - Sticky header option
+  - Announcement bar
+  - Responsive design
+{%- endcomment -%}
+
+{%- liquid
+  assign header_bg = section.settings.header_bg
+  assign header_text = section.settings.header_text_color
+  assign dropdown_bg = section.settings.dropdown_bg
+  assign dropdown_text = section.settings.dropdown_text_color
+  assign badge_bg_default = section.settings.badge_bg_default
+  assign badge_text_default = section.settings.badge_text_default
+  assign accent_color = section.settings.accent_color
+  assign mobile_bg = section.settings.mobile_menu_bg
+  assign mobile_text = section.settings.mobile_menu_text
+  assign announcement_bg = section.settings.announcement_bg
+  assign announcement_text = section.settings.announcement_text_color
+  assign hover_color = section.settings.hover_color
+  assign border_color = section.settings.border_color
+  assign logo_width = section.settings.logo_width
+-%}
+
+<style>
+  /* =============================================
+     CSS CUSTOM PROPERTIES
+     ============================================= */
+  .header-section-{{ section.id }} {
+    --header-bg: {{ header_bg }};
+    --header-text: {{ header_text }};
+    --dropdown-bg: {{ dropdown_bg }};
+    --dropdown-text: {{ dropdown_text }};
+    --badge-bg: {{ badge_bg_default }};
+    --badge-text: {{ badge_text_default }};
+    --accent: {{ accent_color }};
+    --mobile-bg: {{ mobile_bg }};
+    --mobile-text: {{ mobile_text }};
+    --announcement-bg: {{ announcement_bg }};
+    --announcement-text: {{ announcement_text }};
+    --hover-color: {{ hover_color }};
+    --border-color: {{ border_color }};
+    --logo-width: {{ logo_width }}px;
+  }
+
+  /* =============================================
+     RESET & BASE
+     ============================================= */
+  .header-section-{{ section.id }} *,
+  .header-section-{{ section.id }} *::before,
+  .header-section-{{ section.id }} *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header-section-{{ section.id }} {
+    position: relative;
+    z-index: 1000;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  /* =============================================
+     ANNOUNCEMENT BAR
+     ============================================= */
+  .header-announcement-{{ section.id }} {
+    background-color: var(--announcement-bg);
+    color: var(--announcement-text);
+    padding: 8px 20px;
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 1.4;
+  }
+
+  .header-announcement-{{ section.id }} a {
+    color: var(--announcement-text);
+    text-decoration: underline;
+  }
+
+  .announcement-left,
+  .announcement-center,
+  .announcement-right {
+    flex: 1;
+  }
+
+  .announcement-left { text-align: left; }
+  .announcement-center { text-align: center; }
+  .announcement-right { text-align: right; }
+
+  /* =============================================
+     MAIN HEADER
+     ============================================= */
+  .site-header-{{ section.id }} {
+    background-color: var(--header-bg);
+    border-bottom: 1px solid var(--border-color);
+    position: relative;
+    {% if section.settings.sticky_header %}
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    {% endif %}
+  }
+
+  .header-container-{{ section.id }} {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: {{ section.settings.header_height }}px;
+    position: relative;
+  }
+
+  /* =============================================
+     LOGO
+     ============================================= */
+  .header-logo-{{ section.id }} {
+    flex-shrink: 0;
+    z-index: 2;
+  }
+
+  .header-logo-{{ section.id }} a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+
+  .header-logo-{{ section.id }} img {
+    width: var(--logo-width);
+    height: auto;
+    max-height: {{ section.settings.header_height | minus: 16 }}px;
+    object-fit: contain;
+  }
+
+  .header-logo-{{ section.id }} .logo-text {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--header-text);
+    letter-spacing: -0.5px;
+  }
+
+  /* =============================================
+     DESKTOP NAVIGATION
+     ============================================= */
+  .header-nav-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-grow: 1;
+    justify-content: center;
+  }
+
+  .nav-item-{{ section.id }} {
+    position: relative;
+  }
+
+  .nav-item-{{ section.id }} > a,
+  .nav-item-{{ section.id }} > button {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 14px;
+    color: var(--header-text);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    background: none;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+    font-family: inherit;
+    line-height: 1;
+  }
+
+  .nav-item-{{ section.id }} > a:hover,
+  .nav-item-{{ section.id }} > button:hover,
+  .nav-item-{{ section.id }}.is-active > a,
+  .nav-item-{{ section.id }}.is-active > button {
+    color: var(--hover-color);
+  }
+
+  .nav-item-{{ section.id }}.is-active > a::after,
+  .nav-item-{{ section.id }}.is-active > button::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 14px;
+    right: 14px;
+    height: 2px;
+    background-color: var(--accent);
+  }
+
+  .nav-chevron-{{ section.id }} {
+    width: 10px;
+    height: 10px;
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .nav-item-{{ section.id }}.is-active .nav-chevron-{{ section.id }} {
+    transform: rotate(180deg);
+  }
+
+  /* =============================================
+     HEADER ICONS (Search, Cart)
+     ============================================= */
+  .header-icons-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+    z-index: 2;
+  }
+
+  .header-icon-btn-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--header-text);
+    transition: color 0.2s ease;
+    position: relative;
+    text-decoration: none;
+    border-radius: 50%;
+  }
+
+  .header-icon-btn-{{ section.id }}:hover {
+    color: var(--hover-color);
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+
+  .header-icon-btn-{{ section.id }} svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .cart-count-{{ section.id }} {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    background-color: var(--accent);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  /* =============================================
+     MEGA DROPDOWN - PRODUCTS
+     ============================================= */
+  .mega-dropdown-{{ section.id }} {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--dropdown-bg);
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease;
+    transform: translateX(-50%) translateY(6px);
+    z-index: 100;
+    padding: 28px 32px;
+    min-width: 200px;
+  }
+
+  .mega-dropdown-fullwidth-{{ section.id }} {
+    left: 0;
+    right: 0;
+    transform: none;
+    position: fixed;
+    top: auto;
+    border-radius: 0;
+    max-width: 100vw;
+    padding: 28px 40px;
+  }
+
+  .nav-item-{{ section.id }}.is-active .mega-dropdown-{{ section.id }} {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .nav-item-{{ section.id }}.is-active .mega-dropdown-fullwidth-{{ section.id }} {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .mega-dropdown-inner-{{ section.id }} {
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  /* =============================================
+     MEGA MENU PRODUCT CARD
+     ============================================= */
+  .mega-products-grid-{{ section.id }} {
+    display: flex;
+    gap: 20px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    flex-grow: 1;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .mega-products-grid-{{ section.id }}::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mega-product-card-{{ section.id }} {
+    flex: 0 0 auto;
+    width: 180px;
+    text-decoration: none;
+    color: var(--dropdown-text);
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    background: var(--dropdown-bg);
+    border: 1px solid var(--border-color);
+  }
+
+  .mega-product-card-{{ section.id }}:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .mega-product-image-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #f8f8fa;
+  }
+
+  .mega-product-image-{{ section.id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .mega-product-card-{{ section.id }}:hover .mega-product-image-{{ section.id }} img {
+    transform: scale(1.05);
+  }
+
+  .mega-product-badge-{{ section.id }} {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.3;
+    z-index: 2;
+    white-space: nowrap;
+  }
+
+  .mega-product-info-{{ section.id }} {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-grow: 1;
+  }
+
+  .mega-product-title-{{ section.id }} {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dropdown-text);
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .mega-product-desc-{{ section.id }} {
+    font-size: 11px;
+    color: var(--dropdown-text);
+    opacity: 0.65;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Color swatches */
+  .mega-product-swatches-{{ section.id }} {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-top: 2px;
+  }
+
+  .swatch-dot-{{ section.id }} {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1.5px solid #ddd;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+
+  .swatch-dot-{{ section.id }}:hover {
+    transform: scale(1.2);
+    border-color: var(--accent);
+  }
+
+  /* =============================================
+     MEGA MENU PROMO CARD
+     ============================================= */
+  .mega-promo-card-{{ section.id }} {
+    flex: 0 0 280px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    display: block;
+    height: 100%;
+    min-height: 220px;
+  }
+
+  .mega-promo-card-{{ section.id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .mega-promo-overlay-{{ section.id }} {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: 50%;
+  }
+
+  .mega-promo-overlay-{{ section.id }} .promo-title {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .mega-promo-btn-{{ section.id }} {
+    display: inline-block;
+    padding: 10px 22px;
+    background-color: #fff;
+    color: var(--dropdown-text);
+    border-radius: 25px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .mega-promo-btn-{{ section.id }}:hover {
+    transform: translateY(-1px);
+    background-color: #f0f0f0;
+  }
+
+  /* =============================================
+     SIMPLE LINK DROPDOWN
+     ============================================= */
+  .mega-links-{{ section.id }} {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 200px;
+  }
+
+  .mega-links-{{ section.id }} a {
+    display: block;
+    padding: 10px 16px;
+    color: var(--dropdown-text);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 400;
+    border-radius: 8px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    line-height: 1.4;
+  }
+
+  .mega-links-{{ section.id }} a:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: var(--hover-color);
+  }
+
+  /* =============================================
+     MOBILE MENU TOGGLE
+     ============================================= */
+  .mobile-toggle-{{ section.id }} {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 2;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+  }
+
+  .mobile-toggle-{{ section.id }}:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+
+  .mobile-toggle-{{ section.id }} span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: var(--header-text);
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  /* =============================================
+     MOBILE DRAWER
+     ============================================= */
+  .mobile-overlay-{{ section.id }} {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .mobile-overlay-{{ section.id }}.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-drawer-{{ section.id }} {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: 420px;
+    height: 100%;
+    background-color: var(--mobile-bg);
+    z-index: 9999;
+    transform: translateX(-100%);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mobile-drawer-{{ section.id }}.is-open {
+    transform: translateX(0);
+  }
+
+  .mobile-drawer-top-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    background-color: var(--mobile-bg);
+    z-index: 2;
+  }
+
+  .mobile-drawer-top-{{ section.id }} img {
+    height: 32px;
+    width: auto;
+  }
+
+  .mobile-drawer-top-{{ section.id }} .logo-text-mobile {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--mobile-text);
+  }
+
+  .mobile-close-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--mobile-text);
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+  }
+
+  .mobile-close-{{ section.id }}:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+  }
+
+  .mobile-close-{{ section.id }} svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Mobile menu items */
+  .mobile-menu-list-{{ section.id }} {
+    list-style: none;
+    padding: 12px 16px;
+  }
+
+  .mobile-menu-item-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 8px;
+    text-decoration: none;
+    color: var(--mobile-text);
+    border-radius: 12px;
+    transition: background-color 0.15s ease;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    font-family: inherit;
+    font-size: inherit;
+    text-align: left;
+  }
+
+  .mobile-menu-item-{{ section.id }}:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+
+  .mobile-menu-thumb-{{ section.id }} {
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #f4f4f6;
+  }
+
+  .mobile-menu-thumb-{{ section.id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .mobile-menu-label-{{ section.id }} {
+    flex-grow: 1;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--mobile-text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mobile-menu-badge-{{ section.id }} {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .mobile-menu-arrow-{{ section.id }} {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    color: var(--mobile-text);
+    opacity: 0.4;
+  }
+
+  /* Mobile submenu */
+  .mobile-submenu-{{ section.id }} {
+    display: none;
+    padding: 4px 0 8px 0;
+  }
+
+  .mobile-submenu-{{ section.id }}.is-open {
+    display: block;
+  }
+
+  .mobile-submenu-{{ section.id }} a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 8px 10px 78px;
+    text-decoration: none;
+    color: var(--mobile-text);
+    font-size: 14px;
+    font-weight: 400;
+    border-radius: 8px;
+    transition: background-color 0.15s ease;
+  }
+
+  .mobile-submenu-{{ section.id }} a:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+
+  .mobile-submenu-product-img-{{ section.id }} {
+    width: 44px;
+    height: 44px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #f4f4f6;
+  }
+
+  .mobile-submenu-product-img-{{ section.id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Mobile bottom sections */
+  .mobile-bottom-{{ section.id }} {
+    padding: 0 16px 24px;
+  }
+
+  .mobile-divider-{{ section.id }} {
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 8px 0 16px;
+  }
+
+  .mobile-trustpilot-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    font-size: 14px;
+    color: var(--mobile-text);
+    font-weight: 500;
+  }
+
+  .mobile-trustpilot-{{ section.id }} .tp-stars {
+    color: #00b67a;
+    font-size: 16px;
+  }
+
+  .mobile-info-card-{{ section.id }} {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    background-color: rgba(0, 0, 0, 0.02);
+    border-radius: 12px;
+    margin-bottom: 8px;
+    text-decoration: none;
+    color: var(--mobile-text);
+    transition: background-color 0.15s ease;
+  }
+
+  .mobile-info-card-{{ section.id }}:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .mobile-info-icon-{{ section.id }} {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .mobile-info-icon-{{ section.id }} svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .mobile-info-content-{{ section.id }} {
+    flex-grow: 1;
+  }
+
+  .mobile-info-content-{{ section.id }} .info-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--mobile-text);
+    margin-bottom: 2px;
+  }
+
+  .mobile-info-content-{{ section.id }} .info-sub {
+    font-size: 12px;
+    color: var(--mobile-text);
+    opacity: 0.6;
+  }
+
+  .mobile-info-arrow-{{ section.id }} {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    color: var(--mobile-text);
+    opacity: 0.4;
+  }
+
+  /* Mobile promo cards */
+  .mobile-promos-{{ section.id }} {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .mobile-promo-card-{{ section.id }} {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 1 / 1.1;
+    text-decoration: none;
+  }
+
+  .mobile-promo-card-{{ section.id }} img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .mobile-promo-label-{{ section.id }} {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(6px);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--mobile-text);
+    text-align: center;
+  }
+
+  /* =============================================
+     RESPONSIVE
+     ============================================= */
+  @media (max-width: 1024px) {
+    .header-nav-{{ section.id }} {
+      display: none;
+    }
+
+    .mobile-toggle-{{ section.id }} {
+      display: flex;
+    }
+
+    .header-container-{{ section.id }} {
+      height: 60px;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .mobile-drawer-{{ section.id }},
+    .mobile-overlay-{{ section.id }},
+    .mobile-toggle-{{ section.id }} {
+      display: none !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .announcement-left,
+    .announcement-right {
+      display: none;
+    }
+
+    .announcement-center {
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .header-container-{{ section.id }} {
+      padding: 0 16px;
+    }
+  }
+</style>
+
+{%- comment -%} =================== ANNOUNCEMENT BAR =================== {%- endcomment -%}
+{% if section.settings.show_announcement %}
+  <div class="header-announcement-{{ section.id }}">
+    <div class="announcement-left">
+      {% if section.settings.announcement_left_text != blank %}
+        {% if section.settings.announcement_left_icon == 'email' %}
+          <span style="margin-right:4px;">&#9993;</span>
+        {% elsif section.settings.announcement_left_icon == 'phone' %}
+          <span style="margin-right:4px;">&#9742;</span>
+        {% endif %}
+        {{ section.settings.announcement_left_text }}
+      {% endif %}
+    </div>
+    <div class="announcement-center">
+      {{ section.settings.announcement_center_text }}
+    </div>
+    <div class="announcement-right">
+      {% if section.settings.announcement_right_text != blank %}
+        {% if section.settings.announcement_right_icon == 'flag' %}
+          <span style="margin-right:4px;">&#127465;&#127472;</span>
+        {% endif %}
+        {{ section.settings.announcement_right_text }}
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+
+{%- comment -%} =================== MAIN HEADER =================== {%- endcomment -%}
+<div class="header-section-{{ section.id }}">
+  <header class="site-header-{{ section.id }}">
+    <div class="header-container-{{ section.id }}">
+
+      {%- comment -%} Mobile toggle - left side {%- endcomment -%}
+      <button
+        class="mobile-toggle-{{ section.id }}"
+        aria-label="{{ 'Vis menu' }}"
+        data-drawer-toggle="{{ section.id }}"
+      >
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      {%- comment -%} Logo {%- endcomment -%}
+      <div class="header-logo-{{ section.id }}">
+        <a href="/" title="{{ shop.name }}">
+          {% if section.settings.logo != blank %}
+            <img
+              src="{{ section.settings.logo | image_url: width: 300 }}"
+              alt="{{ section.settings.logo_alt | default: shop.name }}"
+              width="{{ logo_width }}"
+              loading="eager"
+            >
+          {% else %}
+            <span class="logo-text">{{ shop.name }}</span>
+          {% endif %}
+        </a>
+      </div>
+
+      {%- comment -%} Desktop Navigation {%- endcomment -%}
+      <nav class="header-nav-{{ section.id }}" role="navigation" aria-label="Hovedmenu">
+        {% for block in section.blocks %}
+          {% case block.type %}
+
+            {%- comment -%} ---------- MENU ITEM (Category) ---------- {%- endcomment -%}
+            {% when 'menu_item' %}
+              {%- assign menu_handle = block.settings.title | handleize -%}
+              {%- assign has_children = false -%}
+
+              {%- comment -%} Check if this menu item has children blocks {%- endcomment -%}
+              {% if block.settings.dropdown_type != 'none' %}
+                {%- assign has_children = true -%}
+              {% endif %}
+
+              <div
+                class="nav-item-{{ section.id }}"
+                data-menu-handle="{{ menu_handle }}"
+                {{ block.shopify_attributes }}
+              >
+                {% if has_children %}
+                  <button type="button" aria-expanded="false" aria-haspopup="true">
+                    {{ block.settings.title }}
+                    <svg class="nav-chevron-{{ section.id }}" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                {% else %}
+                  <a href="{{ block.settings.url | default: '#' }}">
+                    {{ block.settings.title }}
+                  </a>
+                {% endif %}
+
+                {%- comment -%} ----- DROPDOWN: Products ----- {%- endcomment -%}
+                {% if block.settings.dropdown_type == 'products' %}
+                  <div class="mega-dropdown-{{ section.id }} mega-dropdown-fullwidth-{{ section.id }}">
+                    <div class="mega-dropdown-inner-{{ section.id }}">
+                      <div class="mega-products-grid-{{ section.id }}">
+
+                        {%- comment -%} Individual product blocks {%- endcomment -%}
+                        {% for inner_block in section.blocks %}
+                          {% if inner_block.type == 'mega_product' %}
+                            {%- assign parent = inner_block.settings.parent_menu | handleize -%}
+                            {% if parent == menu_handle %}
+                              {%- assign prod = inner_block.settings.product -%}
+                              {%- if prod != blank -%}
+                                <a
+                                  href="{{ inner_block.settings.custom_url | default: prod.url }}"
+                                  class="mega-product-card-{{ section.id }}"
+                                  {{ inner_block.shopify_attributes }}
+                                >
+                                  <div class="mega-product-image-{{ section.id }}">
+                                    {% if inner_block.settings.custom_image != blank %}
+                                      <img
+                                        src="{{ inner_block.settings.custom_image | image_url: width: 400 }}"
+                                        alt="{{ prod.title }}"
+                                        loading="lazy"
+                                        width="400"
+                                        height="400"
+                                      >
+                                    {% elsif prod.featured_image != blank %}
+                                      <img
+                                        src="{{ prod.featured_image | image_url: width: 400 }}"
+                                        alt="{{ prod.title }}"
+                                        loading="lazy"
+                                        width="400"
+                                        height="400"
+                                      >
+                                    {% else %}
+                                      <div style="width:100%;height:100%;background:#f0f0f2;"></div>
+                                    {% endif %}
+
+                                    {% if inner_block.settings.badge_text != blank %}
+                                      <span
+                                        class="mega-product-badge-{{ section.id }}"
+                                        style="background-color:{{ inner_block.settings.badge_bg | default: badge_bg_default }};color:{{ inner_block.settings.badge_text_color | default: badge_text_default }};"
+                                      >
+                                        {{ inner_block.settings.badge_text }}
+                                      </span>
+                                    {% endif %}
+                                  </div>
+
+                                  <div class="mega-product-info-{{ section.id }}">
+                                    <div class="mega-product-title-{{ section.id }}">
+                                      {{ prod.title }}
+                                    </div>
+                                    {% if inner_block.settings.description != blank %}
+                                      <div class="mega-product-desc-{{ section.id }}">
+                                        {{ inner_block.settings.description }}
+                                      </div>
+                                    {% endif %}
+
+                                    {%- comment -%} Color swatches from product variants {%- endcomment -%}
+                                    {% if section.settings.show_swatches %}
+                                      {%- assign color_option = false -%}
+                                      {% for option in prod.options_with_values %}
+                                        {%- assign option_name_down = option.name | downcase -%}
+                                        {% if option_name_down == 'color' or option_name_down == 'colour' or option_name_down == 'farve' %}
+                                          {%- assign color_option = option -%}
+                                        {% endif %}
+                                      {% endfor %}
+
+                                      {% if color_option %}
+                                        <div class="mega-product-swatches-{{ section.id }}">
+                                          {% for value in color_option.values %}
+                                            {%- assign swatch_color = value | handleize -%}
+                                            {%- comment -%}
+                                              Map common color names to hex values.
+                                              Extend this mapping as needed.
+                                            {%- endcomment -%}
+                                            {%- case swatch_color -%}
+                                              {%- when 'sort' or 'black' -%}{%- assign hex = '#1a1a1a' -%}
+                                              {%- when 'hvid' or 'white' -%}{%- assign hex = '#ffffff' -%}
+                                              {%- when 'gra' or 'grey' or 'gray' -%}{%- assign hex = '#808080' -%}
+                                              {%- when 'bla' or 'blue' -%}{%- assign hex = '#2c3e6b' -%}
+                                              {%- when 'navy' -%}{%- assign hex = '#1b2240' -%}
+                                              {%- when 'gron' or 'green' -%}{%- assign hex = '#4a6741' -%}
+                                              {%- when 'rod' or 'red' -%}{%- assign hex = '#8b2020' -%}
+                                              {%- when 'rosa' or 'pink' -%}{%- assign hex = '#d4a0a0' -%}
+                                              {%- when 'beige' or 'sand' -%}{%- assign hex = '#c8b89a' -%}
+                                              {%- when 'brun' or 'brown' -%}{%- assign hex = '#6b4423' -%}
+                                              {%- when 'gul' or 'yellow' -%}{%- assign hex = '#c9a834' -%}
+                                              {%- when 'lilla' or 'purple' -%}{%- assign hex = '#5b3a6b' -%}
+                                              {%- when 'orange' -%}{%- assign hex = '#c45a20' -%}
+                                              {%- when 'oliven' or 'olive' -%}{%- assign hex = '#5c5c3d' -%}
+                                              {%- when 'moerk-gra' or 'dark-grey' or 'dark-gray' or 'morkegra' -%}{%- assign hex = '#3d3d3d' -%}
+                                              {%- when 'lys-gra' or 'light-grey' or 'light-gray' -%}{%- assign hex = '#c8c8c8' -%}
+                                              {%- when 'creme' or 'cream' -%}{%- assign hex = '#f5f0e1' -%}
+                                              {%- else -%}{%- assign hex = '#cccccc' -%}
+                                            {%- endcase -%}
+                                            <span
+                                              class="swatch-dot-{{ section.id }}"
+                                              style="background-color:{{ hex }};"
+                                              title="{{ value }}"
+                                            ></span>
+                                          {% endfor %}
+                                        </div>
+                                      {% endif %}
+                                    {% endif %}
+                                  </div>
+                                </a>
+                              {%- endif -%}
+                            {% endif %}
+                          {% endif %}
+                        {% endfor %}
+
+                        {%- comment -%} Products from collection {%- endcomment -%}
+                        {% if block.settings.collection != blank %}
+                          {% for product in block.settings.collection.products limit: block.settings.products_limit %}
+                            <a
+                              href="{{ product.url }}"
+                              class="mega-product-card-{{ section.id }}"
+                            >
+                              <div class="mega-product-image-{{ section.id }}">
+                                {% if product.featured_image != blank %}
+                                  <img
+                                    src="{{ product.featured_image | image_url: width: 400 }}"
+                                    alt="{{ product.title }}"
+                                    loading="lazy"
+                                    width="400"
+                                    height="400"
+                                  >
+                                {% else %}
+                                  <div style="width:100%;height:100%;background:#f0f0f2;"></div>
+                                {% endif %}
+
+                                {% if block.settings.collection_badge_text != blank %}
+                                  <span
+                                    class="mega-product-badge-{{ section.id }}"
+                                    style="background-color:{{ badge_bg_default }};color:{{ badge_text_default }};"
+                                  >
+                                    {{ block.settings.collection_badge_text }}
+                                  </span>
+                                {% endif %}
+                              </div>
+                              <div class="mega-product-info-{{ section.id }}">
+                                <div class="mega-product-title-{{ section.id }}">
+                                  {{ product.title }}
+                                </div>
+
+                                {%- comment -%} Color swatches {%- endcomment -%}
+                                {% if section.settings.show_swatches %}
+                                  {%- assign color_option = false -%}
+                                  {% for option in product.options_with_values %}
+                                    {%- assign option_name_down = option.name | downcase -%}
+                                    {% if option_name_down == 'color' or option_name_down == 'colour' or option_name_down == 'farve' %}
+                                      {%- assign color_option = option -%}
+                                    {% endif %}
+                                  {% endfor %}
+
+                                  {% if color_option %}
+                                    <div class="mega-product-swatches-{{ section.id }}">
+                                      {% for value in color_option.values %}
+                                        {%- assign swatch_color = value | handleize -%}
+                                        {%- case swatch_color -%}
+                                          {%- when 'sort' or 'black' -%}{%- assign hex = '#1a1a1a' -%}
+                                          {%- when 'hvid' or 'white' -%}{%- assign hex = '#ffffff' -%}
+                                          {%- when 'gra' or 'grey' or 'gray' -%}{%- assign hex = '#808080' -%}
+                                          {%- when 'bla' or 'blue' -%}{%- assign hex = '#2c3e6b' -%}
+                                          {%- when 'navy' -%}{%- assign hex = '#1b2240' -%}
+                                          {%- when 'gron' or 'green' -%}{%- assign hex = '#4a6741' -%}
+                                          {%- when 'rod' or 'red' -%}{%- assign hex = '#8b2020' -%}
+                                          {%- when 'rosa' or 'pink' -%}{%- assign hex = '#d4a0a0' -%}
+                                          {%- when 'beige' or 'sand' -%}{%- assign hex = '#c8b89a' -%}
+                                          {%- when 'brun' or 'brown' -%}{%- assign hex = '#6b4423' -%}
+                                          {%- when 'gul' or 'yellow' -%}{%- assign hex = '#c9a834' -%}
+                                          {%- when 'lilla' or 'purple' -%}{%- assign hex = '#5b3a6b' -%}
+                                          {%- when 'orange' -%}{%- assign hex = '#c45a20' -%}
+                                          {%- when 'oliven' or 'olive' -%}{%- assign hex = '#5c5c3d' -%}
+                                          {%- when 'moerk-gra' or 'dark-grey' or 'dark-gray' -%}{%- assign hex = '#3d3d3d' -%}
+                                          {%- when 'lys-gra' or 'light-grey' or 'light-gray' -%}{%- assign hex = '#c8c8c8' -%}
+                                          {%- when 'creme' or 'cream' -%}{%- assign hex = '#f5f0e1' -%}
+                                          {%- else -%}{%- assign hex = '#cccccc' -%}
+                                        {%- endcase -%}
+                                        <span
+                                          class="swatch-dot-{{ section.id }}"
+                                          style="background-color:{{ hex }};"
+                                          title="{{ value }}"
+                                        ></span>
+                                      {% endfor %}
+                                    </div>
+                                  {% endif %}
+                                {% endif %}
+                              </div>
+                            </a>
+                          {% endfor %}
+                        {% endif %}
+                      </div>
+
+                      {%- comment -%} Promo card in mega menu {%- endcomment -%}
+                      {% for inner_block in section.blocks %}
+                        {% if inner_block.type == 'mega_promo' %}
+                          {%- assign parent = inner_block.settings.parent_menu | handleize -%}
+                          {% if parent == menu_handle %}
+                            <a
+                              href="{{ inner_block.settings.url | default: '#' }}"
+                              class="mega-promo-card-{{ section.id }}"
+                              {{ inner_block.shopify_attributes }}
+                            >
+                              {% if inner_block.settings.image != blank %}
+                                <img
+                                  src="{{ inner_block.settings.image | image_url: width: 600 }}"
+                                  alt="{{ inner_block.settings.title }}"
+                                  loading="lazy"
+                                  width="600"
+                                  height="400"
+                                >
+                              {% endif %}
+                              <div class="mega-promo-overlay-{{ section.id }}">
+                                {% if inner_block.settings.title != blank %}
+                                  <span class="promo-title">{{ inner_block.settings.title }}</span>
+                                {% endif %}
+                                {% if inner_block.settings.button_text != blank %}
+                                  <span class="mega-promo-btn-{{ section.id }}">{{ inner_block.settings.button_text }}</span>
+                                {% endif %}
+                              </div>
+                            </a>
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                  </div>
+
+                {%- comment -%} ----- DROPDOWN: Links ----- {%- endcomment -%}
+                {% elsif block.settings.dropdown_type == 'links' %}
+                  <div class="mega-dropdown-{{ section.id }}">
+                    <div class="mega-links-{{ section.id }}">
+                      {% for inner_block in section.blocks %}
+                        {% if inner_block.type == 'mega_link' %}
+                          {%- assign parent = inner_block.settings.parent_menu | handleize -%}
+                          {% if parent == menu_handle %}
+                            <a href="{{ inner_block.settings.url | default: '#' }}" {{ inner_block.shopify_attributes }}>
+                              {{ inner_block.settings.title }}
+                            </a>
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+
+          {% endcase %}
+        {% endfor %}
+      </nav>
+
+      {%- comment -%} Header Icons (Search + Cart) {%- endcomment -%}
+      <div class="header-icons-{{ section.id }}">
+        {% if section.settings.show_search %}
+          <a href="{{ routes.search_url }}" class="header-icon-btn-{{ section.id }}" aria-label="Soeg">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </a>
+        {% endif %}
+
+        {% if section.settings.show_cart %}
+          <a href="{{ routes.cart_url }}" class="header-icon-btn-{{ section.id }}" aria-label="Indkoebskurv">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
+            {% if cart.item_count > 0 %}
+              <span class="cart-count-{{ section.id }}">{{ cart.item_count }}</span>
+            {% endif %}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  {%- comment -%} =================== MOBILE OVERLAY =================== {%- endcomment -%}
+  <div class="mobile-overlay-{{ section.id }}" data-overlay="{{ section.id }}"></div>
+
+  {%- comment -%} =================== MOBILE DRAWER =================== {%- endcomment -%}
+  <div class="mobile-drawer-{{ section.id }}" data-drawer="{{ section.id }}" aria-label="Mobilmenu">
+
+    {%- comment -%} Drawer top: Logo + Close {%- endcomment -%}
+    <div class="mobile-drawer-top-{{ section.id }}">
+      <a href="/" title="{{ shop.name }}">
+        {% if section.settings.logo != blank %}
+          <img
+            src="{{ section.settings.logo | image_url: width: 200 }}"
+            alt="{{ shop.name }}"
+            loading="lazy"
+          >
+        {% else %}
+          <span class="logo-text-mobile">{{ shop.name }}</span>
+        {% endif %}
+      </a>
+      <button class="mobile-close-{{ section.id }}" data-drawer-close="{{ section.id }}" aria-label="Luk menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    {%- comment -%} Menu Items {%- endcomment -%}
+    <ul class="mobile-menu-list-{{ section.id }}">
+      {% for block in section.blocks %}
+        {% if block.type == 'menu_item' %}
+          {%- assign menu_handle = block.settings.title | handleize -%}
+          {%- assign has_sub = false -%}
+
+          {%- comment -%} Check if this item has sub items {%- endcomment -%}
+          {% if block.settings.dropdown_type != 'none' %}
+            {%- assign has_sub = true -%}
+          {% endif %}
+
+          <li>
+            {% if has_sub %}
+              <button
+                class="mobile-menu-item-{{ section.id }}"
+                data-mobile-toggle="{{ menu_handle }}"
+                type="button"
+                aria-expanded="false"
+              >
+            {% else %}
+              <a href="{{ block.settings.url | default: '#' }}" class="mobile-menu-item-{{ section.id }}">
+            {% endif %}
+
+              {% if block.settings.mobile_image != blank %}
+                <span class="mobile-menu-thumb-{{ section.id }}">
+                  <img
+                    src="{{ block.settings.mobile_image | image_url: width: 120 }}"
+                    alt="{{ block.settings.title }}"
+                    loading="lazy"
+                    width="56"
+                    height="56"
+                  >
+                </span>
+              {% endif %}
+
+              <span class="mobile-menu-label-{{ section.id }}">
+                {{ block.settings.title }}
+                {% if block.settings.mobile_badge_text != blank %}
+                  <span
+                    class="mobile-menu-badge-{{ section.id }}"
+                    style="background-color:{{ block.settings.mobile_badge_bg | default: accent_color }};color:{{ block.settings.mobile_badge_text_color | default: '#ffffff' }};"
+                  >
+                    {{ block.settings.mobile_badge_text }}
+                  </span>
+                {% endif %}
+              </span>
+
+              <svg class="mobile-menu-arrow-{{ section.id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"/>
+              </svg>
+
+            {% if has_sub %}
+              </button>
+            {% else %}
+              </a>
+            {% endif %}
+
+            {%- comment -%} Mobile submenu {%- endcomment -%}
+            {% if has_sub %}
+              <div class="mobile-submenu-{{ section.id }}" data-mobile-submenu="{{ menu_handle }}">
+
+                {%- comment -%} Link to collection/category page {%- endcomment -%}
+                {% if block.settings.url != blank %}
+                  <a href="{{ block.settings.url }}">
+                    <strong>Se alle {{ block.settings.title }}</strong>
+                  </a>
+                {% endif %}
+
+                {%- comment -%} Product items {%- endcomment -%}
+                {% for inner_block in section.blocks %}
+                  {% if inner_block.type == 'mega_product' %}
+                    {%- assign parent = inner_block.settings.parent_menu | handleize -%}
+                    {% if parent == menu_handle %}
+                      {%- assign prod = inner_block.settings.product -%}
+                      {%- if prod != blank -%}
+                        <a href="{{ inner_block.settings.custom_url | default: prod.url }}">
+                          <span class="mobile-submenu-product-img-{{ section.id }}">
+                            {% if inner_block.settings.custom_image != blank %}
+                              <img src="{{ inner_block.settings.custom_image | image_url: width: 100 }}" alt="{{ prod.title }}" loading="lazy" width="44" height="44">
+                            {% elsif prod.featured_image != blank %}
+                              <img src="{{ prod.featured_image | image_url: width: 100 }}" alt="{{ prod.title }}" loading="lazy" width="44" height="44">
+                            {% endif %}
+                          </span>
+                          {{ prod.title }}
+                        </a>
+                      {%- endif -%}
+                    {% endif %}
+                  {% endif %}
+
+                  {% if inner_block.type == 'mega_link' %}
+                    {%- assign parent = inner_block.settings.parent_menu | handleize -%}
+                    {% if parent == menu_handle %}
+                      <a href="{{ inner_block.settings.url | default: '#' }}">
+                        {{ inner_block.settings.title }}
+                      </a>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+
+                {%- comment -%} Collection products {%- endcomment -%}
+                {% if block.settings.collection != blank %}
+                  {% for product in block.settings.collection.products limit: block.settings.products_limit %}
+                    <a href="{{ product.url }}">
+                      <span class="mobile-submenu-product-img-{{ section.id }}">
+                        {% if product.featured_image != blank %}
+                          <img src="{{ product.featured_image | image_url: width: 100 }}" alt="{{ product.title }}" loading="lazy" width="44" height="44">
+                        {% endif %}
+                      </span>
+                      {{ product.title }}
+                    </a>
+                  {% endfor %}
+                {% endif %}
+              </div>
+            {% endif %}
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+
+    {%- comment -%} Bottom section: Trustpilot, Contact, FAQ, Promos {%- endcomment -%}
+    <div class="mobile-bottom-{{ section.id }}">
+      <div class="mobile-divider-{{ section.id }}"></div>
+
+      {%- comment -%} Trustpilot {%- endcomment -%}
+      {% if section.settings.show_trustpilot %}
+        <div class="mobile-trustpilot-{{ section.id }}">
+          <span>{{ section.settings.trustpilot_label | default: 'Fremragende' }}</span>
+          <span>{{ section.settings.trustpilot_score | default: '4.4 ud af 5' }}</span>
+          <span class="tp-stars">&#9733;</span>
+          <span style="font-weight:600;">Trustpilot</span>
+        </div>
+      {% endif %}
+
+      {%- comment -%} Contact card {%- endcomment -%}
+      {% if section.settings.contact_email != blank %}
+        <a href="mailto:{{ section.settings.contact_email }}" class="mobile-info-card-{{ section.id }}">
+          <span class="mobile-info-icon-{{ section.id }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </span>
+          <span class="mobile-info-content-{{ section.id }}">
+            <span class="info-title">Email {{ section.settings.contact_email }}</span>
+            <span class="info-sub">{{ section.settings.contact_response_time | default: 'Svar indenfor 24 timer' }}</span>
+          </span>
+          <svg class="mobile-info-arrow-{{ section.id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+      {% endif %}
+
+      {%- comment -%} FAQ card {%- endcomment -%}
+      {% if section.settings.faq_title != blank %}
+        <a href="{{ section.settings.faq_url | default: '#' }}" class="mobile-info-card-{{ section.id }}">
+          <span class="mobile-info-icon-{{ section.id }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </span>
+          <span class="mobile-info-content-{{ section.id }}">
+            <span class="info-title">{{ section.settings.faq_title }}</span>
+            <span class="info-sub">{{ section.settings.faq_subtitle | default: 'Retur, levering, guides mm.' }}</span>
+          </span>
+          <svg class="mobile-info-arrow-{{ section.id }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+      {% endif %}
+
+      {%- comment -%} Mobile promo cards {%- endcomment -%}
+      {% if section.settings.mobile_promo_1_image != blank or section.settings.mobile_promo_2_image != blank %}
+        <div class="mobile-promos-{{ section.id }}">
+          {% if section.settings.mobile_promo_1_image != blank %}
+            <a href="{{ section.settings.mobile_promo_1_url | default: '#' }}" class="mobile-promo-card-{{ section.id }}">
+              <img
+                src="{{ section.settings.mobile_promo_1_image | image_url: width: 400 }}"
+                alt="{{ section.settings.mobile_promo_1_text }}"
+                loading="lazy"
+                width="200"
+                height="220"
+              >
+              {% if section.settings.mobile_promo_1_text != blank %}
+                <span class="mobile-promo-label-{{ section.id }}">{{ section.settings.mobile_promo_1_text }}</span>
+              {% endif %}
+            </a>
+          {% endif %}
+          {% if section.settings.mobile_promo_2_image != blank %}
+            <a href="{{ section.settings.mobile_promo_2_url | default: '#' }}" class="mobile-promo-card-{{ section.id }}">
+              <img
+                src="{{ section.settings.mobile_promo_2_image | image_url: width: 400 }}"
+                alt="{{ section.settings.mobile_promo_2_text }}"
+                loading="lazy"
+                width="200"
+                height="220"
+              >
+              {% if section.settings.mobile_promo_2_text != blank %}
+                <span class="mobile-promo-label-{{ section.id }}">{{ section.settings.mobile_promo_2_text }}</span>
+              {% endif %}
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{%- comment -%} =================== JAVASCRIPT =================== {%- endcomment -%}
+<script>
+  (function() {
+    const sectionId = '{{ section.id }}';
+    const CLOSE_DELAY = 200;
+    let closeTimeout = null;
+    let activeNavItem = null;
+
+    /* ----- DESKTOP MEGA MENU ----- */
+    const navItems = document.querySelectorAll('.nav-item-' + sectionId);
+
+    function openDropdown(item) {
+      if (closeTimeout) {
+        clearTimeout(closeTimeout);
+        closeTimeout = null;
+      }
+      if (activeNavItem && activeNavItem !== item) {
+        activeNavItem.classList.remove('is-active');
+        const btn = activeNavItem.querySelector('button');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      }
+      item.classList.add('is-active');
+      const btn = item.querySelector('button');
+      if (btn) btn.setAttribute('aria-expanded', 'true');
+      activeNavItem = item;
+    }
+
+    function closeDropdown(item) {
+      closeTimeout = setTimeout(function() {
+        item.classList.remove('is-active');
+        const btn = item.querySelector('button');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+        if (activeNavItem === item) activeNavItem = null;
+      }, CLOSE_DELAY);
+    }
+
+    function closeAllDropdowns() {
+      navItems.forEach(function(item) {
+        item.classList.remove('is-active');
+        const btn = item.querySelector('button');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      });
+      activeNavItem = null;
+    }
+
+    navItems.forEach(function(item) {
+      const dropdown = item.querySelector('.mega-dropdown-' + sectionId);
+      if (!dropdown) return;
+
+      /* Hover events */
+      item.addEventListener('mouseenter', function() {
+        openDropdown(item);
+      });
+
+      item.addEventListener('mouseleave', function() {
+        closeDropdown(item);
+      });
+
+      /* Click toggle for accessibility */
+      const btn = item.querySelector('button');
+      if (btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (item.classList.contains('is-active')) {
+            item.classList.remove('is-active');
+            btn.setAttribute('aria-expanded', 'false');
+            activeNavItem = null;
+          } else {
+            openDropdown(item);
+          }
+        });
+      }
+    });
+
+    /* Close on outside click */
+    document.addEventListener('click', function(e) {
+      const header = document.querySelector('.site-header-' + sectionId);
+      if (header && !header.contains(e.target)) {
+        closeAllDropdowns();
+      }
+    });
+
+    /* Close on Escape key */
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeAllDropdowns();
+        closeMobileDrawer();
+      }
+    });
+
+    /* ----- MOBILE DRAWER ----- */
+    const drawer = document.querySelector('[data-drawer="' + sectionId + '"]');
+    const overlay = document.querySelector('[data-overlay="' + sectionId + '"]');
+    const toggleBtn = document.querySelector('[data-drawer-toggle="' + sectionId + '"]');
+    const closeBtn = document.querySelector('[data-drawer-close="' + sectionId + '"]');
+
+    function openMobileDrawer() {
+      if (!drawer || !overlay) return;
+      drawer.classList.add('is-open');
+      overlay.classList.add('is-visible');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileDrawer() {
+      if (!drawer || !overlay) return;
+      drawer.classList.remove('is-open');
+      overlay.classList.remove('is-visible');
+      document.body.style.overflow = '';
+
+      /* Close all mobile submenus */
+      document.querySelectorAll('[data-mobile-submenu]').forEach(function(sub) {
+        sub.classList.remove('is-open');
+      });
+      document.querySelectorAll('[data-mobile-toggle]').forEach(function(btn) {
+        btn.setAttribute('aria-expanded', 'false');
+      });
+    }
+
+    if (toggleBtn) toggleBtn.addEventListener('click', openMobileDrawer);
+    if (closeBtn) closeBtn.addEventListener('click', closeMobileDrawer);
+    if (overlay) overlay.addEventListener('click', closeMobileDrawer);
+
+    /* Mobile submenu toggles */
+    document.querySelectorAll('[data-mobile-toggle]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        const handle = this.getAttribute('data-mobile-toggle');
+        const submenu = document.querySelector('[data-mobile-submenu="' + handle + '"]');
+        if (!submenu) return;
+
+        const isOpen = submenu.classList.contains('is-open');
+        submenu.classList.toggle('is-open');
+        this.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+      });
+    });
+
+    /* Position fullwidth dropdowns below header */
+    function positionFullwidthDropdowns() {
+      const header = document.querySelector('.site-header-' + sectionId);
+      if (!header) return;
+      const rect = header.getBoundingClientRect();
+      const dropdowns = document.querySelectorAll('.mega-dropdown-fullwidth-' + sectionId);
+      dropdowns.forEach(function(dd) {
+        dd.style.top = rect.bottom + 'px';
+      });
+    }
+
+    positionFullwidthDropdowns();
+    window.addEventListener('scroll', positionFullwidthDropdowns);
+    window.addEventListener('resize', positionFullwidthDropdowns);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Header - Mega Menu",
+  "tag": "section",
+  "class": "header-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo billede"
+    },
+    {
+      "type": "text",
+      "id": "logo_alt",
+      "label": "Logo alt tekst",
+      "default": ""
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "label": "Logo bredde (px)",
+      "min": 40,
+      "max": 300,
+      "step": 5,
+      "default": 120,
+      "unit": "px"
+    },
+    {
+      "type": "header",
+      "content": "Header indstillinger"
+    },
+    {
+      "type": "range",
+      "id": "header_height",
+      "label": "Header hoejde (px)",
+      "min": 50,
+      "max": 120,
+      "step": 2,
+      "default": 72,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_header",
+      "label": "Sticky header",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_search",
+      "label": "Vis soege-ikon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart",
+      "label": "Vis indkoebskurv-ikon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_swatches",
+      "label": "Vis farve-swatches i mega menu",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Farver - Header"
+    },
+    {
+      "type": "color",
+      "id": "header_bg",
+      "label": "Header baggrund",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "header_text_color",
+      "label": "Header tekst farve",
+      "default": "#1a1a2e"
+    },
+    {
+      "type": "color",
+      "id": "hover_color",
+      "label": "Hover farve",
+      "default": "#4a4a6a"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent farve",
+      "default": "#2c2c54"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border farve",
+      "default": "#eeeef2"
+    },
+    {
+      "type": "header",
+      "content": "Farver - Dropdown"
+    },
+    {
+      "type": "color",
+      "id": "dropdown_bg",
+      "label": "Dropdown baggrund",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "dropdown_text_color",
+      "label": "Dropdown tekst farve",
+      "default": "#1a1a2e"
+    },
+    {
+      "type": "header",
+      "content": "Farver - Badges (standard)"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg_default",
+      "label": "Badge baggrund (standard)",
+      "default": "#2c2c54"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_default",
+      "label": "Badge tekst farve (standard)",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Farver - Mobil menu"
+    },
+    {
+      "type": "color",
+      "id": "mobile_menu_bg",
+      "label": "Mobil menu baggrund",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "mobile_menu_text",
+      "label": "Mobil menu tekst farve",
+      "default": "#1a1a2e"
+    },
+    {
+      "type": "header",
+      "content": "Announcement bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Vis announcement bar",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "announcement_left_text",
+      "label": "Venstre tekst",
+      "default": "Brug for hjaelp?"
+    },
+    {
+      "type": "select",
+      "id": "announcement_left_icon",
+      "label": "Venstre ikon",
+      "options": [
+        { "value": "none", "label": "Ingen" },
+        { "value": "email", "label": "Email" },
+        { "value": "phone", "label": "Telefon" }
+      ],
+      "default": "email"
+    },
+    {
+      "type": "text",
+      "id": "announcement_center_text",
+      "label": "Center tekst",
+      "default": "Over 300.000 tilfredse kunder"
+    },
+    {
+      "type": "text",
+      "id": "announcement_right_text",
+      "label": "Hoejre tekst",
+      "default": "Dansk virksomhed"
+    },
+    {
+      "type": "select",
+      "id": "announcement_right_icon",
+      "label": "Hoejre ikon",
+      "options": [
+        { "value": "none", "label": "Ingen" },
+        { "value": "flag", "label": "Dansk flag" }
+      ],
+      "default": "flag"
+    },
+    {
+      "type": "color",
+      "id": "announcement_bg",
+      "label": "Announcement baggrund",
+      "default": "#f4f4f6"
+    },
+    {
+      "type": "color",
+      "id": "announcement_text_color",
+      "label": "Announcement tekst farve",
+      "default": "#1a1a2e"
+    },
+    {
+      "type": "header",
+      "content": "Mobil - Trustpilot"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trustpilot",
+      "label": "Vis Trustpilot i mobil menu",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "trustpilot_label",
+      "label": "Trustpilot label",
+      "default": "Fremragende"
+    },
+    {
+      "type": "text",
+      "id": "trustpilot_score",
+      "label": "Trustpilot score",
+      "default": "4.4 ud af 5"
+    },
+    {
+      "type": "header",
+      "content": "Mobil - Kontakt"
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Kontakt email",
+      "default": "kontakt@dinshop.dk"
+    },
+    {
+      "type": "text",
+      "id": "contact_response_time",
+      "label": "Svartid tekst",
+      "default": "Svar indenfor 24 timer"
+    },
+    {
+      "type": "header",
+      "content": "Mobil - FAQ"
+    },
+    {
+      "type": "text",
+      "id": "faq_title",
+      "label": "FAQ titel",
+      "default": "Find svaret i FAQ"
+    },
+    {
+      "type": "text",
+      "id": "faq_subtitle",
+      "label": "FAQ undertekst",
+      "default": "Retur, levering, guides mm."
+    },
+    {
+      "type": "url",
+      "id": "faq_url",
+      "label": "FAQ link"
+    },
+    {
+      "type": "header",
+      "content": "Mobil - Promo kort"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_promo_1_image",
+      "label": "Promo 1 billede"
+    },
+    {
+      "type": "text",
+      "id": "mobile_promo_1_text",
+      "label": "Promo 1 tekst",
+      "default": "Udforsk NapTopper"
+    },
+    {
+      "type": "url",
+      "id": "mobile_promo_1_url",
+      "label": "Promo 1 link"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_promo_2_image",
+      "label": "Promo 2 billede"
+    },
+    {
+      "type": "text",
+      "id": "mobile_promo_2_text",
+      "label": "Promo 2 tekst",
+      "default": "Udforsk CloudOne"
+    },
+    {
+      "type": "url",
+      "id": "mobile_promo_2_url",
+      "label": "Promo 2 link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu_item",
+      "name": "Menu kategori",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Menu titel",
+          "default": "Kategori"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link (valgfrit)"
+        },
+        {
+          "type": "select",
+          "id": "dropdown_type",
+          "label": "Dropdown type",
+          "options": [
+            { "value": "none", "label": "Ingen dropdown" },
+            { "value": "products", "label": "Produkter (mega menu)" },
+            { "value": "links", "label": "Links (simpel dropdown)" }
+          ],
+          "default": "products"
+        },
+        {
+          "type": "header",
+          "content": "Kollektion (valgfrit)"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Vis produkter fra kollektion"
+        },
+        {
+          "type": "range",
+          "id": "products_limit",
+          "label": "Max antal produkter fra kollektion",
+          "min": 1,
+          "max": 12,
+          "step": 1,
+          "default": 6
+        },
+        {
+          "type": "text",
+          "id": "collection_badge_text",
+          "label": "Badge tekst for kollektionsprodukter",
+          "default": ""
+        },
+        {
+          "type": "header",
+          "content": "Mobil menu"
+        },
+        {
+          "type": "image_picker",
+          "id": "mobile_image",
+          "label": "Mobil thumbnail billede"
+        },
+        {
+          "type": "text",
+          "id": "mobile_badge_text",
+          "label": "Mobil badge tekst"
+        },
+        {
+          "type": "color",
+          "id": "mobile_badge_bg",
+          "label": "Mobil badge baggrund",
+          "default": "#2c2c54"
+        },
+        {
+          "type": "color",
+          "id": "mobile_badge_text_color",
+          "label": "Mobil badge tekst farve",
+          "default": "#ffffff"
+        }
+      ]
+    },
+    {
+      "type": "mega_product",
+      "name": "Mega menu - Produkt",
+      "settings": [
+        {
+          "type": "text",
+          "id": "parent_menu",
+          "label": "Tilhoerer menu (skriv titel paa menu kategori)",
+          "info": "Skal matche titlen paa en 'Menu kategori' blok"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Produkt"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Brugerdefineret billede (valgfrit)",
+          "info": "Overskriver produktbillede i mega menu"
+        },
+        {
+          "type": "url",
+          "id": "custom_url",
+          "label": "Custom link (valgfrit)",
+          "info": "Overskriver produktlink"
+        },
+        {
+          "type": "header",
+          "content": "Badge"
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge tekst",
+          "info": "F.eks. 'Bloed stoette', 'Populaer', 'Nyhed', 'Udsolgt'",
+          "default": ""
+        },
+        {
+          "type": "color",
+          "id": "badge_bg",
+          "label": "Badge baggrundsfarve",
+          "default": "#2c2c54"
+        },
+        {
+          "type": "color",
+          "id": "badge_text_color",
+          "label": "Badge tekstfarve",
+          "default": "#ffffff"
+        },
+        {
+          "type": "header",
+          "content": "Tekst boks"
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Beskrivelse under produkt",
+          "info": "Kort tekst der vises under produktnavnet",
+          "default": ""
+        }
+      ]
+    },
+    {
+      "type": "mega_link",
+      "name": "Mega menu - Link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "parent_menu",
+          "label": "Tilhoerer menu (skriv titel paa menu kategori)",
+          "info": "Skal matche titlen paa en 'Menu kategori' blok"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Link titel"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "URL"
+        }
+      ]
+    },
+    {
+      "type": "mega_promo",
+      "name": "Mega menu - Promo kort",
+      "settings": [
+        {
+          "type": "text",
+          "id": "parent_menu",
+          "label": "Tilhoerer menu (skriv titel paa menu kategori)",
+          "info": "Skal matche titlen paa en 'Menu kategori' blok"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Promo billede"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Promo titel",
+          "default": ""
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Knap tekst",
+          "default": "Find dit perfekte match her"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Promo link"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 75,
+  "presets": [
+    {
+      "name": "Header - Mega Menu",
+      "blocks": [
+        {
+          "type": "menu_item",
+          "settings": {
+            "title": "Hovedpuder",
+            "dropdown_type": "products"
+          }
+        },
+        {
+          "type": "menu_item",
+          "settings": {
+            "title": "Dyner",
+            "dropdown_type": "products"
+          }
+        },
+        {
+          "type": "menu_item",
+          "settings": {
+            "title": "NapTopper\u2122",
+            "dropdown_type": "none"
+          }
+        },
+        {
+          "type": "menu_item",
+          "settings": {
+            "title": "Sengetoej",
+            "dropdown_type": "products"
+          }
+        },
+        {
+          "type": "menu_item",
+          "settings": {
+            "title": "Junior",
+            "dropdown_type": "products"
+          }
+        },
+        {
+          "type": "menu_item",
+          "settings": {
+            "title": "Tilbehoer",
+            "dropdown_type": "products"
+          }
+        },
+        {
+          "type": "menu_item",
+          "settings": {
+            "title": "Hjaelp",
+            "dropdown_type": "links"
+          }
+        },
+        {
+          "type": "mega_link",
+          "settings": {
+            "parent_menu": "Hjaelp",
+            "title": "Kontakt os",
+            "url": "/pages/kontakt"
+          }
+        },
+        {
+          "type": "mega_link",
+          "settings": {
+            "parent_menu": "Hjaelp",
+            "title": "Om os",
+            "url": "/pages/om-os"
+          }
+        },
+        {
+          "type": "mega_link",
+          "settings": {
+            "parent_menu": "Hjaelp",
+            "title": "Ofte stillede spoergsmaal",
+            "url": "/pages/faq"
+          }
+        },
+        {
+          "type": "mega_link",
+          "settings": {
+            "parent_menu": "Hjaelp",
+            "title": "Soevngaranti",
+            "url": "/pages/soevngaranti"
+          }
+        },
+        {
+          "type": "mega_link",
+          "settings": {
+            "parent_menu": "Hjaelp",
+            "title": "Vaskeguide",
+            "url": "/pages/vaskeguide"
+          }
+        },
+        {
+          "type": "mega_link",
+          "settings": {
+            "parent_menu": "Hjaelp",
+            "title": "Blog",
+            "url": "/blogs/nyheder"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
