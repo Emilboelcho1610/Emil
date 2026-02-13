@@ -1,0 +1,501 @@
+{% comment %}
+  GLOWBOOSTER BUNDLE – Mobiloptimeret
+  Variant ID: 15534560575820
+
+  Prislogik:
+  - 1 stk: variant.price / variant.compare_at_price fra Shopify backend
+  - 2 stk: 10% ekstra rabat oven i → pris × 2 × 0.9
+
+  VIGTIGT: For at 2-stk rabatten afspejles i checkout, skal der oprettes
+  en automatisk rabat i Shopify Admin (fx 10% ved køb af 2+ stk).
+  Alternativt kan discountCode i JS-config nedenfor sættes til en rabatkode.
+{% endcomment %}
+
+{%- assign gb_variant_id = 15534560575820 -%}
+{%- assign gb_variant = nil -%}
+{%- for v in product.variants -%}
+  {%- if v.id == gb_variant_id -%}
+    {%- assign gb_variant = v -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if gb_variant -%}
+  {%- assign gb_single = gb_variant.price -%}
+  {%- assign gb_single_cmp = gb_variant.compare_at_price | default: gb_single -%}
+
+  {%- comment -%} 2 stk med 10% ekstra rabat: pris × 2 × 0.9 = pris × 9 ÷ 5, afrundet til hele kroner {%- endcomment -%}
+  {%- assign gb_double = gb_single | times: 9 | divided_by: 5 | plus: 50 | divided_by: 100 | times: 100 -%}
+  {%- assign gb_double_cmp = gb_single_cmp | times: 2 -%}
+
+  {%- comment -%} Besparelse i procent {%- endcomment -%}
+  {%- assign gb_save_1 = gb_single_cmp | minus: gb_single | times: 100 | divided_by: gb_single_cmp -%}
+  {%- assign gb_save_2 = gb_double_cmp | minus: gb_double | times: 100 | divided_by: gb_double_cmp -%}
+
+  {%- assign gb_img1 = product.featured_image -%}
+  {%- assign gb_img2_url = "https://cdn.shopify.com/s/files/1/1021/1914/5804/files/Design_uden_navn_-_2026-02-02T150158.083.png?v=1770040926" -%}
+
+<style>
+/* ====== GLOWBOOSTER BUNDLE ====== */
+.gb-bundle{
+  all:initial;
+  display:block;
+  font-family:Montserrat,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  width:100%;
+  max-width:500px;
+  margin:0 auto;
+  padding:0;
+  box-sizing:border-box;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+.gb-bundle *,.gb-bundle *::before,.gb-bundle *::after{box-sizing:border-box;}
+
+/* Options */
+.gb-bundle .gb-options{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+
+/* Option card */
+.gb-bundle .gb-card{
+  position:relative;
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  padding:14px 16px;
+  border:2px solid #E5E5E5;
+  border-radius:14px;
+  background:transparent;
+  cursor:pointer;
+  width:100%;
+  text-align:left;
+  font-family:inherit;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+  transition:border-color .18s ease, box-shadow .18s ease;
+}
+
+.gb-bundle .gb-card.has-banner{
+  padding-top:28px;
+  margin-top:12px;
+}
+
+@media(hover:hover) and (pointer:fine){
+  .gb-bundle .gb-card:hover{
+    border-color:rgba(255,198,218,.6);
+    box-shadow:0 4px 12px rgba(0,0,0,.06);
+  }
+}
+
+.gb-bundle .gb-card.selected{
+  border-color:#FFC6DA;
+  box-shadow:0 4px 16px rgba(255,198,218,.25);
+}
+
+/* "Mest populære" banner – centred above card border */
+.gb-bundle .gb-banner{
+  position:absolute;
+  top:-12px;
+  left:50%;
+  transform:translateX(-50%);
+  background:#27ae60;
+  color:#fff;
+  font-size:11px;
+  font-weight:800;
+  padding:5px 14px;
+  border-radius:20px;
+  white-space:nowrap;
+  text-transform:uppercase;
+  letter-spacing:.04em;
+  box-shadow:0 3px 8px rgba(39,174,96,.25);
+  z-index:1;
+}
+
+/* Radio dot */
+.gb-bundle .gb-radio{
+  flex-shrink:0;
+  width:22px;
+  height:22px;
+  border:2px solid #ccc;
+  border-radius:50%;
+  margin-top:2px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:border-color .18s ease;
+}
+.gb-bundle .gb-card.selected .gb-radio{
+  border-color:#FFC6DA;
+}
+.gb-bundle .gb-radio::after{
+  content:'';
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:#FFC6DA;
+  transform:scale(0);
+  transition:transform .18s ease;
+}
+.gb-bundle .gb-card.selected .gb-radio::after{
+  transform:scale(1);
+}
+
+/* Thumbnail */
+.gb-bundle .gb-thumb{
+  flex-shrink:0;
+  width:52px;
+  height:52px;
+  border-radius:10px;
+  overflow:hidden;
+  border:1px solid rgba(0,0,0,.06);
+}
+.gb-bundle .gb-thumb img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* Content area – fills remaining space */
+.gb-bundle .gb-info{
+  flex:1 1 0%;
+  min-width:0;
+}
+
+/* Title row: name + save badge (inline, wraps naturally) */
+.gb-bundle .gb-title-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+.gb-bundle .gb-name{
+  font-size:14px;
+  font-weight:800;
+  color:#111;
+  line-height:1.25;
+}
+.gb-bundle .gb-save{
+  display:inline-block;
+  font-size:11px;
+  font-weight:800;
+  color:#fff;
+  background:#27ae60;
+  padding:2px 8px;
+  border-radius:6px;
+  white-space:nowrap;
+  line-height:1.5;
+}
+
+/* Subtitle */
+.gb-bundle .gb-sub{
+  font-size:12px;
+  font-weight:600;
+  color:#888;
+  margin-top:3px;
+  line-height:1.3;
+}
+.gb-bundle .gb-ebook{
+  color:#27ae60;
+  font-weight:700;
+}
+
+/* Prices – always below title, never beside it */
+.gb-bundle .gb-prices{
+  display:flex;
+  align-items:baseline;
+  gap:8px;
+  margin-top:6px;
+  flex-wrap:wrap;
+}
+.gb-bundle .gb-price{
+  font-size:17px;
+  font-weight:900;
+  color:#111;
+  line-height:1;
+  white-space:nowrap;
+}
+.gb-bundle .gb-compare{
+  font-size:12px;
+  font-weight:600;
+  color:#aaa;
+  text-decoration:line-through;
+  line-height:1;
+  white-space:nowrap;
+}
+
+/* CTA */
+.gb-bundle .gb-cta{
+  width:100%;
+  margin-top:14px;
+  padding:16px 20px;
+  background:#333;
+  color:#fff;
+  border:none;
+  border-radius:14px;
+  font-size:16px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+  cursor:pointer;
+  font-family:inherit;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  box-shadow:0 6px 18px rgba(0,0,0,.15);
+  transition:transform .18s ease, opacity .18s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+.gb-bundle .gb-cta:hover{transform:translateY(-1px);}
+.gb-bundle .gb-cta:active{transform:scale(.98);}
+.gb-bundle .gb-cta:disabled{background:#ccc;cursor:not-allowed;box-shadow:none;}
+
+.gb-bundle .gb-spinner{
+  width:16px;height:16px;
+  border:2px solid rgba(255,255,255,.3);
+  border-top-color:#fff;
+  border-radius:50%;
+  animation:gb-spin .6s linear infinite;
+  display:none;
+}
+.gb-bundle .gb-cta.loading .gb-spinner{display:block;}
+@keyframes gb-spin{to{transform:rotate(360deg);}}
+
+/* Payment icons */
+.gb-bundle .gb-payments{
+  display:flex;
+  justify-content:center;
+  margin-top:12px;
+}
+.gb-bundle .gb-pay-list{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.gb-bundle .gb-pay-icon{display:flex;align-items:center;}
+.gb-bundle .gb-pay-icon svg{height:22px;width:auto;display:block;opacity:.9;}
+
+/* Toast */
+.gb-bundle .gb-toast{
+  position:fixed;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%) translateY(20px);
+  background:#111;
+  color:#fff;
+  padding:12px 20px;
+  border-radius:12px;
+  font-size:14px;
+  font-weight:700;
+  font-family:inherit;
+  z-index:9999;
+  opacity:0;
+  transition:opacity .22s ease, transform .22s ease;
+  pointer-events:none;
+  white-space:nowrap;
+  max-width:90vw;
+  text-align:center;
+}
+.gb-bundle .gb-toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+  pointer-events:auto;
+}
+.gb-bundle .gb-toast.error{background:#EF4444;}
+.gb-bundle .gb-toast.success{background:#27ae60;}
+
+/* ====== Small-screen refinements ====== */
+@media(max-width:400px){
+  .gb-bundle .gb-card{gap:10px;padding:12px;}
+  .gb-bundle .gb-card.has-banner{padding-top:24px;}
+  .gb-bundle .gb-thumb{width:44px;height:44px;}
+  .gb-bundle .gb-name{font-size:13px;}
+  .gb-bundle .gb-price{font-size:15px;}
+  .gb-bundle .gb-cta{font-size:15px;padding:14px 16px;}
+}
+</style>
+
+<div class="gb-bundle" id="gb-bundle">
+
+  <div class="gb-options" role="radiogroup" aria-label="Vælg antal">
+
+    <!-- ── 1 STK ── -->
+    <button type="button" class="gb-card" data-quantity="1" aria-pressed="false">
+      <span class="gb-radio" aria-hidden="true"></span>
+
+      <div class="gb-thumb" aria-hidden="true">
+        {%- if gb_img1 -%}
+          {{ gb_img1 | image_url: width: 140 | image_tag: loading: 'lazy', alt: 'GlowBooster' }}
+        {%- endif -%}
+      </div>
+
+      <div class="gb-info">
+        <div class="gb-title-row">
+          <span class="gb-name">GlowBooster</span>
+          <span class="gb-save">Spar {{ gb_save_1 }}%</span>
+        </div>
+        <div class="gb-sub">1 stk</div>
+        <div class="gb-prices">
+          <span class="gb-price">{{ gb_single | money_without_trailing_zeros }}</span>
+          {%- if gb_single_cmp > gb_single -%}
+            <span class="gb-compare">{{ gb_single_cmp | money_without_trailing_zeros }}</span>
+          {%- endif -%}
+        </div>
+      </div>
+    </button>
+
+    <!-- ── 2 STK ── -->
+    <button type="button" class="gb-card has-banner selected" data-quantity="2" aria-pressed="true">
+      <div class="gb-banner">Mest populære</div>
+
+      <span class="gb-radio" aria-hidden="true"></span>
+
+      <div class="gb-thumb" aria-hidden="true">
+        <img src="{{ gb_img2_url }}" alt="2x GlowBooster" loading="lazy" width="104" height="104">
+      </div>
+
+      <div class="gb-info">
+        <div class="gb-title-row">
+          <span class="gb-name">GlowBooster x2</span>
+          <span class="gb-save">Spar {{ gb_save_2 }}%</span>
+        </div>
+        <div class="gb-sub">2 stk · <span class="gb-ebook">+ Gratis Ebog</span></div>
+        <div class="gb-prices">
+          <span class="gb-price">{{ gb_double | money_without_trailing_zeros }}</span>
+          <span class="gb-compare">{{ gb_double_cmp | money_without_trailing_zeros }}</span>
+        </div>
+      </div>
+    </button>
+
+  </div>
+
+  <!-- CTA -->
+  <button type="button" class="gb-cta" id="gb-cta-btn">
+    <span class="gb-cta-text">Tilføj til kurv</span>
+    <span class="gb-spinner" aria-hidden="true"></span>
+  </button>
+
+  <!-- Payment icons -->
+  <div class="gb-payments" aria-label="Betalingsmuligheder">
+    <ul class="gb-pay-list" role="list">
+      {%- assign gb_pay_types = "mobilepay,visa,dankort,master,klarna,apple_pay,google_pay" | split: "," -%}
+      {%- for type in gb_pay_types -%}
+        <li class="gb-pay-icon">{{ type | payment_type_svg_tag }}</li>
+      {%- endfor -%}
+    </ul>
+  </div>
+
+  <div class="gb-toast" id="gb-toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  var CONFIG = {
+    variantId: {{ gb_variant.id }},
+    /* Valgfrit: sæt en rabatkode der automatisk bruges ved 2-stk checkout */
+    discountCode: ''
+  };
+
+  var state = { qty: 2, adding: false, lockUntil: 0 };
+
+  var root = document.getElementById('gb-bundle');
+  if (!root) return;
+
+  var cards  = root.querySelectorAll('.gb-card');
+  var ctaBtn = document.getElementById('gb-cta-btn');
+  var toast  = document.getElementById('gb-toast');
+
+  function blocked(){ return state.adding || Date.now() < state.lockUntil; }
+  function lock(ms){ state.lockUntil = Math.max(state.lockUntil, Date.now() + ms); }
+
+  function showToast(msg, type){
+    toast.textContent = msg;
+    toast.className = 'gb-toast ' + (type || '') + ' show';
+    setTimeout(function(){ toast.classList.remove('show'); }, 3000);
+  }
+
+  function selectCard(qty){
+    cards.forEach(function(c){
+      var active = parseInt(c.dataset.quantity, 10) === qty;
+      c.classList.toggle('selected', active);
+      c.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+    state.qty = qty;
+  }
+
+  function onCardClick(e){
+    if (blocked()) return;
+    lock(120);
+    selectCard(parseInt(e.currentTarget.dataset.quantity, 10));
+  }
+
+  async function addToCart(){
+    if (blocked()) return;
+    state.adding = true;
+    lock(400);
+
+    var ctaText = ctaBtn.querySelector('.gb-cta-text');
+    ctaBtn.disabled = true;
+    ctaBtn.classList.add('loading');
+    if (ctaText) ctaText.textContent = 'Tilføjer...';
+
+    try {
+      var res = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          items: [{
+            id: Number(CONFIG.variantId),
+            quantity: state.qty
+          }]
+        })
+      });
+
+      if (!res.ok) throw new Error('add_failed');
+
+      showToast('Tilføjet! Sender dig til checkout...', 'success');
+      if (ctaText) ctaText.textContent = 'Tilføjet ✓';
+
+      setTimeout(function(){
+        var url = '/checkout';
+        if (state.qty >= 2 && CONFIG.discountCode) {
+          url += '?discount=' + encodeURIComponent(CONFIG.discountCode);
+        }
+        window.location.href = url;
+      }, 600);
+
+    } catch(err){
+      showToast('Noget gik galt – prøv igen.', 'error');
+      if (ctaText) ctaText.textContent = 'Tilføj til kurv';
+      ctaBtn.disabled = false;
+      ctaBtn.classList.remove('loading');
+      state.adding = false;
+    }
+  }
+
+  function init(){
+    selectCard(2);
+    cards.forEach(function(c){ c.addEventListener('pointerup', onCardClick); });
+    ctaBtn.addEventListener('click', addToCart);
+  }
+
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+
+{%- endif -%}
