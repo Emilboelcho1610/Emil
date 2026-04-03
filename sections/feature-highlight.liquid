@@ -1,0 +1,650 @@
+{% comment %}
+  Komfort Køledynen – Produkt Feature Highlight
+  Alternerende billede/tekst blokke der dykker ned i teknologien
+{% endcomment %}
+
+<section
+  class="feature-highlight"
+  id="section-{{ section.id }}"
+  style="
+    --fh-bg: {{ section.settings.background_color }};
+    --fh-accent: {{ section.settings.accent_color }};
+    --fh-heading-color: {{ section.settings.heading_color }};
+    --fh-text-color: {{ section.settings.text_color }};
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+  <div class="feature-highlight__container">
+
+    {% if section.settings.section_label != blank %}
+      <p class="feature-highlight__eyebrow">{{ section.settings.section_label }}</p>
+    {% endif %}
+
+    {% if section.settings.section_heading != blank %}
+      <h2 class="feature-highlight__heading">{{ section.settings.section_heading }}</h2>
+    {% endif %}
+
+    {% if section.settings.section_subheading != blank %}
+      <p class="feature-highlight__subheading">{{ section.settings.section_subheading }}</p>
+    {% endif %}
+
+    <div class="feature-highlight__blocks">
+      {% for block in section.blocks %}
+        {% assign is_reversed = false %}
+        {% if section.settings.alternate_layout and forloop.index0 | modulo: 2 == 1 %}
+          {% assign is_reversed = true %}
+        {% endif %}
+
+        <div
+          class="feature-highlight__block{% if is_reversed %} feature-highlight__block--reversed{% endif %}"
+          {{ block.shopify_attributes }}
+        >
+          <!-- Billede side -->
+          <div class="feature-highlight__media">
+            {% if block.settings.image != blank %}
+              <div class="feature-highlight__image-wrapper">
+                {{
+                  block.settings.image
+                  | image_url: width: 900
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '400, 600, 900',
+                    sizes: '(min-width: 990px) 50vw, 100vw',
+                    class: 'feature-highlight__image'
+                }}
+                {% if block.settings.badge_text != blank %}
+                  <span class="feature-highlight__badge">{{ block.settings.badge_text }}</span>
+                {% endif %}
+              </div>
+            {% else %}
+              <div class="feature-highlight__image-wrapper feature-highlight__image-wrapper--placeholder">
+                {{ 'product-1' | placeholder_svg_tag: 'feature-highlight__placeholder-svg' }}
+              </div>
+            {% endif %}
+          </div>
+
+          <!-- Tekst side -->
+          <div class="feature-highlight__content">
+            {% if block.settings.eyebrow != blank %}
+              <p class="feature-highlight__block-eyebrow">{{ block.settings.eyebrow }}</p>
+            {% endif %}
+
+            {% if block.settings.heading != blank %}
+              <h3 class="feature-highlight__block-heading">{{ block.settings.heading }}</h3>
+            {% endif %}
+
+            {% if block.settings.text != blank %}
+              <div class="feature-highlight__block-text rte">{{ block.settings.text }}</div>
+            {% endif %}
+
+            {% if block.settings.stat_value != blank %}
+              <div class="feature-highlight__stat">
+                <span class="feature-highlight__stat-value">{{ block.settings.stat_value }}</span>
+                {% if block.settings.stat_label != blank %}
+                  <span class="feature-highlight__stat-label">{{ block.settings.stat_label }}</span>
+                {% endif %}
+              </div>
+            {% endif %}
+
+            {% if block.settings.bullet_1 != blank
+              or block.settings.bullet_2 != blank
+              or block.settings.bullet_3 != blank
+              or block.settings.bullet_4 != blank
+            %}
+              <ul class="feature-highlight__bullets">
+                {% for i in (1..4) %}
+                  {% assign bullet_key = 'bullet_' | append: i %}
+                  {% if block.settings[bullet_key] != blank %}
+                    <li class="feature-highlight__bullet">
+                      <span class="feature-highlight__bullet-icon" aria-hidden="true">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <circle cx="8" cy="8" r="8" fill="currentColor" opacity="0.15"/>
+                          <path d="M4.5 8L7 10.5L11.5 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
+                      <span>{{ block.settings[bullet_key] }}</span>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            {% endif %}
+
+            {% if block.settings.button_label != blank and block.settings.button_url != blank %}
+              <a
+                href="{{ block.settings.button_url }}"
+                class="feature-highlight__cta{% if block.settings.button_style == 'secondary' %} feature-highlight__cta--secondary{% endif %}"
+              >
+                {{ block.settings.button_label }}
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  #section-{{ section.id }} {
+    background-color: var(--fh-bg);
+    color: var(--fh-text-color);
+  }
+
+  .feature-highlight__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── Sektion header ── */
+  .feature-highlight__eyebrow {
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fh-accent);
+    margin: 0 0 12px;
+  }
+
+  .feature-highlight__heading {
+    text-align: center;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: var(--fh-heading-color);
+    margin: 0 0 16px;
+  }
+
+  .feature-highlight__subheading {
+    text-align: center;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--fh-text-color);
+    max-width: 640px;
+    margin: 0 auto 64px;
+    opacity: 0.8;
+  }
+
+  /* ── Blokke ── */
+  .feature-highlight__blocks {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+  }
+
+  .feature-highlight__block {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 64px;
+  }
+
+  .feature-highlight__block--reversed {
+    direction: rtl;
+  }
+
+  .feature-highlight__block--reversed > * {
+    direction: ltr;
+  }
+
+  /* ── Billede ── */
+  .feature-highlight__image-wrapper {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: #f0f4f8;
+  }
+
+  .feature-highlight__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+  }
+
+  .feature-highlight__image-wrapper:hover .feature-highlight__image {
+    transform: scale(1.03);
+  }
+
+  .feature-highlight__image-wrapper--placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .feature-highlight__placeholder-svg {
+    width: 60%;
+    height: 60%;
+    opacity: 0.3;
+  }
+
+  .feature-highlight__badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: var(--fh-accent);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 999px;
+  }
+
+  /* ── Indhold ── */
+  .feature-highlight__content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .feature-highlight__block-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fh-accent);
+    margin: 0;
+  }
+
+  .feature-highlight__block-heading {
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--fh-heading-color);
+    margin: 0;
+  }
+
+  .feature-highlight__block-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--fh-text-color);
+    margin: 0;
+    opacity: 0.85;
+  }
+
+  .feature-highlight__block-text p {
+    margin: 0 0 12px;
+  }
+
+  .feature-highlight__block-text p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ── Stat ── */
+  .feature-highlight__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 20px 24px;
+    background: rgba(0, 0, 0, 0.04);
+    border-left: 4px solid var(--fh-accent);
+    border-radius: 0 12px 12px 0;
+  }
+
+  .feature-highlight__stat-value {
+    font-size: 2.2rem;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--fh-accent);
+  }
+
+  .feature-highlight__stat-label {
+    font-size: 0.875rem;
+    color: var(--fh-text-color);
+    opacity: 0.75;
+  }
+
+  /* ── Bullets ── */
+  .feature-highlight__bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .feature-highlight__bullet {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--fh-text-color);
+  }
+
+  .feature-highlight__bullet-icon {
+    flex-shrink: 0;
+    color: var(--fh-accent);
+    margin-top: 2px;
+  }
+
+  /* ── CTA knap ── */
+  .feature-highlight__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    background: var(--fh-accent);
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 14px 28px;
+    border-radius: 999px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    letter-spacing: 0.02em;
+  }
+
+  .feature-highlight__cta:hover {
+    opacity: 0.88;
+    transform: translateY(-2px);
+  }
+
+  .feature-highlight__cta--secondary {
+    background: transparent;
+    color: var(--fh-accent);
+    border: 2px solid var(--fh-accent);
+  }
+
+  .feature-highlight__cta--secondary:hover {
+    background: var(--fh-accent);
+    color: #fff;
+    opacity: 1;
+  }
+
+  /* ── Responsiv ── */
+  @media screen and (max-width: 989px) {
+    .feature-highlight__block {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .feature-highlight__block--reversed {
+      direction: ltr;
+    }
+
+    .feature-highlight__block--reversed .feature-highlight__media {
+      order: -1;
+    }
+
+    .feature-highlight__blocks {
+      gap: 56px;
+    }
+
+    .feature-highlight__subheading {
+      margin-bottom: 40px;
+    }
+  }
+
+  @media screen and (max-width: 479px) {
+    .feature-highlight__container {
+      padding: 0 16px;
+    }
+
+    .feature-highlight__stat-value {
+      font-size: 1.8rem;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Feature Highlight",
+  "tag": "section",
+  "class": "feature-highlight-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Sektion header"
+    },
+    {
+      "type": "text",
+      "id": "section_label",
+      "label": "Øjenbryns-label",
+      "default": "Teknologien bag"
+    },
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Overskrift",
+      "default": "Sov køligere. Vågn friskere."
+    },
+    {
+      "type": "textarea",
+      "id": "section_subheading",
+      "label": "Underoverskrift",
+      "default": "Komfort Køledynen kombinerer tre lag af avanceret sove-teknologi for at regulere din kropstemperatur hele natten."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "alternate_layout",
+      "label": "Skift billede/tekst side for hver blok",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Afstand øverst",
+      "default": 80
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Afstand nederst",
+      "default": 80
+    },
+    {
+      "type": "header",
+      "content": "Farver"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Baggrund",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent / primærfarve",
+      "default": "#1a6b9a"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Overskriftsfarve",
+      "default": "#0d1f2d"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Tekstfarve",
+      "default": "#3d5166"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature blok",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Billede"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Billede"
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge tekst (valgfri)",
+          "info": "Vises som et lille mærkat på billedet, f.eks. \"Ny teknologi\""
+        },
+        {
+          "type": "header",
+          "content": "Tekst"
+        },
+        {
+          "type": "text",
+          "id": "eyebrow",
+          "label": "Øjenbryns-label",
+          "default": "Lag 1"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Overskrift",
+          "default": "ArcticFibre™ Kerne"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Brødtekst",
+          "default": "<p>Vores patenterede ArcticFibre™ fyld leder varme væk fra kroppen op til 3× hurtigere end traditionelt mikrofiber. Fibrene er hule, hvilket skaber maksimal luftstrøm og holder dig kølig hele natten – uden at du fryser.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Fremhævet statistik (valgfri)"
+        },
+        {
+          "type": "text",
+          "id": "stat_value",
+          "label": "Tal / statistik",
+          "default": "3×"
+        },
+        {
+          "type": "text",
+          "id": "stat_label",
+          "label": "Statistik forklaring",
+          "default": "hurtigere varmeafledning end standard dyne"
+        },
+        {
+          "type": "header",
+          "content": "Bullet points (op til 4)"
+        },
+        {
+          "type": "text",
+          "id": "bullet_1",
+          "label": "Punkt 1",
+          "default": "Hule fibre for maksimal luftcirkulation"
+        },
+        {
+          "type": "text",
+          "id": "bullet_2",
+          "label": "Punkt 2",
+          "default": "Allergivenlig og OEKO-TEX certificeret"
+        },
+        {
+          "type": "text",
+          "id": "bullet_3",
+          "label": "Punkt 3",
+          "default": "Maskinvaskbar ved 60°C"
+        },
+        {
+          "type": "text",
+          "id": "bullet_4",
+          "label": "Punkt 4"
+        },
+        {
+          "type": "header",
+          "content": "Knap (valgfri)"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Knaptekst"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Knap link"
+        },
+        {
+          "type": "select",
+          "id": "button_style",
+          "label": "Knapstil",
+          "options": [
+            { "value": "primary", "label": "Primær (fyldt)" },
+            { "value": "secondary", "label": "Sekundær (omrids)" }
+          ],
+          "default": "primary"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature Highlight",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "eyebrow": "Lag 1",
+            "heading": "ArcticFibre™ Kerne",
+            "text": "<p>Vores patenterede ArcticFibre™ fyld leder varme væk fra kroppen op til 3× hurtigere end traditionelt mikrofiber. Fibrene er hule, hvilket skaber maksimal luftstrøm og holder dig kølig hele natten – uden at du fryser.</p>",
+            "stat_value": "3×",
+            "stat_label": "hurtigere varmeafledning end standard dyne",
+            "bullet_1": "Hule fibre for maksimal luftcirkulation",
+            "bullet_2": "Allergivenlig og OEKO-TEX certificeret",
+            "bullet_3": "Maskinvaskbar ved 60°C",
+            "badge_text": "Patenteret teknologi"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "eyebrow": "Lag 2",
+            "heading": "CoolTouch™ Betræk",
+            "text": "<p>Det ydre betræk er vævet af Tencel™ og bambusfibre – to af de mest temperaturregulererende naturmaterialer. Overfladen føles øjeblikkeligt kølig mod huden og absorberer fugt op til 50% bedre end bomuld.</p>",
+            "stat_value": "50%",
+            "stat_label": "bedre fugtabsorbering end bomuld",
+            "bullet_1": "Tencel™ + bambus blanding",
+            "bullet_2": "Øjeblikkelig kølig berøring",
+            "bullet_3": "Naturligt antibakteriel",
+            "badge_text": "Eco-venlig"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "eyebrow": "Lag 3",
+            "heading": "ClimateZone™ Konstruktion",
+            "text": "<p>Dynen er syet i 9 separate luftkamre der forhindrer fyldmaterialet i at klumpe sig og sikrer jævn temperaturdistribution fra tå til skulder – hele natten, hver nat.</p>",
+            "stat_value": "9",
+            "stat_label": "individuelle luftkamre for jævn varmefordeling",
+            "bullet_1": "Ingen klumpning af fyld",
+            "bullet_2": "Jævn temperatur hele natten",
+            "bullet_3": "Holdbar dobbelt-stitching i kanterne"
+          }
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8
+}
+{% endschema %}
