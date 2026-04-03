@@ -1,0 +1,1143 @@
+{% schema %}
+{
+  "name": "Premium Bundle Grid",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Baggrundsfarve på sektionen",
+      "default": "#DBEEF9"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Overskrift",
+      "default": "Vælg din sovepakke"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Undertekst",
+      "default": "Spar op til 25% ved at købe en samlet pakke."
+    },
+    {
+      "type": "header",
+      "content": "Skriftstørrelser – Desktop"
+    },
+    {
+      "type": "range",
+      "id": "fs_header_desktop",
+      "label": "Overskrift (sektionens headline)",
+      "min": 20,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "default": 42
+    },
+    {
+      "type": "range",
+      "id": "fs_subtext_desktop",
+      "label": "Undertekst",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "fs_card_title_desktop",
+      "label": "Korttitel",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "fs_card_desc_desktop",
+      "label": "Kortbeskrivelse",
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "fs_card_price_desktop",
+      "label": "Kortpris",
+      "min": 12,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "fs_card_btn_desktop",
+      "label": "Kortknap",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "fs_drawer_title_desktop",
+      "label": "Skuffe-overskrift",
+      "min": 16,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "fs_drawer_price_desktop",
+      "label": "Skuffe-pris",
+      "min": 14,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "fs_drawer_desc_desktop",
+      "label": "Skuffe-beskrivelse",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "fs_drawer_includes_desktop",
+      "label": "Skuffe-pakkeindhold",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "fs_drawer_btn_desktop",
+      "label": "Skuffe-knap",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 17
+    },
+    {
+      "type": "header",
+      "content": "Skriftstørrelser – Mobil"
+    },
+    {
+      "type": "range",
+      "id": "fs_header_mobile",
+      "label": "Overskrift (sektionens headline)",
+      "min": 16,
+      "max": 48,
+      "step": 1,
+      "unit": "px",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "fs_subtext_mobile",
+      "label": "Undertekst",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "fs_card_title_mobile",
+      "label": "Korttitel",
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "fs_card_desc_mobile",
+      "label": "Kortbeskrivelse",
+      "min": 8,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "fs_card_price_mobile",
+      "label": "Kortpris",
+      "min": 10,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "fs_card_btn_mobile",
+      "label": "Kortknap",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "fs_drawer_title_mobile",
+      "label": "Skuffe-overskrift",
+      "min": 14,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "fs_drawer_price_mobile",
+      "label": "Skuffe-pris",
+      "min": 12,
+      "max": 30,
+      "step": 1,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "fs_drawer_desc_mobile",
+      "label": "Skuffe-beskrivelse",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "fs_drawer_includes_mobile",
+      "label": "Skuffe-pakkeindhold",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "fs_drawer_btn_mobile",
+      "label": "Skuffe-knap",
+      "min": 10,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "default": 15
+    }
+  ],
+  "blocks": [
+    {
+      "type": "bundle",
+      "name": "Pakke",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Navn på pakken",
+          "default": "Sovepakke"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Vælg Bundle Produkt"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom Billede (Valgfrit)"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Tekst på knappen",
+          "default": "Se sovepakken"
+        },
+        {
+          "type": "header",
+          "content": "Den blå 'Pakken indeholder' boks"
+        },
+        {
+          "type": "text",
+          "id": "item_1",
+          "label": "Produkt 1",
+          "default": "1x Tyngdedyne"
+        },
+        {
+          "type": "text",
+          "id": "item_2",
+          "label": "Produkt 2",
+          "default": "1x Bambus Sengetøj"
+        },
+        {
+          "type": "text",
+          "id": "item_3",
+          "label": "Produkt 3"
+        },
+        {
+          "type": "text",
+          "id": "item_4",
+          "label": "Produkt 4"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Premium Bundle Grid",
+      "blocks": [
+        { "type": "bundle", "settings": { "title": "Lille Sovepakke" } },
+        { "type": "bundle", "settings": { "title": "Mellem Sovepakke" } },
+        { "type": "bundle", "settings": { "title": "Stor Sovepakke" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --bg-color: {{ section.settings.bg_color }};
+    --accent: #9DCAE5;
+    --accent-dark: #185FA5;
+    --brand-soft: #DBEEF9;
+    --text: #0a0a0a;
+    --surface: #ffffff;
+    --muted: #5a7a8a;
+    --radius-card: 18px;
+    --radius-btn: 10px;
+    --radius-pill: 20px;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --transition: 0.4s var(--ease-out);
+
+    /* Desktop font sizes */
+    --fs-header: {{ section.settings.fs_header_desktop }}px;
+    --fs-subtext: {{ section.settings.fs_subtext_desktop }}px;
+    --fs-card-title: {{ section.settings.fs_card_title_desktop }}px;
+    --fs-card-desc: {{ section.settings.fs_card_desc_desktop }}px;
+    --fs-card-price: {{ section.settings.fs_card_price_desktop }}px;
+    --fs-card-btn: {{ section.settings.fs_card_btn_desktop }}px;
+    --fs-drawer-title: {{ section.settings.fs_drawer_title_desktop }}px;
+    --fs-drawer-price: {{ section.settings.fs_drawer_price_desktop }}px;
+    --fs-drawer-desc: {{ section.settings.fs_drawer_desc_desktop }}px;
+    --fs-drawer-includes: {{ section.settings.fs_drawer_includes_desktop }}px;
+    --fs-drawer-btn: {{ section.settings.fs_drawer_btn_desktop }}px;
+  }
+
+  /* --- SECTION --- */
+  .pbg-section {
+    background-color: var(--bg-color);
+    padding: clamp(40px, 8vw, 80px) 20px;
+    font-family: inherit;
+    color: var(--text);
+  }
+
+  .pbg-container {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* --- HEADER --- */
+  .pbg-header {
+    text-align: center;
+    margin-bottom: 44px;
+  }
+
+  .pbg-header h2 {
+    font-size: var(--fs-header);
+    font-weight: 400;
+    margin: 0 0 10px;
+    line-height: 1.15;
+  }
+
+  .pbg-header p {
+    font-size: var(--fs-subtext);
+    color: var(--muted);
+    margin: 0;
+  }
+
+  /* --- GRID --- */
+  .pbg-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(12px, 2.5vw, 24px);
+  }
+
+  @media (max-width: 860px) {
+    .pbg-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 540px) {
+    .pbg-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  }
+
+  /* --- CARD --- */
+  .pbg-card {
+    background: var(--surface);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    transition: transform 0.28s var(--ease-out), box-shadow 0.28s var(--ease-out);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pbg-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.10);
+  }
+
+  /* --- CARD IMAGE --- */
+  .pbg-card-img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    background: #e4f1f9;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  .pbg-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s var(--ease-out);
+  }
+
+  .pbg-card:hover .pbg-card-img img {
+    transform: scale(1.04);
+  }
+
+  /* --- BADGE --- */
+  .pbg-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--surface);
+    color: var(--accent-dark);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 5px 13px;
+    border-radius: var(--radius-pill);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    z-index: 2;
+    line-height: 1;
+  }
+
+  /* --- CARD BODY --- */
+  .pbg-card-body {
+    padding: 16px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .pbg-card-title {
+    font-size: var(--fs-card-title);
+    font-weight: 500;
+    color: var(--text);
+    margin: 0 0 5px;
+  }
+
+  .pbg-card-includes {
+    font-size: var(--fs-card-desc);
+    color: var(--muted);
+    margin: 0 0 12px;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  /* --- PRICE ROW --- */
+  .pbg-price-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+
+  .pbg-price-now {
+    font-size: var(--fs-card-price);
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .pbg-price-was {
+    font-size: 0.85rem;
+    color: #aaa;
+    text-decoration: line-through;
+  }
+
+  .pbg-save-pill {
+    margin-left: auto;
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: #e1f5ee;
+    color: #0F6E56;
+    padding: 3px 9px;
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+  }
+
+  /* --- CARD BUTTON --- */
+  .pbg-card-btn {
+    margin-top: auto;
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--text);
+    color: var(--surface);
+    border: none;
+    border-radius: var(--radius-btn);
+    font-size: var(--fs-card-btn);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.01em;
+  }
+
+  .pbg-card-btn:hover {
+    background: #333;
+    transform: scale(1.01);
+  }
+
+  /* --- OVERLAY --- */
+  .pbg-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.38);
+    z-index: 9998;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--transition), visibility var(--transition);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  .pbg-overlay.is-active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* --- DRAWER --- */
+  .pbg-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 460px;
+    max-width: 100%;
+    background: var(--surface);
+    z-index: 9999;
+    transform: translateX(100%);
+    transition: transform var(--transition);
+    display: flex;
+    flex-direction: column;
+    box-shadow: -8px 0 48px rgba(0, 0, 0, 0.08);
+    border-left: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .pbg-drawer.is-active {
+    transform: translateX(0);
+  }
+
+  @media (max-width: 600px) {
+    .pbg-drawer {
+      top: auto;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      height: 88vh;
+      border-radius: 22px 22px 0 0;
+      transform: translateY(100%);
+      border-left: none;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .pbg-drawer.is-active {
+      transform: translateY(0);
+    }
+  }
+
+  /* --- DRAWER IMAGE STRIP --- */
+  .pbg-drawer-img-strip {
+    width: 100%;
+    height: 240px;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+    background: #e4f1f9;
+  }
+
+  @media (max-width: 600px) {
+    .pbg-drawer-img-strip { height: 200px; }
+  }
+
+  .pbg-drawer-img-strip img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* --- DRAWER CLOSE --- */
+  .pbg-close-btn {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    line-height: 1;
+    color: var(--text);
+    z-index: 10;
+    transition: background 0.2s;
+  }
+
+  .pbg-close-btn:hover {
+    background: #fff;
+  }
+
+  /* --- DRAWER SCROLL AREA --- */
+  .pbg-drawer-scroll {
+    padding: 22px 24px 20px;
+    overflow-y: auto;
+    flex: 1;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .pbg-drawer-scroll::-webkit-scrollbar { width: 4px; }
+  .pbg-drawer-scroll::-webkit-scrollbar-track { background: transparent; }
+  .pbg-drawer-scroll::-webkit-scrollbar-thumb { background: #ddd; border-radius: 4px; }
+
+  /* --- DRAWER TITLE & PRICES --- */
+  .pbg-drawer-title {
+    font-size: var(--fs-drawer-title);
+    font-weight: 500;
+    margin: 0 0 10px;
+    line-height: 1.15;
+    padding-right: 20px;
+  }
+
+  .pbg-drawer-prices {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+  }
+
+  .pbg-drawer-price-now {
+    font-size: var(--fs-drawer-price);
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .pbg-drawer-price-was {
+    font-size: 1rem;
+    color: #aaa;
+    text-decoration: line-through;
+  }
+
+  .pbg-drawer-save-pill {
+    background: #e1f5ee;
+    color: #0F6E56;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 3px 11px;
+    border-radius: var(--radius-pill);
+  }
+
+  /* --- DRAWER DESCRIPTION --- */
+  .pbg-drawer-desc {
+    font-size: var(--fs-drawer-desc);
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 22px;
+  }
+
+  /* --- DRAWER INCLUDES BOX --- */
+  .pbg-drawer-includes {
+    background: var(--brand-soft);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 22px;
+  }
+
+  .pbg-drawer-includes-label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  .pbg-drawer-includes ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .pbg-drawer-includes li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    font-size: var(--fs-drawer-includes);
+    color: #2a4a5a;
+    font-weight: 400;
+  }
+
+  .pbg-drawer-includes li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .pbg-check-circle {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .pbg-check-circle svg {
+    width: 11px;
+    height: 11px;
+  }
+
+  /* --- VARIANT SELECTORS --- */
+  .pbg-option-label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .pbg-pill-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-bottom: 18px;
+  }
+
+  .pbg-pill-group input[type="radio"] { display: none; }
+
+  .pbg-pill-group label {
+    padding: 8px 15px;
+    border: 1px solid #ddd;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    color: var(--text);
+    transition: border-color 0.2s, background 0.2s;
+    user-select: none;
+  }
+
+  .pbg-pill-group input[type="radio"]:checked + label {
+    background: var(--accent);
+    border-color: var(--accent);
+    font-weight: 600;
+    color: #042C53;
+  }
+
+  .pbg-pill-group label:hover {
+    border-color: var(--accent);
+  }
+
+  /* --- DRAWER FOOTER --- */
+  .pbg-drawer-footer {
+    padding: 14px 20px 18px;
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    background: var(--surface);
+    flex-shrink: 0;
+  }
+
+  .pbg-add-btn {
+    width: 100%;
+    padding: 15px;
+    background: var(--text);
+    color: var(--surface);
+    border: none;
+    border-radius: 12px;
+    font-size: var(--fs-drawer-btn);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.01em;
+  }
+
+  .pbg-add-btn:hover {
+    background: #333;
+  }
+
+  .pbg-add-btn:disabled {
+    background: #999;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* --- SCROLL LOCK --- */
+  body.pbg-locked {
+    overflow: hidden;
+  }
+
+  /* --- MOBILE FONT OVERRIDES --- */
+  @media (max-width: 600px) {
+    #shopify-section-{{ section.id }} {
+      --fs-header: {{ section.settings.fs_header_mobile }}px;
+      --fs-subtext: {{ section.settings.fs_subtext_mobile }}px;
+      --fs-card-title: {{ section.settings.fs_card_title_mobile }}px;
+      --fs-card-desc: {{ section.settings.fs_card_desc_mobile }}px;
+      --fs-card-price: {{ section.settings.fs_card_price_mobile }}px;
+      --fs-card-btn: {{ section.settings.fs_card_btn_mobile }}px;
+      --fs-drawer-title: {{ section.settings.fs_drawer_title_mobile }}px;
+      --fs-drawer-price: {{ section.settings.fs_drawer_price_mobile }}px;
+      --fs-drawer-desc: {{ section.settings.fs_drawer_desc_mobile }}px;
+      --fs-drawer-includes: {{ section.settings.fs_drawer_includes_mobile }}px;
+      --fs-drawer-btn: {{ section.settings.fs_drawer_btn_mobile }}px;
+    }
+  }
+</style>
+
+<div class="pbg-section">
+  <div class="pbg-container">
+
+    <div class="pbg-header">
+      <h2>{{ section.settings.headline }}</h2>
+      <p>{{ section.settings.subtext }}</p>
+    </div>
+
+    <div class="pbg-grid">
+      {% for block in section.blocks %}
+        {% assign product = block.settings.product %}
+        {% assign image = block.settings.image | default: product.featured_image %}
+        {% assign current_variant = product.selected_or_first_available_variant %}
+
+        {% if product != blank %}
+          {% assign save_amount = 0 %}
+          {% if current_variant.compare_at_price > current_variant.price %}
+            {% assign save_amount = current_variant.compare_at_price | minus: current_variant.price %}
+            {% assign save_pct = save_amount | times: 100 | divided_by: current_variant.compare_at_price %}
+          {% endif %}
+
+          <div
+            class="pbg-card"
+            onclick="pbgOpenDrawer('{{ block.id }}')"
+            {{ block.shopify_attributes }}
+          >
+            <div class="pbg-card-img">
+              {% if current_variant.compare_at_price > current_variant.price %}
+                <div class="pbg-badge">Spar {{ save_pct }}%</div>
+              {% endif %}
+              {% if image != blank %}
+                <img
+                  src="{{ image | img_url: '600x' }}"
+                  alt="{{ block.settings.title | escape }}"
+                  loading="lazy"
+                  width="600"
+                >
+              {% endif %}
+            </div>
+
+            <div class="pbg-card-body">
+              <div class="pbg-card-title">{{ block.settings.title }}</div>
+              {% if product.description != blank %}
+                <div class="pbg-card-includes">{{ product.description | strip_html | truncate: 80 }}</div>
+              {% endif %}
+
+              <div class="pbg-price-row">
+                <span class="pbg-price-now">{{ current_variant.price | money }}</span>
+                {% if current_variant.compare_at_price > current_variant.price %}
+                  <span class="pbg-price-was">{{ current_variant.compare_at_price | money }}</span>
+                {% endif %}
+              </div>
+
+              <button class="pbg-card-btn">{{ block.settings.button_text }}</button>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+
+<div class="pbg-overlay" id="pbg-overlay" onclick="pbgCloseDrawer()"></div>
+
+{% for block in section.blocks %}
+  {% assign product = block.settings.product %}
+  {% if product != blank %}
+    {% assign current_variant = product.selected_or_first_available_variant %}
+    {% assign image = block.settings.image | default: product.featured_image %}
+    {% assign save_amount = 0 %}
+    {% if current_variant.compare_at_price > current_variant.price %}
+      {% assign save_amount = current_variant.compare_at_price | minus: current_variant.price %}
+      {% assign save_pct = save_amount | times: 100 | divided_by: current_variant.compare_at_price %}
+    {% endif %}
+
+    <div class="pbg-drawer" id="pbg-drawer-{{ block.id }}">
+
+      <div class="pbg-drawer-img-strip">
+        <button class="pbg-close-btn" onclick="pbgCloseDrawer()" aria-label="Luk">✕</button>
+        {% if image != blank %}
+          <img
+            src="{{ image | img_url: '900x' }}"
+            alt="{{ block.settings.title | escape }}"
+            loading="lazy"
+            width="900"
+          >
+        {% endif %}
+      </div>
+
+      <div class="pbg-drawer-scroll">
+
+        <h2 class="pbg-drawer-title">{{ block.settings.title }}</h2>
+
+        <div class="pbg-drawer-prices">
+          <span class="pbg-drawer-price-now">{{ current_variant.price | money }}</span>
+          {% if current_variant.compare_at_price > current_variant.price %}
+            <span class="pbg-drawer-price-was">{{ current_variant.compare_at_price | money }}</span>
+            <span class="pbg-drawer-save-pill">Spar {{ save_pct }}%</span>
+          {% endif %}
+        </div>
+
+        {% if product.description != blank %}
+          <div class="pbg-drawer-desc">{{ product.description }}</div>
+        {% endif %}
+
+        {% if block.settings.item_1 != blank or block.settings.item_2 != blank or block.settings.item_3 != blank or block.settings.item_4 != blank %}
+          <div class="pbg-drawer-includes">
+            <div class="pbg-drawer-includes-label">Pakken indeholder</div>
+            <ul>
+              {% if block.settings.item_1 != blank %}
+                <li>
+                  <div class="pbg-check-circle">
+                    <svg viewBox="0 0 11 11" fill="none" stroke="#042C53" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="1.5 5.5 4.5 8.5 9.5 2.5"/>
+                    </svg>
+                  </div>
+                  {{ block.settings.item_1 }}
+                </li>
+              {% endif %}
+              {% if block.settings.item_2 != blank %}
+                <li>
+                  <div class="pbg-check-circle">
+                    <svg viewBox="0 0 11 11" fill="none" stroke="#042C53" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="1.5 5.5 4.5 8.5 9.5 2.5"/>
+                    </svg>
+                  </div>
+                  {{ block.settings.item_2 }}
+                </li>
+              {% endif %}
+              {% if block.settings.item_3 != blank %}
+                <li>
+                  <div class="pbg-check-circle">
+                    <svg viewBox="0 0 11 11" fill="none" stroke="#042C53" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="1.5 5.5 4.5 8.5 9.5 2.5"/>
+                    </svg>
+                  </div>
+                  {{ block.settings.item_3 }}
+                </li>
+              {% endif %}
+              {% if block.settings.item_4 != blank %}
+                <li>
+                  <div class="pbg-check-circle">
+                    <svg viewBox="0 0 11 11" fill="none" stroke="#042C53" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="1.5 5.5 4.5 8.5 9.5 2.5"/>
+                    </svg>
+                  </div>
+                  {{ block.settings.item_4 }}
+                </li>
+              {% endif %}
+            </ul>
+          </div>
+        {% endif %}
+
+        <form id="pbg-form-{{ block.id }}" action="/cart/add" method="post">
+          <input type="hidden" name="id" value="{{ current_variant.id }}" id="pbg-variant-{{ block.id }}">
+          {% unless product.has_only_default_variant %}
+            {% for option in product.options_with_values %}
+              <span class="pbg-option-label">Vælg {{ option.name }}</span>
+              <div class="pbg-pill-group">
+                {% for value in option.values %}
+                  {% assign radio_id = 'pbg-opt-' | append: block.id | append: '-' | append: option.position | append: '-' | append: forloop.index0 %}
+                  <input
+                    type="radio"
+                    id="{{ radio_id }}"
+                    name="pbg-options-{{ block.id }}-{{ option.name }}"
+                    value="{{ value | escape }}"
+                    class="pbg-variant-radio-{{ block.id }}"
+                    {% if option.selected_value == value %}checked{% endif %}
+                  >
+                  <label for="{{ radio_id }}">{{ value }}</label>
+                {% endfor %}
+              </div>
+            {% endfor %}
+          {% endunless %}
+          <script type="application/json" id="pbg-json-{{ block.id }}">{{ product.variants | json }}</script>
+        </form>
+
+      </div>
+
+      <div class="pbg-drawer-footer">
+        <button
+          type="button"
+          class="pbg-add-btn"
+          id="pbg-submit-{{ block.id }}"
+          onclick="pbgAddToCart('{{ block.id }}')"
+        >Læg i indkøbskurv</button>
+      </div>
+
+    </div>
+  {% endif %}
+{% endfor %}
+
+<script>
+(function () {
+  function pbgOpenDrawer(id) {
+    pbgCloseDrawer();
+    document.body.classList.add('pbg-locked');
+    document.getElementById('pbg-overlay').classList.add('is-active');
+    var drawer = document.getElementById('pbg-drawer-' + id);
+    if (drawer) drawer.classList.add('is-active');
+  }
+
+  function pbgCloseDrawer() {
+    document.body.classList.remove('pbg-locked');
+    document.getElementById('pbg-overlay').classList.remove('is-active');
+    document.querySelectorAll('.pbg-drawer').forEach(function (d) {
+      d.classList.remove('is-active');
+    });
+  }
+
+  window.pbgOpenDrawer = pbgOpenDrawer;
+  window.pbgCloseDrawer = pbgCloseDrawer;
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') pbgCloseDrawer();
+  });
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.pbg-drawer').forEach(function (drawer) {
+      var blockId = drawer.id.replace('pbg-drawer-', '');
+      var radios = drawer.querySelectorAll('.pbg-variant-radio-' + blockId);
+      var variantInput = document.getElementById('pbg-variant-' + blockId);
+      var submitBtn = document.getElementById('pbg-submit-' + blockId);
+      var jsonEl = document.getElementById('pbg-json-' + blockId);
+
+      if (!jsonEl || radios.length === 0) return;
+
+      var variants;
+      try { variants = JSON.parse(jsonEl.textContent); } catch (e) { return; }
+
+      radios.forEach(function (radio) {
+        radio.addEventListener('change', function () {
+          var selectedOptions = Array.from(
+            drawer.querySelectorAll('input[type="radio"]:checked')
+          ).map(function (r) { return r.value; });
+
+          var matched = variants.find(function (v) {
+            return !v.options.some(function (opt, i) { return opt !== selectedOptions[i]; });
+          });
+
+          if (matched) {
+            variantInput.value = matched.id;
+            if (matched.available) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Læg i indkøbskurv';
+            } else {
+              submitBtn.disabled = true;
+              submitBtn.textContent = 'Udsolgt';
+            }
+          }
+        });
+      });
+    });
+  });
+
+  window.pbgAddToCart = async function (id) {
+    var variantId = document.getElementById('pbg-variant-' + id).value;
+    var btn = document.getElementById('pbg-submit-' + id);
+    btn.disabled = true;
+    btn.textContent = 'Tilføjer…';
+
+    try {
+      var res = await fetch(window.Shopify.routes.root + 'cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: [{ id: parseInt(variantId, 10), quantity: 1 }] })
+      });
+
+      if (!res.ok) throw new Error('Cart error');
+
+      pbgCloseDrawer();
+
+      document.documentElement.dispatchEvent(
+        new CustomEvent('cart:updated', { bubbles: true })
+      );
+
+      var themeCartDrawer = document.querySelector('cart-drawer');
+      if (themeCartDrawer) {
+        themeCartDrawer.classList.add('active', 'is-open');
+      }
+
+      var themeCartIcon = document.querySelector('[data-cart-icon-bubble]');
+      if (themeCartIcon) {
+        fetch(window.Shopify.routes.root + 'cart.js')
+          .then(function (r) { return r.json(); })
+          .then(function (cart) {
+            var bubble = document.querySelector('.cart-count-bubble');
+            if (bubble) bubble.querySelector('span[aria-hidden]').textContent = cart.item_count;
+          });
+      }
+
+    } catch (e) {
+      alert('Der opstod en fejl. Prøv igen.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Læg i indkøbskurv';
+    }
+  };
+})();
+</script>
