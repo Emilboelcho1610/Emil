@@ -5,8 +5,21 @@
 
 {{ 'component-image-with-text.css' | asset_url | stylesheet_tag }}
 
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
 <section
-  class="fh"
+  class="fh section-{{ section.id }}-padding"
   id="fh-{{ section.id }}"
   style="
     --fh-accent: {{ section.settings.accent_color }};
@@ -16,10 +29,9 @@
     --fh-dot-color: {{ section.settings.dot_color }};
     --fh-popup-title-size: {{ section.settings.popup_title_size }}px;
     --fh-popup-desc-size: {{ section.settings.popup_desc_size }}px;
-    padding-top: {{ section.settings.padding_top }}px;
-    padding-bottom: {{ section.settings.padding_bottom }}px;
   "
 >
+  <div class="page-width">
   <div class="fh__inner">
 
     <!-- ── VENSTRE: tekst ── -->
@@ -146,6 +158,7 @@
     </div>
 
   </div>
+  </div>
 </section>
 
 <style>
@@ -156,9 +169,6 @@
 
   /* ── Layout ── */
   .fh__inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 24px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 64px;
@@ -449,22 +459,13 @@
   }
 
   /* ── Responsiv ── */
-  @media screen and (max-width: 989px) {
+  @media screen and (max-width: 749px) {
     .fh__inner {
       grid-template-columns: 1fr;
-      gap: 40px;
+      gap: 32px;
     }
-
-    /* Billede øverst på mobil */
     .fh__media { order: -1; }
-
-    .fh__popup {
-      width: 190px;
-    }
-  }
-
-  @media screen and (max-width: 479px) {
-    .fh__inner { padding: 0 16px; }
+    .fh__popup { width: 190px; }
   }
 </style>
 
