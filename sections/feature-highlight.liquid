@@ -14,6 +14,8 @@
     --fh-text-color: {{ section.settings.text_color }};
     --fh-popup-bg: {{ section.settings.popup_bg_color }};
     --fh-dot-color: {{ section.settings.dot_color }};
+    --fh-popup-title-size: {{ section.settings.popup_title_size }}px;
+    --fh-popup-desc-size: {{ section.settings.popup_desc_size }}px;
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
   "
@@ -41,20 +43,20 @@
         <ul class="fh__bullets">
           {% for block in bullets %}
             <li class="fh__bullet" {{ block.shopify_attributes }}>
-              <span class="fh__bullet-icon" aria-hidden="true">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                  <circle cx="9" cy="9" r="9" fill="var(--fh-accent)" opacity="0.12"/>
-                  <path d="M5 9L7.8 12L13 6.5" stroke="var(--fh-accent)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              <div>
-                {% if block.settings.bullet_heading != blank %}
+              {% if block.settings.bullet_heading != blank %}
+                <div class="fh__bullet-top">
+                  <span class="fh__bullet-icon" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                      <circle cx="9" cy="9" r="9" fill="var(--fh-accent)" opacity="0.12"/>
+                      <path d="M5 9L7.8 12L13 6.5" stroke="var(--fh-accent)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
                   <strong class="fh__bullet-heading">{{ block.settings.bullet_heading }}</strong>
-                {% endif %}
-                {% if block.settings.bullet_text != blank %}
-                  <span class="fh__bullet-text">{{ block.settings.bullet_text }}</span>
-                {% endif %}
-              </div>
+                </div>
+              {% endif %}
+              {% if block.settings.bullet_text != blank %}
+                <span class="fh__bullet-text">{{ block.settings.bullet_text }}</span>
+              {% endif %}
             </li>
           {% endfor %}
         </ul>
@@ -165,7 +167,7 @@
 
   /* ── Venstre tekst ── */
   .fh__eyebrow {
-    font-size: 0.75rem;
+    font-size: var(--font-body-size, 1em);
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -181,11 +183,10 @@
   /* Fed tekst i overskriften skifter til accent-farven */
   #fh-{{ section.id }} .fh__heading strong {
     color: var(--fh-accent);
-    font-weight: inherit;
   }
 
   .fh__subtext {
-    font-size: 1rem;
+    font-size: inherit;
     line-height: 1.7;
     color: var(--fh-text-color);
     opacity: 0.8;
@@ -203,28 +204,33 @@
 
   .fh__bullet {
     display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    font-size: 0.95rem;
+    flex-direction: column;
+    gap: 4px;
+    font-size: inherit;
     line-height: 1.5;
+  }
+
+  .fh__bullet-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
 
   .fh__bullet-icon {
     flex-shrink: 0;
-    margin-top: 1px;
   }
 
   .fh__bullet-heading {
-    display: block;
-    font-weight: 700;
+    font-weight: var(--font-heading-weight, 700);
+    font-family: var(--font-heading-family, inherit);
     color: var(--fh-heading-color);
-    margin-bottom: 2px;
   }
 
   .fh__bullet-text {
     display: block;
     opacity: 0.75;
-    font-size: 0.9rem;
+    font-size: inherit;
+    padding-left: 30px;
   }
 
   .fh__cta {
@@ -413,7 +419,7 @@
   }
 
   .fh__popup-title {
-    font-size: 0.875rem;
+    font-size: var(--fh-popup-title-size, 0.875rem);
     font-weight: 800;
     color: var(--fh-heading-color);
     margin: 0 20px 6px 0;
@@ -421,7 +427,7 @@
   }
 
   .fh__popup-desc {
-    font-size: 0.8rem;
+    font-size: var(--fh-popup-desc-size, 0.8rem);
     line-height: 1.55;
     color: var(--fh-text-color);
     margin: 0 0 8px;
@@ -545,17 +551,6 @@
       "info": "Fed tekst vises i accent-farven"
     },
     {
-      "type": "select",
-      "id": "heading_size",
-      "label": "Overskrift størrelse",
-      "options": [
-        { "value": "h2", "label": "Lille (H2)" },
-        { "value": "h1", "label": "Mellem (H1)" },
-        { "value": "h0", "label": "Stor (H0)" }
-      ],
-      "default": "h1"
-    },
-    {
       "type": "textarea",
       "id": "subtext",
       "label": "Underoverskrift",
@@ -585,6 +580,41 @@
       "type": "text",
       "id": "image_caption",
       "label": "Billedtekst (valgfri)"
+    },
+    {
+      "type": "header",
+      "content": "Tekst størrelser"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Overskrift størrelse",
+      "options": [
+        { "value": "h2", "label": "Lille (H2)" },
+        { "value": "h1", "label": "Mellem (H1)" },
+        { "value": "h0", "label": "Stor (H0)" }
+      ],
+      "default": "h1"
+    },
+    {
+      "type": "range",
+      "id": "popup_title_size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Popup titel størrelse",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "popup_desc_size",
+      "min": 10,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Popup beskrivelse størrelse",
+      "default": 13
     },
     {
       "type": "header",
