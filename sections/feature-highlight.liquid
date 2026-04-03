@@ -9,11 +9,11 @@
   class="fh"
   id="fh-{{ section.id }}"
   style="
-    --fh-bg: {{ section.settings.background_color }};
     --fh-accent: {{ section.settings.accent_color }};
     --fh-heading-color: {{ section.settings.heading_color }};
     --fh-text-color: {{ section.settings.text_color }};
     --fh-popup-bg: {{ section.settings.popup_bg_color }};
+    --fh-dot-color: {{ section.settings.dot_color }};
     padding-top: {{ section.settings.padding_top }}px;
     padding-bottom: {{ section.settings.padding_bottom }}px;
   "
@@ -100,16 +100,11 @@
             style="
               left: {{ block.settings.pos_x }}%;
               top: {{ block.settings.pos_y }}%;
-              --dot-color: {{ block.settings.dot_color }};
             "
             {{ block.shopify_attributes }}
           >
             <span class="fh__dot-ring" aria-hidden="true"></span>
-            <span class="fh__dot-core" aria-hidden="true">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M6 2.5V6.5M6 8.5V9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-              </svg>
-            </span>
+            <span class="fh__dot-core" aria-hidden="true"></span>
           </button>
 
           <!-- Popup -->
@@ -153,7 +148,7 @@
 
 <style>
   #fh-{{ section.id }} {
-    background: var(--fh-bg);
+    font-family: inherit;
     color: var(--fh-text-color);
   }
 
@@ -184,7 +179,7 @@
   }
 
   /* Fed tekst i overskriften skifter til accent-farven */
-  .fh__heading strong {
+  #fh-{{ section.id }} .fh__heading strong {
     color: var(--fh-accent);
     font-weight: inherit;
   }
@@ -292,8 +287,8 @@
   /* ── Hotspot dot ── */
   .fh__dot {
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     transform: translate(-50%, -50%);
     background: none;
     border: none;
@@ -305,44 +300,44 @@
     justify-content: center;
   }
 
+  /* Pulserende ring – starter indefra og ekspanderer ud */
   .fh__dot-ring {
     position: absolute;
-    inset: 0;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
-    background: var(--dot-color, var(--fh-accent));
-    opacity: 0.25;
-    animation: fh-pulse 2s ease-out infinite;
+    border: 1.5px solid var(--fh-dot-color, var(--fh-accent));
+    opacity: 0;
+    animation: fh-pulse 2.4s ease-out infinite;
   }
 
+  /* Indre cirkel + lille mellemrum + tynd ydre ring via outline */
   .fh__dot-core {
     position: relative;
     z-index: 1;
-    width: 28px;
-    height: 28px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
-    background: var(--dot-color, var(--fh-accent));
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
-    transition: transform 0.15s ease, background 0.15s ease;
+    background: var(--fh-dot-color, var(--fh-accent));
+    outline: 1.5px solid var(--fh-dot-color, var(--fh-accent));
+    outline-offset: 4px;
+    transition: transform 0.15s ease;
   }
 
   .fh__dot:hover .fh__dot-core,
   .fh__dot[aria-expanded="true"] .fh__dot-core {
-    transform: scale(1.18);
+    transform: scale(1.2);
   }
 
   .fh__dot[aria-expanded="true"] .fh__dot-ring {
     animation: none;
-    opacity: 0.4;
+    opacity: 0.5;
   }
 
   @keyframes fh-pulse {
-    0%   { transform: scale(1);   opacity: 0.35; }
-    70%  { transform: scale(2.2); opacity: 0; }
-    100% { transform: scale(2.2); opacity: 0; }
+    0%   { transform: scale(0.8); opacity: 0.7; }
+    80%  { transform: scale(3);   opacity: 0; }
+    100% { transform: scale(3);   opacity: 0; }
   }
 
   /* ── Popup ── */
@@ -459,16 +454,6 @@
 
   @media screen and (max-width: 479px) {
     .fh__inner { padding: 0 16px; }
-
-    .fh__dot {
-      width: 34px;
-      height: 34px;
-    }
-
-    .fh__dot-core {
-      width: 24px;
-      height: 24px;
-    }
   }
 </style>
 
@@ -607,9 +592,9 @@
     },
     {
       "type": "color",
-      "id": "background_color",
-      "label": "Baggrund",
-      "default": "#f5f8fb"
+      "id": "dot_color",
+      "label": "Hotspot farve (alle punkter)",
+      "default": "#1a6b9a"
     },
     {
       "type": "color",
@@ -708,12 +693,6 @@
           "default": 50
         },
         {
-          "type": "color",
-          "id": "dot_color",
-          "label": "Punktfarve",
-          "default": "#1a6b9a"
-        },
-        {
           "type": "header",
           "content": "Popup indhold"
         },
@@ -768,7 +747,6 @@
           "settings": {
             "pos_x": 50,
             "pos_y": 25,
-            "dot_color": "#1a6b9a",
             "title": "CoolTouch™ Betræk",
             "description": "Ydersiden er vævet af Tencel™ og bambusfibre, der absorberer fugt og føles øjeblikkeligt kølig mod huden.",
             "stat": "50% bedre fugtabsorbering end bomuld"
@@ -779,7 +757,6 @@
           "settings": {
             "pos_x": 30,
             "pos_y": 55,
-            "dot_color": "#0e9f72",
             "title": "ArcticFibre™ Kerne",
             "description": "Patenterede hule fibre skaber konstant luftstrøm og leder overskydende varme bort fra kroppen.",
             "stat": "3× hurtigere varmeafledning"
@@ -790,7 +767,6 @@
           "settings": {
             "pos_x": 70,
             "pos_y": 70,
-            "dot_color": "#8b5cf6",
             "title": "ClimateZone™ Syteknik",
             "description": "Dynen er delt i 9 seperate luftkamre der forhindrer fyld i at klumpe og sikrer ensartet varmefordeling.",
             "stat": "9 uafhængige luftkamre"
