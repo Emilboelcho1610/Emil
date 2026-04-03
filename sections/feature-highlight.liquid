@@ -3,6 +3,8 @@
   Venstre: overskrift + bullets | Højre: billede med pulserende klikpunkter
 {% endcomment %}
 
+{{ 'component-image-with-text.css' | asset_url | stylesheet_tag }}
+
 <section
   class="fh"
   id="fh-{{ section.id }}"
@@ -25,7 +27,9 @@
       {% endif %}
 
       {% if section.settings.heading != blank %}
-        <h2 class="fh__heading">{{ section.settings.heading }}</h2>
+        <h2 class="fh__heading image-with-text__heading inline-richtext {{ section.settings.heading_size }}">
+          {{- section.settings.heading -}}
+        </h2>
       {% endif %}
 
       {% if section.settings.subtext != blank %}
@@ -175,11 +179,14 @@
   }
 
   .fh__heading {
-    font-size: clamp(1.8rem, 3vw, 2.6rem);
-    font-weight: 800;
-    line-height: 1.15;
     color: var(--fh-heading-color);
     margin: 0 0 16px;
+  }
+
+  /* Fed tekst i overskriften skifter til accent-farven */
+  .fh__heading strong {
+    color: var(--fh-accent);
+    font-weight: inherit;
   }
 
   .fh__subtext {
@@ -546,10 +553,22 @@
       "default": "Teknologien bag"
     },
     {
-      "type": "text",
+      "type": "inline_richtext",
       "id": "heading",
       "label": "Overskrift",
-      "default": "Tre lag. Én perfekt nattesøvn."
+      "default": "Tre lag. <strong>Én perfekt</strong> nattesøvn.",
+      "info": "Fed tekst vises i accent-farven"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "Overskrift størrelse",
+      "options": [
+        { "value": "h2", "label": "Lille (H2)" },
+        { "value": "h1", "label": "Mellem (H1)" },
+        { "value": "h0", "label": "Stor (H0)" }
+      ],
+      "default": "h1"
     },
     {
       "type": "textarea",
