@@ -1,0 +1,547 @@
+{% comment %}
+  Feature Badges Section
+  Modern animated feature highlight section with glassmorphism cards,
+  scroll-triggered animations, hover effects, and counter animation.
+{% endcomment %}
+
+<section
+  class="feature-badges"
+  id="feature-badges-{{ section.id }}"
+  style="
+    --section-bg: {{ section.settings.background_color }};
+    --accent: {{ section.settings.accent_color }};
+    --card-bg: {{ section.settings.card_color }};
+    --text-color: {{ section.settings.text_color }};
+  "
+>
+  {% if section.settings.heading != blank %}
+    <div class="feature-badges__header">
+      <h2 class="feature-badges__heading">{{ section.settings.heading }}</h2>
+      {% if section.settings.subheading != blank %}
+        <p class="feature-badges__subheading">{{ section.settings.subheading }}</p>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="feature-badges__grid">
+    {% for block in section.blocks %}
+      <div
+        class="feature-badge"
+        data-index="{{ forloop.index0 }}"
+        {{ block.shopify_attributes }}
+      >
+        <div class="feature-badge__inner">
+          <div class="feature-badge__icon-wrap">
+            {% case block.settings.icon_type %}
+              {% when 'weight' %}
+                <svg class="feature-badge__icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M32 10C26.477 10 22 14.477 22 20c0 2.21.755 4.24 2 5.86L18 34H12a4 4 0 0 0-4 4v4a4 4 0 0 0 4 4h40a4 4 0 0 0 4-4v-4a4 4 0 0 0-4-4h-6l-6-8.14A9.96 9.96 0 0 0 42 20c0-5.523-4.477-10-10-10Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="32" cy="20" r="4" stroke="currentColor" stroke-width="2.5"/>
+                </svg>
+              {% when 'feather' %}
+                <svg class="feature-badge__icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M44 8C36 8 20 16 18 36L12 54" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                  <path d="M44 8C44 8 50 20 44 32C38 44 26 46 18 36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                  <path d="M26 28L18 36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                  <path d="M34 20L22 44" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+              {% when 'leaf' %}
+                <svg class="feature-badge__icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 52C12 52 14 32 32 24C50 16 54 10 54 10C54 10 56 30 38 40C20 50 12 52 12 52Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M12 52L28 36" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+              {% when 'star' %}
+                <svg class="feature-badge__icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M32 8L38.18 22.26L54 24.27L42.88 35.1L45.53 51L32 43.77L18.47 51L21.12 35.1L10 24.27L25.82 22.26L32 8Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              {% when 'shield' %}
+                <svg class="feature-badge__icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M32 8L10 18V34C10 46.15 19.8 57.48 32 60C44.2 57.48 54 46.15 54 34V18L32 8Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M22 32L28 38L42 26" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              {% when 'heart' %}
+                <svg class="feature-badge__icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M32 54S10 40 10 24a12 12 0 0 1 22-6.69A12 12 0 0 1 54 24C54 40 32 54 32 54Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              {% when 'moon' %}
+                <svg class="feature-badge__icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M54 34A22 22 0 1 1 30 10a17 17 0 0 0 24 24Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              {% when 'text' %}
+                {%- comment -%} Uses the large_text setting instead of an SVG icon {%- endcomment -%}
+              {% else %}
+                {% if block.settings.custom_svg != blank %}
+                  {{ block.settings.custom_svg }}
+                {% else %}
+                  <svg class="feature-badge__icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="32" cy="32" r="20" stroke="currentColor" stroke-width="2.5"/>
+                    <path d="M32 22v10l6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                  </svg>
+                {% endif %}
+            {% endcase %}
+
+            {% if block.settings.icon_type == 'text' %}
+              <span
+                class="feature-badge__large-text"
+                {% if block.settings.animate_number %}data-count="{{ block.settings.large_text }}"{% endif %}
+              >{{ block.settings.large_text }}</span>
+            {% endif %}
+          </div>
+
+          <div class="feature-badge__content">
+            <p class="feature-badge__title">{{ block.settings.title }}</p>
+            {% if block.settings.subtitle != blank %}
+              <p class="feature-badge__subtitle">{{ block.settings.subtitle }}</p>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="feature-badge__glow"></div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<style>
+  #feature-badges-{{ section.id }} {
+    background: var(--section-bg);
+    padding: {{ section.settings.padding_top }}px 20px {{ section.settings.padding_bottom }}px;
+  }
+
+  .feature-badges__header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .feature-badges__heading {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 12px;
+    letter-spacing: -0.02em;
+  }
+
+  .feature-badges__subheading {
+    font-size: 1rem;
+    color: var(--text-color);
+    opacity: 0.65;
+    margin: 0;
+    max-width: 520px;
+    margin-inline: auto;
+    line-height: 1.6;
+  }
+
+  .feature-badges__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 1100px;
+    margin-inline: auto;
+  }
+
+  /* Card */
+  .feature-badge {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: default;
+    opacity: 0;
+    transform: translateY(32px);
+    transition:
+      opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.3s ease;
+  }
+
+  .feature-badge.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .feature-badge:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 24px 48px -12px color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+
+  .feature-badge__inner {
+    position: relative;
+    z-index: 1;
+    background: var(--card-bg);
+    border-radius: 20px;
+    border: 1.5px solid color-mix(in srgb, var(--accent) 20%, white 80%);
+    padding: 32px 20px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    height: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+  }
+
+  .feature-badge:hover .feature-badge__inner {
+    border-color: color-mix(in srgb, var(--accent) 50%, white 50%);
+  }
+
+  /* Glow effect */
+  .feature-badge__glow {
+    position: absolute;
+    inset: -40%;
+    background: radial-gradient(
+      circle at 50% 50%,
+      color-mix(in srgb, var(--accent) 25%, transparent),
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 0;
+    border-radius: 50%;
+  }
+
+  .feature-badge:hover .feature-badge__glow {
+    opacity: 1;
+  }
+
+  /* Icon */
+  .feature-badge__icon-wrap {
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--accent) 85%, white),
+      var(--accent)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 8px 20px -4px color-mix(in srgb, var(--accent) 40%, transparent);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+  }
+
+  .feature-badge:hover .feature-badge__icon-wrap {
+    transform: scale(1.1) rotate(-4deg);
+    box-shadow: 0 14px 28px -4px color-mix(in srgb, var(--accent) 50%, transparent);
+  }
+
+  .feature-badge__icon {
+    width: 34px;
+    height: 34px;
+    color: white;
+    display: block;
+  }
+
+  .feature-badge__large-text {
+    font-size: 2rem;
+    font-weight: 800;
+    color: white;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    display: block;
+  }
+
+  /* Content */
+  .feature-badge__content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .feature-badge__title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0;
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+  }
+
+  .feature-badge__subtitle {
+    font-size: 0.8rem;
+    color: var(--text-color);
+    opacity: 0.6;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* Stagger delays */
+  .feature-badge[data-index="0"] { transition-delay: 0ms; }
+  .feature-badge[data-index="1"] { transition-delay: 80ms; }
+  .feature-badge[data-index="2"] { transition-delay: 160ms; }
+  .feature-badge[data-index="3"] { transition-delay: 240ms; }
+  .feature-badge[data-index="4"] { transition-delay: 320ms; }
+  .feature-badge[data-index="5"] { transition-delay: 400ms; }
+  .feature-badge[data-index="6"] { transition-delay: 480ms; }
+  .feature-badge[data-index="7"] { transition-delay: 560ms; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .feature-badges__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .feature-badge__inner {
+      padding: 24px 14px 20px;
+    }
+
+    .feature-badge__icon-wrap {
+      width: 60px;
+      height: 60px;
+      border-radius: 14px;
+    }
+
+    .feature-badge__large-text {
+      font-size: 1.6rem;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .feature-badges__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+(function () {
+  var section = document.getElementById('feature-badges-{{ section.id }}');
+  if (!section) return;
+
+  var cards = section.querySelectorAll('.feature-badge');
+
+  // Intersection Observer for entrance animations
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  cards.forEach(function (card) {
+    observer.observe(card);
+  });
+
+  // Counter animation for [data-count] elements
+  function animateCount(el, target, duration) {
+    var start = 0;
+    var startTime = null;
+
+    function step(timestamp) {
+      if (!startTime) startTime = timestamp;
+      var progress = Math.min((timestamp - startTime) / duration, 1);
+      var ease = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      el.textContent = Math.round(ease * target);
+      if (progress < 1) requestAnimationFrame(step);
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  var countEls = section.querySelectorAll('[data-count]');
+  if (countEls.length > 0) {
+    var countObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var el = entry.target;
+          var target = parseInt(el.getAttribute('data-count'), 10);
+          if (!isNaN(target)) {
+            setTimeout(function () {
+              animateCount(el, target, 1200);
+            }, 300);
+          }
+          countObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    countEls.forEach(function (el) {
+      el.textContent = '0';
+      countObserver.observe(el);
+    });
+  }
+
+  // Subtle mouse-tracking tilt on desktop
+  if (window.matchMedia('(hover: hover)').matches) {
+    cards.forEach(function (card) {
+      card.addEventListener('mousemove', function (e) {
+        var rect = card.getBoundingClientRect();
+        var x = (e.clientX - rect.left) / rect.width - 0.5;
+        var y = (e.clientY - rect.top) / rect.height - 0.5;
+        card.querySelector('.feature-badge__inner').style.transform =
+          'rotateY(' + (x * 8) + 'deg) rotateX(' + (-y * 8) + 'deg)';
+      });
+
+      card.addEventListener('mouseleave', function () {
+        card.querySelector('.feature-badge__inner').style.transform = '';
+      });
+    });
+  }
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Feature Badges",
+  "tag": "section",
+  "class": "feature-badges-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": ""
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_color",
+      "label": "Card background color",
+      "default": "#dceaf5"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent / icon color",
+      "default": "#6fa8c8"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#1a2e40"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Feature Badge",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon_type",
+          "label": "Icon",
+          "options": [
+            { "value": "weight",  "label": "Weight / kettlebell" },
+            { "value": "feather", "label": "Feather" },
+            { "value": "leaf",    "label": "Leaf" },
+            { "value": "star",    "label": "Star" },
+            { "value": "shield",  "label": "Shield / check" },
+            { "value": "heart",   "label": "Heart" },
+            { "value": "moon",    "label": "Moon" },
+            { "value": "text",    "label": "Large text / number" }
+          ],
+          "default": "weight"
+        },
+        {
+          "type": "text",
+          "id": "large_text",
+          "label": "Large text (used when icon is "Large text")",
+          "default": "35"
+        },
+        {
+          "type": "checkbox",
+          "id": "animate_number",
+          "label": "Animate number count-up",
+          "default": true
+        },
+        {
+          "type": "textarea",
+          "id": "custom_svg",
+          "label": "Custom SVG (optional, overrides icon selection)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Feature title"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle (optional)",
+          "default": ""
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature Badges",
+      "blocks": [
+        {
+          "type": "badge",
+          "settings": {
+            "icon_type": "weight",
+            "title": "Tung og beroligende"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "icon_type": "feather",
+            "title": "Stor, fyldig",
+            "subtitle": "og hyggelig"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "icon_type": "shield",
+            "title": "OEKO TEX®",
+            "subtitle": "Allergivenlig"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "icon_type": "text",
+            "large_text": "35",
+            "animate_number": true,
+            "title": "Dages prøveperiode"
+          }
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8
+}
+{% endschema %}
