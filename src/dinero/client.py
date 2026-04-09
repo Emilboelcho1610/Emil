@@ -1,7 +1,8 @@
 """Dinero API-klient til bogføring, bilag og filupload.
 
-Dinero API docs: https://api.dinero.dk/docs
-Autentificering via OAuth2 client credentials → bearer token.
+Dinero API docs: https://developer.dinero.dk/
+API base: https://api.dinero.dk/v1/{organizationId}/
+Auth: https://authz.dinero.dk/dineroapi/oauth/token (OAuth2 password grant)
 """
 
 from __future__ import annotations
@@ -57,6 +58,7 @@ class DineroClient:
             AUTH_URL,
             data={
                 "grant_type": "password",
+                "scope": "read write",
                 "username": self.api_key,
                 "password": self.api_key,
             },
@@ -91,8 +93,8 @@ class DineroClient:
     # ── Kontoplan ────────────────────────────────────────────────────
 
     def get_accounts(self) -> list[dict]:
-        """Hent kontoplan."""
-        return self._request("GET", "accounts")
+        """Hent kontoplan (entry accounts)."""
+        return self._request("GET", "accounts/entry")
 
     # ── Kontakter ────────────────────────────────────────────────────
 
@@ -142,34 +144,53 @@ class DineroClient:
         if external_reference:
             payload["ExternalReference"] = external_reference
 
-        result = self._request("POST", "purchase-vouchers", json=payload)
+        result = self._request("POST", "vouchers/purchase", json=payload)
         logger.info("Bilag oprettet: %s (ref: %s)", result.get("VoucherNumber"), external_reference)
         return result
 
-    # ── Filupload (vedhæft faktura-PDF til bilag) ────────────────────
+    # ── Filupload (to-trins: upload fil → vedhæft til bilag) ─────────
+
+    def upload_file(self, filename: str, file_bytes: bytes) -> str:
+        """Upload en fil til Dinero. Returnerer FileGuid.
+
+        Max 6 MB per fil.
+        """
+        url = f"{BASE_URL}/v1/{self.org_id}/files"
+        self._ensure_token()
+        resp = self._session.post(
+            url,
+            headers={"Authorization": f"Bearer {self._token}"},
+            params={"fileName": filename},
+            files={"file": (filename, file_bytes)},
+        )
+        if resp.status_code >= 400:
+            raise DineroAPIError(resp.status_code, resp.text)
+        file_guid = resp.json().get("FileGuid", resp.json().get("fileGuid"))
+        logger.info("Fil uploadet: %s → %s", filename, file_guid)
+        return file_guid
+
+    def attach_file_to_voucher(
+        self, voucher_guid: str, file_guid: str, filename: str
+    ) -> None:
+        """Vedhæft en allerede uploadet fil til et bilag."""
+        self._request(
+            "POST", f"attachments/{voucher_guid}/{file_guid}/{filename}"
+        )
+        logger.info("Fil vedhæftet til bilag %s: %s", voucher_guid, filename)
 
     def upload_file_to_voucher(
         self,
         voucher_guid: str,
         filename: str,
         file_bytes: bytes,
-        content_type: str = "application/pdf",
-    ) -> dict:
-        """Upload en fil (PDF/billede) og vedhæft til et bilag."""
-        url = f"{BASE_URL}/v1/{self.org_id}/purchase-vouchers/{voucher_guid}/files"
-        self._ensure_token()
-        resp = self._session.post(
-            url,
-            headers={"Authorization": f"Bearer {self._token}"},
-            files={"file": (filename, file_bytes, content_type)},
-        )
-        if resp.status_code >= 400:
-            raise DineroAPIError(resp.status_code, resp.text)
-        logger.info("Fil uploadet til bilag %s: %s", voucher_guid, filename)
-        return resp.json()
+    ) -> str:
+        """Kombination: Upload fil + vedhæft til bilag. Returnerer FileGuid."""
+        file_guid = self.upload_file(filename, file_bytes)
+        self.attach_file_to_voucher(voucher_guid, file_guid, filename)
+        return file_guid
 
     # ── Bogfør bilag ─────────────────────────────────────────────────
 
     def book_voucher(self, voucher_guid: str) -> dict:
         """Bogfør et bilag (gør det endeligt)."""
-        return self._request("POST", f"purchase-vouchers/{voucher_guid}/book")
+        return self._request("POST", f"vouchers/manuel/{voucher_guid}/book")
