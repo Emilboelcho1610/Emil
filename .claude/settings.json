@@ -2,7 +2,7 @@
   "mcpServers": {
     "klaviyo-feevra": {
       "command": "npx",
-      "args": ["tsx", "klaviyo feevra/src/index.ts"],
+      "args": ["tsx", "src/index.ts"],
       "cwd": "${workspaceFolder}",
       "env": {}
     }
