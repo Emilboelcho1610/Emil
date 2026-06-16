@@ -2,6 +2,9 @@
 /build/
 /dist/
 
+# Genererede dokumenter (personlige - holdes ude af repo)
+*.pdf
+
 # Node
 node_modules/
 npm-debug.log*
