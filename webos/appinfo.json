@@ -1,0 +1,20 @@
+{
+  "id": "com.emil.mytv",
+  "version": "0.1.0",
+  "vendor": "Emil",
+  "type": "web",
+  "main": "index.html",
+  "title": "MyTV",
+  "icon": "icon.png",
+  "largeIcon": "icon.png",
+  "iconColor": "#0d0f17",
+  "bgColor": "#0d0f17",
+  "splashBackground": "#0d0f17",
+  "disableBackHistoryAPI": true,
+  "requiredPermissions": [
+    "time.query",
+    "media.operation",
+    "internet"
+  ],
+  "resolution": "1920x1080"
+}

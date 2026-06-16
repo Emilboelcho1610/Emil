@@ -1,0 +1,15 @@
+{
+  "name": "mytv",
+  "version": "0.1.0",
+  "description": "Egen IPTV-afspiller til Samsung (Tizen) og LG (webOS) Smart TV",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/dev-server.js",
+    "icons": "python3 scripts/make_icon.py",
+    "assemble:tizen": "node scripts/assemble.js tizen",
+    "assemble:webos": "node scripts/assemble.js webos",
+    "build:webos": "bash scripts/build-webos.sh",
+    "build:tizen": "bash scripts/build-tizen.sh"
+  },
+  "license": "MIT"
+}

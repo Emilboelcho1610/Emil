@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>MyTV</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- App root. Views render here. -->
+  <div id="app"></div>
+
+  <!-- Fullscreen video layer (shared by all platforms) -->
+  <div id="player-layer" class="hidden">
+    <video id="video" playsinline></video>
+    <div id="player-osd" class="player-osd">
+      <div class="osd-top">
+        <span id="osd-title"></span>
+      </div>
+      <div class="osd-bottom">
+        <div id="osd-progress" class="osd-progress hidden">
+          <span id="osd-time-current">00:00</span>
+          <div class="osd-bar"><div id="osd-bar-fill"></div></div>
+          <span id="osd-time-total">00:00</span>
+        </div>
+        <div id="osd-status" class="osd-status"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast / loading overlay -->
+  <div id="toast" class="toast hidden"></div>
+  <div id="spinner" class="spinner-overlay hidden"><div class="spinner"></div></div>
+
+  <!-- Tizen native player API (only present on Samsung TVs).
+       webapis.js giver adgang til AVPlay og indlæses kun på Tizen. -->
+  <script type="text/javascript">
+    window.__TIZEN__ = !!(window.tizen);
+    if (window.__TIZEN__) {
+      document.write('<script src="$WEBAPIS/webapis/webapis.js"><\/script>');
+    }
+  </script>
+
+  <script src="js/config.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/util.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/views/login.js"></script>
+  <script src="js/views/home.js"></script>
+  <script src="js/views/category.js"></script>
+  <script src="js/views/list.js"></script>
+  <script src="js/views/details.js"></script>
+  <script src="js/views/live.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
